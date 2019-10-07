@@ -10,10 +10,12 @@ grid = np.array([
 ])
 
 print(grid)
-print(type(grid))
+print('type: ', type(grid))
 print()
 
-# grids can be reshaped with different dimensions. The dimensions must be valid
-# or an error will be returned.
-grid.shape = (6, 2)
+# grids can be reshaped with different dimensions (row, column, height).
+# The dimensions must be valid or an error will be returned.
+grid.shape = (2, 2, 3)
 print(grid)
+print('dimensions: ', grid.ndim)
+print('flags: ', grid.flags)
