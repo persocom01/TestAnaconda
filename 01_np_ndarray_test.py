@@ -6,7 +6,7 @@ import numpy as np
 # Alternatively, use np.asarray(), which will convert the original into an
 # ndarray instead of making a new copy.
 # You may also manually make a copy using np.copy()
-grid = np.array([
+arr = np.array([
     [[1, 2, 3],
      [4, 5, 6]],
 
@@ -14,16 +14,16 @@ grid = np.array([
      [10, 11, 12]],
 ])
 
-# grids can be reshaped with different dimensions (row, column, height).
+# arrs can be reshaped with different dimensions (row, column, height).
 # The dimensions must be valid or an error will be returned.
-grid.shape = (2, 6)
-print(grid)
-print('type: ', type(grid))
-print('dimensions: ', grid.ndim)
-print('flags: ', grid.flags)
+arr.shape = (2, 6)
+print(arr)
+print('type: ', type(arr))
+print('dimensions: ', arr.ndim)
+print('flags: ', arr.flags)
 print()
 
-grid2 = np.array([
+arr2 = np.array([
     # int and float are compatible.
     # str is not compatible with str, however.
     [12.1, 11, 10],
@@ -35,16 +35,16 @@ grid2 = np.array([
 # Certain mathematical operations can be conducted using ndarrays.
 # + - * / , and even dot products. The arrays must have the same shape and
 # and contain data that can be added together.
-grid2.shape = (6, 2)
+arr2.shape = (6, 2)
 # @ is a special operator for ndarray objects. It does matrix multiplication,
 # which is basically multiply the rows in array1 with the columns in array2.
 # This is why their matrix shapes must be 'mirrored'.
-grid3 = grid @ grid2
-print(grid3)
+arr3 = arr @ arr2
+print('matrix multiply:\n', arr3)
 print()
 
 # np.require() converts the data to a specific type. It can also be used to
 # change the object flags.
-grid4 = np.require(grid3, dtype=int, requirements=None)
-grid4 = grid4 * 2
-print(grid4)
+arr4 = np.require(arr3, dtype=int, requirements=None)
+arr4 = arr4 * 2
+print('require:\n', arr4)
