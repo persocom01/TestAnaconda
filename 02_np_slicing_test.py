@@ -6,10 +6,11 @@ a = np.arange(10, 20)
 s = slice(0, 15, 2)
 print('slice: ', a[s])
 
-# indexing works similarly as well, but note now it works on
+# indexing works similarly as python, however, in addition, one may
+# use ... to slice columns instead of rows.
 a = np.array([
     [1, 2, 3],
-    [3, 4, 5],
-    [4, 5, 6]
+    [4, 5, 6],
+    [7, 8, 9]
 ])
-print('index: ', a[2])
+print('index: ', a[..., 2])
