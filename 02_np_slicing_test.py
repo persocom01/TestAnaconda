@@ -20,3 +20,9 @@ print('... index: ', a[..., 2])
 # In this case, it will return the elements a list containing the elements
 # [0, 0], [1, 1] and [2, 0].
 print('list index: ', a[[0, 1, 2], [0, 1, 0]])
+# Passing a nested list will return a nested list, which otherwise works
+# the same as before.
+# In this case, it will return [0, 0], [0, 2] for the first list.
+rows = [[0, 0], [2, 2]]
+cols = [[0, 2], [0, 2]]
+print('corner elements:\n', a[rows, cols])
