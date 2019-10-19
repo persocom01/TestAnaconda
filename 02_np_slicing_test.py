@@ -14,6 +14,8 @@ a = np.array([
 ])
 # Use ... to slice columns instead of rows.
 print('... index: ', a[..., 2])
+# Use start:stop to slice a range of rows or cols.
+print('middle element of last two rows: ', a[-2:, 1])
 # If you use two list of the same size as indexes, the first list will
 # be taken as the row list and the second as the index list, the third
 # as the height list etc.

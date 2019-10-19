@@ -6,4 +6,4 @@ grid = [
 
 s = slice(..., 2)
 
-print(grid[[0, 1, 2], [0, 1, 0]])
+print(grid[0:1, [0, 1]])
