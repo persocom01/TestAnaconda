@@ -13,11 +13,13 @@ arr = np.array([
     [[7, 8, 9],
      [10, 11, 12]],
 ])
+# arr.shape returns the shape of the array.
+print('shape: ', arr.shape)
 
-# arrs can be reshaped with different dimensions (row, column, height).
+# arrays can be reshaped with different dimensions (row, column, height).
 # The dimensions must be valid or an error will be returned.
 arr.shape = (2, 6)
-print(arr)
+print(arr.shape)
 print('type: ', type(arr))
 print('dimensions: ', arr.ndim)
 print('flags: ', arr.flags)

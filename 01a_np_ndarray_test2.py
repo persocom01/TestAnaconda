@@ -33,3 +33,19 @@ print()
 arr = np.logspace(1, 10, num=10, base=2)
 print('logspace:\n', arr)
 print()
+
+# Demonstrates the np.random module to generate ndarrays.
+# np.random.rand(size) generates numbers between 0 and 1.
+r = np.random.randint(0, 10)
+print('rand int: ', r)
+# Arrays with more dimensions may be generated using a longer tuple for size.
+arr = np.random.randint(0, 10, size=(3, 3))
+print('rand int 2d array:\n', arr)
+
+# Random doesn't just work with int, it can work with a normal distribution.
+mean = 0
+std = 1
+size = (10)
+
+arr = np.random.normal(mean, std, size=size)
+print('rand 10x normal:', arr)
