@@ -33,8 +33,8 @@ arr2 = np.array([
 ])
 
 # Certain mathematical operations can be conducted using ndarrays.
-# + - * / , and even dot products. The arrays must have the same shape and
-# and contain data that can be added together.
+# + - * / , and even dot products. The arrays must contain data that can be
+# added together. Typically, you want the arrays to be the same shape.
 arr2.shape = (6, 2)
 # @ is a special operator for ndarray objects. It does matrix multiplication,
 # which is basically multiply the rows in array1 with the columns in array2.
@@ -43,8 +43,16 @@ arr3 = arr @ arr2
 print('matrix multiply:\n', arr3)
 print()
 
+# If an array is made up of arrays of size x, you may apply a single array
+# of size x to all the faughter arrays. This is known as broadcasting/
+arr.shape = (4, 3)
+arr2 = np.array([10, 10, 10])
+arr3 = arr + arr2
+print('broadcasting:\n', arr3)
+print()
+
 # np.require() converts the data to a specific type. It can also be used to
 # change the object flags.
-arr4 = np.require(arr3, dtype=int, requirements=None)
+arr4 = np.require(arr3, dtype=float, requirements=None)
 arr4 = arr4 * 2
 print('require:\n', arr4)
