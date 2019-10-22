@@ -1,3 +1,4 @@
+# Demonstrates the statistical functions built into in numpy.
 import numpy as np
 
 a = np.array([
