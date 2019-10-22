@@ -2,6 +2,8 @@
 
 An Anaconda testing playground.
 
+The numpy tutorial follows https://www.tutorialspoint.com/numpy/index.htm
+
 ## Installation
 
 This project was done on atom within the anaconda environment.
