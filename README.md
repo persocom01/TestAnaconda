@@ -1,10 +1,11 @@
 # TestAnaconda
 
-An Anaconda testing playground.
+An Anaconda testing playground based on tutorials found on tutorialspoint:
+* numpy https://www.tutorialspoint.com/numpy/index.htm
+* scipy https://www.tutorialspoint.com/scipy/index.htm
+* pandas https://www.tutorialspoint.com/python_pandas/index.htm
 
-The numpy tutorial follows https://www.tutorialspoint.com/numpy/index.htm
-
-The scipy tutorial follows https://www.tutorialspoint.com/scipy/index.htm
+Workable code is written on each topic to demonstrate use of the python module in the topic area.
 
 ## Installation
 
