@@ -35,7 +35,10 @@ print('logspace:\n', arr)
 print()
 
 # Demonstrates the np.random module to generate ndarrays.
+# Setting the seed makes the result of random always the same.
+np.random.seed(123)
 # np.random.rand(size) generates numbers between 0 and 1.
+# np.random.randint(1, 10) generates random integers between 0 and 9.
 r = np.random.randint(0, 10)
 print('rand int: ', r)
 # Arrays with more dimensions may be generated using a longer tuple for size.
