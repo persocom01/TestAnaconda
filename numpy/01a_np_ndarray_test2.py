@@ -63,3 +63,8 @@ size = (2, 3)
 arr = np.random.normal(mean, std, size=size)
 print('normal\n', arr)
 print()
+# np.random.permutation(int or arr) returns a randomly arranged list of numbers
+# range(int) if int is given, or a randomly arranged list if list is given.
+arr = np.random.permutation(10)
+print('permutation\n', arr)
+print()
