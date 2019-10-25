@@ -37,18 +37,29 @@ print()
 # Demonstrates the np.random module to generate ndarrays.
 # Setting the seed makes the result of random always the same.
 np.random.seed(123)
-# np.random.rand(size) generates numbers between 0 and 1.
-# np.random.randint(1, 10) generates random integers between 0 and 9.
+# np.random.rand(*size) generates numbers between 0 and 1.
+# *size accepts any number of arguments as a new size dimension.
+arr = np.random.rand(2, 3)
+print('rand:\n', arr)
+print()
+# np.random.randint(start, stop, size) generates random integers between
+# start and stop-1.
 r = np.random.randint(0, 10)
 print('rand int: ', r)
+print()
 # Arrays with more dimensions may be generated using a longer tuple for size.
 arr = np.random.randint(0, 10, size=(3, 3))
 print('rand int 2d array:\n', arr)
-
-# Random doesn't just work with int, it can work with a normal distribution.
-mean = 0
-std = 1
-size = (10)
-
+print()
+# np.random.randn(*size) returns samples from a normal distribution.
+arr = np.random.randn(2, 3)
+print('randn:\n', arr)
+print()
+# Use np.random.normal if you don't just want a default (mean=0, std=1)
+# normal distribution.
+mean = 10
+std = 2
+size = (2, 3)
 arr = np.random.normal(mean, std, size=size)
-print('rand 10x normal:', arr)
+print('normal\n', arr)
+print()
