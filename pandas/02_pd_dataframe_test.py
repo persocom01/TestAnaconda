@@ -21,4 +21,5 @@ print()
 print(df.dtypes)
 print()
 # df.head(n=5). Returns the first n rows of the dataframe.
+# df.tails does the same thing for the last rows.
 print('head:\n', df.head())
