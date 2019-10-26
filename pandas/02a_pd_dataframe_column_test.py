@@ -52,3 +52,5 @@ print()
 print('column subset (Stackoverflow solution):')
 print(df.loc[:, (df < 3).all(axis=0)])
 print()
+
+# Delete columns using df.drop(row_label, axis=0) by setting axis=1.

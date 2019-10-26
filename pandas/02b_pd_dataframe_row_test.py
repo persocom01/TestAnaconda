@@ -57,7 +57,7 @@ print('append:')
 print(df)
 print()
 
-# Delete rows using df.drop(row_label). If multiple rows have the
+# Delete rows using df.drop(row_label, axis=0). If multiple rows have the
 # same label,they will all be dropped.
 df = df.drop('five')
 print('drop:')
