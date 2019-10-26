@@ -4,6 +4,8 @@ import pandas as pd
 
 data = {'col1': [2, 1, 1, 1], 'col2': [1, 3, 2, 4], 'col3': [1, 2, 3, 1]}
 df = pd.DataFrame(data)
+print(df)
+print()
 
 # Select row using df.loc(row_name, col_name).
 # Use col_name if you need to select a particular cell cells from
@@ -31,18 +33,26 @@ print()
 
 # A subset of a DataFrame may be selected by including a boolean
 # condition inside df[].
+# It should be noted that pandas does not use the standard python
+# logical operators. Instead:
+# & = and
+# | = or
+# ~ = not
 print('row subset:')
-print(df[df['B'] < 3])
+# All rows that are not == 3 in column 'B'.
+print(df[~(df['B'] == 3)])
 print()
 
-# Add rows using df.append(DataFrame).
+# Add rows using df.append(DataFrame, sort=True).
+# sort=True might be changed to sort=False in future versions,
+# so it's best to specify.
 # The new rows will automatically be allocated to their respective
 # columns if column labels are provided. Otherwise, they are put
 # into new columns. Any columns or rows not filled in will have
 # value nan.
 data2 = {'B': [3, 2], 'A': [2, 3]}
 df2 = pd.DataFrame(data2, index=['five', 'five'])
-df = df.append(df2)
+df = df.append(df2, sort=False)
 print('append:')
 print(df)
 print()
