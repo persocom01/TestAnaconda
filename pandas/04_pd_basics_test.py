@@ -6,7 +6,7 @@ df = pd.DataFrame(data)
 print(df)
 print()
 
-# T returns a transpose of the dataframe. Note that the dataframe
+# T returns a transpose of the DataFrame. Note that the DataFrame
 # itself it not changed. Also note T must be capitalized.
 print('transpose:\n', df.T)
 print()
@@ -21,7 +21,7 @@ print()
 # Strips off the rows and indexes and returns an ndarray of lists.
 print('values:\n', df.values)
 print()
-# df.head(n=5). Returns the first n rows of the dataframe.
+# df.head(n=5). Returns the first n rows of the DataFrame.
 # df.tails does the same thing for the last rows.
 print('head:\n', df.head())
 print()

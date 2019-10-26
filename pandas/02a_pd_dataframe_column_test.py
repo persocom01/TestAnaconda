@@ -1,5 +1,5 @@
 # Demonstrates the various attributes and methods available for use
-# with dataframe columns.
+# with DataFrame columns.
 import pandas as pd
 
 data = {'col1': [2, 1, 1, 1], 'col2': [1, 3, 2, 4]}

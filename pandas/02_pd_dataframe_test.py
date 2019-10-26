@@ -1,13 +1,14 @@
-# A dataframe is a 2d data structure. Basically, a standard table.
+# A DataFrame is a 2d data structure. Basically, a standard table.
 # Demonstrates the various attributes and methods available for use
-# with dataframes.
+# with DataFrames.
 import pandas as pd
 
-# The dataframe constructor is as follows:
+# The DataFrame constructor is as follows:
 # pd.DataFrame(data, index, columns, dtype, copy=False)
 # index being the row label and columns being the column label.
 # They default to a range starting from 0 if no argument is passed.
-# pd.DataFrame() creates an empty dataframe.
+# pd.DataFrame() creates an empty DataFrame.
+# Lower caps DataFrame does not work.
 df = pd.DataFrame()
 print(df)
 print()
@@ -27,7 +28,7 @@ print(df)
 print()
 
 # You may subsequently access the some of the arguments by using
-# the dataframe attributes
+# the DataFrame attributes
 print('columns:', df.columns)
 print('index:', df.index)
 print()

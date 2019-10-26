@@ -1,5 +1,5 @@
 # Demonstrates the various attributes and methods available for use
-# with dataframe rows.
+# with DataFrame rows.
 import pandas as pd
 
 data = {'col1': [2, 1, 1, 1], 'col2': [1, 3, 2, 4], 'col3': [1, 2, 3, 1]}
@@ -16,26 +16,26 @@ print()
 # The row index is independent of the actual row label and starts
 # from 0 like python ranges.
 # You can pass : as the row_index argument if you want to split the
-# dataframe by column.
+# DataFrame by column.
 df = df.rename(
     index={0: 'one', 1: 'two', 2: 'three', 3: 'four'}, columns={'col1': 'A', 'col2': 'B', 'col3': 'C'})
 print('select by row index:')
 print(df.iloc[1:3])
 print()
 
-# Lastly, you may slice the dataframe by rows using df[start:end].
+# Lastly, you may slice the DataFrame by rows using df[start:end].
 # like string slicing it will return the start to end-1 row.
 print('row slicing:')
 print(df[1:3])
 print()
 
-# A subset of a dataframe may be selected by including a boolean
+# A subset of a DataFrame may be selected by including a boolean
 # condition inside df[].
 print('row subset:')
 print(df[df['B'] < 3])
 print()
 
-# Add rows using df.append(dataframe).
+# Add rows using df.append(DataFrame).
 # The new rows will automatically be allocated to their respective
 # columns if column labels are provided. Otherwise, they are put
 # into new columns. Any columns or rows not filled in will have
