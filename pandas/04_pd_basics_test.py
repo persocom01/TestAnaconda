@@ -29,23 +29,26 @@ print('head:')
 print(df.head())
 print()
 
-# df.astype(dtype or dict_of_col_dtypes) is used to change the data
-# type of a DataFrame or a DataFrame column.
+# df.astype(dtype or dict_of_col_dtypes) returns a DataFrame or
+# DataFrame column of the specified dtype.
 df = df.astype({'col1': 'object', 'col2': 'object'})
 print('head:')
 print(df.dtypes)
 print()
 
-# pd.to_numeric(list) converts a list of strings into int or float
-# and returns it. It only accepts 1d lists. Unconvertable strings
-# will cause a ValueError.
+# pd.to_numeric(list, errors='raise') returns a 1d list of strings
+# converted into int or float.
+# Unconvertable strings will cause a ValueError by default, but
+# errors='ignore' will ignore them and errors='coerce' will turn
+# unconvertable strings into nan.
 # to_datetime and to_timedelta are similar methods.
 print('to_numeric:')
-print(pd.to_numeric(df['col1']))
+df['col1'] = pd.to_numeric(df['col1'])
+print(df.dtypes)
 print()
 
-# df.infer_objects() Attempts to convert object dtypes to something
-# more specific.
+# df.infer_objects() returns an attempts to convert object dtypes to
+# something more specific.
 df = df.infer_objects()
 print('infer_objects:')
 print(df.dtypes)
