@@ -59,3 +59,13 @@ print()
 print('filter:')
 print(grouped.filter(lambda x: x['age'].mean() < 21))
 print()
+
+# df.pivot_table(self, index, columns, aggfunc, fill_value,
+# margins=False, dropna=True, margins_name='All').
+# df.pivot_table() is able to groupby() and agg() in a single
+# function.
+# Index and column are for the row and column labels, aggfunc is for
+# the function to apply, fill_value for empty cells, margins for
+# totals at the bottom.
+print(df.pivot_table(index='gender', columns=[
+      'race'], aggfunc={'age': np.mean}))
