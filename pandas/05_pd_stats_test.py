@@ -49,6 +49,8 @@ print()
 
 # Gives a number of DataFrame stats, being size, mean, std deviation,
 # min, 25th, 50th, 75th percentile and max.
+# If the DataFrame comprises only strings, count, unique and mode
+# (top and freq) will be given instead.
 # Not the same as scipy describe().
 print('describe:')
 print(df.describe())
