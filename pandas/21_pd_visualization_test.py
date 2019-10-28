@@ -1,4 +1,7 @@
+# It is said that the most important visualization properties are
+# position, color, and size.
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # Bar chart.
 # Categorical data separated by gaps between bars and larger gaps
@@ -9,7 +12,8 @@ import pandas as pd
 
 # Pie chart.
 # Categorical data.
-# Single variable unless pie chart within pie charts.
+# Single variable unless pie chart within pie charts. Can also be
+# donut shaped.
 # Percentage data.
 # Good at showing relative proportions.
 
