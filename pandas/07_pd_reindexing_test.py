@@ -6,8 +6,8 @@ df = pd.DataFrame(data)
 print(df)
 print()
 
-# Pretty troublesome considering you need to pass a dictionart with
-# all the old labels.
+# Pretty troublesome considering you need to pass a dictionart with all the old
+# labels.
 df = df.rename(
     index={0: 'one', 1: 'two', 2: 'three', 3: 'four'}, columns={'col1': 'A', 'col2': 'B'})
 print('renamed:')

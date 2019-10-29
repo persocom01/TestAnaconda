@@ -7,7 +7,7 @@ unsorted_df = pd.DataFrame(np.random.randn(
 print(unsorted_df)
 
 # The first way to sort is by index (1st row or col).
-# sort_index(axis=0, ascending=True)
+# sort_index(axis=0, ascending=True).
 # axis 0 is row, 1 is column.
 sorted_df = unsorted_df.sort_index()
 print(sorted_df)
@@ -19,14 +19,13 @@ unsorted_df = pd.DataFrame(data)
 # The second way is to sort by values.
 # sort_values(by, axis=0, ascending=True).
 # By takes in the col label if axis=0, row lavel if axis=1.
-# You may specify more than one label. In such a case, the first
-# label is given priority, then any values in the first col that
-# are the same are sorted according to the value of the second label,
-# and so on.
+# You may specify more than one label. In such a case, the first label is given
+# priority, then any values in the first col that are the same are sorted
+# according to the value of the second label, and so on.
 sorted_df = unsorted_df.sort_values(by=['col1', 'col2'])
 print(sorted_df)
 print()
 
 # It does not appear that pandas support sorting by function.
-# In such a case, insert a new column containing the function result,
-# sort by that column, then remove it afterwards.
+# In such a case, insert a new column containing the function result, sort by
+# that column, then remove it afterwards.

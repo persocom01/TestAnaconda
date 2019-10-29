@@ -20,8 +20,7 @@ print()
 print('median:')
 print(df.median())
 print()
-# Will return multiple nodes if all of them occur the same number of
-# times.
+# Will return multiple nodes if all of them occur the same number of times.
 print('mode:')
 print(df.mode())
 print()
@@ -47,8 +46,8 @@ print('cumulative product:')
 print(df.cumprod())
 print()
 
-# Gives a number of DataFrame stats, being size, mean, std deviation,
-# min, 25th, 50th, 75th percentile and max.
+# Gives a number of DataFrame stats, being size, mean, std deviation, min,
+# 25th, 50th, 75th percentile and max.
 # If the DataFrame comprises only strings, count, unique and mode
 # (top and freq) will be given instead.
 # Not the same as scipy describe().

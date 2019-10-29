@@ -1,5 +1,5 @@
-# Demonstrates the various attributes and methods available for use
-# with DataFrame columns.
+# Demonstrates the various attributes and methods available for use with
+# DataFrame columns.
 import pandas as pd
 
 data = {'col1': [2, 1, 1, 1], 'col2': [1, 3, 2, 4]}
@@ -26,12 +26,11 @@ print(df)
 print()
 
 # df.concat([df1, df2, ...], axis=0, join='outer', ignore_index=False,
-# join_axes=none) can also be used to add columns or rows but that
-# will be covered in its own topic.
+# join_axes=none) can also be used to add columns or rows but that will be
+# covered in its own topic.
 
-# Delete a column either using del df['column_name'] or
-# pop['column_name']. The only difference is pop will also return
-# the column.
+# Delete a column either using del df['column_name'] or pop['column_name'].
+# The only difference is pop will also return the column.
 print('pop:')
 print(df.pop('sum'))
 print()

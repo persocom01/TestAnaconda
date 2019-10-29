@@ -45,8 +45,8 @@ arr3 = arr @ arr2
 print('matrix multiply:\n', arr3)
 print()
 
-# If an array is made up of arrays of size x, you may apply a single array
-# of size x to all the faughter arrays. This is known as broadcasting/
+# If an array is made up of arrays of size x, you may apply a single array of
+# size x to all the faughter arrays. This is known as broadcasting.
 arr.shape = (4, 3)
 arr2 = np.array([10, 10, 10])
 arr3 = arr + arr2
