@@ -3,6 +3,11 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
+import_path = r'.\pandas\SacramentocrimeJanuary2006.csv'
+data = pd.read_csv(import_path)
+df = pd.DataFrame(data)
+print(data)
+
 # Bar chart.
 # Categorical data separated by gaps between bars and larger gaps
 # between categories.

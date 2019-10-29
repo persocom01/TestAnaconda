@@ -25,9 +25,9 @@ print('adding cols together:')
 print(df)
 print()
 
-# df.concat([df1, df2, ...], axis=0, join='outer', ignore_index=False, join_axes=none)
-# can also be used to add columns or rows but that will be covered
-# in its own topic.
+# df.concat([df1, df2, ...], axis=0, join='outer', ignore_index=False,
+# join_axes=none) can also be used to add columns or rows but that
+# will be covered in its own topic.
 
 # Delete a column either using del df['column_name'] or
 # pop['column_name']. The only difference is pop will also return
