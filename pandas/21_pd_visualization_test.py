@@ -9,9 +9,11 @@ df = pd.DataFrame(data)
 # Single variable.
 # Good at displaying the trend or the change over time of a variable alone or
 # with other datasets.
-# df.plot(kind) is the basic pandas vistualization method.
-# It will plot a line graph by default, but the argument kind='graph_name'
-# can be used specify other graphs:
+# df.plot(kind, x, y, ax, subplots=False, figsize, title=none, grid=False,
+# legend=True, style, xlim, ylim, rot, fontsize, colormap) is the basic pandas
+# vistualization
+# method. It will plot a line graph by default, but the argument
+# kind='graph_name' can be used specify other graphs:
 # 'bar' = bar graph
 # 'hist' = histogram
 # ‘box’ for boxplot
@@ -20,9 +22,21 @@ df = pd.DataFrame(data)
 # ‘scatter’ for scatter plots
 # ‘hexbin’ for hexagonal bin plots
 # ‘pie’ for pie plots
-df.plot(x='day', y='temperature')
+# ax can accept a plot object for label customization.
+# subplots splits each column into its own plot. Meaning it can make graphs
+# within a graph.
+# style accepts a list or dictionary that styles the plot.
+# xlim and ylim accept tuples of axis min and max values.
+# rot sets the x axis labels to 'horizontal', 'vertical' or
+# int_degrees_anticlockwise.
+# colormap='str' applies a matplotlib colormap as found here:
+# https://matplotlib.org/examples/color/colormaps_reference.html
+fig, ax = plt.subplots()
+ax.set_ylabel('Degrees Fahrenheit')
+df.plot(x='day', y='temperature', ax=ax, ylim=(40, 70), rot=20)
 
-data = {'movie': ['comedy', 'action', 'romance', 'drama', 'scifi'], 'number': [4, 5, 6, 1, 4]}
+data = {'movie': ['comedy', 'action', 'romance',
+                  'drama', 'scifi'], 'number': [4, 5, 6, 1, 4]}
 df = pd.DataFrame(data)
 # Bar chart.
 # Categorical data separated by gaps between bars and larger gaps between
@@ -50,10 +64,6 @@ df = pd.DataFrame(data)
 # trends or relationships.
 df.plot(kind='scatter', x='longitude', y='latitude')
 
-import pandas as pd
-import_path = r'.\pandas\SacramentocrimeJanuary2006.csv'
-data = pd.read_csv(import_path)
-df = pd.DataFrame(data)
 # Histogram.
 # Data is divided into bins but are not categorical.
 # Single variable.
