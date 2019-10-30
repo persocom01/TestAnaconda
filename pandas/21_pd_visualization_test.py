@@ -82,3 +82,7 @@ df.plot(kind='scatter', x='longitude', y='latitude', s=1, c='red')
 # range determines the total width of those blocks.
 # by='col' specifies the column to group by, although it's not as often used.
 df.plot(kind='hist', y='district', bins=6, range=(1, 7))
+
+# Boxplot.
+# Good for identifying outliers.
+df.plot(kind='box')
