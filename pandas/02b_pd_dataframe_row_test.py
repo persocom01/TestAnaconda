@@ -12,6 +12,8 @@ print()
 # columns.
 print('select by row name:')
 print(df.loc[[1, 3], ['col1', 'col2']])
+# It is possible to slice the df by label names.
+print(df.loc[:3, :'col2'])
 print()
 
 # Select row by row index using df.iloc(row_index, col_index).
@@ -41,6 +43,7 @@ print()
 print('row subsets:')
 # All rows that are not == 3 in column 'B'.
 print(df[~(df['B'] == 3)])
+# For strings, use df[col_name].isin('str1', 'str2') instead.
 print(df[df['B'].between(1, 3)])
 print()
 
