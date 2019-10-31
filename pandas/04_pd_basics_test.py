@@ -1,7 +1,12 @@
 # Demonstrates some of pandas' basic attributes and methods.
 import pandas as pd
 
-data = {'col1': [2, 1, 1, 1], 'col2': [1, 3, 2, 4], 'col3': [1, 2, 3, 1]}
+data = {
+    'col1': [2, 1, 1, 1],
+    'col2': [1, 3, 2, 4],
+    'col3': [1, 2, 3, 1],
+    'cola': ['coke', 'pepsi', 'sprite', 'coke']
+}
 df = pd.DataFrame(data)
 print(df)
 print()
@@ -27,6 +32,12 @@ print()
 # df.tails() does the same thing for the last rows.
 print('head:')
 print(df.head())
+print()
+# df[col_name].unique() returns a list of the unique values (num or str) in a
+# DataFrame column. It is actually a series method, but it doesn't work when
+# the series has a label. It is probably more useful to use on DataFrames.
+print('unique:')
+print(df['cola'].unique())
 print()
 
 # df.astype(dtype or dict_of_col_dtypes) returns a DataFrame or DataFrame
