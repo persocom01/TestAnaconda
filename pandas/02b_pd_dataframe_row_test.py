@@ -38,9 +38,10 @@ print()
 # & = and
 # | = or
 # ~ = not
-print('row subset:')
+print('row subsets:')
 # All rows that are not == 3 in column 'B'.
 print(df[~(df['B'] == 3)])
+print(df[df['B'].between(1, 3)])
 print()
 
 # Add rows using df.append(DataFrame, sort=True).
