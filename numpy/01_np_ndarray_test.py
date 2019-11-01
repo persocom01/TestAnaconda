@@ -39,8 +39,9 @@ arr2 = np.array([
 # added together. Typically, you want the arrays to be the same shape.
 arr2.shape = (6, 2)
 # @ is a special operator for ndarray objects. It does matrix multiplication,
-# which is basically multiply the rows in array1 with the columns in array2.
-# This is why their matrix shapes must be 'mirrored'.
+# which is basically multiply the columns in array1 with the rows in array2.
+# Matrices are used to find the expectation of E(x) by mapping a matrix of
+# results with a matrix of the probability of each result.
 arr3 = arr @ arr2
 print('matrix multiply:\n', arr3)
 print()

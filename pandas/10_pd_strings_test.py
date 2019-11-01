@@ -48,4 +48,10 @@ print('cat:')
 print(s.str.cat(sep='_'))
 print()
 
+# s.str.get_dummies(self, sep='|') turns a series into a table of one hot
+# vectors.
+print('one hot vectors:')
+print(s.str.get_dummies())
+print()
+
 # print(df['fruits'].str.contains('ora'))
