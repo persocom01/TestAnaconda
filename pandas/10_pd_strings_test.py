@@ -47,8 +47,10 @@ print('cat:')
 print(s.str.cat(sep='_'))
 print()
 
-# s.str.get_dummies(self, sep='|') turns a series into a table of one hot
-# vectors.
+# s.str.get_dummies(self, sep='|') turns a series of strings into a categories
+# containing one hot vectors. The reason to do this appears to be that some
+# operations cannot be performed on strings, making it easier to process them
+# if they are turned into numbers first.
 print('one hot vectors:')
 print(s.str.get_dummies())
 print()
