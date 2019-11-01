@@ -3,7 +3,7 @@ import pandas as pd
 
 # Generally, pandas text methods work with a series or other form of 1d array.
 # It can be a natural series or just a df[col_name].
-data = ['apple', 'banana', '3. apple juice\n']
+data = ['apple', 'banana', '3.apple|orange']
 s = pd.Series(data)
 
 print('lower/upper/title:')
@@ -30,13 +30,12 @@ print()
 # To strip only from the start, use s.str.lstrip(self, to_strip=none).
 # To strip only from the end, use s.str.rstrip(self, to_strip=none).
 print('strip:')
-print(s.str.strip('3.'))
+s = s.str.strip('3.')
+print(s)
 print()
 
-# Unlike python's split(), s.str.split() does not return a list, but the
-# string still remain strings split by ', '.
 print('split:')
-print(s.str.split(' '))
+print(s.str.split('|'))
 print()
 
 # s.str.cat(self, others, sep=dividor, na_rep=none, join='none').
