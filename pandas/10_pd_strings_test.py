@@ -1,9 +1,10 @@
 # Demonstrates string methods in pandas.
 import pandas as pd
+import re
 
 # Generally, pandas text methods work with a series or other form of 1d array.
 # It can be a natural series or just a df[col_name].
-data = ['apple', 'banana', '3.apple|orange']
+data = ['apple', 'banana', '3.apple|orange', 123]
 s = pd.Series(data)
 
 print('lower/upper/title:')
@@ -51,8 +52,73 @@ print()
 # containing one hot vectors. The reason to do this appears to be that some
 # operations cannot be performed on strings, making it easier to process them
 # if they are turned into numbers first.
+# pd.get_dummies() is a more in depth function.
 print('one hot vectors:')
-print(s.str.get_dummies())
+print(s.str.get_dummies(sep='|'))
 print()
 
-# print(df['fruits'].str.contains('ora'))
+# s.str.contains(self, pattern, case=True, flags=0, na=nan, regex=True)
+# Used to check a series of strings to see if any contains a certain pattern.
+# flags are regex flags, na is what to replace nan with.
+print('contains:')
+print(s.str.contains(r'APPLE', flags=re.I))
+print()
+
+# s.str.replace(self, pattern, replacement, n=-1, case=None, flags=0,
+# regex=True)
+# n is the number of replacements made. -1 = all.
+print('replace:')
+print(s.str.replace(r'APPLE', 'watermelon', flags=re.I))
+print()
+
+# s.str.repeat(n) repeats each string n times.
+print('repeat:')
+print(s.str.repeat(2))
+print()
+
+# s.str.count(pattern, flags=0)
+# Counts the number of occurances of pattern in each string.
+print('count:')
+print(s.str.count('A', flags=re.I))
+print()
+
+# s.str.startswith(self, pat, na=nan)
+# Returns a boolean for each string.
+# s.str.endswith(self, pat, na=nan) does the same thing but for the end.
+print('starts with:')
+print(s.str.startswith('apple'))
+print()
+
+# s.str.find(self, sub, start=0, end=None)
+# Returns 0 on success and -1 on failure.
+print('find:')
+print(s.str.find('apple'))
+print()
+
+# s.str.findall(self, pattern, flags=0)
+# Returns a list containing all strings that match the pattern for all strings
+# in the series.
+print('findall:')
+print(s.str.findall(r'A\w+e', flags=re.I))
+print()
+
+# s.str.swapcase(self)
+print('swapcase:')
+print(s.str.swapcase())
+print()
+
+# s.str.islower(self)
+# Checks if all characters in a string are lowercase and returns a boolean.
+# Does this for all strings in the series.
+# s.str.isupper(self) does the same but uppercase.
+# s.str.istitle(self) does the same but titlecase.
+print('islower:')
+print(s.str.islower())
+print()
+
+# s.str.isnumeric(self)
+# Checks if all characters in a string are numeric or can be converted to int
+# or float and returns a boolean.
+print('isnumeric:')
+print(s.str.isnumeric())
+print()
