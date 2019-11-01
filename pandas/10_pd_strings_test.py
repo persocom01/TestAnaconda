@@ -4,7 +4,7 @@ import re
 
 # Generally, pandas text methods work with a series or other form of 1d array.
 # It can be a natural series or just a df[col_name].
-data = ['apple', 'banana', '3.apple|orange', 123]
+data = ['apple', 'banana', '3.apple|orange']
 s = pd.Series(data)
 
 print('lower/upper/title:')
@@ -117,8 +117,12 @@ print(s.str.islower())
 print()
 
 # s.str.isnumeric(self)
-# Checks if all characters in a string are numeric or can be converted to int
-# or float and returns a boolean.
+# Checks if all characters in a string are numeric, meaning they can be
+# converted to int or float and returns a boolean.
+# Ironically, returns nan if it checks a number instead of a string.
+# Other checks include:
+# s.str.isalpha(self)
+# s.str.isalnum(self) for alphanumeric.
 print('isnumeric:')
 print(s.str.isnumeric())
 print()
