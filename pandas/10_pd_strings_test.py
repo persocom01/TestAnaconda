@@ -35,8 +35,10 @@ s = s.str.strip('3.')
 print(s)
 print()
 
+# Applies python split(seperator, max) to all rows. It turns all strings into
+# lists of strings even if no split was actually performed.
 print('split:')
-print(s.str.split('|'))
+print(s.str.split('|')[0][0])
 print()
 
 # s.str.cat(self, others, sep=dividor, na_rep=none, join='none').
