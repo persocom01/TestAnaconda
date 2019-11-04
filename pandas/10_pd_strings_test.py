@@ -122,7 +122,8 @@ print()
 # Ironically, returns nan if it checks a number instead of a string.
 # Other checks include:
 # s.str.isalpha(self)
-# s.str.isalnum(self) for alphanumeric.
+# s.str.isalnum(self) for alphanumeric. It doesn't appear to accept anything
+# except letters and numbers.
 print('isnumeric:')
 print(s.str.isnumeric())
 print()
