@@ -28,7 +28,8 @@ export_path = r'.\pandas\SacramentocrimeJanuary2006.xlsx'
 # pd.read_table('xml')
 # pd.read_json('json')
 data = pd.read_csv(import_path)
-print(data.head())
+df = pd.DataFrame(data)
+print(df.head())
 
 # df.to_excel(self, path, sheet_name='Sheet1')
-data.to_excel('export_path')
+df.to_excel(export_path)
