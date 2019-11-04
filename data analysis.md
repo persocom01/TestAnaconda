@@ -9,3 +9,9 @@ The standard error = standard deviation / sqrt (sample size)
 It describes the dispersion of the sample statistic (such as mean)
 around the population mean, giving you an idea whether more samples
 are needed or not.
+
+Project presentation
+1. Business content.
+2. Business objective.
+3. Data objective.
+4. Evaluation.
