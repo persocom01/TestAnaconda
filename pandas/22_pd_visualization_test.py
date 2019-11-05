@@ -66,7 +66,7 @@ df = pd.DataFrame(data)
 # Made up of many points such as to appear continuous.
 # By default uses two variables. However, a third and a fourth can be added by
 # using color and size of dots as parameters.
-# Numerical data.
+# Continuous numerical data. (or they won't be any scattering)
 # Good at comparing two specific attributes of dataset(s) so as to displaying
 # trends or relationships.
 # s=df['size'] or int if the same size is applied to all.

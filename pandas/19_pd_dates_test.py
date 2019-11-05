@@ -5,20 +5,31 @@ print('current time:', pd.datetime.now())
 # You may give it a datetime like string in YY-MM-DD HH:MM:SS.NS or give it
 # or a number + unit, unit being 'D' for days, 'h' hours and so on.
 print('timestamp:', pd.Timestamp('2017-03-01'))
-# pd.date_range(start=None, end=None, periods=None, freq=None, tz=None, normalize=False, name=None, closed=None, **kwargs)
+print()
+
+# pd.date_range(start=None, end=None, periods=None, freq=None, tz=None,
+# normalize=False, name=None)
+# frequency accepts various strings as arguments, the list can be found here:
+# https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#timeseries-offset-aliases
 # end includes the end. periods is the size of the list returned.
 # Of the first 4 arguments, only 3 need to be given, for example if start, end,
 # and periods are given, the resulting frequency will be evently spaced.
 # tz is the timezone, for example 'Asia/Hong_Kong'.
 # normalize sets the start/end dates to midnight.
 # name sets the name attribute of the resulting object.
-#
-dates = pd.date_range(pd.Timestamp('2019-11-1'), pd.Timestamp('2019-11-5'), 5, closed='right')
+dates = pd.date_range(pd.Timestamp('2019-11-1'), pd.Timestamp('2019-11-5'), 5)
+print('date range:')
 print(dates)
-# print(pd.date_range("11:00", "13:30", freq="H").time)
 print()
 
-dates = ['05.12.08 15:30:45', 'Thu 5 dec 2019 1530 45s']
+# pd.bdate_range(start=None, end=None, periods=None, freq='B', tz=None,
+# normalize=True, name=None, holidays=None) is pd.date_range() which skips
+# sat and sun by default (freq='B').
+# holidays=list_of_dates can be passed to skip even more days.
+dates = pd.bdate_range(pd.Timestamp('2019-11-1'), periods=5)
+print('bdate range:')
+print(dates)
+print()
 
 # pd.to_datetime(arg, errors='raise', dayfirst=False, yearfirst=False,
 # format=None, exact=True, unit=None, origin='unix', cache=True)
