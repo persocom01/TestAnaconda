@@ -6,7 +6,7 @@ df = pd.DataFrame(data)
 print(df)
 print()
 
-# Pretty troublesome considering you need to pass a dictionart with all the old
+# Pretty troublesome considering you need to pass a dictionary with all the old
 # labels.
 df = df.rename(
     index={0: 'one', 1: 'two', 2: 'three', 3: 'four'}, columns={'col1': 'A', 'col2': 'B'})
@@ -15,3 +15,15 @@ print(df)
 print()
 
 # df.reset_index(self, level=None, drop=False, inplace=False, col_level=0, col_fill='')
+df = df.reset_index(drop=True)
+print('reset index:')
+print(df)
+print()
+
+# df.reindex_like(self, other, method=None, copy=True, limit=None, tolerance=None)
+data2 = {'A': [5, 2], 'B': [3, 3]}
+df2 = pd.DataFrame(data2)
+df2 = df2.reindex_like(df)
+print('reindex like:')
+print(df2)
+print()
