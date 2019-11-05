@@ -13,3 +13,5 @@ df = df.rename(
 print('renamed:')
 print(df)
 print()
+
+# df.reset_index(self, level=None, drop=False, inplace=False, col_level=0, col_fill='')

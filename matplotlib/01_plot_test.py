@@ -9,7 +9,7 @@ y = np.sin(x**2)
 
 # Sample rate, or the number of plot points.
 fs = 500
-# Frequency of signal, or the number of sin waves
+# Frequency of signal, or the number of sin waves.
 f = 2
 # Determines the size of the x axis.
 x2 = np.arange(fs)

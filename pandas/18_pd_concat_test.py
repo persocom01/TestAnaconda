@@ -31,5 +31,5 @@ print()
 # verify_integrity=True determines if there are repeated indices and returns
 # a ValueError if found.
 print('append:')
-print(top.append(bottom, verify_integrity=True, sort=False))
+print(top.append(bottom, verify_integrity=False, sort=False))
 print()
