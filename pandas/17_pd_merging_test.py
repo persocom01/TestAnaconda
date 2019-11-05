@@ -38,7 +38,7 @@ print()
 # faster version of merge that doesn't get rid of the shared key unless you use
 # the on argument.
 # Instead, you may need to specify one of the suffixes of the DataFrame's
-# column label so that repeated that will be differentiated after the merger.
+# column label so that repeated labels will be differentiated after the merge.
 # The indexes of the DataFrames are always used as the key unless the on
 # argument is used, in which case it's probably better to use pd.merge().
 # Best used to join DataFrames with no common keys except the index.
