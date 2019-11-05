@@ -14,13 +14,17 @@ print('renamed:')
 print(df)
 print()
 
-# df.reset_index(self, level=None, drop=False, inplace=False, col_level=0, col_fill='')
+# df.reset_index(self, level=None, drop=False)
+# drop=True replaces the original index with the new one. If drop=False, the
+# original index will be put into a new first column 'index'.
 df = df.reset_index(drop=True)
 print('reset index:')
 print(df)
 print()
 
 # df.reindex_like(self, other, method=None, copy=True, limit=None, tolerance=None)
+# reindex is not like rename. Any current values that do not already fit into
+# the new index being adopted will be replaced by nan.
 data2 = {'A': [5, 2], 'B': [3, 3]}
 df2 = pd.DataFrame(data2)
 df2 = df2.reindex_like(df)
