@@ -1,3 +1,5 @@
+# It is said that the most important visualization properties are position,
+# color, and size.
 import matplotlib.pyplot as plt
 import numpy as np
 
