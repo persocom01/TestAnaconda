@@ -61,10 +61,3 @@ print('minute:')
 print(s_dates.dt.minute)
 print('second:')
 print(s_dates.dt.second)
-
-# df[col].dt.month == 1
-
-
-# print(pd.Timestamp(1587687255, unit='s'))
-
-#
