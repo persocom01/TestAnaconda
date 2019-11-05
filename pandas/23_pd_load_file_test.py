@@ -31,5 +31,6 @@ data = pd.read_csv(import_path)
 df = pd.DataFrame(data)
 print(df.head())
 
+# Demonstrates writing the file to excel.
 # df.to_excel(self, path, sheet_name='Sheet1')
 df.to_excel(export_path)
