@@ -1,10 +1,11 @@
+# Demonstrates the plt.plot() which is a line graph.
 # It is said that the most important visualization properties are position,
 # color, and size.
 import matplotlib.pyplot as plt
 import numpy as np
 
 # Use this command if using Jupyter notebook to plot graphs inline.
-# % matplotlib inline
+# %matplotlib inline
 
 x = np.linspace(0, 3*np.pi, 500)
 y = np.sin(x**2)
