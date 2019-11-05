@@ -1,18 +1,23 @@
 # Demonstrates the mathemathical functions in numpy.
 import numpy as np
 
-# Trigonomic functions require an input of angles.
-a = np.array(range(0, 361, 30))
-print(a)
+# 360 degrees = 2pi radians.
+# np.arcsin(sin)
+sin = np.sin(np.pi / 2)
+print('sin:', sin)
+print('arcsin:', np.arcsin(sin))
+cos = np.cos(np.pi)
+print('cos:', cos)
+print('arccos:', np.arccos(cos))
+tan = np.tan(2 * np.pi / 360 * 45)
+print('tan:', np.tan(2 * np.pi / 360 * 45))
+print('arctan:', np.arctan(tan))
+print('tan in degrees:', np.degrees(tan))
 
-print('Sine of different angles:')
-# Convert to radians by multiplying with pi/180
-print(np.sin(a*np.pi/180))
-print()
-
-print('Cosine values for angles in array:')
-print(np.cos(a*np.pi/180))
-print()
-
-print('Tangent values for given angles:')
-print(np.tan(a*np.pi/180))
+n = 5.55
+# np.around(n, dec_places) rounds up decimals 0.5 and above to 1.
+print('around:', np.around(n, 1))
+# np.floor(n) rounds down to the nearest int.
+print('floor:', np.floor(n))
+# Opposite of floor.
+print('ceiling:', np.ceil(n))

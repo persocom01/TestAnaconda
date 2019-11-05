@@ -18,9 +18,13 @@ right = pd.DataFrame(data2)
 
 # pd.merge(left, right, how='inner', on=none, left_on=none, right_on=none,
 # left_index=False, right_index=False, sort=True)
-# left_index uses the left DataFrame's row labels as keys instead of a column.
 # on can be given a list to merge based on more than one key.
-# Note how the key, which was present in both DataFrames, is not repeated.
+# Left_on + right_on allows you to not use a common key for both DataFrames
+# in the merge.
+# left_index=True will use the left DataFrame's row labels as its key instead
+# of a column.
+# If a common key was used, the merged DataFrame will only have a single key
+# column; it will not be repeated.
 # Any repeated column labels are given the suffix _x for the left and _y for
 # the right.
 print('inner merge:')

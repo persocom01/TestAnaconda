@@ -23,6 +23,10 @@ print(df)
 print()
 
 # df.reindex_like(self, other, method=None, copy=True, limit=None, tolerance=None)
+# method='ffill', 'bfill' or 'nearest' determines how to fill in the gaps.
+# ffill will replace a row[1] with a row[0] if row 1 is empty. This will apply
+# even if there are multiple empty rows, unless limit=int is used to limit the
+# fill effect.
 # reindex is not like rename. Any current values that do not already fit into
 # the new index being adopted will be replaced by nan.
 data2 = {'A': [5, 2], 'B': [3, 3]}

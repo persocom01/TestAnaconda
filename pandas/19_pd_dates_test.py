@@ -1,5 +1,8 @@
 import pandas as pd
 
+# pd.to_datetime()
+# df[col].dt.month == 1
+
 print(pd.datetime.now())
 print(pd.Timestamp('2017-03-01'))
 print(pd.Timestamp(1587687255, unit='s'))
