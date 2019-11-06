@@ -59,6 +59,7 @@ df.plot(x='day', y=['fish', 'bread'], ax=ax,
         ylim=(10, 90), rot=20, color=['teal', 'sandybrown'])
 
 # Demonstrates saving the figure into a file.
+# plt.gcf() gets the current figure.
 fig = plt.gcf()
 fig.savefig('./saved graphs/pandas line graph.jpg')
 

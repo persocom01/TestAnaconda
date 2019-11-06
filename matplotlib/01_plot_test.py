@@ -37,6 +37,12 @@ fig, ax = plt.subplots(figsize=(10, 10))
 # If the data argument is not passed, x, y, fmt can be repeated to plot
 # plot multiple lines on the same graph.
 ax.plot(x, y, '-g', x2/50, y2, 'xr')
+
+# Demonstrates saving the figure into a file.
+# plt.gcf() gets the current figure.
+fig = plt.gcf()
+fig.savefig('./saved graphs/matplotlib line graph.jpg')
+
 # Used to open the plot in a new window if not using Jupyter or Hydrogen.
 plt.show()
 # Closes the plot window entirely.
