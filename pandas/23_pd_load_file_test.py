@@ -7,7 +7,7 @@ import_path = r'.\pandas\SacramentocrimeJanuary2006.csv'
 export_path = r'.\pandas\SacramentocrimeJanuary2006.xlsx'
 
 # pd.read_csv(path, sep=',', header='infer', names=None, index_col=None,
-# usecols=None, skiprows=None, skipfooter=0)
+# usecols=None, skiprows=None, skipfooter=0, na_filter=True)
 # header=int_list determines the row to use as column label. The first row
 # corresponds to header=0.
 # names=list allows you to customize the column label. If the number of names
@@ -21,7 +21,10 @@ export_path = r'.\pandas\SacramentocrimeJanuary2006.xlsx'
 # skiprows=int_list_callable determines the rows to skip from the top of the
 # file, or specific rows if a list is given. Note that it will skip the column
 # labels line if you just put skiprows=1.
-# skipfotter=int determines the number of rows from the bottom to skip.
+# skipfooter=int determines the number of rows from the bottom to skip.
+# na_filter=True makes the 'NA' string read as nan in the dataframe. This can
+# cause problems, such as when 'NA' actually means North America, so in cases
+# set na_filter=False.
 # There are many various other kwargs not discussed here for verbosity.
 # pandas accepts other datatypes, including:
 # pd.read_excel('xls or xlsx')

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 # As pandas is based on matplotlib.pyplot, you can use change the plot style
 # the same way:
-plt.style.use('ggplot')
+# plt.style.use('ggplot')
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
 
@@ -40,6 +40,7 @@ plt.style.use('ggplot')
 # edgecolor sets the outline color of graphs.
 # subplots=True lets you plot more than 1 graph at a time.
 # layout=(row, col) sets the grid the subplots will be on.
+# sharex or sharey=True makes subplots share the same x or y axis respectively.
 
 data = {
     'day': [1, 2, 3, 4, 5, 6],
@@ -103,7 +104,8 @@ df = pd.DataFrame(data)
 df.plot(kind='scatter', x='longitude', y='latitude', s=1, c='red')
 
 import_path = r'.\pandas\drinks.csv'
-data = pd.read_csv(import_path)
+# Necessary in this case since 'NA'='North America' in this dataset.
+data = pd.read_csv(import_path, na_filter=False)
 df = pd.DataFrame(data)
 # Histogram.
 # Data is divided into bins but are not categorical.
@@ -114,7 +116,11 @@ df = pd.DataFrame(data)
 # range determines the total width of those blocks.
 # by='col' specifies the column to group by, although it's not as often used.
 df.plot(kind='hist', y=['beer_servings', 'spirit_servings'], bins=10,
-        range=(0, 501), edgecolor='black', subplots=True, layout=(1, 2))
+        range=(0, 501), edgecolor='black', subplots=True, layout=(1, 2), sharey=True)
+
+# df.hist can also be used to plot histograms. One key difference is the by
+# argument, which allows for plotting a variable based on categories.
+df.hist(column='beer_servings', by='continent', sharex=True, sharey=True, layout=(2, 3))
 
 # Boxplot.
 # Good for identifying outliers.
