@@ -26,12 +26,14 @@ print(df)
 print()
 
 # df.concat([df1, df2, ...], axis=0, join='outer', ignore_index=False,
-# join_axes=none) can also be used to add columns or rows but that will be
-# covered in its own topic.
+# join_axes=none) can also be used to add additional columns or rows to the
+# DataFrame but that will be covered in its own topic.
 
-# Delete a column either using del df['column_name'] or pop['column_name'].
-# The only difference is pop will also return the column.
-print('pop:')
+# There are 3 ways to delete a column.
+print('del column:')
+# del df['sum']
+# df = df.drop('sum', axis=1)
+# pop will also return the column.
 print(df.pop('sum'))
 print()
 
@@ -51,6 +53,3 @@ print()
 print('column subset (Stackoverflow solution):')
 print(df.loc[:, (df < 3).all(axis=0)])
 print()
-
-# Delete columns using df.drop(labels, axis=0, index, columns) by setting axis=1.
-# Using index makes axis=0. Using columns makes axis=1.
