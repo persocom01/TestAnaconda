@@ -93,7 +93,7 @@ df.plot(kind='bar', x='movie')
 # Commonly used after grouping data using df.groupby().
 df.plot(kind='pie', y='number', labels=df['movie'])
 
-import_path = r'.\pandas\SacramentocrimeJanuary2006.csv'
+import_path = r'.\datasets\SacramentocrimeJanuary2006.csv'
 data = pd.read_csv(import_path)
 df = pd.DataFrame(data)
 # Scatterplot.
@@ -108,7 +108,7 @@ df = pd.DataFrame(data)
 # c=df['color'] or str if the same color applies to all.
 df.plot(kind='scatter', x='longitude', y='latitude', s=1, c='red')
 
-import_path = r'.\pandas\drinks.csv'
+import_path = r'.\datasets\drinks.csv'
 # Necessary in this case since 'NA'='North America' in this dataset.
 data = pd.read_csv(import_path, na_filter=False)
 df = pd.DataFrame(data)

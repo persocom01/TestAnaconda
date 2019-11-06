@@ -3,8 +3,8 @@ import pandas as pd
 
 # If you wish to open a file dialog option instead, use:
 # filedialog.askopenfilename()
-import_path = r'.\pandas\SacramentocrimeJanuary2006.csv'
-export_path = r'.\pandas\SacramentocrimeJanuary2006.xlsx'
+import_path = r'.\datasets\SacramentocrimeJanuary2006.csv'
+export_path = r'.\datasets\SacramentocrimeJanuary2006.xlsx'
 
 # pd.read_csv(path, sep=',', header='infer', names=None, index_col=None,
 # usecols=None, skiprows=None, skipfooter=0, na_filter=True)
