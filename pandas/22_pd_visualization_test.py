@@ -60,7 +60,7 @@ df.plot(x='day', y=['fish', 'bread'], ax=ax,
 
 # Demonstrates saving the figure into a file.
 fig = plt.gcf()
-fig.savefig('./saved graphs/line graph.jpg')
+fig.savefig('./saved graphs/pandas line graph.jpg')
 
 # Area graph.
 # Single variable from different datasets or multiple variables with the same
