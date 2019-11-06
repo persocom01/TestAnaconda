@@ -3,16 +3,12 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-data = {
-    'day': [1, 2, 3, 4, 5, 6],
-    'temperature': [43, 53, 50, 57, 59, 67],
-    'cloud cover': [30, 67, 37, 16, 28, 81]
-}
-df = pd.DataFrame(data)
-# Line graph.
-# Single variable.
-# Good at displaying the trend or the change over time of a variable alone or
-# with other datasets.
+# As pandas is based on matplotlib.pyplot, you can use change the plot style
+# the same way:
+plt.style.use('ggplot')
+# Use this command if using Jupyter notebook to plot graphs inline.
+# %matplotlib inline
+
 # df.plot(kind, x, y, ax, subplots=False, figsize, title=none, grid=False,
 # legend=True, style, xlim, ylim, rot, fontsize, colormap, **kwds) is the basic
 # pandas vistualization method. It will plot a line graph by default, but the
@@ -37,15 +33,38 @@ df = pd.DataFrame(data)
 # int_degrees_anticlockwise.
 # colormap='str' applies a matplotlib colormap as found here:
 # https://matplotlib.org/examples/color/colormaps_reference.html
-# **kwds accepts other keywords to be passed to matplotlib. There is of course,
-# color (in html color codes), but also stacked, which makes bars in bar graphs
-# stack on top of each other, and alpha, which sets the graph transparency if
-# you display them on top of each other.
+# **kwds accepts other keywords to be passed to matplotlib such as:
+# color sets graph color.
+# stacked=True_False sets whether bars in bar graphs stack.
+# alpha=0-1 sets the graph transparency.
+# edgecolor sets the outline color of graphs.
+# subplots=True lets you plot more than 1 graph at a time.
+# layout=(row, col) sets the grid the subplots will be on.
+
+data = {
+    'day': [1, 2, 3, 4, 5, 6],
+    'fish': [43, 53, 50, 57, 59, 67],
+    'bread': [30, 67, 37, 46, 28, 51]
+}
+df = pd.DataFrame(data)
+# Line graph.
+# Single variable. Plotting with more variables is possible, but they must all
+# have the same scale.
+# Good at displaying the change in a variable over time of a or against other
+# datasets.
 fig, ax = plt.subplots()
-ax.set_ylabel('Degrees Fahrenheit')
-# It is possible to plot multiple
-df.plot(x='day', y=['temperature', 'cloud cover'], ax=ax,
-        ylim=(10, 90), rot=20, color=['sandybrown', 'teal'])
+ax.set_ylabel('Number')
+df.plot(x='day', y=['fish', 'bread'], ax=ax,
+        ylim=(10, 90), rot=20, color=['teal', 'sandybrown'])
+
+# Area graph.
+# Single variable from different datasets or multiple variables with the same
+# scale.
+# Good at displaying the composition of a total into its component sum
+# variables.
+# df.plot.area(self, x=None, y=None, stacked=True, **kwargs)
+# stack=False makes the graphs overlap. By default, alpha=0.5 in such a case.
+df.plot.area(x='day', y=['fish', 'bread'])
 
 data = {'movie': ['comedy', 'action', 'romance',
                   'drama', 'scifi'], 'number': [4, 5, 6, 1, 4]}
@@ -83,6 +102,9 @@ df = pd.DataFrame(data)
 # c=df['color'] or str if the same color applies to all.
 df.plot(kind='scatter', x='longitude', y='latitude', s=1, c='red')
 
+import_path = r'.\pandas\drinks.csv'
+data = pd.read_csv(import_path)
+df = pd.DataFrame(data)
 # Histogram.
 # Data is divided into bins but are not categorical.
 # Single variable.
@@ -91,8 +113,12 @@ df.plot(kind='scatter', x='longitude', y='latitude', s=1, c='red')
 # numbers in a list of numbers occur. bin determines the number of blocks,
 # range determines the total width of those blocks.
 # by='col' specifies the column to group by, although it's not as often used.
-df.plot(kind='hist', y='district', bins=6, range=(1, 7))
+df.plot(kind='hist', y=['beer_servings', 'spirit_servings'], bins=10,
+        range=(0, 501), edgecolor='black', subplots=True, layout=(1, 2))
 
 # Boxplot.
 # Good for identifying outliers.
+# The box represents the 25th, 50th and 75th percentile. The whiskers extend
+# up to 1.5 x the interquartile (75th - 25th percentile) range, or the max or
+# min value, whichever is reached first.
 df.plot(kind='box')

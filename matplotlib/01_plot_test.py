@@ -24,7 +24,7 @@ f = 2
 x2 = np.arange(fs)
 y2 = np.sin(2 * np.pi * f * (x2 / fs))
 
-# Matplotlib objects are composed of two parts, the figure and the axes.
+# matplotlib objects are composed of two parts, the figure and the axes.
 # They can be created together using plt.subplots(figsize=(int, int)).
 fig, ax = plt.subplots(figsize=(10, 10))
 
