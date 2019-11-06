@@ -58,6 +58,10 @@ ax.set_ylabel('Number')
 df.plot(x='day', y=['fish', 'bread'], ax=ax,
         ylim=(10, 90), rot=20, color=['teal', 'sandybrown'])
 
+# Demonstrates saving the figure into a file.
+fig = plt.gcf()
+fig.savefig('./saved graphs/line graph.jpg')
+
 # Area graph.
 # Single variable from different datasets or multiple variables with the same
 # scale.
