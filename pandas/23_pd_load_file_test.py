@@ -22,7 +22,7 @@ export_path = r'.\datasets\SacramentocrimeJanuary2006.xlsx'
 # file, or specific rows if a list is given. Note that it will skip the column
 # labels line if you just put skiprows=1.
 # skipfooter=int determines the number of rows from the bottom to skip.
-# na_filter=True makes the 'NA' string read as nan in the dataframe. This can
+# na_filter=True makes the 'NA' string read as nan in the DataFrame. This can
 # cause problems, such as when 'NA' actually means North America, so in cases
 # set na_filter=False.
 # There are many various other kwargs not discussed here for verbosity.
