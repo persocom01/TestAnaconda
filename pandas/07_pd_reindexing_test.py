@@ -9,8 +9,16 @@ print()
 # Pretty troublesome considering you need to pass a dictionary with all the old
 # labels.
 df = df.rename(
-    index={0: 'one', 1: 'two', 2: 'three', 3: 'four'}, columns={'col1': 'A', 'col2': 'B'})
+    index={0: 'one', 1: 'two', 2: 'three', 3: 'four'}, columns={'col1': 'a', 'col2': 'b'})
 print('renamed:')
+print(df)
+print()
+
+# Faster than the previous method for renaming columns but requires an ordered
+# list of all column names. Rename is faster is only a few names in a large
+# table need to be changed.
+df.columns = ['A', 'B']
+print('renamed2:')
 print(df)
 print()
 
