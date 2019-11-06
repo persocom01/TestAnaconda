@@ -4,6 +4,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+# plt.style.use(str_dict) determines the style of plot to use. An online
+# reference can be found here:
+# https://matplotlib.org/3.1.1/gallery/style_sheets/style_sheets_reference.html
+# It is possible to pass your own style with a dict.
+# print(plt.style.available) returns a list of accepted style strings.
+plt.style.use('bmh')
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
 
@@ -31,6 +37,7 @@ fig, ax = plt.subplots(figsize=(10, 10))
 # If the data argument is not passed, x, y, fmt can be repeated to plot
 # plot multiple lines on the same graph.
 ax.plot(x, y, '-g', x2/50, y2, 'xr')
-
-# plt.gca(**kwargs) gets current plot axes.
-print(plt.gca())
+# Used to open the plot in a new window if not using Jupyter or Hydrogen.
+plt.show()
+# Closes the plot window entirely.
+plt.close()

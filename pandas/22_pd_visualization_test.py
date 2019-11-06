@@ -3,17 +3,20 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-data = {'day': [1, 2, 3, 4, 5, 6], 'temperature': [43, 53, 50, 57, 59, 67]}
+data = {
+    'day': [1, 2, 3, 4, 5, 6],
+    'temperature': [43, 53, 50, 57, 59, 67],
+    'cloud cover': [30, 67, 37, 16, 28, 81]
+}
 df = pd.DataFrame(data)
 # Line graph.
 # Single variable.
 # Good at displaying the trend or the change over time of a variable alone or
 # with other datasets.
 # df.plot(kind, x, y, ax, subplots=False, figsize, title=none, grid=False,
-# legend=True, style, xlim, ylim, rot, fontsize, colormap) is the basic pandas
-# vistualization
-# method. It will plot a line graph by default, but the argument
-# kind='graph_name' can be used specify other graphs:
+# legend=True, style, xlim, ylim, rot, fontsize, colormap, **kwds) is the basic
+# pandas vistualization method. It will plot a line graph by default, but the
+# argument kind='graph_name' can be used specify other graphs:
 # 'bar', 'barh' = bar graph, horizontal bar graph
 # 'hist' = histogram
 # ‘box’ for boxplot
@@ -22,6 +25,9 @@ df = pd.DataFrame(data)
 # ‘scatter’ for scatter plots
 # ‘hexbin’ for hexagonal bin plots
 # ‘pie’ for pie plots
+# x uses the table index by default.
+# y=col_list can accept multiple column names as a list to plot multiple lines.
+# Alternatively, use df[col_list].plot() during plotting instead.
 # ax can accept a plot object for label customization.
 # subplots splits each column into its own plot. Meaning it can make graphs
 # within a graph.
@@ -31,12 +37,15 @@ df = pd.DataFrame(data)
 # int_degrees_anticlockwise.
 # colormap='str' applies a matplotlib colormap as found here:
 # https://matplotlib.org/examples/color/colormaps_reference.html
-# Other keywords include stacked, which makes bars in bar graphs stack on top
-# of each other, and alpha, which sets the graph transparency if you display
-# them on top of each other.
+# **kwds accepts other keywords to be passed to matplotlib. There is of course,
+# color (in html color codes), but also stacked, which makes bars in bar graphs
+# stack on top of each other, and alpha, which sets the graph transparency if
+# you display them on top of each other.
 fig, ax = plt.subplots()
 ax.set_ylabel('Degrees Fahrenheit')
-df.plot(x='day', y='temperature', ax=ax, ylim=(40, 70), rot=20)
+# It is possible to plot multiple
+df.plot(x='day', y=['temperature', 'cloud cover'], ax=ax,
+        ylim=(10, 90), rot=20, color=['sandybrown', 'teal'])
 
 data = {'movie': ['comedy', 'action', 'romance',
                   'drama', 'scifi'], 'number': [4, 5, 6, 1, 4]}
@@ -65,7 +74,8 @@ df = pd.DataFrame(data)
 # Scatterplot.
 # Made up of many points such as to appear continuous.
 # By default uses two variables. However, a third and a fourth can be added by
-# using color and size of dots as parameters.
+# using color and size of dots as parameters. If the size is used as a third
+# parameter, it is called a bubble chart.
 # Continuous numerical data. (or they won't be any scattering)
 # Good at comparing two specific attributes of dataset(s) so as to displaying
 # trends or relationships.
