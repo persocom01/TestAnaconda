@@ -52,4 +52,16 @@ print('column subset (Stackoverflow solution):')
 print(df.loc[:, (df < 3).all(axis=0)])
 print()
 
-# Delete columns using df.drop(row_label, axis=0) by setting axis=1.
+# df.replace(self, to_replace=None, value=None, inplace=False, limit=None, regex=False, method='pad')
+# to_replace=str_n_regex_list_dict. If a list is passed, value must also have
+# a list of the same length, and a mapping will be performed. When a dictionary
+# is passed, the function will map dict keys in the data into the dict values.
+# In such a case value should be left empty.
+# value=str_n_regex_list_dict. If a dict is passed, the dict keys will be
+# treated as DataFrame column names applying different replacement values to
+# different columns.
+print('replace:')
+print(df.replace({1: 101}))
+
+# Delete columns using df.drop(labels, axis=0, index, columns) by setting axis=1.
+# Using index makes axis=0. Using columns makes axis=1.
