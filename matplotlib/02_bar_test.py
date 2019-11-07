@@ -1,4 +1,5 @@
 # Demonstrates the plt.bar() which is a bar graph.
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -23,6 +24,11 @@ plt.show()
 # Clears the plot after use for a new figure. Plots will overlab otherwise.
 # Use plt.cla() to clear current axes, and ax.clear() to clear specific axes.
 plt.clf()
+
+fig, ax = plt.subplots()
+# Demonstrates adding a reference vertical mean profit line to the graph.
+# axhline produces a horizontal line.
+ax.axvline(np.mean(df['profit']), color='crimson', linestyle='--', lw=3)
 
 # Demonstrates how to create a stacked bar chart.
 # plt.bar(y, x, )

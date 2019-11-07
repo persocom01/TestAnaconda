@@ -15,3 +15,10 @@ Project presentation
 2. Business objective.
 3. Data objective.
 4. Evaluation.
+
+For a confidence interval, our z score multiplier is 1.96. The number 1.96 comes from a standard Normal distribution.
+The area under the standard Normal distribution between -1.96 and +1.96 is 95%.
+For 90% confidence, use 1.645.
+For 99% confidence, use 2.576.
+
+p value is the probability of a data distribution occurring naturally given the null hypothesis is true.
