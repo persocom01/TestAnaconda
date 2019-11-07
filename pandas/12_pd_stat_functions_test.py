@@ -2,13 +2,6 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# data = {
-#     'col1': [3, 5, 1, 1, 4],
-#     'col2': [1, 3, 2, 4, 2],
-#     'col3': [1, 2, 3, 1, 1]
-# }
-# df = pd.DataFrame(data)
-
 import_path = r'.\datasets\drinks.csv'
 # Necessary in this case since 'NA'='North America' in this dataset.
 data = pd.read_csv(import_path, na_filter=False)
