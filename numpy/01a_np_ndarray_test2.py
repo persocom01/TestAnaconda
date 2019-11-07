@@ -79,7 +79,7 @@ print()
 # replace=False makes it such that the same list index cannot be picked again.
 # p=list determines the probability that each value in a is picked.
 arr = np.random.choice(['Kazuma', 'Aqua', 'Megumin', 'Darkness',
-                        'Chris', 'Yunyun', 'Wiz', 'Kyouya'], 3)
+                        'Chris', 'Yunyun', 'Wiz', 'Kyouya'], 3, replace=False)
 print('choice:')
 print(arr)
 print()
