@@ -72,6 +72,17 @@ arr = np.random.normal(mean, std, size=size)
 print('normal:')
 print(arr)
 print()
+# np.random.choice(a, size=None, replace=True, p=None) returns a random list of
+# values taken from a=array_int.
+# size=int_tuple determines the shape of the output. If a tuple is given, the
+# output will be an array of dimensions specified in the tuple.
+# replace=False makes it such that the same list index cannot be picked again.
+# p=list determines the probability that each value in a is picked.
+arr = np.random.choice(['Kazuma', 'Aqua', 'Megumin', 'Darkness',
+                        'Chris', 'Yunyun', 'Wiz', 'Kyouya'], 3)
+print('choice:')
+print(arr)
+print()
 # np.random.permutation(int or arr) returns a randomly arranged list of numbers
 # range(int) if int is given, or a randomly arranged list if list is given.
 arr = np.random.permutation(10)
