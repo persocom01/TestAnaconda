@@ -34,5 +34,8 @@ print()
 # ordinal variables. In other words, when evaluating things like a ranking
 # where the difference between ranks doesn't necessarily imply that they are
 # close together.
-sns.heatmap(df.corr())
+fig, ax = plt.subplots(figsize=(16, 8))
+plt.title('alcohol servings heatmap')
+sns.set(font_scale=2.5)
+sns.heatmap(df.corr(), annot=True, annot_kws={"size": 30})
 plt.show()
