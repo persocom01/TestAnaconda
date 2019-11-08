@@ -9,13 +9,3 @@ data = ['apple', 'banana', 'orange', 'apple', 'orange']
 s = pd.Series(data)
 print(s)
 print()
-
-# s.map(self, func_dict_series) returns the series with its
-# values maped using the argument passed.
-print('map:')
-print(s.map({
-    'apple': 'pie',
-    'banana': 'cake',
-    'orange': 'juice',
-}))
-print()
