@@ -10,11 +10,25 @@ It describes the dispersion of the sample statistic (such as mean)
 around the population mean, giving you an idea whether more samples
 are needed or not.
 
-Project presentation
-1. Business content.
+Project objective.
+1. Business context.
+Industry and scope of project.
 2. Business objective.
+Comprises the output of the project (best something), for a business goal (revenue), on a target demographic (customer).
 3. Data objective.
+To get certain data and understand it in order to determine...
 4. Evaluation.
+How to know it was successful?
+
+Overview:
+1. Project objective.
+2. Business overview and process.
+3. Tech overview.
+4. Key findings.
+Highlight steps which lead to final conclusion.
+Highlight unexpected results.
+5. Key problems.
+6. Conclusion.
 
 For a confidence interval, our z score multiplier is 1.96. The number 1.96 comes from a standard Normal distribution.
 The area under the standard Normal distribution between -1.96 and +1.96 is 95%.
