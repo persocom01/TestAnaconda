@@ -21,8 +21,6 @@ df = pd.DataFrame(data)
 # graph. For the right side, set width to a -ve number.
 plt.bar(df['movie'], df['profit'])
 plt.show()
-# Clears the plot after use for a new figure. Plots will overlab otherwise.
-# Use plt.cla() to clear current axes, and ax.clear() to clear specific axes.
 plt.clf()
 
 fig, ax = plt.subplots()

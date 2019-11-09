@@ -26,7 +26,7 @@ y2 = np.sin(2 * np.pi * f * (x2 / fs))
 
 # matplotlib objects are composed of two parts, the figure and the axes.
 # They can be created together using plt.subplots(figsize=(int, int)).
-fig, ax = plt.subplots(figsize=(10, 10))
+fig, ax = plt.subplots(figsize=(10, 7))
 
 # ax.plot(x, y, fmt, data, scalex=True, scaley=True, **other_line2d_properties)
 # x is optional, y is the y-axis, fmt is a special format string that comprises
@@ -44,6 +44,20 @@ fig = plt.gcf()
 fig.savefig('./saved graphs/matplotlib line graph.jpg')
 
 # Used to open the plot in a new window if not using Jupyter or Hydrogen.
+plt.show()
+# Clears the plot after use for a new figure. Plots will overlap otherwise.
+# Use plt.cla() to clear current axes, and ax.clear() to clear specific axes.
+plt.clf()
+
+# Demonstrates plotting the same lines on two different graphs instead.
+plt.subplots(figsize=(10, 7))
+# plt.subplot(3)
+ax = plt.subplot(211)
+ax2 = plt.subplot(212, sharey=ax, sharex=ax)
+
+ax.plot(x, y, '-g')
+ax2.plot(x2/50, y2, 'xr')
+
 plt.show()
 # Closes the plot window entirely.
 plt.close()
