@@ -51,7 +51,9 @@ plt.clf()
 
 # Demonstrates plotting the same lines on two different graphs instead.
 plt.subplots(figsize=(10, 7))
-# plt.subplot(3)
+# plt.subplot(int) accepts either a 3 digit int or 3 separate ints which
+# represent row, column and index of the specific subplot. Index goes from
+# left to right, then up to down.
 ax = plt.subplot(211)
 ax2 = plt.subplot(212, sharey=ax, sharex=ax)
 
