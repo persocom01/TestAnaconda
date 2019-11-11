@@ -1,4 +1,7 @@
 # Demonstrates the plt.plot() which is a line graph.
+# Aside from plotting line graphs by itself, plot is also useful for plotting
+# lines on other types of graph, such as a linear regression line for scatter
+# plots.
 # It is said that the most important visualization properties are position,
 # color, and size.
 import matplotlib.pyplot as plt

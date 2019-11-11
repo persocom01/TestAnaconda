@@ -63,13 +63,28 @@ arr = np.random.randn(2, 3)
 print('randn:')
 print(arr)
 print()
-# Use np.random.normal if you don't just want a default (mean=0, std=1)
-# normal distribution.
+# Use np.random.normal(mean, std, size) if you don't just want a default
+# (mean=0, std=1) normal distribution.
 mean = 10
 std = 2
 size = (2, 3)
 arr = np.random.normal(mean, std, size=size)
 print('normal:')
+print(arr)
+print()
+# np.random.poisson(mean, size) takes random samples from a poisson
+# distribution. A poisson distribution is that of the number of occurances of
+# an event over a period of time, given a mean. Curve wise, it looks like a
+# right skewed normal distribution whose skew gets less pronounced the larger
+# the mean.
+arr = np.random.poisson(5, size=10)
+print('poisson:')
+print(arr)
+print()
+# np.random.exponential(scale=1.0, size=None) takes random samples from an
+# exponential curve.
+arr = np.random.exponential(1, size=10)
+print('exponential:')
 print(arr)
 print()
 # np.random.choice(a, size=None, replace=True, p=None) returns a random list of
