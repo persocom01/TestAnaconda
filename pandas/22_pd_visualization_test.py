@@ -103,7 +103,8 @@ df = pd.DataFrame(data)
 # parameter, it is called a bubble chart.
 # Continuous numerical data. (or they won't be any scattering)
 # Good at comparing two specific attributes of dataset(s) so as to displaying
-# trends or relationships.
+# trends or relationships. Can be used to see if the relationship between said
+# two attributes is linear or exponential.
 # s=df['size'] or int if the same size is applied to all.
 # c=df['color'] or str if the same color applies to all.
 df.plot(kind='scatter', x='longitude', y='latitude', s=1, c='red')
