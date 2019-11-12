@@ -22,7 +22,7 @@ def subplot_dist(df, cols=None, titles=None, xlabels=None, ylabels=None):
             except ValueError:
                 pass
 
-    # Set number of figure rows based on number of DataFrame columns.
+    # Sets number of figure rows based on number of DataFrame columns.
     nrows = int(np.ceil(len(cols)/2))
     # Sets figure size based on number of figure rows.
     fig, ax = plt.subplots(nrows=nrows, ncols=2, figsize=(16, 5*nrows))

@@ -46,10 +46,12 @@ print('cumulative product:')
 print(df.cumprod())
 print()
 
+# df.describe(self, percentiles=None, include=None, exclude=None)
 # Gives a number of DataFrame stats, being size, mean, std deviation, min,
 # 25th, 50th, 75th percentile and max.
 # If the DataFrame comprises only strings, count, unique and mode
-# (top and freq) will be given instead.
+# (top and freq) will be given instead. To see the strings described instead,
+# set include='object'
 # Not the same as scipy describe().
 print('describe:')
 print(df.describe())
