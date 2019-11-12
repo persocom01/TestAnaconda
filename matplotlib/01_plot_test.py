@@ -20,8 +20,8 @@ plt.style.use('bmh')
 fs = 500
 # Frequency of signal, or the number of sin waves.
 f = 2
-x = np.arange(fs)
 # Determines the size of the x axis.
+x = np.arange(fs)
 x2 = np.arange(fs)
 y = np.cos(2 * np.pi * f * (x2 / fs))
 y2 = np.sin(2 * np.pi * f * (x2 / fs))
