@@ -18,6 +18,7 @@ plt.clf()
 def subplot_scatter(df, xcols, ycols, titles=None, xlabels=None, ylabels=None):
     nrows = int(np.ceil(len(xcols)/2))
     fig, ax = plt.subplots(nrows=nrows, ncols=2, figsize=(16, 5*nrows))
+    # Makes the list flat.
     ax = ax.ravel()
     for i, col in enumerate(xcols):
         ax[i].scatter(df[col], df[ycols[i]], [1, 2, 3, 4])

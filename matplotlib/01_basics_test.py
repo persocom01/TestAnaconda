@@ -2,6 +2,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Use this command if using Jupyter notebook to plot graphs inline.
+# %matplotlib inline
+
 x = np.arange(10)
 y = [1, 2, 4, 6, 4, 4, 3, 5, 6, 7]
 y2 = [7, 5, 4, 3, 5, 5, 2, 4, 6, 8]
