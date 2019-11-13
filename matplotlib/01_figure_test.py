@@ -51,3 +51,8 @@ ax.plot(x, y, 'o-g', x, y2, 'x-r')
 # Other arguments can be found here:
 # https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.axes.Axes.legend.html
 ax.legend(labels=['pies', 'muffins'], loc='best', facecolor='yellow', shadow=True)
+
+# Used to open the plot in a new window if not using Jupyter or Hydrogen.
+plt.show()
+# Closes the plot window entirely.
+plt.close()

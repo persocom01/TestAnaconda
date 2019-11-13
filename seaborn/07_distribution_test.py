@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
-import seaborn as sns
+import seaborn as sb
 import sklearn.datasets as skld
 
 iris = skld.load_iris()
@@ -10,7 +10,7 @@ df = pd.DataFrame(iris.data, columns=iris.feature_names)
 # The function is made flexible in only needing one argument.
 
 
-def subplot_dist(df, cols=None, titles=None, xlabels=None, ylabels=None):
+def subplot_dist(df, kind='dist', cols=None, titles=None, xlabels=None, ylabels=None):
     # Accepts all columns if they can be converted to numbers if cols argument
     # is not given.
     if not cols:
@@ -30,7 +30,18 @@ def subplot_dist(df, cols=None, titles=None, xlabels=None, ylabels=None):
     ax = ax.ravel()
 
     for i, col in enumerate(cols):
-        sns.distplot(df[col], ax=ax[i])
+        if kind == 'dist':
+            sb.distplot(df[col], ax=ax[i])
+        # Boxplotting option.
+        elif kind == 'box':
+            sb.boxplot(data=df[col], ax=ax[i])
+            # xticklabels will be the first letter of string if not passed as a
+            # list.
+            if not isinstance(col, (list, tuple)):
+                ax[i].set_xticklabels([col])
+            else:
+                ax[i].set_xticklabels(col)
+
         if titles:
             ax[i].set_title(titles[i])
         if xlabels:
@@ -39,4 +50,5 @@ def subplot_dist(df, cols=None, titles=None, xlabels=None, ylabels=None):
             ax[i].set_ylabel(ylabels[i])
 
 
-subplot_dist(df)
+# print(df)
+subplot_dist(df, kind='box')

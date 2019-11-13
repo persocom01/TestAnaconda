@@ -4,7 +4,7 @@ An Anaconda testing playground based on tutorials found here:
 * numpy https://www.tutorialspoint.com/numpy/index.htm
 * scipy https://www.tutorialspoint.com/scipy/index.htm
 * pandas https://www.tutorialspoint.com/python_pandas/index.htm
-* matplotlib https://www.tutorialspoint.com/matplotlib/matplotlib_pyplot_api.htm
+* matplotlib https://www.tutorialspoint.com/matplotlib/index.htm
 * seaborn https://www.tutorialspoint.com/seaborn/index.htm
 
 Workable code is written on each topic to demonstrate use of the python module in the topic area.
