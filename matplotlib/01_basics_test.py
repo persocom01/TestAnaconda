@@ -5,9 +5,11 @@ import matplotlib.pyplot as plt
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
 
+np.random.seed(123)
 x = np.arange(10)
 y = [1, 2, 4, 6, 4, 4, 3, 5, 6, 7]
 y2 = [7, 5, 4, 3, 5, 5, 2, 4, 6, 8]
+y3 = [n for n in np.random.randint(100, 201, 10)]
 
 # matplotlib objects are composed of two parts, the figure and the axes.
 # They can be created together using plt.subplots(figsize=(int, int)).
@@ -53,8 +55,8 @@ ax.plot(x, y, 'o-g', x, y2, 'x-r')
 # shadow=False
 # Other arguments can be found here:
 # https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.axes.Axes.legend.html
+# fig.legend() creates a legend outside the graph.
 ax.legend(labels=['pies', 'muffins'], loc='best', facecolor='yellow', shadow=True)
-
 # ax.set_title(self, label, fontdict=None, loc='center', pad=None, **kwargs)
 ax.set_title('sales')
 # ax.grid(self, b=None, which='major', axis='both', **kwargs)
@@ -64,6 +66,9 @@ ax.grid()
 ax.set_xlim(0, 10)
 # ax.set_xlabel(self, xlabel, fontdict=None, labelpad=None, **kwargs)[source]
 ax.set_xlabel('week')
+
+# Creates axes on the right side of the figure, for no good reason in this case.
+ax2 = ax.twinx()
 
 # Demonstrates saving the figure into a file.
 # plt.gcf() gets the current figure.
