@@ -19,3 +19,4 @@ y = np.cos(2 * np.pi * f * (x2 / fs))
 y2 = np.sin(2 * np.pi * f * (x2 / fs))
 
 fig, ax = plt.subplots(figsize=(8, 6))
+ax.plot(x, y, '-g', x2, y2, '|r')
