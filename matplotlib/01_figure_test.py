@@ -52,6 +52,11 @@ ax.plot(x, y, 'o-g', x, y2, 'x-r')
 # https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.axes.Axes.legend.html
 ax.legend(labels=['pies', 'muffins'], loc='best', facecolor='yellow', shadow=True)
 
+# Demonstrates saving the figure into a file.
+# plt.gcf() gets the current figure.
+# fig = plt.gcf()
+fig.savefig('./saved graphs/matplotlib figure.jpg')
+
 # Used to open the plot in a new window if not using Jupyter or Hydrogen.
 plt.show()
 # Closes the plot window entirely.

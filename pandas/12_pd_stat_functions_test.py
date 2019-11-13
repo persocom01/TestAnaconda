@@ -34,8 +34,11 @@ print()
 # ordinal variables. In other words, when evaluating things like a ranking
 # where the difference between ranks doesn't necessarily imply that they are
 # close together.
-fig, ax = plt.subplots(figsize=(16, 8))
+fig, ax = plt.subplots(figsize=(12, 7.5))
 plt.title('alcohol servings heatmap')
 sns.set(font_scale=2.5)
 sns.heatmap(df.corr(), annot=True, annot_kws={"size": 25})
+# Corrects the heatmap for later versions of matplotlib.
+# bottom, top = ax.get_ylim()
+# ax.set_ylim(bottom+0.5, top-0.5)
 plt.show()

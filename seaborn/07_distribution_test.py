@@ -10,7 +10,7 @@ df = pd.DataFrame(iris.data, columns=iris.feature_names)
 # The function is made flexible in only needing one argument.
 
 
-def subplot_dist(df, kind='dist', cols=None, titles=None, xlabels=None, ylabels=None):
+def subplot_dist(df, kind='dist', cols=None, titles=None, xlabels=None, ylabels=None, meanline=False, medianline=False):
     # Accepts all columns if they can be converted to numbers if cols argument
     # is not given.
     if not cols:
@@ -30,17 +30,26 @@ def subplot_dist(df, kind='dist', cols=None, titles=None, xlabels=None, ylabels=
     ax = ax.ravel()
 
     for i, col in enumerate(cols):
+        is_list = isinstance(col, (list, tuple))
+        if is_list and kind != 'box':
+            raise TypeError('distplot does not plot multiple series in one graph.')
         if kind == 'dist':
             sb.distplot(df[col], ax=ax[i])
+            if meanline:
+                ax[i].axvline(np.mean(df[col]), color='r', linestyle='-', linewidth=1)
+            if medianline:
+                ax[i].axvline(np.median(df[col]), color='purple', linestyle='--', linewidth=1)
         # Boxplotting option.
         elif kind == 'box':
             sb.boxplot(data=df[col], ax=ax[i])
             # xticklabels will be the first letter of string if not passed as a
             # list.
-            if not isinstance(col, (list, tuple)):
-                ax[i].set_xticklabels([col])
-            else:
+            if is_list:
                 ax[i].set_xticklabels(col)
+            else:
+                ax[i].set_xticklabels([col])
+                if meanline:
+                    ax[i].axhline(np.mean(df[col]), color='r', linestyle='-', linewidth=1)
 
         if titles:
             ax[i].set_title(titles[i])
@@ -51,4 +60,4 @@ def subplot_dist(df, kind='dist', cols=None, titles=None, xlabels=None, ylabels=
 
 
 # print(df)
-subplot_dist(df, kind='box')
+subplot_dist(df, meanline=True, medianline=True)
