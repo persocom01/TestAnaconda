@@ -9,7 +9,6 @@ np.random.seed(123)
 x = np.arange(10)
 y = [1, 2, 4, 6, 4, 4, 3, 5, 6, 7]
 y2 = [7, 5, 4, 3, 5, 5, 2, 4, 6, 8]
-y3 = [n for n in np.random.randint(100, 201, 10)]
 
 # matplotlib objects are composed of two parts, the figure and the axes.
 # They can be created together using plt.subplots(figsize=(int, int)).

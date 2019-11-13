@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -36,9 +37,15 @@ print()
 # close together.
 fig, ax = plt.subplots(figsize=(12, 7.5))
 plt.title('alcohol servings heatmap')
+
+corr = df.corr()
+mask = np.array(corr)
+# Sets the upper triangle above the diagonal in the array to False.
+mask[np.tril_indices_from(mask)] = False
 sns.set(font_scale=2.5)
-sns.heatmap(df.corr(), annot=True, annot_kws={"size": 25})
+# mask removes the upper triangle of the heatmap.
+sns.heatmap(corr, cmap='Greens', mask=mask, annot=True, annot_kws={"size": 25})
 # Corrects the heatmap for later versions of matplotlib.
-# bottom, top = ax.get_ylim()
-# ax.set_ylim(bottom+0.5, top-0.5)
+bottom, top = ax.get_ylim()
+ax.set_ylim(bottom+0.5, top-0.5)
 plt.show()

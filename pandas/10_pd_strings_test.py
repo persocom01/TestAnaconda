@@ -50,13 +50,20 @@ print('cat:')
 print(s.str.cat(sep='_'))
 print()
 
-# s.str.get_dummies(self, sep='|') turns a series of strings into a categories
-# containing one hot vectors. The reason to do this appears to be that some
-# operations cannot be performed on strings, making it easier to process them
-# if they are turned into numbers first.
-# pd.get_dummies() is a more in depth function.
+# s.str.get_dummies(self, sep='|', drop_first=False) turns a series of strings
+# into a DataFrame containing one hot vectors. The reason to do this appears to
+# be that some operations cannot be performed on strings, making it easier to
+# process them if they are turned into numbers first.
+# When dealing with one hot vector, you generally drop one as one of them has
+# to be made a point of reference. For example, if gender can only be male or
+# female, it makes no sense to have one hot vectors for both, since a 0 in male
+# will always be a 1 in female, and vice, versa.
+# pd.get_dummies(data, prefix=None, prefix_sep='_', dummy_na=False,
+# columns=None, sparse=False, drop_first=False, dtype=None) is a more in depth
+#  function.
 print('one hot vectors:')
-print(s.str.get_dummies(sep='|'))
+df = s.str.get_dummies(sep='|')
+print(df)
 print()
 
 # s.str.contains(self, pattern, case=True, flags=0, na=nan, regex=True)
