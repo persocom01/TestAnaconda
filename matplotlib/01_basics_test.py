@@ -23,7 +23,7 @@ y2 = [7, 5, 4, 3, 5, 5, 2, 4, 6, 8]
 # ax parameters are often set after the figure is plotted, and contain many
 # get or set methods. Documentation can be found here:
 # https://matplotlib.org/3.1.1/api/axes_api.html#the-axes-class
-fig, ax = plt.subplots(figsize=(8, 6), facecolor='gainsboro', edgecolor='r', linewidth=5)
+fig, ax = plt.subplots(figsize=(8, 5), facecolor='gainsboro', edgecolor='r', linewidth=5)
 
 # ax.plot(x, y, fmt, data, scalex=True, scaley=True, **other_line2d_properties)
 # x is optional, y is the y-axis, fmt is a special format string that comprises
@@ -73,6 +73,14 @@ ax2 = ax.twinx()
 # plt.gcf() gets the current figure.
 # fig = plt.gcf()
 fig.savefig('./saved graphs/matplotlib figure.jpg')
+
+
+# Used to open the plot in a new window if not using Jupyter or Hydrogen.
+plt.show()
+# Clears the plot after use for a new figure, or the plots will overlap.
+# Just for show in this case since only 1 figure was plotted.
+# Use plt.cla() to clear current axes, and ax.clear() to clear specific axes.
+plt.clf()
 
 # Used to open the plot in a new window if not using Jupyter or Hydrogen.
 plt.show()
