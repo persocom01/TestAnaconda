@@ -1,6 +1,5 @@
 # Demonstrates plotting multiple graphs on the same figure. This is not the
 # same as plotting multiple datasets on the same graph.
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import sklearn.datasets as skld
@@ -21,14 +20,16 @@ for i, col in enumerate(df.columns):
 plt.show()
 plt.clf()
 
-# ax is automatically plt.subplot(111) if no arguments are given.
+# The second way is to use plt.subplot(int). plt.subplot(int) accepts either a
+# 3 digit int or 3 separate ints which represent row, column and index of the
+# specific subplot. Index goes from left to right, then up to down.
+# ax is by default plt.subplot(111) in plt.subplots() if no arguments are
+# given.
 fig, ax = plt.subplots(figsize=(16, 10))
-# plt.subplot(int) accepts either a 3 digit int or 3 separate ints which
-# represent row, column and index of the specific subplot. Index goes from
-# left to right, then up to down.
 ax = plt.subplot(111)
 ax.hist(df['sepal length (cm)'])
-# The second way is to use fig.add_subplot(self, *args, **kwargs), which does
+
+# The third way is to use fig.add_subplot(self, *args, **kwargs), which does
 # not override the current figure.
 ax2 = fig.add_subplot(221)
 ax2.hist(df['sepal width (cm)'], color='r')

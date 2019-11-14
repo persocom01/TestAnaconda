@@ -59,11 +59,19 @@ ax.legend(labels=['pies', 'muffins'], loc='best', facecolor='yellow', shadow=Tru
 # ax.set_title(self, label, fontdict=None, loc='center', pad=None, **kwargs)
 ax.set_title('sales')
 # ax.grid(self, b=None, which='major', axis='both', **kwargs)
-# If no arguments are passed, turns on grid lines.
+# If no arguments are passed, turns on grid lines. Common arguments include:
+# c=color or color=color
+# ls=fmt or linestyle=fmt
+# lw=float or linewidth=float
 ax.grid()
-# ax.set_xlim(self, left=None, right=None, emit=True, auto=False, *, xmin=None, xmax=None)
+# ax.set_xlim(self, left=None, right=None, emit=True, auto=False, *, xmin=None,
+# xmax=None)
 ax.set_xlim(0, 10)
-# ax.set_xlabel(self, xlabel, fontdict=None, labelpad=None, **kwargs)[source]
+# ax.yticks(ticks=None, labels=None, **kwargs)
+# You can set the individual ticks instead of setting the axis limit, but it
+# needs more arguments. Passing an empty list deletes all the ticks.
+ax.set_yticks(range(0, 11, 2))
+# ax.set_xlabel(self, xlabel, fontdict=None, labelpad=None, **kwargs)
 ax.set_xlabel('week')
 
 # Creates axes on the right side of the figure, for no good reason in this case.
