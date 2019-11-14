@@ -1,4 +1,5 @@
 # Demonstrates the statistical functions built into in numpy.
+# numpy assumes degrees of freedom to be 0. (population)
 import numpy as np
 
 a = np.array([

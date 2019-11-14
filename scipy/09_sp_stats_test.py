@@ -1,5 +1,6 @@
 # It is said that scipy is most used for its stats module, so if nothing else,
 # one should learn to use the stats module.
+# scipy assumes degrees of freedom to be 0. (population)
 import numpy as np
 import scipy.stats as stats
 
@@ -53,3 +54,7 @@ print('kurtosis:', stats.kurtosis(arr, fisher=False))
 # occur. These can be directly accessed by using stats.mode(arr).mode and
 # stats.mode(arr).count.
 print('mode:', stats.mode(arr))
+# stats.zscore(arr, axis=0, ddof=0) return the zscore for every element in an
+# array. zscore is the number of std deviations a value is from the mean. It
+# can be +ve or -ve.
+print('zscore:', stats.zscore(arr)[:10])

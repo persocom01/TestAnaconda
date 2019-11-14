@@ -1,4 +1,6 @@
 # Demonstrates the stat functions included in pandas.
+# pandas assumes degrees of freedom to be 1, (sample) so the results may be
+# slightly different from numpy.
 import numpy as np
 import pandas as pd
 
