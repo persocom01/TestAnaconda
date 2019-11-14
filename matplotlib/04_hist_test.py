@@ -26,24 +26,46 @@ n, bins, patches = plt.hist(df['sepal length (cm)'], histtype='stepfilled', edge
 plt.show()
 plt.clf()
 
+# Auto subplot histogram function to be copy pasted anywhere.
 
 
-def subplot_histograms(dataframe, list_of_columns, list_of_titles, list_of_xlabels, ylimit=None, medianline=False):
-    nrows = int(np.ceil(len(list_of_columns)/2))  # Makes sure you have enough rows
-    if ylimit:
-        fig, ax = plt.subplots(nrows=nrows, ncols=2, figsize=(16, 5*nrows),
-                               sharey=True)  # You'll want to specify your figsize
-        plt.yticks(np.arange(0, ylimit+1, np.floor((ylimit)/10)))
-    else:
-        fig, ax = plt.subplots(nrows=nrows, ncols=2, figsize=(16, 10)
-                               )  # You'll want to specify your figsize
-    ax = ax.ravel()  # Ravel turns a matrix into a vector, which is easier to iterate
-    for i, column in enumerate(list_of_columns):  # Gives us an index value to get into all our lists
-        # feel free to add more settings
-        ax[i].hist(dataframe[column], edgecolor='black', linewidth=2)
-        if medianline:
-            ax[i].axvline(np.median(dataframe[column]), color='red',
-                          linestyle='dashed', linewidth=1)
-        # Set titles, labels, etc here for each subplot
-        ax[i].set_title(list_of_titles[i])
-        ax[i].set_xlabel(list_of_xlabels[i])
+def subplot_hist(df, cols=None, titles=None, xlabels=None, ylabels=None, meanline=False, medianline=False, **kwargs):
+    # Accepts all columns if they can be converted to numbers if cols argument
+    # is not given.
+    if not cols:
+        cols = []
+        for col in df.columns:
+            try:
+                df[col] = pd.to_numeric(df[col])
+                cols.append(col)
+            except ValueError:
+                pass
+
+    # Sets number of figure rows based on number of DataFrame columns.
+    nrows = int(np.ceil(len(cols)/2))
+    # Sets figure size based on number of figure rows.
+    fig, ax = plt.subplots(nrows=nrows, ncols=2, figsize=(16, 5*nrows))
+    # Makes the list of lists flat.
+    ax = ax.ravel()
+
+    for i, col in enumerate(cols):
+        is_list = isinstance(col, (list, tuple))
+        if is_list:
+            for c in col:
+                ax[i].hist(df[c], **kwargs)
+        else:
+            ax[i].hist(df[col], **kwargs)
+            if meanline:
+                ax[i].axvline(np.mean(df[col]), color='r', linestyle='-', linewidth=1)
+            if medianline:
+                ax[i].axvline(np.median(df[col]), color='purple', linestyle='--', linewidth=1)
+        if titles:
+            ax[i].set_title(titles[i])
+        if xlabels:
+            ax[i].set_xlabel(xlabels[i])
+        if ylabels:
+            ax[i].set_ylabel(ylabels[i])
+
+
+subplot_hist(df, [['sepal length (cm)', 'sepal width (cm)'],
+                  'petal length (cm)'], edgecolor='k', lw=2)

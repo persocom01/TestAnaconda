@@ -10,7 +10,7 @@ df = pd.DataFrame(iris.data, columns=iris.feature_names)
 # The function is made flexible in only needing one argument.
 
 
-def subplot_dist(df, kind='dist', cols=None, titles=None, xlabels=None, ylabels=None, meanline=False, medianline=False):
+def subplot_dist(df, kind='dist', cols=None, titles=None, xlabels=None, ylabels=None, meanline=False, medianline=False, **kwargs):
     # Accepts all columns if they can be converted to numbers if cols argument
     # is not given.
     if not cols:
@@ -32,16 +32,17 @@ def subplot_dist(df, kind='dist', cols=None, titles=None, xlabels=None, ylabels=
     for i, col in enumerate(cols):
         is_list = isinstance(col, (list, tuple))
         if is_list and kind != 'box':
-            raise TypeError('distplot does not plot multiple series in one graph.')
+            print('distplot does not plot multiple series in one graph.')
+            continue
         if kind == 'dist':
-            sb.distplot(df[col], ax=ax[i])
+            sb.distplot(df[col], ax=ax[i], **kwargs)
             if meanline:
                 ax[i].axvline(np.mean(df[col]), color='r', linestyle='-', linewidth=1)
             if medianline:
                 ax[i].axvline(np.median(df[col]), color='purple', linestyle='--', linewidth=1)
         # Boxplotting option.
         elif kind == 'box':
-            sb.boxplot(data=df[col], ax=ax[i])
+            sb.boxplot(data=df[col], ax=ax[i], **kwargs)
             # xticklabels will be the first letter of string if not passed as a
             # list.
             if is_list:
@@ -59,5 +60,5 @@ def subplot_dist(df, kind='dist', cols=None, titles=None, xlabels=None, ylabels=
             ax[i].set_ylabel(ylabels[i])
 
 
-# print(df)
+# print(df.head())
 subplot_dist(df, meanline=True, medianline=True)
