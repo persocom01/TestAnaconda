@@ -2,12 +2,12 @@
 # same as plotting multiple datasets on the same graph.
 import pandas as pd
 import matplotlib.pyplot as plt
-import sklearn.datasets as skld
+import sklearn.datasets as skds
 
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
 
-iris = skld.load_iris()
+iris = skds.load_iris()
 df = pd.DataFrame(iris.data, columns=iris.feature_names)
 # print(df.head())
 

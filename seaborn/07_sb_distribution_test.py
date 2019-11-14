@@ -2,9 +2,9 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 import seaborn as sb
-import sklearn.datasets as skld
+import sklearn.datasets as skds
 
-iris = skld.load_iris()
+iris = skds.load_iris()
 df = pd.DataFrame(iris.data, columns=iris.feature_names)
 
 # The function is made flexible in only needing one argument.
