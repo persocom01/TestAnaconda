@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-plt.style.use('bmh')
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
 

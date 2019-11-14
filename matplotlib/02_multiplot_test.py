@@ -4,6 +4,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import sklearn.datasets as skld
 
+# Use this command if using Jupyter notebook to plot graphs inline.
+# %matplotlib inline
+
 iris = skld.load_iris()
 df = pd.DataFrame(iris.data, columns=iris.feature_names)
 # print(df.head())
@@ -12,6 +15,7 @@ df = pd.DataFrame(iris.data, columns=iris.feature_names)
 # subplot_kw=None, gridspec_kw=None, **fig_kw)
 # The first way to plot multiple graphs is to pass them into plt.subplots() as
 # the nrow and ncols arguments.
+# Good for constructing functions which plot multiple graphs in a single figure.
 fig, ax = plt.subplots(2, 2, figsize=(16, 10))
 # Flattens the (2, 2) matrix ax is currently in.
 ax = ax.ravel()
@@ -33,3 +37,6 @@ ax.hist(df['sepal length (cm)'])
 # not override the current figure.
 ax2 = fig.add_subplot(221)
 ax2.hist(df['sepal width (cm)'], color='r')
+
+plt.show()
+plt.close()
