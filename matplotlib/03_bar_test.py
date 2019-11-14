@@ -1,4 +1,6 @@
 # Demonstrates plotting a bar chart is matplotlib.
+# It is said that the most important visualization properties are position,
+# color, and size.
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt

@@ -1,22 +1,31 @@
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
+import sklearn.datasets as skld
 
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
 
-mu, sigma = 100, 15
-x = mu + sigma * np.random.randn(10000)
+iris = skld.load_iris()
+df = pd.DataFrame(iris.data, columns=iris.feature_names)
+print(df.head())
 
-# the histogram of the data
-n, bins, patches = plt.hist(x, 50, density=1, facecolor='g', alpha=0.75)
-
-plt.xlabel('Smarts')
-plt.ylabel('Probability')
-plt.title('Histogram of IQ')
-plt.text(60, .025, r'$\mu=100,\ \sigma=15$')
-plt.axis([40, 160, 0, 0.03])
-plt.grid(True)
+# ax.hist(self, x, bins=None, range=None, density=None, weights=None,
+# cumulative=False, bottom=None, histtype='bar', align='mid',
+# orientation='vertical', rwidth=None, log=False, color=None, label=None,
+# stacked=False, *, data=None, **kwargs)
+# bins determines the number of bars. The bins returned is a list of positions
+# of the left edge of each bar, ending with the right edge of the last bar.
+# density=True makes the graph a probability density chart.
+# cumulative=True makes the value of each bin itself plus all bins before it.
+# histtype='step' makes the image a single collection of bars instead of
+# individual bars. It's not obvious unless you also set edgecolor.
+# n = height of each bar.
+# patches = the images used to create each bar.
+n, bins, patches = plt.hist(df['sepal length (cm)'], histtype='stepfilled', edgecolor='k', lw=2)
 plt.show()
+plt.clf()
+
 
 
 def subplot_histograms(dataframe, list_of_columns, list_of_titles, list_of_xlabels, ylimit=None, medianline=False):

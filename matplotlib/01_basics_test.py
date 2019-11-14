@@ -26,6 +26,9 @@ y2 = [7, 5, 4, 3, 5, 5, 2, 4, 6, 8]
 fig, ax = plt.subplots(figsize=(8, 5), facecolor='gainsboro', edgecolor='r', linewidth=5)
 
 # ax.plot(x, y, fmt, data, scalex=True, scaley=True, **other_line2d_properties)
+# or plt.plot() plots a line graph.
+# Aside from an actual, line graphs it can be used to plot lines in other
+# graphs, such as a linear regression line in scatter plots.
 # x is optional, y is the y-axis, fmt is a special format string that comprises
 # [marker][line][color].
 # If the data argument is not passed, x, y, fmt can be repeated to plot
@@ -73,6 +76,11 @@ ax.set_xlim(0, 10)
 ax.set_yticks(range(0, 11, 2))
 # ax.set_xlabel(self, xlabel, fontdict=None, labelpad=None, **kwargs)
 ax.set_xlabel('week')
+# ax.text(self, x, y, str, fontdict=None, **kwargs) places text at the stated
+# xy coords. Accepts LaTeX math symbols by starting and ending the str with $.
+# List of symbols can be found here:
+# https://oeis.org/wiki/List_of_LaTeX_mathematical_symbols
+ax.text(3, 6.5, r'$\Sigma\ pies=24$')
 
 # Creates axes on the right side of the figure, for no good reason in this case.
 ax2 = ax.twinx()
