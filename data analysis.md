@@ -9,6 +9,9 @@ The standard error = standard deviation / sqrt (sample size)
 It describes the dispersion of the sample statistic (such as mean)
 around the population mean, giving you an idea whether more samples
 are needed or not.
+SSR = sum(prediction - mean)^2
+SST = sum(y - mean)^2
+SST = sum(y - prediction)^2
 
 Project objective.
 1. Business context.
@@ -36,3 +39,5 @@ For 90% confidence, use 1.645.
 For 99% confidence, use 2.576.
 
 p value is the probability of a data distribution occurring naturally given the null hypothesis is true.
+
+A model with inputs over time t is considered usable over the next t/3 or t/5 periods. It gets more and more inaccurate as time passes, in what is called model decay.
