@@ -2,8 +2,14 @@
 # DataFrame columns.
 import pandas as pd
 
-data = {'col1': [2, 1, 1, 1], 'col2': [1, 3, 2, 4]}
+data = {'Col 1': [2, 1, 1, 1], 'Col 2': [1, 3, 2, 4]}
 df = pd.DataFrame(data)
+
+# Common code to reduce all column names to lowercase and remove or replace
+# whitespaces.
+df.columns = [x.lower().replace(' ', '') for x in df.columns]
+print(df)
+print()
 
 # Select a column using the column label.
 # If muliple columns need to be selected, pass df[list] instead.
