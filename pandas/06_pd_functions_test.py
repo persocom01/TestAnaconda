@@ -31,6 +31,10 @@ print(df['name'].map({
     'banana': 'cake',
     'orange': 'juice',
 }))
+# Demonstrates adding a feature to the DataFrame using map.
+asia = ['china', 'japan', 'korea']
+df['from_asia'] = df['origin'].map(lambda x: 1 if x in asia else 0)
+print(df)
 print()
 
 

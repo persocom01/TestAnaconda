@@ -34,7 +34,7 @@ print()
 # df.dropna(self, axis=0, how='any', thresh=None, subset=None, inplace=False)
 # Drops rows where nan values are found by default. Set axis=1 for columns.
 # how='all' will make it such that the row must be completely empty.
-# tresh=int makes it so that row with int number of filled rows wqill not be
+# tresh=int makes it so that row with int number of filled rows will not be
 # dropped.
 # subset=list_of_labels is a list of columns to check if axis=0 and vice versa.
 print(df.dropna(thresh=2))
