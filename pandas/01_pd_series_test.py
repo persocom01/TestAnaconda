@@ -9,3 +9,10 @@ data = ['apple', 'banana', 'orange', 'apple', 'orange']
 s = pd.Series(data)
 print(s)
 print()
+
+# s.value_counts(self, normalize=False, sort=True, ascending=False, bins=None,
+# dropna=True) counts the number of times each unique value occurs in the
+# series. Useful for counting categorical variables.
+print('value counts:')
+print(s.value_counts())
+print()

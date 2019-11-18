@@ -8,7 +8,7 @@ import sklearn.metrics as skm
 
 data = skds.load_diabetes()
 df = pd.DataFrame(data.data, columns=data.feature_names)
-s = pd.Series(data.target, )
+target = pd.DataFrame(data.target)
 print(df.head())
 print()
 
@@ -19,8 +19,8 @@ print()
 # We use [:, np.newaxis] in this case to add a y axis to the output to make it
 # a 2d array so it can be accepted by the sklm.LinearRegression() later.
 X = df['bmi'][:, np.newaxis]
-# Convert to ndarray to avoid problems later.
-y = np.array(data.target)
+# Use df.values or np.array() to avoid problems later.
+y = target.values
 
 # skms.train_test_split(arr_features, arr_target, test_size=0.25, **options)
 # options accepts a number of arguments, including:
