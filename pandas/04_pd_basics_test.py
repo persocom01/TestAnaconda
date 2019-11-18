@@ -40,15 +40,16 @@ print('unique:')
 print(df['cola'].unique())
 print()
 
-# df.astype(dtype or dict_of_col_dtypes) returns a DataFrame or DataFrame
-# column of the specified dtype.
+# df.astype(self, dtype, copy=True, errors='raise', **kwargs) returns a
+# DataFrame or DataFrame column of the specified dtype.
+# errors='ignore' will ignore errors.
 df = df.astype({'col1': 'object', 'col2': 'object'})
 print('head:')
 print(df.dtypes)
 print()
 
-# pd.to_numeric(list, errors='raise') returns a 1d list of strings converted
-# into int or float.
+# pd.to_numeric(list, errors='raise', downcast=None) converts a 1d list of
+# strings to int or float.
 # Unconvertable strings will cause a ValueError by default, but errors='ignore'
 # will ignore them and errors='coerce' will turn them into nan.
 # to_datetime and to_timedelta are similar methods.

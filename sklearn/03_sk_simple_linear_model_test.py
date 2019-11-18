@@ -105,5 +105,5 @@ ax.scatter(X_test, y_test, alpha=0.7, label='test values')
 ax.plot(X_test, y_hat, color='g', alpha=0.7, label='linear regression line')
 ax.legend()
 
-for i, y in enumerate(y_hat.ravel()):
+for i, y in enumerate(y_hat):
     ax.plot([X_test[i], X_test[i]], [y, y_test[i]], color='r', alpha=0.7)
