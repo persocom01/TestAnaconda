@@ -6,6 +6,13 @@ import sklearn.datasets as skds
 
 iris = skds.load_iris()
 df = pd.DataFrame(iris.data, columns=iris.feature_names)
+print(df.head())
+
+# sb.boxplot(x=None, y=None, hue=None, data=None, order=None, hue_order=None,
+# orient=None, color=None, palette=None, saturation=0.75, width=0.8,
+# dodge=True, fliersize=5, linewidth=None, whis=1.5, notch=False, ax=None,
+# **kwargs)
+# orient='h' makes the boxplot horizontal.
 
 # The function is made flexible in only needing one argument.
 
@@ -23,9 +30,14 @@ def subplot_dist(df, kind='dist', cols=None, titles=None, xlabels=None, ylabels=
                 pass
 
     # Sets number of figure rows based on number of DataFrame columns.
-    nrows = int(np.ceil(len(cols)/2))
+    if len(cols) > 4:
+        ncols = 3
+        nrows = int(np.ceil(len(cols)/3))
+    else:
+        ncols = 2
+        nrows = int(np.ceil(len(cols)/2))
     # Sets figure size based on number of figure rows.
-    fig, ax = plt.subplots(nrows=nrows, ncols=2, figsize=(16, 5*nrows))
+    fig, ax = plt.subplots(nrows=nrows, ncols=ncols, figsize=(16, 5*nrows))
     # Makes the list of lists flat.
     ax = ax.ravel()
 
@@ -43,14 +55,8 @@ def subplot_dist(df, kind='dist', cols=None, titles=None, xlabels=None, ylabels=
         # Boxplotting option.
         elif kind == 'box':
             sb.boxplot(data=df[col], ax=ax[i], **kwargs)
-            # xticklabels will be the first letter of string if not passed as a
-            # list.
-            if is_list:
-                ax[i].set_xticklabels(col)
-            else:
-                ax[i].set_xticklabels([col])
-                if meanline:
-                    ax[i].axhline(np.mean(df[col]), color='r', linestyle='-', linewidth=1)
+            if not is_list and meanline:
+                ax[i].axhline(np.mean(df[col]), color='r', linestyle='-', linewidth=1)
 
         if titles:
             ax[i].set_title(titles[i])
@@ -61,4 +67,5 @@ def subplot_dist(df, kind='dist', cols=None, titles=None, xlabels=None, ylabels=
 
 
 # print(df.head())
-subplot_dist(df, meanline=True, medianline=True)
+subplot_dist(df, cols=[['sepal length (cm)', 'petal length (cm)'],
+                       'sepal width (cm)'], kind='box', meanline=True)
