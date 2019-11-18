@@ -8,7 +8,6 @@ import sklearn.metrics as skm
 
 data = skds.load_diabetes()
 df = pd.DataFrame(data.data, columns=data.feature_names)
-target = pd.DataFrame(data.target)
 print(df.head())
 print()
 
@@ -16,6 +15,7 @@ print()
 # you can get a list of feature names with the following code, before passing
 # it to the DataFrame as a list of columns:
 # features = [col for col in df.columns if col != 'target']
+target = pd.DataFrame(data.target)
 # We use [:, np.newaxis] in this case to add a y axis to the output to make it
 # a 2d array so it can be accepted by the sklm.LinearRegression() later.
 X = df['bmi'][:, np.newaxis]
