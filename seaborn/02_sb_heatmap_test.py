@@ -19,9 +19,13 @@ corr = df.corr()
 mask = np.array(corr)
 # Sets the upper triangle above the diagonal in the array to False.
 mask[np.tril_indices_from(mask)] = False
-sb.set(font_scale=1.1)
+sb.set(font_scale=1)
+# sb.heatmap(data, vmin=None, vmax=None, cmap=None, center=None, robust=False,
+# annot=None, fmt='.2g', annot_kws=None, linewidths=0, linecolor='white',
+# cbar=True, cbar_kws=None, cbar_ax=None, square=False, xticklabels='auto',
+# yticklabels='auto', mask=None, ax=None, **kwargs)
 # mask removes the upper triangle of the heatmap.
-sb.heatmap(corr, cmap='Greens', mask=mask, annot=True, annot_kws={"size": 20}, lw=0.5)
+sb.heatmap(corr, cmap='Greens', mask=mask, annot=True, annot_kws={"size": 15}, lw=0.5)
 # Corrects the heatmap for later versions of matplotlib.
 bottom, top = ax.get_ylim()
 ax.set_ylim(bottom+0.5, top-0.5)
