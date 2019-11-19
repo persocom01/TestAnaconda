@@ -11,6 +11,8 @@ import sklearn.metrics as skm
 
 data = skds.load_diabetes()
 df = pd.DataFrame(data.data, columns=data.feature_names)
+# Doesn't do anything in this case but common to simplify column names.
+df.columns = [x.lower().replace(' ', '_') for x in df.columns]
 print(df.head())
 print()
 

@@ -23,8 +23,9 @@ export_path = r'.\datasets\SacramentocrimeJanuary2006.xlsx'
 # labels line if you just put skiprows=1.
 # skipfooter=int determines the number of rows from the bottom to skip.
 # na_filter=True makes the 'NA' string read as nan in the DataFrame. This can
-# cause problems, such as when 'NA' actually means North America, so in cases
-# set na_filter=False.
+# cause problems, such as when 'NA' actually means North America. To detect
+# real nan values while keeping the string NA intact, set:
+# keep_default_na=False, na_values=['']
 # There are many various other kwargs not discussed here for verbosity.
 # pandas accepts other datatypes, including:
 # pd.read_excel('xls or xlsx')
