@@ -7,6 +7,7 @@ data = {'a': np.arange(50),
 data['b'] = data['a'] + 10 * np.random.randn(50)
 data['d'] = np.abs(data['d']) * 100
 
+# ax.scatter(x, y, s=None, c=None, marker=None, cmap=None, norm=None, vmin=None, vmax=None, alpha=None, linewidths=None, verts=None, edgecolors=None, *, plotnonfinite=False, data=None, **kwargs)[source]
 plt.scatter('a', 'b', c='c', s='d', data=data)
 plt.xlabel('entry a')
 plt.ylabel('entry b')

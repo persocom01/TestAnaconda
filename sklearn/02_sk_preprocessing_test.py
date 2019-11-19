@@ -3,8 +3,10 @@ import pandas as pd
 import sklearn.preprocessing as skpp
 import sklearn.compose as skc
 
-import_path = r'.\datasets\drinks.csv'
+# Use this command if using Jupyter notebook to plot graphs inline.
+# %matplotlib inline
 
+import_path = r'.\datasets\drinks.csv'
 data = pd.read_csv(import_path, na_filter=False)
 data.pop('country')
 df = pd.DataFrame(data)
@@ -30,6 +32,8 @@ ct = skc.ColumnTransformer(
      # variables on a scale of +- std deviations about the mean.
      ('std_scaler', skpp.StandardScaler(), ['spirit_servings'])],
     remainder='passthrough')
+# If a warning occurs, set:
+# pd.options.mode.chained_assignment = None
 df[features] = ct.fit_transform(df[features])
 print('MinMaxScaler beer and StandardScaler spirits:')
 print(df.head())

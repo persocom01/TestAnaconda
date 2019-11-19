@@ -1,6 +1,9 @@
 import pandas as pd
 import sklearn.datasets as skds
 
+# Use this command if using Jupyter notebook to plot graphs inline.
+# %matplotlib inline
+
 # sklarn.datasets comes with a few small standard datasets:
 # skds.load_boston() boston house-prices dataset(regression).
 # skds.load_iris() iris dataset(classification).
@@ -17,6 +20,9 @@ print(data.keys())
 # The most important attributes are data, target, and feature_names, which
 # are used to initialize the DataFrame and test models.
 df = pd.DataFrame(data.data, columns=data.feature_names)
+# Some datasets also have a target_names attribute, but it may not be the
+# target column names, but rather the names for the target numerical
+# categories.
 target = pd.DataFrame(data.target)
 
 print('data:')

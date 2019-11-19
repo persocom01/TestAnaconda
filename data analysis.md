@@ -41,3 +41,8 @@ For 99% confidence, use 2.576.
 p value is the probability of a data distribution occurring naturally given the null hypothesis is true.
 
 A model with inputs over time t is considered usable over the next t/3 or t/5 periods. It gets more and more inaccurate as time passes, in what is called model decay.
+
+model choice:
+1. speed - the time needed by the model to process data and make predictions.
+2. explainability - whether the model can be easily explained.
+3. performance - how accurate the model is.
