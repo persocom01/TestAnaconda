@@ -119,11 +119,17 @@ print('explained variance score:', round(
 print('R**2:', round(skm.r2_score(y_test, y_hat), 2))
 print()
 
+
+# Adj r2 = 1-(1-R2)*(n-1)/(n-p-1) where n=sample_size and p=number_of_x_vars.
+def adj_r2(X, y, y_hat):
+    return 1 - (1-skm.r2_score(y, y_hat))*(len(y)-1)/(len(y)-X.shape[1]-1)
+
+
 # Plot the single x variable linear regression graph.
 # fig, ax = plt.subplots(figsize=(12, 7.5))
 # ax.plot([], [], ' ', label=r'$R^2 = $' +
-#         f'{round(skm.r2_score(y_test, y_hat), 2)}')
-# ax.scatter(X_test, y_test, alpha=0.7, label='test values')
+#         f'{round(adj_r2(X_test, y_test, y_hat), 2)}')
+# ax.scatter(X_test, y_test, alpha=0.7, label='test set y values')
 # ax.plot(X_test, y_hat, color='g', alpha=0.7, label='linear regression line')
 # ax.legend()
 #
@@ -132,8 +138,11 @@ print()
 
 # Plot the predicted vs actual y graph for multiple x value linear regression.
 fig, ax = plt.subplots(figsize=(12, 7.5))
-ax.plot([], [], ' ', label=r'$R^2 = $' +
-        f'{round(skm.r2_score(y_test, y_hat), 2)}')
-ax.scatter(y_hat, y_test, alpha=0.7, label='predicted vs actual y')
-ax.plot([0, 1], [0, 1], transform=ax.transAxes, color='g', alpha=0.7, label='correlation line')
+ax.plot([], [], ' ', label=r'adj $R^2 = $' +
+        f'{round(adj_r2(X_test, y_test, y_hat), 2)}')
+ax.scatter(y_hat, y_test, alpha=0.7, label='test set y values')
+ax.plot(y_hat, y_hat, color='g', alpha=0.7, label='predicted y values')
 ax.legend()
+
+for i, y_h in enumerate(y_hat):
+    ax.plot([y_hat[i], y_hat[i]], [y_h, y_test[i]], color='r', alpha=0.7)
