@@ -23,7 +23,9 @@ print()
 target = pd.DataFrame(data.target)
 # We use [:, np.newaxis] in this case to add a y axis to the output to make it
 # a 2d array so it can be accepted by the sklm.LinearRegression() later.
-X = df['bmi'][:, np.newaxis]
+# X = df['bmi'][:, np.newaxis]
+# Multiple x values.
+X = df
 # Use df.values or np.array() to avoid problems later.
 y = target.values
 
@@ -42,7 +44,7 @@ y = target.values
 # where the proportion of 'age' below 0 is the same in the training and
 # testing split.
 X_train, X_test, y_train, y_test = skms.train_test_split(
-    X, y, stratify=(df['age'] < 0))
+    X, y, random_state=1, stratify=(df['age'] < 0))
 print('train:')
 print(X_train[:5])
 print('count:', len(X_train))
@@ -73,7 +75,8 @@ print()
 # normalize=True will deduct the mean from each value and divide it by the
 # l2 norm, which is the root of the sum of the squares of all values.
 # lr.fit(self, X, y, sample_weight=None)
-lm = sklm.LinearRegression().fit(X_train, y_train)
+lm = sklm.LinearRegression()
+lm.fit(X_train, y_train)
 
 # lm.predict(self, X) returns y values predicted by the model for input values
 # of X. We normally pass it the X_test values because we want to see how close
@@ -116,13 +119,21 @@ print('explained variance score:', round(
 print('R**2:', round(skm.r2_score(y_test, y_hat), 2))
 print()
 
-# Plot the graph.
+# Plot the single x variable linear regression graph.
+# fig, ax = plt.subplots(figsize=(12, 7.5))
+# ax.plot([], [], ' ', label=r'$R^2 = $' +
+#         f'{round(skm.r2_score(y_test, y_hat), 2)}')
+# ax.scatter(X_test, y_test, alpha=0.7, label='test values')
+# ax.plot(X_test, y_hat, color='g', alpha=0.7, label='linear regression line')
+# ax.legend()
+#
+# for i, y_h in enumerate(y_hat):
+#     ax.plot([X_test[i], X_test[i]], [y_h, y_test[i]], color='r', alpha=0.7)
+
+# Plot the predicted vs actual y graph for multiple x value linear regression.
 fig, ax = plt.subplots(figsize=(12, 7.5))
 ax.plot([], [], ' ', label=r'$R^2 = $' +
         f'{round(skm.r2_score(y_test, y_hat), 2)}')
-ax.scatter(X_test, y_test, alpha=0.7, label='test values')
-ax.plot(X_test, y_hat, color='g', alpha=0.7, label='linear regression line')
+ax.scatter(y_hat, y_test, alpha=0.7, label='predicted vs actual y')
+ax.plot([0, 1], [0, 1], transform=ax.transAxes, color='g', alpha=0.7, label='correlation line')
 ax.legend()
-
-for i, y in enumerate(y_hat):
-    ax.plot([X_test[i], X_test[i]], [y, y_test[i]], color='r', alpha=0.7)
