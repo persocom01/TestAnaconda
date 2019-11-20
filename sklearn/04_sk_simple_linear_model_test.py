@@ -27,20 +27,6 @@ X = df['bmi'][:, np.newaxis]
 # Use df.values or np.array() to avoid problems later.
 y = target.values
 
-# skms.cross_val_score(estimator, X, y=None, groups=None, scoring=None,
-# cv=’warn’, n_jobs=None, verbose=0, fit_params=None, pre_dispatch=‘2*n_jobs’,
-# error_score=’raise-deprecating’) returns a list of length=cv of the R**2
-# scores when the estimator is applied with X features to predict the target y.
-# It is the first line of defense when choosing or rejecting a model with
-# X features. If the variation in R**2 is bad, perhaps above 0.5 in difference,
-# either the model or the feature composition of X may need to be changed.
-# cv=int determines the number of sections to divide the data into. For cv=5,
-# the data is divided into 5 equal parts, and a model train on 4 parts is
-# tested on the last part.
-print('cross_val_score:')
-print(skms.cross_val_score(sklm.LinearRegression(), X, y, cv=5))
-print()
-
 # skms.train_test_split(arr_features, arr_target, test_size=0.25, **options)
 # options accepts a number of arguments, including:
 # test_size=float_int if given an int, it takes it as the absolute number of
@@ -64,6 +50,20 @@ print()
 print('test:')
 print(X_test[:5])
 print('count:', len(X_test))
+print()
+
+# skms.cross_val_score(estimator, X, y=None, groups=None, scoring=None,
+# cv=’warn’, n_jobs=None, verbose=0, fit_params=None, pre_dispatch=‘2*n_jobs’,
+# error_score=’raise-deprecating’) returns a list of length=cv of the R**2
+# scores when the estimator is applied with X features to predict the target y.
+# It is the first line of defense when choosing or rejecting a model with
+# X features. If the variation in R**2 is bad, perhaps above 0.5 in difference,
+# either the model or the feature composition of X may need to be changed.
+# cv=int determines the number of sections to divide the data into. For cv=5,
+# the data is divided into 5 equal parts, and a model train on 4 parts is
+# tested on the last part.
+print('cross_val_score:')
+print(skms.cross_val_score(sklm.LinearRegression(), X_train, y_train, cv=5))
 print()
 
 # Demonstrates training a model on test data.

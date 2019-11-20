@@ -47,7 +47,8 @@ print(df[~(df['B'] == 3)])
 print(df[df['B'].between(1, 3)])
 print()
 
-# Add rows using df.append(DataFrame, sort=True).
+# df.append(self, other, ignore_index=False, verify_integrity=False, sort=None)
+# adds rows.
 # sort=True might be changed to sort=False in future versions, so it's best to
 # specify.
 # The new rows will automatically be allocated to their respective columns if
@@ -60,7 +61,8 @@ print('append:')
 print(df)
 print()
 
-# Delete rows using df.drop(row_label, axis=0). If multiple rows have the same
+# df.drop(self, labels=None, axis=0, index=None, columns=None, level=None,
+# inplace=False, errors='raise') deletes rows. If multiple rows have the same
 # label,they will all be dropped.
 df = df.drop('five')
 print('drop:')
