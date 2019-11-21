@@ -18,8 +18,8 @@ df['cancer'] = data.target
 print(df.head())
 print()
 
+# One of the easiest ways to eliminate features is through a heatmap.
 fig, ax = plt.subplots(figsize=(12, 7.5))
-# df.corr(self, method='pearson', min_periods=1)
 sb.heatmap(df.corr(), cmap='PiYG', annot=False)
 # Corrects the heatmap for later versions of matplotlib.
 bottom, top = ax.get_ylim()
