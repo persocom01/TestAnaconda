@@ -37,18 +37,19 @@ ct = skc.ColumnTransformer(
      # variables on a scale of +- std deviations about the mean.
      ('ss', skpp.StandardScaler(), ['spirit_servings'])],
     remainder='passthrough')
-# If a warning occurs, set:
-pd.options.mode.chained_assignment = None
-X_train[features] = ct.fit_transform(X_train[features])
+# A warning occurs if you try an overwrite the original DataFrame. It doesn't
+# do anything, but to make it go away set:
+# pd.options.mode.chained_assignment = None
+X_train_ct = pd.DataFrame(ct.fit_transform(X_train), columns=features)
 # The test set will be transformed but not fitted.
-X_test[features] = ct.transform(X_test[features])
+X_test_ct = pd.DataFrame(ct.fit_transform(X_test), columns=features)
 print('MinMaxScaler beer and StandardScaler spirits:')
-print(X_train.head())
+print(X_train_ct.head())
 
 # skpp.Normalizer(norm=’l2’, copy=True) scales the variables such that the sum
 # of all squares in the row=1. I'm not sure what this is used for.
 norm = skpp.Normalizer()
-X_train[features] = norm.fit_transform(X_train[features])
+X_train_norm = pd.DataFrame(norm.fit_transform(X_train), columns=features)
 print('normalizer:')
-print(X_train.values[:3])
+print(X_train_norm.values[:3])
 print()
