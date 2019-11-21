@@ -26,6 +26,8 @@ print()
 
 # Demonstrates adding columns together.
 # Addition is not the only mathematical operation available.
+# For conditional mapping, use np.where:
+# data['new_col'] = np.where(data['col1'] == data['col2'], value_if_true, value_if_false)
 df['sum'] = df['col1'] + df['col2'] + df['col3']
 print('adding cols together:')
 print(df)
