@@ -3,7 +3,6 @@ import pandas as pd
 import seaborn as sb
 import matplotlib.pyplot as plt
 import sklearn.datasets as skds
-import statsmodels.stats.outliers_influence as smsoi
 import sklearn.preprocessing as skpp
 import sklearn.feature_selection as skfs
 import sklearn.decomposition as skd
@@ -42,15 +41,9 @@ y = data.target
 
 def vif_feature_select(df, max_score=5.0, n_features=-1):
     features = df.columns
-    # smsoi.variance_inflation_factor expects a column of constants or it will
-    # get inaccurate results.
-    df = df.assign(const=1)
-    vif_factor = [smsoi.variance_inflation_factor(df.values, i) for i in range(len(features) + 1)]
-    # Delete the constant column and its vif.
-    del df['const']
-    del vif_factor[-1]
-    max_vif_index = np.argmax(vif_factor)
-    if n_features < 0 and vif_factor[max_vif_index] >= max_score:
+    vifs = np.linalg.inv(df.corr().values).diagonal()
+    max_vif_index = np.argmax(vifs)
+    if n_features < 0 and vifs[max_vif_index] >= max_score:
         del df[features[max_vif_index]]
         return vif_feature_select(df, max_score, n_features)
     elif n_features >= 0 and len(features) > n_features:
