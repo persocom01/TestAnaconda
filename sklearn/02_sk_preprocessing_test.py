@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import sklearn.model_selection as skms
 import sklearn.preprocessing as skpp
@@ -37,8 +38,9 @@ ct = skc.ColumnTransformer(
      # variables on a scale of +- std deviations about the mean.
      ('ss', skpp.StandardScaler(), ['spirit_servings'])],
     remainder='passthrough')
-# A warning occurs if you try an overwrite the original DataFrame. It doesn't
-# do anything, but to make it go away set:
+# A warning occurs if you try an overwrite the original DataFrame like:
+# X_train['features'] = ct.fit_transform(X_train)
+# To make it go away set:
 # pd.options.mode.chained_assignment = None
 X_train_ct = pd.DataFrame(ct.fit_transform(X_train), columns=features)
 # The test set will be transformed but not fitted.
@@ -52,4 +54,36 @@ norm = skpp.Normalizer()
 X_train_norm = pd.DataFrame(norm.fit_transform(X_train), columns=features)
 print('normalizer:')
 print(X_train_norm.values[:3])
+print()
+
+
+def ordinal_scale(df, mapping=None, start_num=0):
+    '''
+    A convenience mapping function that accepts a DataFrame and returns it with
+    each column defined as keys in the mapping dictionary mapped to its values.
+    '''
+    if mapping:
+        cols = mapping.keys()
+        for col in cols:
+            df[col] = df[col].map({k: i+start_num for i, k in enumerate(mapping[col])})
+            if df[col].isnull().sum() > 0:
+                print(f'WARNING: not all values in column "{col}" were mapped.')
+    else:
+        cols = df.columns
+        ord = skpp.OrdinalEncoder()
+        df[cols] = ord.fit_transform(df[cols])
+    return df
+
+
+data = {
+    'name': ['apple', 'banana', 'orange', 'apple', 'orange'],
+    'origin': ['usa', 'brazil', 'china', 'china', 'australia'],
+    'supply': [361, 851, 418, 439, 279],
+    'demand': [264, 833, 516, 371, 194]
+}
+df2 = pd.DataFrame(data)
+m = {'name': ['apple', 'orange'], 'origin': ['australia', 'usa', 'brazil', 'china']}
+ordinal_scale(df2, m)
+print('ordinal encode:')
+print(df2)
 print()

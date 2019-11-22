@@ -1,5 +1,6 @@
 # Demonstrates how to load data from files in pandas.
 import pandas as pd
+import requests
 
 # If you wish to open a file dialog option instead, use:
 # filedialog.askopenfilename()
@@ -40,3 +41,11 @@ print(df.head())
 # Set index=False to avoid the unnamed:0 column that appears if you read the
 # file again. Alternatively, set index_col=[0] when reading the file.
 df.to_excel(export_path, index=False)
+
+# Demonstrates how to use requests and pandas together.
+r = requests.get(
+    'https://swapi.co/api/people/?format=json&search=obi')
+if r.status_code == 200:
+    obi = r.json()
+df = pd.DataFrame([obi])
+print(df)

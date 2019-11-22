@@ -33,13 +33,21 @@ features = data.feature_names
 X = df[features]
 y = data.target
 
-# Variables with the highest VIF scores should be eliminated unil the VIF
+# VIF, or Variance Inflation Factor, is a measure of colinearity among
+# predictor variables within a multiple regression. It is used to eliminate
+# features that are highly correlated with each other.
+# Variables with the highest VIF scores should be eliminated until the VIF
 # scores are below between 10 to 2.5, depending on how conservative you want
 # to be. This function either takes a VIF score to eliminate features until,
 # or the number of features you want returned.
 
 
 def vif_feature_select(df, max_score=5.0, n_features=-1):
+    '''
+    Takes a DataFrame and returns it after recursively eliminating columns
+    with the highest VIF scores until either the remainder have a VIF score
+    of less than max_score, or there n_features or less left.
+    '''
     features = df.columns
     vifs = np.linalg.inv(df.corr().values).diagonal()
     max_vif_index = np.argmax(vifs)
