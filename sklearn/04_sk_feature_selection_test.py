@@ -42,7 +42,6 @@ y = data.target
 
 def vif_feature_select(df, max_score=5.0, n_features=-1):
     features = df.columns
-    print(len(features))
     vif_factor = [smsoi.variance_inflation_factor(df.values, i) for i in range(len(features))]
     max_vif_index = np.argmax(vif_factor)
     if n_features < 0 and vif_factor[max_vif_index] >= max_score:
@@ -54,8 +53,12 @@ def vif_feature_select(df, max_score=5.0, n_features=-1):
     else:
         return df
 
+
 print('VIF:')
-X = vif_feature_select(X, )
+X = vif_feature_select(X, 0, 10)
+features = X.columns
+print(features)
+print()
 
 
 X_train, X_test, y_train, y_test = skms.train_test_split(X, y, random_state=1, stratify=data.target)
