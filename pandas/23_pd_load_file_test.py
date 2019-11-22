@@ -37,4 +37,6 @@ print(df.head())
 
 # Demonstrates writing the file to excel.
 # df.to_excel(self, path, sheet_name='Sheet1')
-df.to_excel(export_path)
+# Set index=False to avoid the unnamed:0 column that appears if you read the
+# file again. Alternatively, set index_col=[0] when reading the file.
+df.to_excel(export_path, index=False)
