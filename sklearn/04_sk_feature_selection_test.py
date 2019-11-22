@@ -3,6 +3,7 @@ import pandas as pd
 import seaborn as sb
 import matplotlib.pyplot as plt
 import sklearn.datasets as skds
+import statsmodels.stats.outliers_influence as smsoi
 import sklearn.preprocessing as skpp
 import sklearn.feature_selection as skfs
 import sklearn.decomposition as skd
@@ -21,8 +22,7 @@ print()
 # One of the easiest ways to eliminate features is through a heatmap.
 # A correlation of 0.2 and below is considered low. 0.75 and above is
 # considered high. Features with high correlations between themselves need to
-# be eliminated using VIF. Variables with the highest VIF scores should be
-# eliminated unil the VIF scores are below 5.0.
+# be eliminated using VIF.
 fig, ax = plt.subplots(figsize=(12, 7.5))
 sb.heatmap(df.corr(), cmap='PiYG', annot=False)
 # Corrects the heatmap for later versions of matplotlib.
@@ -33,6 +33,30 @@ ax.set_ylim(bottom+0.5, top-0.5)
 features = data.feature_names
 X = df[features]
 y = data.target
+
+# Variables with the highest VIF scores should be eliminated unil the VIF
+# scores are below between 10 to 2.5, depending on how conservative you want
+# to be. This function either takes a VIF score to eliminate features until,
+# or the number of features you want returned.
+
+
+def vif_feature_select(df, max_score=5.0, n_features=-1):
+    features = df.columns
+    print(len(features))
+    vif_factor = [smsoi.variance_inflation_factor(df.values, i) for i in range(len(features))]
+    max_vif_index = np.argmax(vif_factor)
+    if n_features < 0 and vif_factor[max_vif_index] >= max_score:
+        del df[features[max_vif_index]]
+        return vif_feature_select(df, max_score, n_features)
+    elif n_features >= 0 and len(features) > n_features:
+        del df[features[max_vif_index]]
+        return vif_feature_select(df, max_score, n_features)
+    else:
+        return df
+
+print('VIF:')
+X = vif_feature_select(X, )
+
 
 X_train, X_test, y_train, y_test = skms.train_test_split(X, y, random_state=1, stratify=data.target)
 
