@@ -19,6 +19,10 @@ print(df.head())
 print()
 
 # One of the easiest ways to eliminate features is through a heatmap.
+# A correlation of 0.2 and below is considered low. 0.75 and above is
+# considered high. Features with high correlations between themselves need to
+# be eliminated using VIF. Variables with the highest VIF scores should be
+# eliminated unil the VIF scores are below 5.0.
 fig, ax = plt.subplots(figsize=(12, 7.5))
 sb.heatmap(df.corr(), cmap='PiYG', annot=False)
 # Corrects the heatmap for later versions of matplotlib.
