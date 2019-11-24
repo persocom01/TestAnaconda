@@ -40,25 +40,38 @@ y = data.target
 # scores are below between 10 to 2.5, depending on how conservative you want
 # to be. This function either takes a VIF score to eliminate features until,
 # or the number of features you want returned.
+# It seems to give funny results if the variables contain string values.
+# Recommend separating the string columns from the rest before attempting
+# to do this.
 
 
-def vif_feature_select(df, max_score=5.0, n_features=-1):
+def vif_feature_select(df, max_score=5.0, n_features=-1, inplace=False, drop_list=False, drops=None):
     '''
     Takes a DataFrame and returns it after recursively eliminating columns
     with the highest VIF scores until either the remainder have a VIF score
-    of less than max_score, or there n_features or less left.
+    of less than max_score, or there are n_features left.
     '''
+    if not inplace:
+        df = df.copy()
+    if not drops:
+        drops = []
     features = df.columns
     vifs = np.linalg.inv(df.corr().values).diagonal()
     max_vif_index = np.argmax(vifs)
     if n_features < 0 and vifs[max_vif_index] >= max_score:
+        drops.append(features[max_vif_index])
         del df[features[max_vif_index]]
-        return vif_feature_select(df, max_score, n_features)
+        return vif_feature_select(df, max_score, n_features, inplace, drop_list, drops)
     elif n_features >= 0 and len(features) > n_features:
+        drops.append(features[max_vif_index])
         del df[features[max_vif_index]]
-        return vif_feature_select(df, max_score, n_features)
+        return vif_feature_select(df, max_score, n_features, inplace, drop_list, drops)
     else:
-        return df
+        if drop_list:
+            print('returning list of dropped features.')
+            return drops
+        else:
+            return df
 
 
 print('VIF:')
@@ -74,7 +87,8 @@ bottom, top = ax.get_ylim()
 ax.set_ylim(bottom+0.5, top-0.5)
 # plt.show()
 
-X_train, X_test, y_train, y_test = skms.train_test_split(X, y, random_state=1, stratify=data.target)
+X_train, X_test, y_train, y_test = skms.train_test_split(
+    X, y, random_state=1, stratify=data.target)
 
 # skfs.SelectKBest(score_func=<function f_classif>, k=10)
 # k sets the ending number of desired features.
@@ -84,9 +98,11 @@ X_train, X_test, y_train, y_test = skms.train_test_split(X, y, random_state=1, s
 skb = skfs.SelectKBest(score_func=skfs.chi2, k=5)
 skb.fit(X_train, y_train)
 # Preserves the column names compared to a straight skb.fit_transform()
-selected_cols = [v for i, v in enumerate(X_train.columns) if i in skb.get_support(indices=True)]
+selected_cols = [v for i, v in enumerate(
+    X_train.columns) if i in skb.get_support(indices=True)]
 X_train_chi2 = X_train[selected_cols]
-ranking = [{v: k for k, v in enumerate(np.sort(skb.scores_)[::-1])}.get(r) for r in skb.scores_]
+ranking = [{v: k for k, v in enumerate(
+    np.sort(skb.scores_)[::-1])}.get(r) for r in skb.scores_]
 print('chi2 feature selection:')
 print('feature ranking (0 being best):', ranking)
 print(X_train_chi2.columns)
@@ -99,7 +115,8 @@ print()
 lm = sklm.LinearRegression()
 rfe = skfs.RFE(lm, 5)
 rfe.fit(X_train, y_train)
-selected_cols = [v for i, v in enumerate(X_train.columns) if i in rfe.get_support(indices=True)]
+selected_cols = [v for i, v in enumerate(
+    X_train.columns) if i in rfe.get_support(indices=True)]
 X_train_rfe = X_train[selected_cols]
 print('recursive feature elimination:')
 print('feature ranking (1 being best):', rfe.ranking_)
@@ -111,7 +128,8 @@ print()
 # Principal component analysis.
 # n_components determines number of features to keep.
 ss = skpp.StandardScaler()
-X_train_ss = pd.DataFrame(ss.fit_transform(X_train[features]), columns=features)
+X_train_ss = pd.DataFrame(ss.fit_transform(
+    X_train[features]), columns=features)
 n_comp = 5
 pca = skd.PCA(n_components=n_comp)
 pca.fit(X_train_ss)

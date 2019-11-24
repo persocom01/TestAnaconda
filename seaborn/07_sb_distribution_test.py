@@ -22,12 +22,15 @@ def subplot_dist(df, kind='dist', cols=None, titles=None, xlabels=None, ylabels=
     # is not given.
     if not cols:
         cols = []
-        for col in df.columns:
-            try:
-                df[col] = pd.to_numeric(df[col])
-                cols.append(col)
-            except ValueError:
-                pass
+        if kind == 'count':
+            cols = [x for x in df.select_dtypes(include='object').columns]
+        else:
+            for col in df.columns:
+                try:
+                    df[col] = pd.to_numeric(df[col])
+                    cols.append(col)
+                except ValueError:
+                    pass
 
     # Sets number of figure rows based on number of DataFrame columns.
     if len(cols) > 4:
@@ -49,14 +52,20 @@ def subplot_dist(df, kind='dist', cols=None, titles=None, xlabels=None, ylabels=
         if kind == 'dist':
             sb.distplot(df[col], ax=ax[i], **kwargs)
             if meanline:
-                ax[i].axvline(np.mean(df[col]), color='r', linestyle='-', linewidth=1)
+                ax[i].axvline(np.mean(df[col]), color='r',
+                              linestyle='-', linewidth=1)
             if medianline:
-                ax[i].axvline(np.median(df[col]), color='purple', linestyle='--', linewidth=1)
+                ax[i].axvline(np.median(df[col]), color='purple',
+                              linestyle='--', linewidth=1)
         # Boxplotting option.
         elif kind == 'box':
             sb.boxplot(data=df[col], ax=ax[i], **kwargs)
             if not is_list and meanline:
-                ax[i].axhline(np.mean(df[col]), color='r', linestyle='-', linewidth=1)
+                ax[i].axhline(np.mean(df[col]), color='r',
+                              linestyle='-', linewidth=1)
+        # Countplot option for nominal variables.
+        elif kind == 'count':
+            sb.countplot(x=col, data=df, ax=ax[i], **kwargs)
 
         if titles:
             ax[i].set_title(titles[i])

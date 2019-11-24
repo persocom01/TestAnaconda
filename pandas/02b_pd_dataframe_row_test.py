@@ -64,7 +64,7 @@ print()
 # df.drop(self, labels=None, axis=0, index=None, columns=None, level=None,
 # inplace=False, errors='raise') deletes rows. If multiple rows have the same
 # label,they will all be dropped.
-df = df.drop('five')
+df = df.drop(['four', 'five'])
 print('drop:')
 print(df)
 print()
