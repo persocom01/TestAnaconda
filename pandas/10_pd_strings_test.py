@@ -60,7 +60,7 @@ print()
 # will always be a 1 in female, and vice, versa.
 # pd.get_dummies(data, prefix=None, prefix_sep='_', dummy_na=False,
 # columns=None, sparse=False, drop_first=False, dtype=None) is a more in depth
-#  function.
+# function.
 print('one hot vectors:')
 df = s.str.get_dummies(sep='|')
 print(df)
