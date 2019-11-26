@@ -2,17 +2,19 @@ import numpy as np
 import pandas as pd
 import seaborn as sb
 import matplotlib.pyplot as plt
-import sklearn.datasets as skds
-import sklearn.preprocessing as skpp
-import sklearn.feature_selection as skfs
-import sklearn.decomposition as skd
-import sklearn.model_selection as skms
-import sklearn.linear_model as sklm
+from sklearn.datasets import load_breast_cancer
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import chi2
+from sklearn.feature_selection import RFE
 
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
 
-data = skds.load_breast_cancer()
+data = load_breast_cancer()
 df = pd.DataFrame(data.data, columns=data.feature_names)
 df['cancer'] = data.target
 print(df.head())
@@ -87,15 +89,14 @@ bottom, top = ax.get_ylim()
 ax.set_ylim(bottom+0.5, top-0.5)
 # plt.show()
 
-X_train, X_test, y_train, y_test = skms.train_test_split(
-    X, y, random_state=1, stratify=data.target)
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1, stratify=data.target)
 
-# skfs.SelectKBest(score_func=<function f_classif>, k=10)
+# SelectKBest(score_func=<function f_classif>, k=10)
 # k sets the ending number of desired features.
-# skfs.chi2(X, y) is the chi2 test used to compare a categorical y with non
+# chi2(X, y) is the chi2 test used to compare a categorical y with non
 # zero features x.
 # Use skb.scores_ to see the actual chi2 score.
-skb = skfs.SelectKBest(score_func=skfs.chi2, k=5)
+skb = SelectKBest(score_func=chi2, k=5)
 skb.fit(X_train, y_train)
 # Preserves the column names compared to a straight skb.fit_transform()
 selected_cols = [v for i, v in enumerate(
@@ -108,12 +109,12 @@ print('feature ranking (0 being best):', ranking)
 print(X_train_chi2.columns)
 print()
 
-# skfs.RFE(estimator, n_features_to_select=None, step=1, verbose=0) performs
+# RFE(estimator, n_features_to_select=None, step=1, verbose=0) performs
 # recursive feature elimination of features.
 # step determines the number of features to remove at each iteration. If step
 # is between 0.0 and 1.0, it is taken as the proportion of total features.
-lm = sklm.LinearRegression()
-rfe = skfs.RFE(lm, 5)
+lm = LinearRegression()
+rfe = RFE(lm, 5)
 rfe.fit(X_train, y_train)
 selected_cols = [v for i, v in enumerate(
     X_train.columns) if i in rfe.get_support(indices=True)]
@@ -123,14 +124,14 @@ print('feature ranking (1 being best):', rfe.ranking_)
 print(X_train_rfe.columns)
 print()
 
-# skd.PCA(n_components=None, copy=True, whiten=False, svd_solver=’auto’,
+# PCA(n_components=None, copy=True, whiten=False, svd_solver=’auto’,
 # tol=0.0, iterated_power=’auto’, random_state=None)
 # Principal component analysis.
 # n_components determines number of features to keep.
-ss = skpp.StandardScaler()
+ss = StandardScaler()
 X_train_ss = pd.DataFrame(ss.fit_transform(X_train[features]), columns=features)
 n_comp = 5
-pca = skd.PCA(n_components=n_comp)
+pca = PCA(n_components=n_comp)
 pca.fit(X_train_ss)
 most_important = [np.abs(pca.components_[i]).argmax() for i in range(n_comp)]
 most_important_names = [features[most_important[i]] for i in range(n_comp)]

@@ -1,15 +1,18 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import sklearn.datasets as skds
-import sklearn.preprocessing as skpp
-import sklearn.model_selection as skms
-import sklearn.linear_model as sklm
+from sklearn.datasets import load_diabetes
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_score
+from sklearn.linear_model import RidgeCV
+from sklearn.linear_model import LassoCV
+from sklearn.linear_model import ElasticNetCV
 
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
 
-data = skds.load_diabetes()
+data = load_diabetes()
 df = pd.DataFrame(data.data, columns=data.feature_names)
 df.columns = [x.lower().replace(' ', '_') for x in df.columns]
 print(df.head())
@@ -20,24 +23,24 @@ target = pd.DataFrame(data.target)
 X = df
 y = target.values.ravel()
 
-X_train, X_test, y_train, y_test = skms.train_test_split(X, y, random_state=1)
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 
 # Using any of the special linear regressions requires the features to be
 # scaled. You should also remove features that are highly correlated with each
 # other whichw as not done here.
-ss = skpp.StandardScaler()
+ss = StandardScaler()
 X_train_ss = pd.DataFrame(ss.fit_transform(X_train[features]), columns=features)
 
-# sklm.RidgeCV(alphas=(0.1, 1.0, 10.0), fit_intercept=True, normalize=False,
+# RidgeCV(alphas=(0.1, 1.0, 10.0), fit_intercept=True, normalize=False,
 # scoring=None, cv=None, gcv_mode=None, store_cv_values=False)
-# sklm.RidgeCV.coef_ returns the coefficients for each feature.
-# sklm.RidgeCV.intercept_ returns the y intercept.
-# sklm.RidgeCV.alpha_ returns the regularization parameter.
+# RidgeCV.coef_ returns the coefficients for each feature.
+# RidgeCV.intercept_ returns the y intercept.
+# RidgeCV.alpha_ returns the regularization parameter.
 # The ridge regression is the normal linear regression to use when using a LR
 # for prediction. It is more resistant to multicollinearity than the default
 # LR but it is susceptible to outliers.
-ridge = sklm.RidgeCV(alphas=np.linspace(.1, 10, 100), cv=5)
-# sklm.LassoCV(eps=0.001, n_alphas=100, alphas=None, fit_intercept=True,
+ridge = RidgeCV(alphas=np.linspace(.1, 10, 100), cv=5)
+# LassoCV(eps=0.001, n_alphas=100, alphas=None, fit_intercept=True,
 # normalize=False, precompute=’auto’, max_iter=1000, tol=0.0001, copy_X=True,
 # cv=’warn’, verbose=False, n_jobs=None, positive=False, random_state=None,
 # selection=’cyclic’)
@@ -48,7 +51,7 @@ ridge = sklm.RidgeCV(alphas=np.linspace(.1, 10, 100), cv=5)
 # has the added advantage of being able to eliminate less important features.
 # For this reason it is used when the number of features is very large and you
 # don't know which are important.
-lasso = sklm.LassoCV(n_alphas=200, cv=5)
+lasso = LassoCV(n_alphas=200, cv=5)
 # ElasticNetCV(l1_ratio=0.5, eps=0.001, n_alphas=100, alphas=None,
 # fit_intercept=True, normalize=False, precompute=’auto’, max_iter=1000,
 # tol=0.0001, cv=’warn’, copy_X=True, verbose=0, n_jobs=None, positive=False,
@@ -56,14 +59,14 @@ lasso = sklm.LassoCV(n_alphas=200, cv=5)
 # A combination of Ridge and Lasso for large datasets.
 # l1_ratio determines how much of Ridge or Lasso to use. 1 is Lasso, 0 is
 # Ridge.
-elastic = sklm.ElasticNetCV(cv=5)
+elastic = ElasticNetCV(cv=5)
 
 # Cross validation phase.
-ridge_scores = skms.cross_val_score(ridge, X_train, y_train, cv=5)
+ridge_scores = cross_val_score(ridge, X_train, y_train, cv=5)
 print('ridge:', ridge_scores.mean())
-lasso_scores = skms.cross_val_score(lasso, X_train, y_train, cv=5)
+lasso_scores = cross_val_score(lasso, X_train, y_train, cv=5)
 print('lasso:', lasso_scores.mean())
-elastic_scores = skms.cross_val_score(elastic, X_train, y_train, cv=5)
+elastic_scores = cross_val_score(elastic, X_train, y_train, cv=5)
 print('elastic:', elastic_scores.mean())
 
 # Model fitting and evaluation.
