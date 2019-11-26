@@ -5,7 +5,6 @@ import sklearn.datasets as skds
 import sklearn.preprocessing as skpp
 import sklearn.model_selection as skms
 import sklearn.linear_model as sklm
-import sklearn.metrics as skm
 
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
@@ -24,7 +23,8 @@ y = target.values.ravel()
 X_train, X_test, y_train, y_test = skms.train_test_split(X, y, random_state=1)
 
 # Using any of the special linear regressions requires the features to be
-# scaled.
+# scaled. You should also remove features that are highly correlated with each
+# other whichw as not done here.
 ss = skpp.StandardScaler()
 X_train_ss = pd.DataFrame(ss.fit_transform(X_train[features]), columns=features)
 
@@ -73,6 +73,7 @@ y_hat = ridge.predict(X_test)
 # Plot that visualizes the effect on the coefficients. Not that obvious unless
 # you use lasso, which makes smaller coefficients zero.
 pd.Series(ridge.coef_, index=features).plot.bar(figsize=(16, 10))
+plt.title('coefficients plot')
 plt.show()
 plt.clf()
 
@@ -93,7 +94,7 @@ plt.clf()
 residuals = y_test - y_hat
 plt.figure(figsize=(16, 10))
 plt.scatter(y_hat, residuals)
-plt.title("residual errors")
+plt.title('residual errors')
 plt.axhline(y=0, color='k', lw=1)
 plt.show()
 plt.close()
