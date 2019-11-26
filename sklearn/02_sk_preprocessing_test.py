@@ -1,8 +1,11 @@
 import numpy as np
 import pandas as pd
-import sklearn.model_selection as skms
-import sklearn.preprocessing as skpp
-import sklearn.compose as skc
+from sklearn.model_selection import train_test_split
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import Normalizer
+from sklearn.preprocessing import OrdinalEncoder
 
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
@@ -20,23 +23,23 @@ print(df.head())
 X = df[features]
 y = df[target]
 
-X_train, X_test, y_train, y_test = skms.train_test_split(X, y)
+X_train, X_test, y_train, y_test = train_test_split(X, y)
 
-# skc.ColumnTransformer(transformers, remainder=’drop’, sparse_threshold=0.3,
+# ColumnTransformer(transformers, remainder=’drop’, sparse_threshold=0.3,
 # n_jobs=None, transformer_weights=None, verbose=False)
 # transformers accepts a list of (trans_name, trans_function, cols) tuples.
 # The cols in which the transformations are to be applied must not overlap.
 # remainder='passthrough' causes the function to return all other columns that
 # were not affected by the transformation instead of dropping them.
-ct = skc.ColumnTransformer(
-    # skpp.MinMaxScaler(feature_range=(0, 1), copy=True) scales variables on
+ct = ColumnTransformer(
+    # MinMaxScaler(feature_range=(0, 1), copy=True) scales variables on
     # range equal to the feature range.
     # copy=True means the new object will not replace the old.
     # Trying to scale a categorical variable will result in a ValueError.
-    [('mms', skpp.MinMaxScaler(feature_range=(0, 10)), ['beer_servings']),
-     # skpp.StandardScaler(copy=True, with_mean=True, with_std=True) scales
+    [('mms', MinMaxScaler(feature_range=(0, 10)), ['beer_servings']),
+     # StandardScaler(copy=True, with_mean=True, with_std=True) scales
      # variables on a scale of +- std deviations about the mean.
-     ('ss', skpp.StandardScaler(), ['spirit_servings'])],
+     ('ss', StandardScaler(), ['spirit_servings'])],
     remainder='passthrough')
 # A warning occurs if you try an overwrite the original DataFrame like:
 # X_train['features'] = ct.fit_transform(X_train)
@@ -48,9 +51,9 @@ X_test_ct = pd.DataFrame(ct.fit_transform(X_test), columns=features)
 print('MinMaxScaler beer and StandardScaler spirits:')
 print(X_train_ct.head())
 
-# skpp.Normalizer(norm=’l2’, copy=True) scales the variables such that the sum
+# Normalizer(norm=’l2’, copy=True) scales the variables such that the sum
 # of all squares in the row=1. I'm not sure what this is used for.
-norm = skpp.Normalizer()
+norm = Normalizer()
 X_train_norm = pd.DataFrame(norm.fit_transform(X_train), columns=features)
 print('normalizer:')
 print(X_train_norm.values[:3])
@@ -70,7 +73,7 @@ def ordinal_scale(df, mapping=None, start_num=0):
                 print(f'WARNING: not all values in column "{col}" were mapped.')
     else:
         cols = df.columns
-        ord = skpp.OrdinalEncoder()
+        ord = OrdinalEncoder()
         df[cols] = ord.fit_transform(df[cols])
     return df
 
