@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import sklearn.datasets as skds
+import sklearn.preprocessing as skpp
 import sklearn.model_selection as skms
 import sklearn.linear_model as sklm
 import sklearn.metrics as skm
@@ -15,11 +16,17 @@ df.columns = [x.lower().replace(' ', '_') for x in df.columns]
 print(df.head())
 print()
 
+features = df.columns
 target = pd.DataFrame(data.target)
 X = df
 y = target.values.ravel()
 
 X_train, X_test, y_train, y_test = skms.train_test_split(X, y, random_state=1)
+
+# Using any of the special linear regressions requires the features to be
+# scaled.
+ss = skpp.StandardScaler()
+X_train_ss = pd.DataFrame(ss.fit_transform(X_train[features]), columns=features)
 
 # sklm.RidgeCV(alphas=(0.1, 1.0, 10.0), fit_intercept=True, normalize=False,
 # scoring=None, cv=None, gcv_mode=None, store_cv_values=False)
@@ -63,7 +70,30 @@ print('elastic:', elastic_scores.mean())
 ridge.fit(X_train, y_train)
 y_hat = ridge.predict(X_test)
 
-pd.Series(ridge.coef_, index=df.columns).plot.bar(figsize=(15, 7))
+# Plot that visualizes the effect on the coefficients. Not that obvious unless
+# you use lasso, which makes smaller coefficients zero.
+pd.Series(ridge.coef_, index=features).plot.bar(figsize=(16, 10))
+plt.show()
+plt.clf()
 
+# Demonstrates a residuals plot. It is used to diagnose 3 possible flaws
+# in a linear regression:
+# 1. The errors have a visible pattern.
+# This indicates that the linear model did not adequately capture the variation
+# in the target, and the need to use polynomial terms.
+# 2. The errors have a funnel shape.
+# This indicates the presence of heteroskedasticity, which means the error
+# variance errors is not constant. This may be an indication that outliers
+# are having a large impact on the distribution, which may in turn cause the
+# confidence intervals of the prediction to be too wide or too narrow.
+# 3. The errors are not normally distributed with mean 0.
+# This can cause confidence intervals of the prediction to be too wide or too
+# narrow. This may be an indication of unusual data points that need further
+# study.
 residuals = y_test - y_hat
+plt.figure(figsize=(16, 10))
 plt.scatter(y_hat, residuals)
+plt.title("residual errors")
+plt.axhline(y=0, color='k', lw=1)
+plt.show()
+plt.close()

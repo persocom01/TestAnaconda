@@ -128,8 +128,7 @@ print()
 # Principal component analysis.
 # n_components determines number of features to keep.
 ss = skpp.StandardScaler()
-X_train_ss = pd.DataFrame(ss.fit_transform(
-    X_train[features]), columns=features)
+X_train_ss = pd.DataFrame(ss.fit_transform(X_train[features]), columns=features)
 n_comp = 5
 pca = skd.PCA(n_components=n_comp)
 pca.fit(X_train_ss)

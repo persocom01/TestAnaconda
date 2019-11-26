@@ -29,8 +29,11 @@ plt.clf()
 
 fig, ax = plt.subplots()
 # Demonstrates adding a reference vertical mean profit line to the graph.
-# axhline produces a horizontal line.
-ax.axvline(np.mean(df['profit']), color='r', ls='-', lw=3)
+# ax.vlines(self, x, ymin, ymax, colors='k', linestyles='solid', label='', *,
+# data=None, **kwargs) produces vertical lines. For a single line, use
+# ax.axvline(self, x=0, ymin=0, ymax=1, **kwargs)
+ax.vlines([np.mean(df['profit']), np.mean(df['cost'])], -1,
+          len(df.columns)+2, color=['r', 'g'], ls='--', lw=3)
 # Demonstrates how to create a stacked bar chart.
 # ax.barh(y, width, height=0.8, left=None, *, align='center', **kwargs) or
 # alternatively, plt.barh().
