@@ -20,11 +20,15 @@ from sklearn.preprocessing import PolynomialFeatures
 # Model selection.
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import RandomizedSearchCV
 
 # Linear models.
 from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import Ridge
 from sklearn.linear_model import RidgeCV
+from sklearn.linear_model import Lasso
 from sklearn.linear_model import LassoCV
+from sklearn.linear_model import ElasticNet
 from sklearn.linear_model import ElasticNetCV
 
 

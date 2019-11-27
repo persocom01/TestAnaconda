@@ -135,17 +135,41 @@ def adj_r2(X, y, y_hat):
 # ax.scatter(X_test, y_test, alpha=0.7, label='test set y values')
 # ax.plot(X_test, y_hat, color='g', alpha=0.7, label='linear regression line')
 # ax.legend()
-#
 # for i, y_h in enumerate(y_hat):
 #     ax.plot([X_test[i], X_test[i]], [y_h, y_test[i]], color='r', alpha=0.7)
+# plt.show()
+# plt.clf()
 
 # Plot the predicted vs actual y graph for multiple x value linear regression.
 fig, ax = plt.subplots(figsize=(12, 7.5))
 ax.plot([], [], ' ', label=r'adj $R^2 = $' +
         f'{round(adj_r2(X_test, y_test, y_hat), 2)}')
-ax.scatter(y_hat, y_test, alpha=0.7, label='test set y values')
+ax.scatter(y_hat, y_test, alpha=0.7, label='tested y values')
 ax.plot(y_hat, y_hat, color='g', alpha=0.7, label='predicted y values')
 ax.legend()
-
 for i, y_h in enumerate(y_hat):
     ax.plot([y_hat[i], y_hat[i]], [y_h, y_test[i]], color='r', alpha=0.7)
+plt.show()
+plt.clf()
+
+# Demonstrates a residual vs fitted values plot. It is used to diagnose 3
+# possible flaws in a linear regression:
+# 1. The errors have a visible pattern.
+# This indicates that the linear model did not adequately capture the variation
+# in the target, and the need to use polynomial terms.
+# 2. The errors have a funnel shape.
+# This indicates the presence of heteroskedasticity, which means the error
+# variance errors is not constant. This may be an indication that outliers
+# are having a large impact on the distribution, which may in turn cause the
+# confidence intervals of the prediction to be too wide or too narrow.
+# 3. The errors are not normally distributed with mean 0.
+# This can cause confidence intervals of the prediction to be too wide or too
+# narrow. This may be an indication of unusual data points that need further
+# study.
+residuals = y_test - y_hat
+plt.figure(figsize=(12, 7.5))
+plt.scatter(y_hat, residuals)
+plt.title('residual vs fitted values')
+plt.axhline(y=0, color='k', lw=1)
+plt.show()
+plt.close()
