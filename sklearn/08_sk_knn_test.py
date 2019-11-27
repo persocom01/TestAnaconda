@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 
 # Use this command if using Jupyter notebook to plot graphs inline.
@@ -23,3 +23,5 @@ X = df[features]
 y = df[target].values
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
+
+knn = KNeighborsClassifier()

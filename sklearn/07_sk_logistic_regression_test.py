@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
+from sklearn.model_selection import cross_val_score
 
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
@@ -37,6 +38,9 @@ X_test = pd.DataFrame(ss.transform(X_test[features]), columns=features)
 # verbose=0, warm_start=False, n_jobs=None, l1_ratio=None)
 lr = LogisticRegression(solver='lbfgs', multi_class='auto', max_iter=1000)
 lr.fit(X_train, y_train)
+
+cv = cross_val_score(lr, X_train, y_train, cv=5)
+print(cv)
 
 y_hat = lr.predict(X_test)
 y_hat_prob = lr.predict_proba(X_test)

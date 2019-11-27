@@ -40,6 +40,9 @@ from sklearn.metrics import median_absolute_error
 from sklearn.metrics import explained_variance_score
 from sklearn.metrics import accuracy_score
 
+# KNN.
+from sklearn.neighbors import KNeighborsClassifier
+
 
 def ordinal_scale(df, mapping=None, start_num=0):
     '''
