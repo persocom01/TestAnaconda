@@ -17,21 +17,19 @@ data = load_diabetes()
 df = pd.DataFrame(data.data, columns=data.feature_names)
 # Doesn't do anything in this case but common to simplify column names.
 df.columns = [x.lower().replace(' ', '_') for x in df.columns]
+target = 'target'
+features = [col for col in df.columns if col != target]
+df[target] = data.target
 print(df.head())
 print()
 
-# Typically, if the DataFrame is not already split into features and target,
-# you can get a list of feature names with the following code, before passing
-# it to the DataFrame as a list of columns:
-# features = [col for col in df.columns if col != 'target']
-target = pd.DataFrame(data.target)
-# We use [:, np.newaxis] in this case to add a y axis to the output to make it
-# a 2d array so it can be accepted by the LinearRegression() later.
+# We may use [:, np.newaxis] to add a y axis if X is a series in order to make
+# it a 2d array. This is to make it acceptable to LinearRegression() later.
 # X = df['bmi'][:, np.newaxis]
 # Multiple x values.
-X = df
+X = df[features]
 # Use df.values or np.array() to avoid problems later.
-y = target.values
+y = df[target].values
 
 # train_test_split(arr_features, arr_target, test_size=0.25, **options)
 # options accepts a number of arguments, including:

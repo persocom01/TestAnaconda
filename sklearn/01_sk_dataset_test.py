@@ -26,14 +26,21 @@ print(data.keys())
 # The most important attributes are data, target, and feature_names, which
 # are used to initialize the DataFrame and test models.
 df = pd.DataFrame(data.data, columns=data.feature_names)
+df.columns = [x.lower().replace(' ', '_') for x in df.columns]
 # Some datasets also have a target_names attribute, but it may not be the
 # target column names, but rather the names for the target numerical
 # categories.
-target = pd.DataFrame(data.target)
+target = 'target'
+# Not needed for datasets where the target and features are not separated.
+features = [col for col in df.columns if col != target]
+df[target] = pd.DataFrame(data.target)
+
+X = df[features]
+y = df[target]
 
 print('data:')
-print(df.head())
+print(X.head())
 print()
 print('target:')
-print(target.head())
+print(y.head())
 print()

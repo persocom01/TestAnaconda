@@ -30,6 +30,15 @@ from sklearn.linear_model import Lasso
 from sklearn.linear_model import LassoCV
 from sklearn.linear_model import ElasticNet
 from sklearn.linear_model import ElasticNetCV
+from sklearn.linear_model import LogisticRegression
+
+# Metrics.
+from sklearn.metrics import r2_score
+from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import mean_squared_error
+from sklearn.metrics import median_absolute_error
+from sklearn.metrics import explained_variance_score
+from sklearn.metrics import accuracy_score
 
 
 def ordinal_scale(df, mapping=None, start_num=0):

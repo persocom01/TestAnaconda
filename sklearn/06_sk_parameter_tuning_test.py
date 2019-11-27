@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.datasets import load_diabetes
-from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.linear_model import Ridge
@@ -17,13 +17,14 @@ from sklearn.linear_model import ElasticNetCV
 data = load_diabetes()
 df = pd.DataFrame(data.data, columns=data.feature_names)
 df.columns = [x.lower().replace(' ', '_') for x in df.columns]
+target = 'target'
+features = [col for col in df.columns if col != target]
+df[target] = data.target
 print(df.head())
 print()
 
-features = df.columns
-target = pd.DataFrame(data.target)
-X = df
-y = target.values.ravel()
+X = df[features]
+y = df[target].values
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 
@@ -31,7 +32,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 # scaled. You should also remove features that are highly correlated with each
 # other whichw as not done here.
 ss = StandardScaler()
-X_train_ss = pd.DataFrame(ss.fit_transform(X_train[features]), columns=features)
+X_train = pd.DataFrame(ss.fit_transform(X_train[features]), columns=features)
+X_test = pd.DataFrame(ss.transform(X_test[features]), columns=features)
 
 # Ridge(alpha=1.0, fit_intercept=True, normalize=False, copy_X=True,
 # max_iter=None, tol=0.001, solver=’auto’, random_state=None)
@@ -97,7 +99,7 @@ y_hat = ridge.predict(X_test)
 
 # Plot that visualizes the effect on the coefficients. Not that obvious unless
 # you use lasso, which makes smaller coefficients zero.
-pd.Series(ridge.coef_, index=features).plot.bar(figsize=(16, 10))
+pd.Series(ridge.coef_, index=features).plot.bar(figsize=(12, 7.5))
 plt.title('coefficients plot')
 plt.show()
 plt.clf()

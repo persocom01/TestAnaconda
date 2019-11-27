@@ -3,9 +3,9 @@ import pandas as pd
 import seaborn as sb
 import matplotlib.pyplot as plt
 from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
-from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import chi2
@@ -16,7 +16,10 @@ from sklearn.feature_selection import RFE
 
 data = load_breast_cancer()
 df = pd.DataFrame(data.data, columns=data.feature_names)
-df['cancer'] = data.target
+df.columns = [x.lower().replace(' ', '_') for x in df.columns]
+target = 'cancer'
+features = [col for col in df.columns if col != target]
+df[target] = data.target
 print(df.head())
 print()
 
@@ -31,9 +34,8 @@ bottom, top = ax.get_ylim()
 ax.set_ylim(bottom+0.5, top-0.5)
 # plt.show()
 
-features = data.feature_names
 X = df[features]
-y = data.target
+y = df[target].values
 
 # VIF, or Variance Inflation Factor, is a measure of colinearity among
 # predictor variables within a multiple regression. It is used to eliminate

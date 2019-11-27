@@ -16,12 +16,14 @@ data.pop('country')
 df = pd.DataFrame(data)
 # Gets rid of any string variables.
 df = pd.get_dummies(df, columns=['continent'], prefix='cont', drop_first=True)
-features = [col for col in df.columns if col != 'total_litres_of_pure_alcohol']
+df.columns = [x.lower().replace(' ', '_') for x in df.columns]
 target = 'total_litres_of_pure_alcohol'
+features = [col for col in df.columns if col != target]
 print(df.head())
+print()
 
 X = df[features]
-y = df[target]
+y = df[target].values
 
 X_train, X_test, y_train, y_test = train_test_split(X, y)
 
@@ -47,7 +49,7 @@ ct = ColumnTransformer(
 # pd.options.mode.chained_assignment = None
 X_train_ct = pd.DataFrame(ct.fit_transform(X_train), columns=features)
 # The test set will be transformed but not fitted.
-X_test_ct = pd.DataFrame(ct.fit_transform(X_test), columns=features)
+X_test_ct = pd.DataFrame(ct.transform(X_test), columns=features)
 print('MinMaxScaler beer and StandardScaler spirits:')
 print(X_train_ct.head())
 
@@ -55,6 +57,7 @@ print(X_train_ct.head())
 # of all squares in the row=1. I'm not sure what this is used for.
 norm = Normalizer()
 X_train_norm = pd.DataFrame(norm.fit_transform(X_train), columns=features)
+X_test_norm = pd.DataFrame(norm.transform(X_test), columns=features)
 print('normalizer:')
 print(X_train_norm.values[:3])
 print()
