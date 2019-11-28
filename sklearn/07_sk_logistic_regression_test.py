@@ -3,8 +3,8 @@ from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
 from sklearn.model_selection import cross_val_predict
+from sklearn.metrics import accuracy_score
 
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline

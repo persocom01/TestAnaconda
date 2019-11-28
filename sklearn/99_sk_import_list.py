@@ -20,6 +20,7 @@ from sklearn.preprocessing import PolynomialFeatures
 # Model selection.
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_val_predict
 from sklearn.model_selection import RandomizedSearchCV
 
 # Linear models.
@@ -39,6 +40,8 @@ from sklearn.metrics import mean_squared_error
 from sklearn.metrics import median_absolute_error
 from sklearn.metrics import explained_variance_score
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
 
 # KNN.
 from sklearn.neighbors import KNeighborsClassifier

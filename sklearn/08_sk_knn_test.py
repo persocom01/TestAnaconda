@@ -10,6 +10,9 @@ from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import cross_val_score
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
 from sklearn.metrics import accuracy_score
 
 # Use this command if using Jupyter notebook to plot graphs inline.
@@ -58,3 +61,17 @@ X_test = pd.DataFrame(ss.transform(X_test), columns=features)
 # following link:
 # https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.DistanceMetric.html
 knn = KNeighborsClassifier(n_neighbors=5, weights='distance', p=2)
+
+print('cross val score:')
+print(cross_val_score(knn, X_train, y_train, cv=5))
+print()
+
+knn.fit(X_train, y_train)
+y_hat = knn.predict(X_test)
+
+print('confusion matrix:')
+print(confusion_matrix(y_test, y_hat))
+print()
+print('classification report:')
+print(classification_report(y_test, y_hat))
+print("Accuracy:", accuracy_score(y_test, y_hat))
