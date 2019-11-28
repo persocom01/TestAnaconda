@@ -95,7 +95,7 @@ print('elastic:', elastic_scores.mean())
 
 # Model fitting and evaluation.
 ridge.fit(X_train, y_train)
-y_hat = ridge.predict(X_test)
+y_pred = ridge.predict(X_test)
 
 # Plot that visualizes the effect on the coefficients. Not that obvious unless
 # you use lasso, which makes smaller coefficients zero.
@@ -105,9 +105,9 @@ plt.show()
 plt.clf()
 
 # A residual vs fitted values plot.
-residuals = y_test - y_hat
+residuals = y_test - y_pred
 plt.figure(figsize=(12, 7.5))
-plt.scatter(y_hat, residuals)
+plt.scatter(y_pred, residuals)
 plt.title('residual vs fitted values')
 plt.axhline(y=0, color='k', lw=1)
 plt.show()
