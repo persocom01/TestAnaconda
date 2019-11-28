@@ -47,19 +47,19 @@ ct = ColumnTransformer(
 # X_train['features'] = ct.fit_transform(X_train)
 # To make it go away set:
 # pd.options.mode.chained_assignment = None
-X_train_ct = pd.DataFrame(ct.fit_transform(X_train), columns=features)
+X_train = pd.DataFrame(ct.fit_transform(X_train), columns=features)
 # The test set will be transformed but not fitted.
-X_test_ct = pd.DataFrame(ct.transform(X_test), columns=features)
+X_test = pd.DataFrame(ct.transform(X_test), columns=features)
 print('MinMaxScaler beer and StandardScaler spirits:')
-print(X_train_ct.head())
+print(X_train.head())
 
 # Normalizer(norm=’l2’, copy=True) scales the variables such that the sum
 # of all squares in the row=1. I'm not sure what this is used for.
 norm = Normalizer()
-X_train_norm = pd.DataFrame(norm.fit_transform(X_train), columns=features)
-X_test_norm = pd.DataFrame(norm.transform(X_test), columns=features)
+X_train = pd.DataFrame(norm.fit_transform(X_train), columns=features)
+X_test = pd.DataFrame(norm.transform(X_test), columns=features)
 print('normalizer:')
-print(X_train_norm.values[:3])
+print(X_train.values[:3])
 print()
 
 
