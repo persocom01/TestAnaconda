@@ -72,9 +72,13 @@ print(y_pred)
 print(y_test)
 
 # confusion_matrix(y_true, y_pred, labels=None, sample_weight=None)
+# By default, the y_pred are the columns of the matrix, y_true are the rows,
+# arranged from smallest to largest from left to right. If strings are used,
+# they will be in alphabetical order.
+# The number of true predictions will be the sum of the diagonal.
 print('confusion matrix:')
 print(confusion_matrix(y_test, y_pred))
 print()
 print('classification report:')
 print(classification_report(y_test, y_pred))
-print("Accuracy:", accuracy_score(y_test, y_pred))
+print('accuracy:', accuracy_score(y_test, y_pred))
