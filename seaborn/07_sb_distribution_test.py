@@ -74,6 +74,9 @@ def subplot_dist(df, kind='dist', cols=None, titles=None, xlabels=None, ylabels=
         if ylabels:
             ax[i].set_ylabel(ylabels[i])
 
+    plt.show()
+    plt.clf()
+
 
 # print(df.head())
 subplot_dist(df, cols=[['sepal length (cm)', 'petal length (cm)'],

@@ -39,7 +39,7 @@ y = df[target].values
 
 # VIF, or Variance Inflation Factor, is a measure of colinearity among
 # predictor variables within a multiple regression. It is used to eliminate
-# features that are highly correlated with each other.
+# continuous or ordinal features that are highly correlated with each other.
 # Variables with the highest VIF scores should be eliminated until the VIF
 # scores are below between 10 to 2.5, depending on how conservative you want
 # to be. This function either takes a VIF score to eliminate features until,
@@ -55,24 +55,33 @@ def vif_feature_select(df, max_score=5.0, n_features=-1, inplace=False, drop_lis
     with the highest VIF scores until either the remainder have a VIF score
     of less than max_score, or there are n_features left.
     '''
+    # Avoids overwriting the original DataFrame by default.
     if not inplace:
         df = df.copy()
+    # Creates an empty list for the first iteration.
     if not drops:
         drops = []
     features = df.columns
+    # VIF is the diagonal of the correlation matrix.
     vifs = np.linalg.inv(df.corr().values).diagonal()
     max_vif_index = np.argmax(vifs)
+    # By default, the function only takes into account the VIF score when
+    # eliminating features.
     if n_features < 0 and vifs[max_vif_index] >= max_score:
         drops.append(features[max_vif_index])
         del df[features[max_vif_index]]
         return vif_feature_select(df, max_score, n_features, inplace, drop_list, drops)
+    # Using the n_features argument, determine the number of features you want
+    # to have left over instead of going by the maximum VIF score.
     elif n_features >= 0 and len(features) > n_features:
         drops.append(features[max_vif_index])
         del df[features[max_vif_index]]
         return vif_feature_select(df, max_score, n_features, inplace, drop_list, drops)
     else:
+        # Returns a list of features that would be dropped instead of a
+        # DataFrame
         if drop_list:
-            print('returning list of dropped features.')
+            print('returning list of features that would be dropped.')
             return drops
         else:
             return df

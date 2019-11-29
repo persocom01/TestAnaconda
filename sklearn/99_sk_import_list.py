@@ -42,10 +42,15 @@ from sklearn.metrics import explained_variance_score
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
-from sklearn.metrics import roc_auc_score
 
 # KNN.
 from sklearn.neighbors import KNeighborsClassifier
+# For the one_vs_all_roc function.
+from sklearn.preprocessing import label_binarize
+from sklearn.metrics import roc_auc_score
+from sklearn.metrics import roc_curve, auc
+from itertools import cycle
+from scipy import interp
 
 
 def ordinal_scale(df, mapping=None, start_num=0):
@@ -64,3 +69,83 @@ def ordinal_scale(df, mapping=None, start_num=0):
         ord = OrdinalEncoder()
         df[cols] = ord.fit_transform(df[cols])
     return df
+
+
+def one_vs_all_roc(y_test, y_pred, title=None, lw=2, average='macro', score_only=False, **kwargs):
+    '''
+    A convenience function for plotting Receiver Operating Characteristic (ROC)
+    curves or getting the ROC Area Under Curve (AUC) score for multi
+    categorical targets.
+    '''
+    # Gets all unique categories.
+    classes = list(set(y_test) | set(y_pred))
+
+    # Converts each multi categorical prediction into a list of 0 and 1 for
+    # each category.
+    lb_test = label_binarize(y_test, classes=classes)
+    lb_pred = label_binarize(y_pred, classes=classes)
+
+    # Returns the mean roc auc score of the multi categorical prediction.
+    # The closer it is to 1, the better.
+    if score_only:
+        return roc_auc_score(lb_test, lb_pred)
+
+    # Compute ROC curve and ROC area for each class.
+    fpr = {}
+    tpr = {}
+    roc_auc = {}
+    for i, k in enumerate(classes):
+        fpr[k], tpr[k], _ = roc_curve(lb_test[:, i], lb_pred[:, i])
+        roc_auc[k] = auc(fpr[k], tpr[k])
+
+    # Initialize graph.
+    fig, ax = plt.subplots(**kwargs)
+
+    if average == 'micro' or average == 'both':
+        # Compute micro-average ROC curve and ROC area.
+        fpr['micro'], tpr['micro'], _ = roc_curve(lb_test.ravel(), lb_pred.ravel())
+        roc_auc['micro'] = auc(fpr['micro'], tpr['micro'])
+
+        ax.plot(fpr['micro'], tpr['micro'], ':r',
+                label=f'micro-average ROC curve (area = {roc_auc["micro"]:0.2f})', lw=lw)
+
+    if average == 'macro' or average == 'both':
+        # Compute macro-average ROC curve and ROC area.
+
+        # First aggregate all false positive rates.
+        all_fpr = np.unique(np.concatenate([fpr[k] for k in classes]))
+
+        # Then interpolate all ROC curves at these points.
+        mean_tpr = np.zeros_like(all_fpr)
+        for k in classes:
+            mean_tpr += interp(all_fpr, fpr[k], tpr[k])
+
+        # Finally average it and compute AUC
+        mean_tpr /= len(classes)
+
+        fpr['macro'] = all_fpr
+        tpr['macro'] = mean_tpr
+        roc_auc['macro'] = auc(fpr['macro'], tpr['macro'])
+
+        ax.plot(fpr['macro'], tpr['macro'], ':b',
+                label=f'macro-average ROC curve (area = {roc_auc["macro"]:0.2f})', lw=lw)
+
+    # Plot ROC curve for each category.
+    colors = cycle(['teal', 'darkorange', 'cornflowerblue'])
+    for k, color in zip(classes, colors):
+        ax.plot(fpr[k], tpr[k], color=color,
+                label=f'ROC curve of {k} (area = {roc_auc[k]:0.2f})', lw=lw)
+
+    # Plot the curve of the baseline model (mean).
+    ax.plot([0, 1], [0, 1], 'k--')
+    ax.set_xlim([0.0, 1.0])
+    ax.set_ylim([0.0, 1.05])
+    ax.set_xlabel('False Positive Rate')
+    ax.set_ylabel('True Positive Rate')
+    ax.set_title(title)
+    ax.legend(loc='best')
+    plt.show()
+    plt.clf()
+
+
+one_vs_all_roc(y_test, y_pred, title='species ROC plot', lw=2, average='both', figsize=(12, 7.5))
