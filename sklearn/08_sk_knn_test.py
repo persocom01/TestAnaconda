@@ -13,7 +13,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import roc_auc_score
 
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
@@ -74,11 +74,27 @@ print(y_test)
 # confusion_matrix(y_true, y_pred, labels=None, sample_weight=None)
 # By default, the y_pred are the columns of the matrix, y_true are the rows,
 # arranged from smallest to largest from left to right. If strings are used,
-# they will be in alphabetical order.
+# they will be in alphabetical order. You may determine the order by passing a
+# list to the labels argument.
+# sample_weight=list must be the same size as y_pred. It determines the value
+# of each prediction relative to the others as it is shown in the matrix.
+# By default, all predictions are worth 1.
 # The number of true predictions will be the sum of the diagonal.
 print('confusion matrix:')
 print(confusion_matrix(y_test, y_pred))
 print()
+# classification_report(y_true, y_pred, labels=None, target_names=None,
+# sample_weight=None, digits=2, output_dict=False)
+# Precision is the percentage of positive predictions that were correct.
+# Recall is the percentage of positive outcomes that were correctly predicted.
+# f1-score is a combination of both following the formula:
+# 2*(Recall * Precision) / (Recall + Precision)
+# Support is the total number of true outcomes of each class.
+# Macro average is just the mean score.
+# Weighted average is the mean sore with each category weighted by support.
+# digits=int determines the decimal places.
+# output_dict=True returns the output as a dict, where individual values can be
+# referenced via dict[str_label_name][metric_name]
 print('classification report:')
-print(classification_report(y_test, y_pred))
-print('accuracy:', accuracy_score(y_test, y_pred))
+print(classification_report(y_test, y_pred, output_dict=False))
+print('accuracy:', roc_auc_score(y_test, y_pred))

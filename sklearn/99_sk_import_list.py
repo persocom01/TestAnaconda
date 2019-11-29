@@ -42,6 +42,7 @@ from sklearn.metrics import explained_variance_score
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
+from sklearn.metrics import roc_auc_score
 
 # KNN.
 from sklearn.neighbors import KNeighborsClassifier
