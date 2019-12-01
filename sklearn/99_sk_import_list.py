@@ -1,3 +1,7 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
 # Datasets.
 from sklearn.datasets import load_boston
 from sklearn.datasets import load_iris
@@ -61,9 +65,11 @@ def ordinal_scale(df, mapping=None, start_num=0):
     if mapping:
         cols = mapping.keys()
         for col in cols:
-            df[col] = df[col].map({k: i+start_num for i, k in enumerate(mapping[col])})
+            df[col] = df[col].map(
+                {k: i+start_num for i, k in enumerate(mapping[col])})
             if df[col].isnull().sum() > 0:
-                print(f'WARNING: not all values in column "{col}" were mapped.')
+                print(
+                    f'WARNING: not all values in column "{col}" were mapped.')
     else:
         cols = df.columns
         ord = OrdinalEncoder()
@@ -71,11 +77,48 @@ def ordinal_scale(df, mapping=None, start_num=0):
     return df
 
 
-def one_vs_all_roc(y_test, y_pred, title=None, lw=2, average='macro', score_only=False, **kwargs):
+def vif_feature_select(df, max_score=5.0, inplace=False, drop_list=False, _drops=None):
+    '''
+    Takes a DataFrame and returns it after recursively eliminating columns
+    with the highest VIF scores until the remainder have a VIF scores of less
+    than max_score.
+
+    drop_list=True gets a list of features that would be dropped instead.
+    '''
+    # Avoids overwriting the original DataFrame by default.
+    if not inplace:
+        df = df.copy()
+    # Creates an empty list for the first iteration.
+    if _drops is None:
+        _drops = []
+    features = df.columns
+    # VIF is the diagonal of the correlation matrix.
+    vifs = np.linalg.inv(df.corr().values).diagonal()
+    max_vif_index = np.argmax(vifs)
+    # By default, the function only takes into account the VIF score when
+    # eliminating features.
+    if vifs[max_vif_index] >= max_score:
+        _drops.append(features[max_vif_index])
+        del df[features[max_vif_index]]
+        return vif_feature_select(df, max_score, inplace, drop_list, _drops)
+    else:
+        # Returns a list of features that would be dropped instead of a
+        # DataFrame
+        if drop_list:
+            return _drops
+        else:
+            return df
+
+
+def one_vs_all_roc(y_test, y_pred, average='macro', score_only=False, lw=2, title=None, class_labels=None, **kwargs):
     '''
     A convenience function for plotting Receiver Operating Characteristic (ROC)
     curves or getting the ROC Area Under Curve (AUC) score for multi
     categorical targets.
+
+    class_labels accepts a dictionary of the column values mapped onto class
+    names. If the column values are simply integers, it is possible to just
+    pass a list.
     '''
     # Gets all unique categories.
     classes = list(set(y_test) | set(y_pred))
@@ -103,7 +146,8 @@ def one_vs_all_roc(y_test, y_pred, title=None, lw=2, average='macro', score_only
 
     if average == 'micro' or average == 'both':
         # Compute micro-average ROC curve and ROC area.
-        fpr['micro'], tpr['micro'], _ = roc_curve(lb_test.ravel(), lb_pred.ravel())
+        fpr['micro'], tpr['micro'], _ = roc_curve(
+            lb_test.ravel(), lb_pred.ravel())
         roc_auc['micro'] = auc(fpr['micro'], tpr['micro'])
 
         ax.plot(fpr['micro'], tpr['micro'], ':r',
@@ -132,9 +176,11 @@ def one_vs_all_roc(y_test, y_pred, title=None, lw=2, average='macro', score_only
 
     # Plot ROC curve for each category.
     colors = cycle(['teal', 'darkorange', 'cornflowerblue'])
+    if class_labels is None:
+        class_labels = classes
     for k, color in zip(classes, colors):
         ax.plot(fpr[k], tpr[k], color=color,
-                label=f'ROC curve of {k} (area = {roc_auc[k]:0.2f})', lw=lw)
+                label=f'ROC curve of {class_labels[k]} (area = {roc_auc[k]:0.2f})', lw=lw)
 
     # Plot the curve of the baseline model (mean).
     ax.plot([0, 1], [0, 1], 'k--')
@@ -146,6 +192,3 @@ def one_vs_all_roc(y_test, y_pred, title=None, lw=2, average='macro', score_only
     ax.legend(loc='best')
     plt.show()
     plt.clf()
-
-
-one_vs_all_roc(y_test, y_pred, title='species ROC plot', lw=2, average='both', figsize=(12, 7.5))

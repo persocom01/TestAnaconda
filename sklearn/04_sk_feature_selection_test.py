@@ -49,40 +49,35 @@ y = df[target].values
 # to do this.
 
 
-def vif_feature_select(df, max_score=5.0, n_features=-1, inplace=False, drop_list=False, drops=None):
+def vif_feature_select(df, max_score=5.0, inplace=False, drop_list=False, _drops=None):
     '''
     Takes a DataFrame and returns it after recursively eliminating columns
-    with the highest VIF scores until either the remainder have a VIF score
-    of less than max_score, or there are n_features left.
+    with the highest VIF scores until the remainder have a VIF scores of less
+    than max_score.
+
+    drop_list=True gets a list of features that would be dropped instead.
     '''
     # Avoids overwriting the original DataFrame by default.
     if not inplace:
         df = df.copy()
     # Creates an empty list for the first iteration.
-    if not drops:
-        drops = []
+    if _drops is None:
+        _drops = []
     features = df.columns
     # VIF is the diagonal of the correlation matrix.
     vifs = np.linalg.inv(df.corr().values).diagonal()
     max_vif_index = np.argmax(vifs)
     # By default, the function only takes into account the VIF score when
     # eliminating features.
-    if n_features < 0 and vifs[max_vif_index] >= max_score:
-        drops.append(features[max_vif_index])
+    if vifs[max_vif_index] >= max_score:
+        _drops.append(features[max_vif_index])
         del df[features[max_vif_index]]
-        return vif_feature_select(df, max_score, n_features, inplace, drop_list, drops)
-    # Using the n_features argument, determine the number of features you want
-    # to have left over instead of going by the maximum VIF score.
-    elif n_features >= 0 and len(features) > n_features:
-        drops.append(features[max_vif_index])
-        del df[features[max_vif_index]]
-        return vif_feature_select(df, max_score, n_features, inplace, drop_list, drops)
+        return vif_feature_select(df, max_score, inplace, drop_list, _drops)
     else:
         # Returns a list of features that would be dropped instead of a
         # DataFrame
         if drop_list:
-            print('returning list of features that would be dropped.')
-            return drops
+            return _drops
         else:
             return df
 
@@ -100,7 +95,8 @@ bottom, top = ax.get_ylim()
 ax.set_ylim(bottom+0.5, top-0.5)
 # plt.show()
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1, stratify=data.target)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, random_state=1, stratify=data.target)
 
 # SelectKBest(score_func=<function f_classif>, k=10)
 # k sets the ending number of desired features.
@@ -140,7 +136,8 @@ print()
 # Principal component analysis.
 # n_components determines number of features to keep.
 ss = StandardScaler()
-X_train_ss = pd.DataFrame(ss.fit_transform(X_train[features]), columns=features)
+X_train_ss = pd.DataFrame(ss.fit_transform(
+    X_train[features]), columns=features)
 n_comp = 5
 pca = PCA(n_components=n_comp)
 pca.fit(X_train_ss)

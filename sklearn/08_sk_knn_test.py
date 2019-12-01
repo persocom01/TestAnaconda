@@ -103,11 +103,15 @@ print('classification report:')
 print(classification_report(y_test, y_pred, output_dict=False))
 
 
-def one_vs_all_roc(y_test, y_pred, title=None, lw=2, average='macro', score_only=False, **kwargs):
+def one_vs_all_roc(y_test, y_pred, average='macro', score_only=False, lw=2, title=None, class_labels=None, **kwargs):
     '''
     A convenience function for plotting Receiver Operating Characteristic (ROC)
     curves or getting the ROC Area Under Curve (AUC) score for multi
     categorical targets.
+
+    class_labels accepts a dictionary of the column values mapped onto class
+    names. If the column values are simply integers, it is possible to just
+    pass a list.
     '''
     # Gets all unique categories.
     classes = list(set(y_test) | set(y_pred))
@@ -135,7 +139,8 @@ def one_vs_all_roc(y_test, y_pred, title=None, lw=2, average='macro', score_only
 
     if average == 'micro' or average == 'both':
         # Compute micro-average ROC curve and ROC area.
-        fpr['micro'], tpr['micro'], _ = roc_curve(lb_test.ravel(), lb_pred.ravel())
+        fpr['micro'], tpr['micro'], _ = roc_curve(
+            lb_test.ravel(), lb_pred.ravel())
         roc_auc['micro'] = auc(fpr['micro'], tpr['micro'])
 
         ax.plot(fpr['micro'], tpr['micro'], ':r',
@@ -164,8 +169,11 @@ def one_vs_all_roc(y_test, y_pred, title=None, lw=2, average='macro', score_only
 
     # Plot ROC curve for each category.
     colors = cycle(['teal', 'darkorange', 'cornflowerblue'])
+    if class_labels is None:
+        class_labels = classes
     for k, color in zip(classes, colors):
-        ax.plot(fpr[k], tpr[k], color=color, label=f'ROC curve of {k} (area = {roc_auc[k]:0.2f})', lw=lw)
+        ax.plot(fpr[k], tpr[k], color=color,
+                label=f'ROC curve of {class_labels[k]} (area = {roc_auc[k]:0.2f})', lw=lw)
 
     # Plot the curve of the baseline model (mean).
     ax.plot([0, 1], [0, 1], 'k--')
@@ -178,4 +186,6 @@ def one_vs_all_roc(y_test, y_pred, title=None, lw=2, average='macro', score_only
     plt.show()
     plt.clf()
 
-one_vs_all_roc(y_test, y_pred, title='species ROC plot', lw=2, average='both', figsize=(12, 7.5))
+
+one_vs_all_roc(y_test, y_pred, average='both', lw=2, title='species ROC plot',
+               class_labels=data.target_names, figsize=(12, 7.5))

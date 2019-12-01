@@ -37,7 +37,7 @@ X_test = pd.DataFrame(ss.transform(X_test[features]), columns=features)
 lr = LogisticRegression(solver='lbfgs', multi_class='auto', max_iter=1000)
 lr.fit(X_train, y_train)
 
-# cross_val_predict(estimator, X, y=None, groups=None, cv=’warn’, n_jobs=None,
+# cross_val_predict(estimator, X, y=None, groups=None, cv='warn', n_jobs=None,
 # verbose=0, fit_params=None, pre_dispatch='2*n_jobs', method='predict')
 # Unlike cross_val_score, cross_val_predict doesn't split the data into folds
 # and return the score for each fold. Instead, it returns the y_pred for each
