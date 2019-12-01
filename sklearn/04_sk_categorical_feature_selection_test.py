@@ -48,11 +48,12 @@ def cramers_corr(df):
         corr_matrix[i1, i2] = cramers_v(df[col1], df[col2])
         corr_matrix[i2, i1] = corr_matrix[i1, i2]
 
+    np.fill_diagonal(corr_matrix, 1.0)
     df_corr_matrix = pd.DataFrame(corr_matrix, index=cols, columns=cols)
 
     return df_corr_matrix
 
 
 fig, ax = plt.subplots(figsize=(12, 7.5))
-ax = sb.heatmap(cramers_corr(df), annot=True, ax=ax)
+ax = sb.heatmap(cramers_corr(df), annot=True, ax=ax, cmap='Greens')
 ax.set_title("Cramers V Correlation between Variables")

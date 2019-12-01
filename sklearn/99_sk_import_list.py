@@ -198,6 +198,7 @@ def one_vs_all_roc(y_test, y_pred, average='macro', score_only=False, lw=2, titl
     plt.show()
     plt.clf()
 
+
 def cramers_corr(df):
     '''
     Takes a DataFrame of categorical variables and returns a DataFrame of the
@@ -227,6 +228,7 @@ def cramers_corr(df):
         corr_matrix[i1, i2] = cramers_v(df[col1], df[col2])
         corr_matrix[i2, i1] = corr_matrix[i1, i2]
 
+    np.fill_diagonal(corr_matrix, 1.0)
     df_corr_matrix = pd.DataFrame(corr_matrix, index=cols, columns=cols)
 
     return df_corr_matrix
