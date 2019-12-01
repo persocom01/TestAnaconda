@@ -75,9 +75,12 @@ def ordinal_scale(df, mapping=None, start_num=0):
             if df[col].isnull().sum() > 0:
                 print(f'WARNING: not all values in column "{col}" were mapped.')
     else:
-        cols = df.columns
         ord = OrdinalEncoder()
-        df[cols] = ord.fit_transform(df[cols])
+        try:
+            cols = df.columns
+            df[cols] = ord.fit_transform(df[cols])
+        except AttributeError:
+            df = ord.fit_transform([df]).ravel()
     return df
 
 
