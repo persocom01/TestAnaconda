@@ -32,7 +32,7 @@ export_path = r'.\datasets\SacramentocrimeJanuary2006.xlsx'
 # pd.read_excel('xls or xlsx')
 # pd.read_table('xml')
 # pd.read_json('json')
-data = pd.read_csv(import_path)
+data = pd.read_csv(import_path, keep_default_na=False, na_values=[''])
 df = pd.DataFrame(data)
 print(df.head())
 
