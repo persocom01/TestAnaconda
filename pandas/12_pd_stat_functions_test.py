@@ -3,6 +3,9 @@ import pandas as pd
 import seaborn as sb
 import matplotlib.pyplot as plt
 
+# Use this command if using Jupyter notebook to plot graphs inline.
+# %matplotlib inline
+
 import_path = r'.\datasets\drinks.csv'
 # Necessary in this case since 'NA'='North America' in this dataset.
 data = pd.read_csv(import_path, na_filter=False)

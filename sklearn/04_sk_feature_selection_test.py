@@ -67,8 +67,7 @@ def vif_feature_select(df, max_score=5.0, inplace=False, drop_list=False, _drops
     # VIF is the diagonal of the correlation matrix.
     vifs = np.linalg.inv(df.corr().values).diagonal()
     max_vif_index = np.argmax(vifs)
-    # By default, the function only takes into account the VIF score when
-    # eliminating features.
+    # Eliminate feature with the highest VIF score and rerun the function.
     if vifs[max_vif_index] >= max_score:
         _drops.append(features[max_vif_index])
         del df[features[max_vif_index]]

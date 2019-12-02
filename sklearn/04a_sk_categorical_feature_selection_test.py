@@ -54,6 +54,9 @@ def cramers_corr(df):
     return df_corr_matrix
 
 
-fig, ax = plt.subplots(figsize=(12, 7.5))
+fig, ax = plt.subplots(figsize=(16, 10))
 ax = sb.heatmap(cramers_corr(df), annot=True, ax=ax, cmap='Greens')
-ax.set_title("Cramers V Correlation between Variables")
+ax.set_title('Cramers V Correlation between Categorical Variables')
+bottom, top = ax.get_ylim()
+ax.set_ylim(bottom+0.5, top-0.5)
+plt.show()
