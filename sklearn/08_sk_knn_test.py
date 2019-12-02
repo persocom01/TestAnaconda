@@ -96,6 +96,8 @@ print()
 # Support is the total number of true outcomes of each class.
 # Macro average is just the mean score.
 # Weighted average is the mean sore with each category weighted by support.
+# target_names=list_dict accepts a list of target names or a dictionary in the
+# form {newlabel: oldlabel}
 # digits=int determines the decimal places.
 # output_dict=True returns the output as a dict, where individual values can be
 # referenced via dict[str_label_name][metric_name]

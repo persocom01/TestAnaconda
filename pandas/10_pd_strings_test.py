@@ -59,8 +59,9 @@ print()
 # female, it makes no sense to have one hot vectors for both, since a 0 in male
 # will always be a 1 in female, and vice, versa.
 # pd.get_dummies(data, prefix=None, prefix_sep='_', dummy_na=False,
-# columns=None, sparse=False, drop_first=False, dtype=None) does the same thing,
-# but on an entire DataFrame.
+# columns=None, sparse=False, drop_first=False, dtype=None) does the same
+# thing, but on an entire DataFrame (or columns defined as a list in the
+# columns argument).
 print('one hot vectors:')
 df = s.str.get_dummies(sep='|')
 print(df)

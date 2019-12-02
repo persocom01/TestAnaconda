@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
@@ -27,8 +28,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 # function is regularized by default, and regularization requires scaling,
 # scale before use.
 ss = StandardScaler()
-X_train = pd.DataFrame(ss.fit_transform(X_train[features]), columns=features)
-X_test = pd.DataFrame(ss.transform(X_test[features]), columns=features)
+X_train = pd.DataFrame(ss.fit_transform(X_train), columns=features)
+X_test = pd.DataFrame(ss.transform(X_test), columns=features)
 
 # LogisticRegression(penalty='l2', dual=False, tol=0.0001, C=1.0,
 # fit_intercept=True, intercept_scaling=1, class_weight=None,
@@ -60,4 +61,11 @@ print()
 
 print('logreg accuracy:')
 print((accuracy_score(y_test, y_pred)*100))
+print()
+
+# Logistic regression is interpreted by as a unit increase in x makes the
+# odds of Chronic Kidney Disease e^coefficient more likely. To get a more
+# interpretable number, use np.exp.
+print('coefficient as odds:')
+print(np.exp(lr.coef_))
 print()
