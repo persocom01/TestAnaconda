@@ -46,6 +46,6 @@ df.to_excel(export_path, index=False)
 r = requests.get(
     'https://swapi.co/api/people/?format=json&search=obi')
 if r.status_code == 200:
-    obi = r.json()
-df = pd.DataFrame([obi])
+    js = r.json()
+df = pd.DataFrame([js])
 print(df)
