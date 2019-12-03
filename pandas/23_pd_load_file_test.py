@@ -1,6 +1,9 @@
 # Demonstrates how to load data from files in pandas.
 import pandas as pd
 import requests
+import random
+import string
+import time
 
 # If you wish to open a file dialog option instead, use:
 # filedialog.askopenfilename()
@@ -43,9 +46,26 @@ print(df.head())
 df.to_excel(export_path, index=False)
 
 # Demonstrates how to use requests and pandas together.
-r = requests.get(
-    'https://swapi.co/api/people/?format=json&search=obi')
+url = 'https://swapi.co/api/people/?format=json&search=obi'
+
+
+def random_word(n):
+    return ''.join(random.choice(string.ascii_lowercase) for x in range(n))
+
+
+# Randomize user agent.
+name = f'{random_word(5)} {str(random.randint(0, 10))}.{str(random.randint(0, 10))}'
+headers = {'User-agent': name}
+
+r = requests.get(url, params=None, headers=headers)
+
 if r.status_code == 200:
     js = r.json()
+else:
+    print(r.status_code)
+
+# Demonstrates how to not give yourself away as a bot.
+# time.sleep(random.random()*10)
+
 df = pd.DataFrame([js])
 print(df)

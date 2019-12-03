@@ -49,6 +49,7 @@ def shortfall(df):
 # the function must be workable on the series object and not individual values.
 # For simpler operations like this one, it is simplier use:
 # df['shortfall'] = df['supply'] - df['demand']
+# df[col_name].apply(pd.Series) can be used to unpack nested dictionaries.
 print('apply:')
 df['shortfall'] = df.apply(shortfall, axis=1)
 print(df)
