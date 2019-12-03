@@ -67,5 +67,5 @@ else:
 # Demonstrates how to not give yourself away as a bot.
 # time.sleep(random.random()*10)
 
-df = pd.DataFrame([js])
+df = pd.DataFrame(js)
 print(df)
