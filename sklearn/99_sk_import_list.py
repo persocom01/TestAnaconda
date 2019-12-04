@@ -65,7 +65,7 @@ def vif_feature_select(df, max_score=5.0, inplace=False, drop_list=False, _drops
     drop_list=True gets a list of features that would be dropped instead.
     '''
     # Avoids overwriting the original DataFrame by default.
-    if not inplace:
+    if inplace is False:
         df = df.copy()
     # Creates an empty list for the first iteration.
     if _drops is None:
