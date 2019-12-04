@@ -105,6 +105,10 @@ print('classification report:')
 print(classification_report(y_test, y_pred, output_dict=False))
 
 
+# Demonstrates plotting of multiple ROC curves for a multi categorical target
+# in a single plot.
+
+
 def one_vs_all_roc(y_test, y_pred, average='macro', score_only=False, lw=2, title=None, class_labels=None, **kwargs):
     '''
     A convenience function for plotting Receiver Operating Characteristic (ROC)
