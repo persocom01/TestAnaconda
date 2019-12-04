@@ -12,12 +12,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
-# For the one_vs_all_roc function.
-from sklearn.preprocessing import label_binarize
-from sklearn.metrics import roc_auc_score
-from sklearn.metrics import roc_curve, auc
-from itertools import cycle
-from scipy import interp
+import categorical_plots as cp
 
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
@@ -71,6 +66,8 @@ knn = KNeighborsClassifier(n_neighbors=5, weights='distance', p=2)
 # Plots error rate vs k value in a graph. You can just avoid this step when
 # using GridSearchCV, but can be good for visualization purposes to know the
 # rough range of k to use.
+
+
 def knn_k_error_plot(X_train, y_train, y_test, k=10, **kwargs):
     error_rate = []
     for i in range(1, k):
@@ -130,93 +127,7 @@ print('classification report:')
 print(classification_report(y_test, y_pred, output_dict=False))
 
 
-# Demonstrates plotting of multiple ROC curves for a multi categorical target
-# in a single plot.
-
-
-def one_vs_all_roc(y_test, y_pred, average='macro', score_only=False, lw=2, title=None, class_labels=None, **kwargs):
-    '''
-    A convenience function for plotting Receiver Operating Characteristic (ROC)
-    curves or getting the ROC Area Under Curve (AUC) score for multi
-    categorical targets.
-
-    class_labels accepts a dictionary of the column values mapped onto class
-    names. If the column values are simply integers, it is possible to just
-    pass a list.
-    '''
-    # Gets all unique categories.
-    classes = list(set(y_test) | set(y_pred))
-
-    # Converts each multi categorical prediction into a list of 0 and 1 for
-    # each category.
-    lb_test = label_binarize(y_test, classes=classes)
-    lb_pred = label_binarize(y_pred, classes=classes)
-
-    # Returns the mean roc auc score of the multi categorical prediction.
-    # The closer it is to 1, the better.
-    if score_only:
-        return roc_auc_score(lb_test, lb_pred)
-
-    # Compute ROC curve and ROC area for each class.
-    fpr = {}
-    tpr = {}
-    roc_auc = {}
-    for i, k in enumerate(classes):
-        fpr[k], tpr[k], _ = roc_curve(lb_test[:, i], lb_pred[:, i])
-        roc_auc[k] = auc(fpr[k], tpr[k])
-
-    # Initialize graph.
-    fig, ax = plt.subplots(**kwargs)
-
-    if average == 'micro' or average == 'both':
-        # Compute micro-average ROC curve and ROC area.
-        fpr['micro'], tpr['micro'], _ = roc_curve(
-            lb_test.ravel(), lb_pred.ravel())
-        roc_auc['micro'] = auc(fpr['micro'], tpr['micro'])
-
-        ax.plot(fpr['micro'], tpr['micro'], ':r',
-                label=f'micro-average ROC curve (area = {roc_auc["micro"]:0.2f})', lw=lw)
-
-    if average == 'macro' or average == 'both':
-        # Compute macro-average ROC curve and ROC area.
-
-        # First aggregate all false positive rates.
-        all_fpr = np.unique(np.concatenate([fpr[k] for k in classes]))
-
-        # Then interpolate all ROC curves at these points.
-        mean_tpr = np.zeros_like(all_fpr)
-        for k in classes:
-            mean_tpr += interp(all_fpr, fpr[k], tpr[k])
-
-        # Finally average it and compute AUC
-        mean_tpr /= len(classes)
-
-        fpr['macro'] = all_fpr
-        tpr['macro'] = mean_tpr
-        roc_auc['macro'] = auc(fpr['macro'], tpr['macro'])
-
-        ax.plot(fpr['macro'], tpr['macro'], ':b',
-                label=f'macro-average ROC curve (area = {roc_auc["macro"]:0.2f})', lw=lw)
-
-    # Plot ROC curve for each category.
-    colors = cycle(['teal', 'darkorange', 'cornflowerblue'])
-    if class_labels is None:
-        class_labels = classes
-    for k, color in zip(classes, colors):
-        ax.plot(fpr[k], tpr[k], color=color,
-                label=f'ROC curve of {class_labels[k]} (area = {roc_auc[k]:0.2f})', lw=lw)
-
-    # Plot the curve of the baseline model (mean).
-    ax.plot([0, 1], [0, 1], 'k--')
-    ax.set_xlim([0.0, 1.0])
-    ax.set_ylim([0.0, 1.05])
-    ax.set_xlabel('False Positive Rate')
-    ax.set_ylabel('True Positive Rate')
-    ax.set_title(title)
-    ax.legend(loc='best')
-    plt.show()
-    plt.clf()
-
-
-one_vs_all_roc(y_test, y_pred, average='both', lw=2, title='species ROC plot',
-               class_labels=data.target_names, figsize=(12, 7.5))
+# Plots multiple ROC curves for a multi categorical target in a single figure.
+roc = cp.Roc()
+roc.plot(y_test, y_pred, average='both', lw=2, title='species ROC plot',
+         class_labels=data.target_names, figsize=(12, 7.5))

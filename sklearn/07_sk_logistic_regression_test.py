@@ -5,14 +5,13 @@
 # in some cases.
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_predict
 from sklearn.metrics import accuracy_score
-from sklearn.metrics import roc_curve, auc
+import categorical_plots as cp
 
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
@@ -80,30 +79,6 @@ print('coefficient as odds:')
 print(np.exp(lr.coef_))
 print()
 
-
-# Demonstrates plotting of an ROC curve.
-def one_roc(y_test, y_pred, lw=2, title=None, label=None, **kwargs):
-    fpr, tpr, _ = roc_curve(y_test, y_pred)
-    roc_auc = auc(fpr, tpr)
-
-    # Initialize graph.
-    fig, ax = plt.subplots(**kwargs)
-
-    if label is None:
-        label = 'target'
-
-    ax.plot(fpr, tpr, label=f'ROC curve of {label} (area = {roc_auc:0.2f})', lw=lw)
-
-    # Plot the curve of the baseline model (mean).
-    ax.plot([0, 1], [0, 1], 'k--')
-    ax.set_xlim([0.0, 1.0])
-    ax.set_ylim([0.0, 1.05])
-    ax.set_xlabel('False Positive Rate')
-    ax.set_ylabel('True Positive Rate')
-    ax.set_title(title)
-    ax.legend(loc='best')
-    plt.show()
-    plt.clf()
-
-
-one_roc(y_test, y_pred)
+# Plots the roc curve.
+roc = cp.Roc()
+roc.plot(y_test, y_pred)
