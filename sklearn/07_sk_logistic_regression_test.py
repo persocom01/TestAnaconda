@@ -11,7 +11,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_predict
 from sklearn.metrics import accuracy_score
-import categorical_plots as cp
+import data_plots as dp
 
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
@@ -80,5 +80,5 @@ print(np.exp(lr.coef_))
 print()
 
 # Plots the roc curve.
-roc = cp.Roc()
-roc.plot(y_test, y_pred)
+roc = dp.Roc(y_test, y_pred)
+roc.plot()

@@ -12,7 +12,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
-import categorical_plots as cp
+import data_plots as dp
 
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
@@ -128,6 +128,6 @@ print(classification_report(y_test, y_pred, output_dict=False))
 
 
 # Plots multiple ROC curves for a multi categorical target in a single figure.
-roc = cp.Roc()
-roc.plot(y_test, y_pred, average='both', lw=2, title='species ROC plot',
+roc = dp.Roc(y_test, y_pred)
+roc.plot(average='both', lw=2, title='species ROC plot',
          class_labels=data.target_names, figsize=(12, 7.5))

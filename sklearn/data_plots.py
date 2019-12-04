@@ -4,28 +4,29 @@
 
 class Roc:
 
-    def __init__(self):
-        pass
+    def __init__(self, y_test=None, y_pred=None):
+        self.y_test = y_test
+        self.y_pred = y_pred
 
-    def score(self, y_test, y_pred):
+    def score(self):
         from sklearn.preprocessing import label_binarize
         from sklearn.metrics import roc_auc_score
 
         # Gets all unique categories.
-        classes = list(set(y_test) | set(y_pred))
+        classes = list(set(self.y_test) | set(self.y_pred))
         is_multi_categorical = len(classes) > 2
 
         # Check if target is multi categorical.
         if is_multi_categorical:
-            lb_test = label_binarize(y_test, classes=classes)
-            lb_pred = label_binarize(y_pred, classes=classes)
+            lb_test = label_binarize(self.y_test, classes=classes)
+            lb_pred = label_binarize(self.y_pred, classes=classes)
 
             # Returns the mean roc auc score. The closer it is to 1, the better.
             return roc_auc_score(lb_test, lb_pred)
         else:
-            return roc_auc_score(y_test, y_pred)
+            return roc_auc_score(self.y_test, self.y_pred)
 
-    def plot(self, y_test, y_pred, average='macro', lw=2, title=None, class_labels=None, **kwargs):
+    def plot(self, average='macro', lw=2, title=None, class_labels=None, **kwargs):
         '''
         A convenience function for plotting Receiver Operating Characteristic
         (ROC) curves.
@@ -42,7 +43,7 @@ class Roc:
         from scipy import interp
 
         # Gets all unique categories.
-        classes = list(set(y_test) | set(y_pred))
+        classes = list(set(self.y_test) | set(self.y_pred))
         is_multi_categorical = len(classes) > 2
 
         # Initialize graph.
@@ -51,8 +52,8 @@ class Roc:
         if is_multi_categorical:
             # Converts each multi categorical prediction into a list of 0 and 1 for
             # each category.
-            lb_test = label_binarize(y_test, classes=classes)
-            lb_pred = label_binarize(y_pred, classes=classes)
+            lb_test = label_binarize(self.y_test, classes=classes)
+            lb_pred = label_binarize(self.y_pred, classes=classes)
 
             # Compute ROC curve and ROC area for each class.
             fpr = {}
@@ -101,7 +102,7 @@ class Roc:
                         label=f'ROC curve of {class_labels[k]} (area = {roc_auc[k]:0.2f})', lw=lw)
 
         else:
-            fpr, tpr, _ = roc_curve(y_test, y_pred)
+            fpr, tpr, _ = roc_curve(self.y_test, self.y_pred)
             roc_auc = auc(fpr, tpr)
 
             if class_labels is None:
