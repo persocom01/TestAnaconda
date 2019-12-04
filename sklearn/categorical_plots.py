@@ -1,3 +1,7 @@
+# Importable module containing various classes plotting figures that evaluate
+# categorical predictions.
+
+
 class Roc:
 
     def __init__(self):
