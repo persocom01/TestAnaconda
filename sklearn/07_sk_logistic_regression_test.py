@@ -1,3 +1,8 @@
+# Logistic regression is a model used for binary or categorical target
+# predictive problems. It differs from KNN in that it is strictly a linear
+# model, and thus may require polynomial feature creation to work correctly.
+# However, it can return probabilities instead of labels, which can be useful
+# in some cases.
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt

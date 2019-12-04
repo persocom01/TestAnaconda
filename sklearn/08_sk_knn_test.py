@@ -1,6 +1,6 @@
 # Demonstrates the k nearest neighbors algorithm which is mainly used for
 # categorical target predictive problems. It can be used on a continuous target
-# as well, but there are probably better models for that. I works well on
+# as well, but there are probably better models for that. It works well on
 # datasets with fewer features. It is unknown if it works on multiple targets.
 import numpy as np
 import pandas as pd

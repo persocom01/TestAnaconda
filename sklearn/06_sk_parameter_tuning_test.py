@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import RandomizedSearchCV
+from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import Ridge
 from sklearn.linear_model import RidgeCV
 from sklearn.linear_model import LassoCV
@@ -70,22 +71,31 @@ lasso = LassoCV(n_alphas=50, cv=5)
 # Ridge.
 elastic = ElasticNetCV(cv=5)
 
-# Demonstrates searching for alpha for a model randomly.
 # RandomizedSearchCV(estimator, param_distributions, n_iter=10, scoring=None,
-# n_jobs=None, iid=’warn’, refit=True, cv=’warn’, verbose=0,
-# pre_dispatch=‘2*n_jobs’, random_state=None, error_score=’raise-deprecating’,
-# return_train_score=False)
+# n_jobs=None, refit=True, cv='warn', verbose=0, pre_dispatch='2*n_jobs',
+# random_state=None, return_train_score=False) searches for the best parameters
+# for a model randomly.
 # estimator=model
 # param_distributions=dict where the keys=model_kwargs and values the values
 # for those kwargs.
 # n_iter=int determines the number of random values tested.
 n_values = 50
-random_search = RandomizedSearchCV(ridge, param_distributions={
-                                   'alpha': (np.random.rand(n_values))*10}, n_iter=n_values, cv=5, random_state=1)
+param_grid = {'alpha': (np.random.rand(n_values))*10}
+random_search = RandomizedSearchCV(
+    ridge, param_distributions=param_grid, n_iter=n_values, n_jobs=-1, cv=5, random_state=1)
+
+# GridSearchCV(estimator, param_grid, scoring=None, n_jobs=None,
+# refit=True, cv=None, verbose=0, pre_dispatch='2*n_jobs',error_score=nan,
+# return_train_score=False) searches for the best parameters for a model
+# systematically.
+param_grid = {'alpha': (np.linspace(.1, 10, 50))}
+grid_search = GridSearchCV(ridge, param_grid=param_grid, n_jobs=-1, cv=5)
 
 # Cross validation phase.
 ridge_scores_rand = cross_val_score(random_search, X_train, y_train, cv=5)
 print('ridge_random:', ridge_scores_rand.mean())
+ridge_scores_grid = cross_val_score(grid_search, X_train, y_train, cv=5)
+print('ridge_grid:', ridge_scores_grid.mean())
 ridge_scores = cross_val_score(ridge, X_train, y_train, cv=5)
 print('ridge:', ridge_scores.mean())
 lasso_scores = cross_val_score(lasso, X_train, y_train, cv=5)
