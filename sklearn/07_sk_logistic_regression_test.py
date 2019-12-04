@@ -57,6 +57,9 @@ print('cross val accuracy:', (accuracy_score(cv, y_train)*100))
 print()
 
 y_pred = lr.predict(X_test)
+# You use predict_proba when you wish to use a different threshold probability
+# for determining if the target is 0 or 1. It is possible to map a new list of
+# predictions based on this new probability.
 y_pred_prob = lr.predict_proba(X_test)
 print('logreg predict vs y_test:')
 print(y_pred)

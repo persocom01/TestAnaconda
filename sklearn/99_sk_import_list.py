@@ -63,26 +63,6 @@ import scipy.stats as stats
 from itertools import combinations
 
 
-def ordinal_scale(df, mapping=None, start_num=0):
-    '''
-    A convenience mapping function that accepts a DataFrame and returns it with
-    each column defined as keys in the mapping dictionary mapped to its values.
-    '''
-    if mapping:
-        cols = mapping.keys()
-        for col in cols:
-            df[col] = df[col].map(
-                {k: i+start_num for i, k in enumerate(mapping[col])})
-            if df[col].isnull().sum() > 0:
-                print(
-                    f'WARNING: not all values in column "{col}" were mapped.')
-    else:
-        cols = df.columns
-        ord = OrdinalEncoder()
-        df[cols] = ord.fit_transform(df[cols])
-    return df
-
-
 def vif_feature_select(df, max_score=5.0, inplace=False, drop_list=False, _drops=None):
     '''
     Takes a DataFrame and returns it after recursively eliminating columns

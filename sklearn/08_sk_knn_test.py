@@ -64,7 +64,32 @@ X_test = pd.DataFrame(ss.transform(X_test), columns=features)
 # string based approach, and more distance metric options, refer to the
 # following link:
 # https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.DistanceMetric.html
+# At this point a parameter search using GridSearchCV is normally used to
+# determine the best hyperparameters to use, although it is not done here.
 knn = KNeighborsClassifier(n_neighbors=5, weights='distance', p=2)
+
+# Plots error rate vs k value in a graph. You can just avoid this step when
+# using GridSearchCV, but can be good for visualization purposes to know the
+# rough range of k to use.
+def knn_k_error_plot(X_train, y_train, y_test, k=10, **kwargs):
+    error_rate = []
+    for i in range(1, k):
+        knn = KNeighborsClassifier(n_neighbors=i)
+        knn.fit(X_train, y_train)
+        y_pred = knn.predict(X_test)
+        error_rate.append(np.mean(y_pred != y_test))
+
+    fig, ax = plt.subplots(**kwargs)
+    ax.plot(range(1, k), error_rate, color='blue', linestyle='dashed',
+            marker='o', markerfacecolor='red', markersize=10)
+    ax.set_xlabel('K')
+    ax.set_ylabel('Error Rate')
+    ax.set_title('Error Rate vs. K Value')
+    plt.show()
+    plt.clf()
+
+
+knn_k_error_plot(X_train, y_train, y_test)
 
 print('cross val score:')
 print(cross_val_score(knn, X_train, y_train, cv=5))
