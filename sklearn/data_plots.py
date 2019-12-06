@@ -7,23 +7,18 @@ class Roc:
     def __init__(self, y_test=None, y_pred=None):
         self.y_test = y_test
         self.y_pred = y_pred
-        # Gets all unique categories.
-        self.classes = list(set(self.y_test) | set(self.y_pred))
-        self.is_multi_categorical = len(self.classes) > 2
+        self.classes = None
 
     def score(self):
         from sklearn.preprocessing import label_binarize
         from sklearn.metrics import roc_auc_score
 
-        # Check if target is multi categorical.
-        if self.is_multi_categorical:
-            lb_test = label_binarize(self.y_test, classes=self.classes)
-            lb_pred = label_binarize(self.y_pred, classes=self.classes)
+        self.classes = list(set(self.y_test) | set(self.y_pred))
+        lb_test = label_binarize(self.y_test, classes=self.classes)
+        lb_pred = label_binarize(self.y_pred, classes=self.classes)
 
-            # Returns the mean roc auc score. The closer it is to 1, the better.
-            return roc_auc_score(lb_test, lb_pred)
-        else:
-            return roc_auc_score(self.y_test, self.y_pred)
+        # Returns the mean roc auc score. The closer it is to 1, the better.
+        return roc_auc_score(lb_test, lb_pred)
 
     def plot(self, average='macro', lw=2, title=None, class_labels=None, **kwargs):
         '''
@@ -41,14 +36,19 @@ class Roc:
         from itertools import cycle
         from scipy import interp
 
+        # Gets all unique categories.
+        self.classes = list(set(self.y_test) | set(self.y_pred))
+        is_multi_categorical = len(self.classes) > 2
+
+        # Converts each categorical prediction into a list of 0 and 1 for each
+        # category.
+        lb_test = label_binarize(self.y_test, classes=self.classes)
+        lb_pred = label_binarize(self.y_pred, classes=self.classes)
+
         # Initialize graph.
         fig, ax = plt.subplots(**kwargs)
 
-        if self.is_multi_categorical:
-            # Converts each multi categorical prediction into a list of 0 and 1 for
-            # each category.
-            lb_test = label_binarize(self.y_test, classes=self.classes)
-            lb_pred = label_binarize(self.y_pred, classes=self.classes)
+        if is_multi_categorical:
 
             # Compute ROC curve and ROC area for each class.
             fpr = {}
@@ -97,7 +97,7 @@ class Roc:
                         label=f'ROC curve of {class_labels[k]} (area = {roc_auc[k]:0.2f})', lw=lw)
 
         else:
-            fpr, tpr, _ = roc_curve(self.y_test, self.y_pred)
+            fpr, tpr, _ = roc_curve(lb_test, lb_pred)
             roc_auc = auc(fpr, tpr)
 
             if class_labels is None:
