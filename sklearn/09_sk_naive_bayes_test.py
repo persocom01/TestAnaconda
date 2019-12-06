@@ -7,6 +7,8 @@ import pandas as pd
 import pleiades as ple
 from nltk.corpus import stopwords
 from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 import data_plots as dp
@@ -16,6 +18,7 @@ import data_plots as dp
 from sklearn.naive_bayes import MultinomialNB
 # For features that follow a normal distribution.
 # from sklearn.naive_bayes import GaussianNB
+
 
 import_path = r'.\datasets\reddit.csv'
 data = pd.read_csv(import_path)
@@ -29,6 +32,7 @@ y = df['subreddit'].values
 # TIL is here because leaving it in makes it too easy.
 reddit_lingo = {
     'TIL': '',
+    '[tT]oday [iI] [lL]earned': '',
     'ff+uu+': 'ffuuu'
 }
 
@@ -40,6 +44,26 @@ print()
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 
+# At this point one can use pipe and GridSearchCV to find the best parameters:
+pipe = Pipeline([
+    ('tvec', TfidfVectorizer()),
+    ('nb', MultinomialNB())
+])
+params = {
+    'tvec__stop_words': [None, 'english'],
+    'tvec__ngram_range': [(1, 1), (1, 2)],
+    'tvec__max_df': [.85, .9, .95],
+    'tvec__min_df': [2, 4, 6],
+    'tvec__max_features': [3000, 5000, 7000],
+}
+gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
+gs.fit(X_train, y_train)
+# best score: 0.9316081330868762
+print('best score:', gs.best_score_)
+# best params: {'tvec__max_df': 0.85, 'tvec__max_features': 3000, 'tvec__min_df': 2, 'tvec__ngram_range': (1, 1), 'tvec__stop_words': None}
+print('best params:', gs.best_params_)
+print()
+
 # CountVectorizer(input='content', encoding='utf-8', decode_error='strict',
 # strip_accents=None, lowercase=True, preprocessor=None, tokenizer=None,
 # stop_words=None, token_pattern='(?u)\b\w\w+\b', ngram_range=(1, 1),
@@ -50,6 +74,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 # stop_words='english' works for most cases but you can pass your own list.
 # ngram_range=(min_words, max_words) determines the min and max length of each
 # word feature.
+# max / min_df=float_int ignores terms that occur in more or less than float
+# proportion of documents or more or less than int number of times.
 # max_features=int self explanatory, but know that it eliminates features
 # with the smallest column sums first.
 # Stopwords can be removed before during the vectorization stage, but
@@ -57,7 +83,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 # \b to each side of the word during regex.
 print('stopwords:', stopwords.words('english'))
 print()
-cvec = CountVectorizer(stop_words=stopwords.words('english'), ngram_range=(1, 2), max_features=7000)
+cvec = CountVectorizer(stop_words=None, ngram_range=(
+    1, 1), max_df=0.85, min_df=2, max_features=3000)
 X_train_cvec = cvec.fit_transform(X_train)
 X_train_cvec = pd.DataFrame(X_train_cvec.toarray(), columns=cvec.get_feature_names())
 X_test_cvec = cvec.transform(X_test)
@@ -70,8 +97,12 @@ print(X_train_cvec.head())
 # analyzer='word', stop_words=None, token_pattern='(?u)\b\w\w+\b',
 # ngram_range=(1, 1), max_df=1.0, min_df=1, max_features=None, vocabulary=None,
 # binary=False, dtype=<class 'numpy.float64'>, norm='l2', use_idf=True,
-# smooth_idf=True, sublinear_tf=False)
-tvec = TfidfVectorizer(stop_words='english', ngram_range=(1, 2), max_features=7000)
+# smooth_idf=True, sublinear_tf=False) is a kind of CountVectorizer that
+# penalizes words that occur too often and boosts words that occur less often.
+# In practice it often produces much better results than CountVectorizer.
+# The equivalent of using CountVectorizer() followed by TfidfTransformer().
+tvec = TfidfVectorizer(stop_words=None, ngram_range=(
+    1, 1), max_df=0.85, min_df=2, max_features=3000)
 X_train_tvec = tvec.fit_transform(X_train)
 X_train_tvec = pd.DataFrame(X_train_tvec.toarray(), columns=tvec.get_feature_names())
 X_test_tvec = tvec.transform(X_test)
