@@ -51,6 +51,18 @@ from sklearn.metrics import classification_report
 # KNN.
 from sklearn.neighbors import KNeighborsClassifier
 
+# Naive bayes.
+from sklearn.naive_bayes import BernoulliNB
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.naive_bayes import GaussianNB
+
+# NLTK.
+from nltk.tokenize import RegexpTokenizer
+from nltk.stem import WordNetLemmatizer
+from nltk.stem.porter import PorterStemmer
+from nltk.stem.lancaster import LancasterStemmer
+from nltk.stem.snowball import SnowballStemmer
+
 # For the cramers_corr function
 import scipy.stats as stats
 from itertools import combinations

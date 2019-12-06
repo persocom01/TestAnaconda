@@ -1,8 +1,21 @@
+# Naive bayes is a model used for binary classification problems. It is fast
+# and requires little training data, making it applicable for making real time
+# predictions. However, it is known as a bad estimator, so predict_proba isn't
+# too reliable, and it runs on the assumption that its features are completely
+# independent.
 import pandas as pd
-import re
+import pleiades as ple
+from nltk.corpus import stopwords
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
+import data_plots as dp
+# For binary features.
+# from sklearn.naive_bayes import BernoulliNB
+# For discrete features.
+from sklearn.naive_bayes import MultinomialNB
+# For features that follow a normal distribution.
+# from sklearn.naive_bayes import GaussianNB
 
 import_path = r'.\datasets\reddit.csv'
 data = pd.read_csv(import_path)
@@ -12,27 +25,18 @@ df = data[['title', 'subreddit']]
 X = df['title']
 y = df['subreddit'].values
 
-contractions = {
-    "n't": " not",
-    "'s": " is",
-    "'m": " am",
-    "'ll": " will",
-    "'ve": " have",
-    "'re'": " are"
-    }
+# Lingo dict.
+# TIL is here because leaving it in makes it too easy.
+reddit_lingo = {
+    'TIL': '',
+    'ff+uu+': 'ffuuu'
+}
 
-# Remove contractions.
-for i in range(len(X)):
-    for k, v in contractions.items():
-        X[i] = re.sub(k, v, X[i])
-
-
-
-# Remove slangs.
-
-# Remove punctuation.
-for i in range(len(X)):
-    X[i] = re.sub(r'[^a-zA-Z ]', r'', X[i])
+cz = ple.CZ()
+print('before:', X[1])
+X = cz.text_cleaner(X, cz.contractions, reddit_lingo, r'[^a-zA-Z ]', cz.lemmatize_sentence)
+print('after:', X[1])
+print()
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 
@@ -41,12 +45,25 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 # stop_words=None, token_pattern='(?u)\b\w\w+\b', ngram_range=(1, 1),
 # analyzer='word', max_df=1.0, min_df=1, max_features=None, vocabulary=None,
 # binary=False, dtype=<class 'numpy.int64'>) counts the words in each element
-# in a list, and returns a matrix with the rows containing the frequency of
-# words in each element
-cvec = CountVectorizer(stop_words='english')
-X_train_count = cvec.fit_transform(X_train)
-X_train_count = pd.DataFrame(X_train_count.toarray(), columns=cvec.get_feature_names())
-print(X_train_count.head())
+# in a list, and returns a matrix with the rows being the frequency of words in
+# each element.
+# stop_words='english' works for most cases but you can pass your own list.
+# ngram_range=(min_words, max_words) determines the min and max length of each
+# word feature.
+# max_features=int self explanatory, but know that it eliminates features
+# with the smallest column sums first.
+# Stopwords can be removed before during the vectorization stage, but
+# I've found it computationally expensive. If you wish to do it remember to add
+# \b to each side of the word during regex.
+print('stopwords:', stopwords.words('english'))
+print()
+cvec = CountVectorizer(stop_words=stopwords.words('english'), ngram_range=(1, 2), max_features=7000)
+X_train_cvec = cvec.fit_transform(X_train)
+X_train_cvec = pd.DataFrame(X_train_cvec.toarray(), columns=cvec.get_feature_names())
+X_test_cvec = cvec.transform(X_test)
+X_test_cvec = pd.DataFrame(X_test_cvec.toarray(), columns=cvec.get_feature_names())
+print('CountVectorizer:')
+print(X_train_cvec.head())
 
 # TfidfVectorizer(input='content', encoding='utf-8', decode_error='strict',
 # strip_accents=None, lowercase=True, preprocessor=None, tokenizer=None,
@@ -54,5 +71,31 @@ print(X_train_count.head())
 # ngram_range=(1, 1), max_df=1.0, min_df=1, max_features=None, vocabulary=None,
 # binary=False, dtype=<class 'numpy.float64'>, norm='l2', use_idf=True,
 # smooth_idf=True, sublinear_tf=False)
-tvec = TfidfVectorizer()
-# X_tfid =
+tvec = TfidfVectorizer(stop_words='english', ngram_range=(1, 2), max_features=7000)
+X_train_tvec = tvec.fit_transform(X_train)
+X_train_tvec = pd.DataFrame(X_train_tvec.toarray(), columns=tvec.get_feature_names())
+X_test_tvec = tvec.transform(X_test)
+X_test_tvec = pd.DataFrame(X_test_tvec.toarray(), columns=tvec.get_feature_names())
+print('TfidfVectorizer:')
+print(X_train_tvec.head())
+
+nb = MultinomialNB()
+model = nb.fit(X_train_cvec, y_train)
+model_tvec = nb.fit(X_train_tvec, y_train)
+
+y_pred = model.predict(X_test_cvec)
+y_pred_tvec = model_tvec.predict(X_test_tvec)
+
+print('model accuracy on itself:')
+print('cvec:', model.score(X_train_cvec, y_train))
+print('tvec:', model_tvec.score(X_train_tvec, y_train))
+print()
+print('model accuracy on test set:')
+print('cvec:', model.score(X_test_cvec, y_test))
+print('tvec:', model_tvec.score(X_test_tvec, y_test))
+print()
+
+roc = dp.Roc(y_test, y_pred)
+roc.plot()
+roc = dp.Roc(y_test, y_pred_tvec)
+roc.plot()
