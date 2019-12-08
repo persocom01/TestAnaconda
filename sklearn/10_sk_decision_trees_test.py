@@ -59,6 +59,7 @@ def gini(arr):
 
 print('Gini:')
 print(gini(arr))
+print()
 
 # DecisionTreeClassifier(criterion='gini', splitter='best', max_depth=None,
 # min_samples_split=2, min_samples_leaf=1, min_weight_fraction_leaf=0.0,
@@ -104,37 +105,93 @@ def get_params(dict):
         return f'{k}: {joined_list}'
 
 
-# best params: {'tvec__max_df': 0.9, 'tvec__max_features': 2000, 'tvec__min_df': 4, 'tvec__ngram_range': (1, 1), 'tvec__stop_words': None}
-# We can use .predict on GridSearchCV instead of reconstructing the model at
-# this point, but we'll recreate the model for demonstration purposes.
+best params: {'tvec__max_df': 0.9, 'tvec__max_features': 2000, 'tvec__min_df': 4, 'tvec__ngram_range': (1, 1), 'tvec__stop_words': None}
+We can use .predict on GridSearchCV instead of reconstructing the model at
+this point, but we'll recreate the model for demonstration purposes.
 print('best params:', get_params(gs.best_params_))
 print()
 
-tvec = TfidfVectorizer(max_df=0.85, max_features=1000, min_df=2, ngram_range=(1, 2), stop_words=None)
-X_train_tvec = tvec.fit_transform(X_train)
-X_train_tvec = pd.DataFrame(X_train_tvec.toarray(),
-                            columns=tvec.get_feature_names())
-X_test_tvec = tvec.transform(X_test)
-X_test_tvec = pd.DataFrame(X_test_tvec.toarray(),
-                           columns=tvec.get_feature_names())
+tvec = TfidfVectorizer(max_df=0.85, max_features=1000,
+                       min_df=2, ngram_range=(1, 2), stop_words=None)
+X_train = tvec.fit_transform(X_train)
+X_train = pd.DataFrame(X_train.toarray(), columns=tvec.get_feature_names())
+X_test = tvec.transform(X_test)
+X_test = pd.DataFrame(X_test.toarray(), columns=tvec.get_feature_names())
 print('TfidfVectorizer:')
-print(X_train_tvec.sum().sort_values(ascending=False)[:5])
+print(X_train.sum().sort_values(ascending=False)[:5])
 print()
 
 # Demonstrates hyperparameter tuning of a decision tree.
-max_depths = np.linspace(1, 20, 20)
-train_preds = []
-test_preds = []
+# max_depth.
+max_depths = np.linspace(1, 10, 10)
+train_auc_scores = []
+test_auc_scores = []
 roc = dp.Roc()
 for max_depth in max_depths:
     dt = DecisionTreeClassifier(max_depth=max_depth)
     dt.fit(X_train, y_train)
 
-    y_train_pred = dt.predict(X_train)
-    train_preds.append(roc.auc_score(y_train, y_train_pred))
+    y_pred_train = dt.predict(X_train)
+    train_auc_scores.append(roc.auc_score(y_train, y_pred_train))
 
     y_pred = dt.predict(X_test)
-    test_preds.append(roc.auc_score(y_train, y_pred))
+    test_auc_scores.append(roc.auc_score(y_test, y_pred))
 
-preds = [train_preds, test_preds]
-roc.plot_auc(max_depths, preds)
+auc_scores = [train_auc_scores, test_auc_scores]
+roc.plot_auc(max_depths, auc_scores, title='AUC score vs Tree depth',
+             xlabel='Tree depth', labels=['tain AUC', 'test AUC'])
+
+# min_samples_split.
+min_samples_splits = np.linspace(0.1, 1.0, 10, endpoint=True)
+train_auc_scores = []
+test_auc_scores = []
+roc = dp.Roc()
+for min_samples_split in min_samples_splits:
+    dt = DecisionTreeClassifier(min_samples_split=min_samples_split)
+    dt.fit(X_train, y_train)
+
+    y_pred_train = dt.predict(X_train)
+    train_auc_scores.append(roc.auc_score(y_train, y_pred_train))
+
+    y_pred = dt.predict(X_test)
+    test_auc_scores.append(roc.auc_score(y_test, y_pred))
+
+auc_scores = [train_auc_scores, test_auc_scores]
+roc.plot_auc(min_samples_splits, auc_scores, title='AUC score vs Min samples split',
+             xlabel='Min samples split', labels=['tain AUC', 'test AUC'])
+
+# min_samples_leaf.
+min_samples_leafs = np.linspace(0.1, 0.5, 5, endpoint=True)
+train_auc_scores = []
+test_auc_scores = []
+roc = dp.Roc()
+for min_samples_leaf in min_samples_leafs:
+    dt = DecisionTreeClassifier(min_samples_leaf=min_samples_leaf)
+    dt.fit(X_train, y_train)
+
+    y_pred_train = dt.predict(X_train)
+    train_auc_scores.append(roc.auc_score(y_train, y_pred_train))
+
+    y_pred = dt.predict(X_test)
+    test_auc_scores.append(roc.auc_score(y_test, y_pred))
+
+auc_scores = [train_auc_scores, test_auc_scores]
+roc.plot_auc(min_samples_leafs, auc_scores, title='AUC score vs Min samples leaf',
+             xlabel='Min samples leaf', labels=['tain AUC', 'test AUC'])
+
+dt = DecisionTreeClassifier()
+params = {
+    'max_depth': [3, 4, 5],
+    'min_samples_split': [0.2, 0.3, 0.4],
+    'min_samples_leaf': [0.05, 0.1, 0.15]
+}
+gs = GridSearchCV(dt, param_grid=params, cv=5, n_jobs=-1)
+gs.fit(X_train, y_train)
+# best score: 0.865988909426987
+print('best score:', gs.best_score_)
+print('best params:', gs.best_params_)
+print()
+
+y_pred = gs.predict(X_test)
+
+roc.plot(y_test, y_pred)

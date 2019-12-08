@@ -34,12 +34,15 @@ class Roc:
         import matplotlib.pyplot as plt
         fig, ax = plt.subplots(**kwargs)
         for i, scores in enumerate(auc_scores):
+            if labels is None:
+                labels = range(len(auc_scores))
             ax.plot(x, scores, label=labels[i])
         ax.set_xlabel(xlabel)
         ax.set_ylabel('AUC score')
         ax.set_title(title)
+        ax.legend(loc='best')
         plt.show()
-        plt.clf()
+        plt.close()
 
     def plot(self, y_test, y_pred, average='macro', lw=2, title=None, labels=None, **kwargs):
         '''
@@ -137,4 +140,4 @@ class Roc:
         ax.set_title(title)
         ax.legend(loc='best')
         plt.show()
-        plt.clf()
+        plt.close()
