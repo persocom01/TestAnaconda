@@ -8,26 +8,45 @@ class Roc:
         self.y_test = y_test
         self.y_pred = y_pred
         self.classes = None
+        self.is_multi_categorical = None
 
-    def score(self):
+    def auc_score(self):
+        '''
+        This is just the sklearn roc_auc_score in a wrapper that makes it work
+        even if the target is multi-categorical or has not been label encoded.
+        '''
         from sklearn.preprocessing import label_binarize
         from sklearn.metrics import roc_auc_score
 
         self.classes = list(set(self.y_test) | set(self.y_pred))
+        self.is_multi_categorical = len(self.classes) > 2
+
+        # Avoids label_binarize if unecessary.
+        if not self.is_multi_categorical:
+            try:
+                return roc_auc_score(self.y_test, self.y_pred)
+            except TypeError:
+                pass
         lb_test = label_binarize(self.y_test, classes=self.classes)
         lb_pred = label_binarize(self.y_pred, classes=self.classes)
 
         # Returns the mean roc auc score. The closer it is to 1, the better.
         return roc_auc_score(lb_test, lb_pred)
 
-    def plot(self, average='macro', lw=2, title=None, class_labels=None, **kwargs):
+    def plot_auc(self, x, auc_scores, lw=2, title=None, labels=None, **kwargs):
+        import matplotlib.pyplot as plt
+        fig, ax = plt.subplots(**kwargs)
+        for score in auc_scores:
+            ax.plot(x, )
+
+    def plot(self, average='macro', lw=2, title=None, labels=None, **kwargs):
         '''
         A convenience function for plotting Receiver Operating Characteristic
         (ROC) curves.
 
-        class_labels accepts a dictionary of the column values mapped onto
-        class names. If the column values are simply integers, it is possible
-        to just pass a list.
+        labels accepts a dictionary of the column values mapped onto class
+        names. If the column values are simply integers, it is possible to just
+        pass a list.
         '''
         import numpy as np
         import matplotlib.pyplot as plt
@@ -38,7 +57,7 @@ class Roc:
 
         # Gets all unique categories.
         self.classes = list(set(self.y_test) | set(self.y_pred))
-        is_multi_categorical = len(self.classes) > 2
+        self.is_multi_categorical = len(self.classes) > 2
 
         # Converts each categorical prediction into a list of 0 and 1 for each
         # category.
@@ -48,7 +67,7 @@ class Roc:
         # Initialize graph.
         fig, ax = plt.subplots(**kwargs)
 
-        if is_multi_categorical:
+        if self.is_multi_categorical:
 
             # Compute ROC curve and ROC area for each class.
             fpr = {}
@@ -71,7 +90,8 @@ class Roc:
                 # Compute macro-average ROC curve and ROC area.
 
                 # First aggregate all false positive rates.
-                all_fpr = np.unique(np.concatenate([fpr[k] for k in self.classes]))
+                all_fpr = np.unique(np.concatenate(
+                    [fpr[k] for k in self.classes]))
 
                 # Then interpolate all ROC curves at these points.
                 mean_tpr = np.zeros_like(all_fpr)
@@ -90,20 +110,21 @@ class Roc:
 
             # Plot ROC curve for each category.
             colors = cycle(['teal', 'darkorange', 'cornflowerblue'])
-            if class_labels is None:
-                class_labels = self.classes
+            if labels is None:
+                labels = self.classes
             for k, color in zip(self.classes, colors):
                 ax.plot(fpr[k], tpr[k], color=color,
-                        label=f'ROC curve of {class_labels[k]} (area = {roc_auc[k]:0.2f})', lw=lw)
+                        label=f'ROC curve of {labels[k]} (area = {roc_auc[k]:0.2f})', lw=lw)
 
         else:
             fpr, tpr, _ = roc_curve(lb_test, lb_pred)
             roc_auc = auc(fpr, tpr)
 
-            if class_labels is None:
-                class_labels = 'target'
+            if labels is None:
+                labels = 'target'
 
-            ax.plot(fpr, tpr, label=f'ROC curve of {class_labels} (area = {roc_auc:0.2f})', lw=lw)
+            ax.plot(
+                fpr, tpr, label=f'ROC curve of {labels} (area = {roc_auc:0.2f})', lw=lw)
 
         # Plot the curve of the baseline model (mean).
         ax.plot([0, 1], [0, 1], 'k--')

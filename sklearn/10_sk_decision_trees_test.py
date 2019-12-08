@@ -34,7 +34,8 @@ reddit_lingo = {
 
 cz = ple.CZ()
 print('before:', X[1])
-X = cz.text_cleaner(X, cz.contractions, reddit_lingo, r'[^a-zA-Z ]', cz.lemmatize_sentence)
+X = cz.text_cleaner(X, cz.contractions, reddit_lingo,
+                    r'[^a-zA-Z ]', cz.lemmatize_sentence)
 print('after:', X[1])
 print()
 
@@ -73,6 +74,15 @@ params = {
     'tvec__max_df': [.85, .9, .95],
     'tvec__min_df': [2, 4, 6],
     'tvec__max_features': [1000, 2000, 3000],
+    'dt__max_depth': [5, 7, 10],
+    'dt__min_samples_split': [],
+    'dt__min_samples_leaf': []
 }
 gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
 gs.fit(X_train, y_train)
+print('best score:', gs.best_score_)
+# best params: {'tvec__max_df': 0.85, 'tvec__max_features': 2000, 'tvec__min_df': 2, 'tvec__ngram_range': (1, 1), 'tvec__stop_words': None}
+# We can use .predict on GridSearchCV instead of reconstructing the model at
+# this point, but we'll recreate the model for demonstration purposes.
+print('best params:', gs.best_params_)
+print()

@@ -43,7 +43,8 @@ X = cz.text_cleaner(X, cz.contractions, reddit_lingo,
 print('after:', X[1])
 print()
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, random_state=1, stratify=y)
 
 # At this point one can use pipe and GridSearchCV to find the best parameters:
 pipe = Pipeline([
@@ -61,31 +62,10 @@ gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
 gs.fit(X_train, y_train)
 # best score: 0.9316081330868762
 print('best score:', gs.best_score_)
-
-
-def get_params(dict):
-    from re import match
-    params = {}
-    pattern = r'^([a-zA-Z0-9_]+)__([a-zA-Z0-9_]+)'
-    for k, v in dict.items():
-        if isinstance(v, str):
-            v = "'" + v + "'"
-        m = match(pattern, k)
-        key = m.group(1)
-        kwarg = f'{match.group(2)}={v}'
-        if key in params:
-            params[key].append(kwarg)
-        else:
-            params[key] = [kwarg]
-    for k, v in params.items():
-        joined_list = ', '.join(map(str, v))
-        return f'{k}: {joined_list}'
-
-
 # best params: {'tvec__max_df': 0.85, 'tvec__max_features': 2000, 'tvec__min_df': 2, 'tvec__ngram_range': (1, 1), 'tvec__stop_words': None}
 # We can use .predict on GridSearchCV instead of reconstructing the model at
 # this point, but we'll recreate the model for demonstration purposes.
-print('best params:', get_params(gs.best_params_))
+print('best params:', gs.best_params_)
 print()
 
 # CountVectorizer(input='content', encoding='utf-8', decode_error='strict',
