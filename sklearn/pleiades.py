@@ -17,7 +17,7 @@ class CZ:
             "'re'": " are"
         }
 
-    # To tokenize is to split the sentene into words.
+    # To tokenize is to split the sentence into words.
     # Lemmatizing eliminates things like the s from plurals like apples.
     def lemmatize_sentence(self, sentence):
         from nltk.tokenize import RegexpTokenizer

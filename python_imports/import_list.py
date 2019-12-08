@@ -18,6 +18,13 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import Normalizer
 from sklearn.preprocessing import OrdinalEncoder
 
+# NLTK.
+from nltk.tokenize import RegexpTokenizer
+from nltk.stem import WordNetLemmatizer
+from nltk.stem.porter import PorterStemmer
+from nltk.stem.lancaster import LancasterStemmer
+from nltk.stem.snowball import SnowballStemmer
+
 # Feature engineering.
 from sklearn.preprocessing import PolynomialFeatures
 
@@ -38,6 +45,29 @@ from sklearn.linear_model import ElasticNet
 from sklearn.linear_model import ElasticNetCV
 from sklearn.linear_model import LogisticRegression
 
+# KNN.
+from sklearn.neighbors import KNeighborsClassifier
+
+# Naive bayes.
+from sklearn.naive_bayes import BernoulliNB
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.naive_bayes import GaussianNB
+
+# Decision trees.
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import BaggingClassifier
+from sklearn.ensemble import BaggingRegressor
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.ensemble import ExtraTreesRegressor
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.ensemble import AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.ensemble import GradientBoostingRegressor
+from xgboost import XGBClassifier
+
 # Metrics.
 from sklearn.metrics import r2_score
 from sklearn.metrics import mean_absolute_error
@@ -47,21 +77,6 @@ from sklearn.metrics import explained_variance_score
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
-
-# KNN.
-from sklearn.neighbors import KNeighborsClassifier
-
-# Naive bayes.
-from sklearn.naive_bayes import BernoulliNB
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.naive_bayes import GaussianNB
-
-# NLTK.
-from nltk.tokenize import RegexpTokenizer
-from nltk.stem import WordNetLemmatizer
-from nltk.stem.porter import PorterStemmer
-from nltk.stem.lancaster import LancasterStemmer
-from nltk.stem.snowball import SnowballStemmer
 
 # For the cramers_corr function
 import scipy.stats as stats
