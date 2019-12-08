@@ -63,8 +63,6 @@ gs.fit(X_train, y_train)
 # best score: 0.9316081330868762
 print('best score:', gs.best_score_)
 # best params: {'tvec__max_df': 0.85, 'tvec__max_features': 2000, 'tvec__min_df': 2, 'tvec__ngram_range': (1, 1), 'tvec__stop_words': None}
-# We can use .predict on GridSearchCV instead of reconstructing the model at
-# this point, but we'll recreate the model for demonstration purposes.
 print('best params:', gs.best_params_)
 print()
 

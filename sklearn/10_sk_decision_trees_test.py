@@ -105,9 +105,7 @@ def get_params(dict):
         return f'{k}: {joined_list}'
 
 
-best params: {'tvec__max_df': 0.9, 'tvec__max_features': 2000, 'tvec__min_df': 4, 'tvec__ngram_range': (1, 1), 'tvec__stop_words': None}
-We can use .predict on GridSearchCV instead of reconstructing the model at
-this point, but we'll recreate the model for demonstration purposes.
+# best params: {'tvec__max_df': 0.9, 'tvec__max_features': 2000, 'tvec__min_df': 4, 'tvec__ngram_range': (1, 1), 'tvec__stop_words': None}
 print('best params:', get_params(gs.best_params_))
 print()
 
