@@ -18,14 +18,18 @@ class CZ:
         }
 
     # To tokenize is to split the sentence into words.
-    # Lemmatizing eliminates things like the s from plurals like apples.
-    def lemmatize_sentence(self, sentence):
+    def re_tokenize(self, sentence):
         from nltk.tokenize import RegexpTokenizer
-        from nltk.stem import WordNetLemmatizer
         retoken = RegexpTokenizer(r'\w+')
-        wnlem = WordNetLemmatizer()
         sentence = sentence.lower()
         words = retoken.tokenize(sentence)
+        return words
+
+    # Lemmatizing eliminates things like the s from plurals like apples.
+    def lemmatize_sentence(self, sentence):
+        from nltk.stem import WordNetLemmatizer
+        wnlem = WordNetLemmatizer()
+        words = self.re_tokenize(sentence)
         words = [wnlem.lemmatize(word) for word in words]
         # Returns sentence instead of individual words.
         return ' '.join(words)
@@ -33,12 +37,9 @@ class CZ:
     # Stemming is a more drastic approach than lemmatizing. It truncates words
     # to get to the root word.
     def stem_sentence(self, sentence):
-        from nltk.tokenize import RegexpTokenizer
         from nltk.stem.porter import PorterStemmer
-        retoken = RegexpTokenizer(r'\w+')
         p_stem = PorterStemmer()
-        sentence = sentence.lower()
-        words = retoken.tokenize(sentence)
+        words = self.re_tokenize(sentence)
         words = [p_stem.stem(word) for word in words]
         # Returns sentence instead of individual words.
         return ' '.join(words)

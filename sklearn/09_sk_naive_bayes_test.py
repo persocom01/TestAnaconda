@@ -38,7 +38,8 @@ reddit_lingo = {
 
 cz = ple.CZ()
 print('before:', X[1])
-X = cz.text_cleaner(X, cz.contractions, reddit_lingo, r'[^a-zA-Z ]', cz.lemmatize_sentence)
+X = cz.text_cleaner(X, cz.contractions, reddit_lingo,
+                    r'[^a-zA-Z ]', cz.lemmatize_sentence)
 print('after:', X[1])
 print()
 
@@ -54,13 +55,13 @@ params = {
     'tvec__ngram_range': [(1, 1), (1, 2)],
     'tvec__max_df': [.85, .9, .95],
     'tvec__min_df': [2, 4, 6],
-    'tvec__max_features': [3000, 5000, 7000],
+    'tvec__max_features': [1000, 2000, 3000],
 }
 gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
 gs.fit(X_train, y_train)
 # best score: 0.9316081330868762
 print('best score:', gs.best_score_)
-# best params: {'tvec__max_df': 0.85, 'tvec__max_features': 3000, 'tvec__min_df': 2, 'tvec__ngram_range': (1, 1), 'tvec__stop_words': None}
+# best params: {'tvec__max_df': 0.85, 'tvec__max_features': 2000, 'tvec__min_df': 2, 'tvec__ngram_range': (1, 1), 'tvec__stop_words': None}
 print('best params:', gs.best_params_)
 print()
 
@@ -84,11 +85,13 @@ print()
 print('stopwords:', stopwords.words('english'))
 print()
 cvec = CountVectorizer(stop_words=None, ngram_range=(
-    1, 1), max_df=0.85, min_df=2, max_features=3000)
+    1, 1), max_df=0.85, min_df=2, max_features=2000)
 X_train_cvec = cvec.fit_transform(X_train)
-X_train_cvec = pd.DataFrame(X_train_cvec.toarray(), columns=cvec.get_feature_names())
+X_train_cvec = pd.DataFrame(X_train_cvec.toarray(),
+                            columns=cvec.get_feature_names())
 X_test_cvec = cvec.transform(X_test)
-X_test_cvec = pd.DataFrame(X_test_cvec.toarray(), columns=cvec.get_feature_names())
+X_test_cvec = pd.DataFrame(X_test_cvec.toarray(),
+                           columns=cvec.get_feature_names())
 print('CountVectorizer:')
 print(X_train_cvec.head())
 
@@ -102,11 +105,13 @@ print(X_train_cvec.head())
 # In practice it often produces much better results than CountVectorizer.
 # The equivalent of using CountVectorizer() followed by TfidfTransformer().
 tvec = TfidfVectorizer(stop_words=None, ngram_range=(
-    1, 1), max_df=0.85, min_df=2, max_features=3000)
+    1, 1), max_df=0.85, min_df=2, max_features=2000)
 X_train_tvec = tvec.fit_transform(X_train)
-X_train_tvec = pd.DataFrame(X_train_tvec.toarray(), columns=tvec.get_feature_names())
+X_train_tvec = pd.DataFrame(X_train_tvec.toarray(),
+                            columns=tvec.get_feature_names())
 X_test_tvec = tvec.transform(X_test)
-X_test_tvec = pd.DataFrame(X_test_tvec.toarray(), columns=tvec.get_feature_names())
+X_test_tvec = pd.DataFrame(X_test_tvec.toarray(),
+                           columns=tvec.get_feature_names())
 print('TfidfVectorizer:')
 print(X_train_tvec.head())
 
