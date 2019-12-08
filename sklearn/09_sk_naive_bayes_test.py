@@ -64,14 +64,14 @@ print('best score:', gs.best_score_)
 
 
 def get_params(dict):
-    import re
+    from re import match
     params = {}
     pattern = r'^([a-zA-Z0-9_]+)__([a-zA-Z0-9_]+)'
     for k, v in dict.items():
         if isinstance(v, str):
             v = "'" + v + "'"
-        match = re.match(pattern, k)
-        key = match.group(1)
+        m = match(pattern, k)
+        key = m.group(1)
         kwarg = f'{match.group(2)}={v}'
         if key in params:
             params[key].append(kwarg)
@@ -83,6 +83,8 @@ def get_params(dict):
 
 
 # best params: {'tvec__max_df': 0.85, 'tvec__max_features': 2000, 'tvec__min_df': 2, 'tvec__ngram_range': (1, 1), 'tvec__stop_words': None}
+# We can use .predict on GridSearchCV instead of reconstructing the model at
+# this point, but we'll recreate the model for demonstration purposes.
 print('best params:', get_params(gs.best_params_))
 print()
 
