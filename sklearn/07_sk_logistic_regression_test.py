@@ -80,5 +80,5 @@ print(np.exp(lr.coef_))
 print()
 
 # Plots the roc curve.
-roc = dp.Roc(y_test, y_pred)
-roc.plot()
+roc = dp.Roc()
+roc.plot(y_test, y_pred)

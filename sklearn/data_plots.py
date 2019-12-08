@@ -5,12 +5,9 @@
 class Roc:
 
     def __init__(self, y_test=None, y_pred=None):
-        self.y_test = y_test
-        self.y_pred = y_pred
         self.classes = None
-        self.is_multi_categorical = None
 
-    def auc_score(self):
+    def auc_score(self, y_test, y_pred):
         '''
         This is just the sklearn roc_auc_score in a wrapper that makes it work
         even if the target is multi-categorical or has not been label encoded.
@@ -18,28 +15,33 @@ class Roc:
         from sklearn.preprocessing import label_binarize
         from sklearn.metrics import roc_auc_score
 
-        self.classes = list(set(self.y_test) | set(self.y_pred))
-        self.is_multi_categorical = len(self.classes) > 2
+        self.classes = list(set(y_test) | set(y_pred))
+        is_multi_categorical = len(self.classes) > 2
 
         # Avoids label_binarize if unnecessary.
-        if not self.is_multi_categorical:
+        if not is_multi_categorical:
             try:
-                return roc_auc_score(self.y_test, self.y_pred)
+                return roc_auc_score(y_test, y_pred)
             except TypeError:
                 pass
-        lb_test = label_binarize(self.y_test, classes=self.classes)
-        lb_pred = label_binarize(self.y_pred, classes=self.classes)
+        lb_test = label_binarize(y_test, classes=self.classes)
+        lb_pred = label_binarize(y_pred, classes=self.classes)
 
         # Returns the mean roc auc score. The closer it is to 1, the better.
         return roc_auc_score(lb_test, lb_pred)
 
-    def plot_auc(self, x, auc_scores, lw=2, title=None, labels=None, **kwargs):
+    def plot_auc(self, x, auc_scores, lw=2, title=None, xlabel=None, labels=None, **kwargs):
         import matplotlib.pyplot as plt
         fig, ax = plt.subplots(**kwargs)
-        for score in auc_scores:
-            ax.plot(x, )
+        for i, scores in enumerate(auc_scores):
+            ax.plot(x, scores, label=labels[i])
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel('AUC score')
+        ax.set_title(title)
+        plt.show()
+        plt.clf()
 
-    def plot(self, average='macro', lw=2, title=None, labels=None, **kwargs):
+    def plot(self, y_test, y_pred, average='macro', lw=2, title=None, labels=None, **kwargs):
         '''
         A convenience function for plotting Receiver Operating Characteristic
         (ROC) curves.
@@ -56,18 +58,18 @@ class Roc:
         from scipy import interp
 
         # Gets all unique categories.
-        self.classes = list(set(self.y_test) | set(self.y_pred))
-        self.is_multi_categorical = len(self.classes) > 2
+        self.classes = list(set(y_test) | set(y_pred))
+        is_multi_categorical = len(self.classes) > 2
 
         # Converts each categorical prediction into a list of 0 and 1 for each
         # category.
-        lb_test = label_binarize(self.y_test, classes=self.classes)
-        lb_pred = label_binarize(self.y_pred, classes=self.classes)
+        lb_test = label_binarize(y_test, classes=self.classes)
+        lb_pred = label_binarize(y_pred, classes=self.classes)
 
         # Initialize graph.
         fig, ax = plt.subplots(**kwargs)
 
-        if self.is_multi_categorical:
+        if is_multi_categorical:
 
             # Compute ROC curve and ROC area for each class.
             fpr = {}
