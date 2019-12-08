@@ -61,8 +61,29 @@ gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
 gs.fit(X_train, y_train)
 # best score: 0.9316081330868762
 print('best score:', gs.best_score_)
+
+
+def get_params(dict):
+    import re
+    params = {}
+    pattern = r'^([a-zA-Z0-9_]+)__([a-zA-Z0-9_]+)'
+    for k, v in dict.items():
+        if isinstance(v, str):
+            v = "'" + v + "'"
+        match = re.match(pattern, k)
+        key = match.group(1)
+        kwarg = f'{match.group(2)}={v}'
+        if key in params:
+            params[key].append(kwarg)
+        else:
+            params[key] = [kwarg]
+    for k, v in params.items():
+        joined_list = ', '.join(map(str, v))
+        return f'{k}: {joined_list}'
+
+
 # best params: {'tvec__max_df': 0.85, 'tvec__max_features': 2000, 'tvec__min_df': 2, 'tvec__ngram_range': (1, 1), 'tvec__stop_words': None}
-print('best params:', gs.best_params_)
+print('best params:', get_params(gs.best_params_))
 print()
 
 # CountVectorizer(input='content', encoding='utf-8', decode_error='strict',
@@ -93,7 +114,8 @@ X_test_cvec = cvec.transform(X_test)
 X_test_cvec = pd.DataFrame(X_test_cvec.toarray(),
                            columns=cvec.get_feature_names())
 print('CountVectorizer:')
-print(X_train_cvec.head())
+print(X_train_cvec.sum().sort_values(ascending=False)[:5])
+print()
 
 # TfidfVectorizer(input='content', encoding='utf-8', decode_error='strict',
 # strip_accents=None, lowercase=True, preprocessor=None, tokenizer=None,
@@ -113,7 +135,8 @@ X_test_tvec = tvec.transform(X_test)
 X_test_tvec = pd.DataFrame(X_test_tvec.toarray(),
                            columns=tvec.get_feature_names())
 print('TfidfVectorizer:')
-print(X_train_tvec.head())
+print(X_train_tvec.sum().sort_values(ascending=False)[:5])
+print()
 
 nb = MultinomialNB()
 model = nb.fit(X_train_cvec, y_train)

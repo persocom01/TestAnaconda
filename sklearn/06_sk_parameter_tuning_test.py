@@ -80,21 +80,26 @@ elastic = ElasticNetCV(cv=5)
 # for those kwargs.
 # n_iter=int determines the number of random values tested.
 n_values = 50
-param_grid = {'alpha': (np.random.rand(n_values))*10}
-random_search = RandomizedSearchCV(
-    ridge, param_distributions=param_grid, n_iter=n_values, n_jobs=-1, cv=5, random_state=1)
+param_grid = {'alpha': (np.random.rand(n_values))*50}
+rs = RandomizedSearchCV(
+    ridge, param_distributions=param_grid, n_iter=n_values, n_jobs=-1, cv=5, random_state=1, iid=False)
+rs.fit(X_train, y_train)
+print('random alpha:', rs.best_params_)
 
 # GridSearchCV(estimator, param_grid, scoring=None, n_jobs=None,
 # refit=True, cv=None, verbose=0, pre_dispatch='2*n_jobs',error_score=nan,
 # return_train_score=False) searches for the best parameters for a model
 # systematically.
-param_grid = {'alpha': (np.linspace(.1, 10, 50))}
-grid_search = GridSearchCV(ridge, param_grid=param_grid, n_jobs=-1, cv=5)
+param_grid = {'alpha': (np.linspace(.1, 50, 50))}
+gs = GridSearchCV(ridge, param_grid=param_grid, n_jobs=-1, cv=5, iid=False)
+gs.fit(X_train, y_train)
+print('grid alpha:', gs.best_params_)
+print()
 
 # Cross validation phase.
-ridge_scores_rand = cross_val_score(random_search, X_train, y_train, cv=5)
+ridge_scores_rand = cross_val_score(rs, X_train, y_train, cv=5)
 print('ridge_random:', ridge_scores_rand.mean())
-ridge_scores_grid = cross_val_score(grid_search, X_train, y_train, cv=5)
+ridge_scores_grid = cross_val_score(gs, X_train, y_train, cv=5)
 print('ridge_grid:', ridge_scores_grid.mean())
 ridge_scores = cross_val_score(ridge, X_train, y_train, cv=5)
 print('ridge:', ridge_scores.mean())
