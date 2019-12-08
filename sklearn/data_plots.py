@@ -21,7 +21,7 @@ class Roc:
         self.classes = list(set(self.y_test) | set(self.y_pred))
         self.is_multi_categorical = len(self.classes) > 2
 
-        # Avoids label_binarize if unecessary.
+        # Avoids label_binarize if unnecessary.
         if not self.is_multi_categorical:
             try:
                 return roc_auc_score(self.y_test, self.y_pred)
