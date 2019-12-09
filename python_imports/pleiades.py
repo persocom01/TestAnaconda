@@ -44,34 +44,66 @@ class CZ:
         # Returns sentence instead of individual words.
         return ' '.join(words)
 
-    def text_array_cleaner(self, text, *args, inplace=False):
+    def text_list_cleaner(self, text_list, *args, inplace=False):
         '''
-        A function made specifically to clean text structured as arrays.
+        Cleans text in lists.
         '''
         import re
         if inplace is False:
-            text = text.copy()
-        for i in range(len(text)):
+            text_list = text_list.copy()
+        for i in range(len(text_list)):
             for arg in args:
                 # Maps text with a function.
                 if callable(arg):
-                    text[i] = arg(text[i])
+                    text_list[i] = arg(text_list[i])
                 # Maps text defined in dict keys with their corresponding
                 # values.
                 elif isinstance(arg, dict):
                     for k, v in arg.items():
-                        text[i] = re.sub(k, v, text[i])
+                        text_list[i] = re.sub(k, v, text_list[i])
                 # Removes all words passed as a list.
                 elif not isinstance(arg, str):
                     for a in arg:
                         pattern = f'\b{a}\b'
-                        text[i] = re.sub(pattern, r'', text[i])
+                        text_list[i] = re.sub(pattern, r'', text_list[i])
                 # For any other special cases.
                 else:
-                    text[i] = re.sub(arg, r' ', text[i])
-        return text
+                    text_list[i] = re.sub(arg, r' ', text_list[i])
+        return text_list
 
-# Sebastian deals with data cleaning.
+    def word_cloud(text, figsize=(12.5, 7.5), max_font_size=None, max_words=200, background_color='black', mask=None, recolor=False, **kwargs):
+        '''
+        Plots a wordcloud.
+
+        Use full_text = ' '.join(list_of_text) to get a single string.
+        '''
+        import numpy as np
+        import matplotlib.pyplot as plt
+        from PIL import Image
+        from wordcloud import WordCloud, ImageColorGenerator
+
+        fig, ax = plt.subplots(figsize=figsize)
+
+        if mask is None:
+            cloud = WordCloud(background_color=background_color, max_words=max_words, **kwargs)
+            cloud.generate(text)
+            ax.imshow(cloud, interpolation='bilinear')
+        else:
+            m = np.array(Image.open(mask))
+            cloud = WordCloud(background_color=background_color,
+                              max_words=max_words, mask=m, **kwargs)
+            cloud.generate(text)
+            if recolor:
+                image_colors = ImageColorGenerator(mask)
+                ax.imshow(cloud.recolor(color_func=image_colors), interpolation='bilinear')
+            else:
+                ax.imshow(cloud, interpolation='bilinear')
+
+        ax.axis('off')
+        plt.show()
+        plt.close()
+
+        # Sebastian deals with data cleaning.
 
 
 class Sebastian:

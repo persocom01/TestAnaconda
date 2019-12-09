@@ -5,8 +5,9 @@ import numpy as np
 import pandas as pd
 import pleiades as ple
 from nltk.corpus import stopwords
-from wordcloud import WordCloud, ImageColorGenerator
 from PIL import Image
+from wordcloud import WordCloud
+from wordcloud import ImageColorGenerator
 
 # Demonstrates opening and displaying a basic image file.
 with open('./datasets/Innocence.jpg', 'rb') as f:
@@ -61,7 +62,7 @@ image_colors = ImageColorGenerator(mask)
 # regexp=None, collocations=True, colormap=None, normalize_plurals=True,
 # contour_width=0, contour_color='black', repeat=False, include_numbers=False,
 # min_word_length=0)
-# max_font_size, max_word, and background_color are the primary arguments used
+# max_font_size, max_words, and background_color are the primary arguments used
 # to manipulate the wordcloud.
 # contour_width and contour_color are used to create an outline to the cloud.
 # background_color=None and mode='RGBA' at the same time makes the background
@@ -72,8 +73,8 @@ cloud.generate(full_text)
 fig, ax = plt.subplots(figsize=(12.5, 7.5))
 # Recoloring the wordcloud is done in this step. If a default wordcloud is
 # desired, pass cloud without recolor.
-# ax.imshow(cloud.recolor(color_func=image_colors), interpolation='bilinear')
-ax.imshow(cloud, interpolation='bilinear')
+# ax.imshow(cloud, interpolation='bilinear')
+ax.imshow(cloud.recolor(color_func=image_colors), interpolation='bilinear')
 ax.axis('off')
 plt.show()
 plt.close()

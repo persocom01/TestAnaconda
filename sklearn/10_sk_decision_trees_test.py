@@ -16,7 +16,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.tree import DecisionTreeClassifier
 import data_plots as dp
 
-
 import_path = r'.\datasets\reddit.csv'
 data = pd.read_csv(import_path)
 # print(data.columns)
@@ -36,7 +35,7 @@ reddit_lingo = {
 cz = ple.CZ()
 print('before:', X[1])
 X = cz.text_list_cleaner(X, cz.contractions, reddit_lingo,
-                          r'[^a-zA-Z ]', cz.lemmatize_sentence)
+                         r'[^a-zA-Z ]', cz.lemmatize_sentence)
 print('after:', X[1])
 print()
 

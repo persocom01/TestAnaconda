@@ -46,7 +46,7 @@ class CZ:
 
     def text_list_cleaner(self, text_list, *args, inplace=False):
         '''
-        A function made to clean text in lists.
+        Cleans text in lists.
         '''
         import re
         if inplace is False:
@@ -70,6 +70,38 @@ class CZ:
                 else:
                     text_list[i] = re.sub(arg, r' ', text_list[i])
         return text_list
+
+    def word_cloud(text, figsize=(12.5, 7.5), max_font_size=None, max_words=200, background_color='black', mask=None, recolor=False, **kwargs):
+        '''
+        Plots a wordcloud.
+
+        Use full_text = ' '.join(list_of_text) to get a single string.
+        '''
+        import numpy as np
+        import matplotlib.pyplot as plt
+        from PIL import Image
+        from wordcloud import WordCloud, ImageColorGenerator
+
+        fig, ax = plt.subplots(figsize=figsize)
+
+        if mask is None:
+            cloud = WordCloud(background_color=background_color, max_words=max_words, **kwargs)
+            cloud.generate(text)
+            ax.imshow(cloud, interpolation='bilinear')
+        else:
+            m = np.array(Image.open(mask))
+            cloud = WordCloud(background_color=background_color,
+                              max_words=max_words, mask=m, **kwargs)
+            cloud.generate(text)
+            if recolor:
+                image_colors = ImageColorGenerator(mask)
+                ax.imshow(cloud.recolor(color_func=image_colors), interpolation='bilinear')
+            else:
+                ax.imshow(cloud, interpolation='bilinear')
+
+        ax.axis('off')
+        plt.show()
+        plt.close()
 
         # Sebastian deals with data cleaning.
 

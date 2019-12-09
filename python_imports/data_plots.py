@@ -32,9 +32,9 @@ class Roc:
 
     def dt_auc_scores(self, X_train, X_test, y_train, y_test, param_grid):
         '''
-        A function for returning AUC scores for the 3 most important parameters
-        of a decision tree. It is used in conjunction with plot_auc to help
-        visualize the ideal decision tree parameters.
+        Returns the AUC scores for the 3 most important parameters of a
+        decision tree. It is used in conjunction with plot_auc to help
+        visualize decision tree parameters.
         '''
         from sklearn.tree import DecisionTreeClassifier
         train_auc_scores = []
@@ -76,7 +76,7 @@ class Roc:
 
     def plot(self, y_test, y_pred, average='macro', lw=2, title=None, labels=None, **kwargs):
         '''
-        A function for plotting Receiver Operating Characteristic (ROC) curves.
+        Plots Receiver Operating Characteristic (ROC) curves.
 
         labels accepts a dictionary of the column values mapped onto class
         names. If the column values are simply integers, it is possible to just
