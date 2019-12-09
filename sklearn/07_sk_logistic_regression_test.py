@@ -81,4 +81,4 @@ print()
 
 # Plots the roc curve.
 roc = dp.Roc()
-roc.plot(y_test, y_pred)
+roc.plot(y_test, y_pred, figsize=(12.5, 7.5))

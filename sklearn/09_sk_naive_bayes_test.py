@@ -135,5 +135,5 @@ print('tvec:', model_tvec.score(X_test_tvec, y_test))
 print()
 
 roc = dp.Roc()
-roc.plot(y_test, y_pred)
-roc.plot(y_test, y_pred_tvec)
+roc.plot(y_test, y_pred, figsize=(12.5, 7.5))
+roc.plot(y_test, y_pred_tvec, figsize=(12.5, 7.5))
