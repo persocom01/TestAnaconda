@@ -38,8 +38,8 @@ reddit_lingo = {
 
 cz = ple.CZ()
 print('before:', X[1])
-X = cz.text_cleaner(X, cz.contractions, reddit_lingo,
-                    r'[^a-zA-Z ]', cz.lemmatize_sentence)
+X = cz.text_list_cleaner(X, cz.contractions, reddit_lingo,
+                          r'[^a-zA-Z ]', cz.lemmatize_sentence)
 print('after:', X[1])
 print()
 

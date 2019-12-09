@@ -44,17 +44,29 @@ class CZ:
         # Returns sentence instead of individual words.
         return ' '.join(words)
 
-    def text_cleaner(self, text, *args, inplace=False):
+    def text_array_cleaner(self, text, *args, inplace=False):
+        '''
+        A function made specifically to clean text structured as arrays.
+        '''
         import re
         if inplace is False:
             text = text.copy()
         for i in range(len(text)):
             for arg in args:
-                if isinstance(arg, dict):
+                # Maps text with a function.
+                if callable(arg):
+                    text[i] = arg(text[i])
+                # Maps text defined in dict keys with their corresponding
+                # values.
+                elif isinstance(arg, dict):
                     for k, v in arg.items():
                         text[i] = re.sub(k, v, text[i])
-                elif callable(arg):
-                    text[i] = arg(text[i])
+                # Removes all words passed as a list.
+                elif not isinstance(arg, str):
+                    for a in arg:
+                        pattern = f'\b{a}\b'
+                        text[i] = re.sub(pattern, r'', text[i])
+                # For any other special cases.
                 else:
                     text[i] = re.sub(arg, r' ', text[i])
         return text
