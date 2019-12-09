@@ -71,7 +71,7 @@ class CZ:
                     text_list[i] = re.sub(arg, r' ', text_list[i])
         return text_list
 
-    def word_cloud(text, figsize=(12.5, 7.5), max_font_size=None, max_words=200, background_color='black', mask=None, recolor=False, **kwargs):
+    def word_cloud(self, text, figsize=(12.5, 7.5), max_font_size=None, max_words=200, background_color='black', mask=None, recolor=False, **kwargs):
         '''
         Plots a wordcloud.
 

@@ -39,9 +39,12 @@ reddit_lingo = {
 cz = ple.CZ()
 print('before:', X[1])
 X = cz.text_list_cleaner(X, cz.contractions, reddit_lingo,
-                          r'[^a-zA-Z ]', cz.lemmatize_sentence)
+                         r'[^a-zA-Z ]', cz.lemmatize_sentence)
 print('after:', X[1])
 print()
+
+full_text = ' '.join(X)
+cz.word_cloud(full_text)
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, random_state=1, stratify=y)
