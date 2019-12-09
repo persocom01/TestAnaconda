@@ -105,7 +105,7 @@ def get_params(dict):
         return f'{k}: {joined_list}'
 
 
-# best params: {'tvec__max_df': 0.9, 'tvec__max_features': 2000, 'tvec__min_df': 4, 'tvec__ngram_range': (1, 1), 'tvec__stop_words': None}
+# best params: {'tvec__max_df': 0.85, 'tvec__max_features': 1000, 'tvec__min_df': 2, 'tvec__ngram_range': (1, 2), 'tvec__stop_words': None}
 print('best params:', get_params(gs.best_params_))
 print()
 
@@ -149,9 +149,9 @@ params = {
 }
 gs = GridSearchCV(dt, param_grid=params, cv=5, n_jobs=-1)
 gs.fit(X_train, y_train)
-# best score: 0.7902033271719039
+# best score: 0.7911275415896488
 print('best score:', gs.best_score_)
-# best params: {'max_depth': 3, 'min_samples_leaf': 0.05, 'min_samples_split': 0.3}
+# best params: {'max_depth': 4, 'min_samples_leaf': 0.05, 'min_samples_split': 0.2}
 print('best params:', gs.best_params_)
 print()
 

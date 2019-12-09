@@ -62,7 +62,7 @@ gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
 gs.fit(X_train, y_train)
 # best score: 0.9316081330868762
 print('best score:', gs.best_score_)
-# best params: {'tvec__max_df': 0.85, 'tvec__max_features': 2000, 'tvec__min_df': 2, 'tvec__ngram_range': (1, 1), 'tvec__stop_words': None}
+# best params: {'tvec__max_df': 0.85, 'tvec__max_features': 3000, 'tvec__min_df': 2, 'tvec__ngram_range': (1, 1), 'tvec__stop_words': None}
 print('best params:', gs.best_params_)
 print()
 
@@ -86,7 +86,7 @@ print()
 print('stopwords:', stopwords.words('english'))
 print()
 cvec = CountVectorizer(stop_words=None, ngram_range=(
-    1, 1), max_df=0.85, min_df=2, max_features=2000)
+    1, 1), max_df=0.85, min_df=2, max_features=3000)
 X_train_cvec = cvec.fit_transform(X_train)
 X_train_cvec = pd.DataFrame(X_train_cvec.toarray(),
                             columns=cvec.get_feature_names())
@@ -107,7 +107,7 @@ print()
 # In practice it often produces much better results than CountVectorizer.
 # The equivalent of using CountVectorizer() followed by TfidfTransformer().
 tvec = TfidfVectorizer(stop_words=None, ngram_range=(
-    1, 1), max_df=0.85, min_df=2, max_features=2000)
+    1, 1), max_df=0.85, min_df=2, max_features=3000)
 X_train_tvec = tvec.fit_transform(X_train)
 X_train_tvec = pd.DataFrame(X_train_tvec.toarray(),
                             columns=tvec.get_feature_names())
