@@ -74,7 +74,7 @@ class Roc:
         plt.show()
         plt.close()
 
-    def plot(self, y_test, y_pred, average='macro', lw=2, title=None, labels=None, **kwargs):
+    def plot(self, y_test, y_pred, average='macro', multi=False, lw=2, title=None, labels=None, **kwargs):
         '''
         Plots Receiver Operating Characteristic (ROC) curves.
 
@@ -89,14 +89,26 @@ class Roc:
         from itertools import cycle
         from scipy import interp
 
-        # Gets all unique categories.
-        self.classes = list(set(y_test) | set(y_pred))
-        is_multi_categorical = len(self.classes) > 2
+        is_prob = False
+        try:
+            is_prob = isinstance(y_pred.shape[1], int)
+            is_multi_categorical = y_pred.shape[1] > 2
+            # Gets all unique categories.
+            self.classes = list(set(y_test))
+            lb_test = label_binarize(y_test, classes=self.classes)
+            lb_pred = y_pred
+            # print(lb_test[:5])
+            # print(lb_pred[:5])
 
-        # Converts each categorical prediction into a list of 0 and 1 for each
-        # category.
-        lb_test = label_binarize(y_test, classes=self.classes)
-        lb_pred = label_binarize(y_pred, classes=self.classes)
+        except IndexError:
+            # Gets all unique categories.
+            self.classes = list(set(y_test) | set(y_pred))
+            is_multi_categorical = len(self.classes) > 2
+
+            # Converts each categorical prediction into a list of 0 and 1 for each
+            # category.
+            lb_test = label_binarize(y_test, classes=self.classes)
+            lb_pred = label_binarize(y_pred, classes=self.classes)
 
         # Initialize graph.
         fig, ax = plt.subplots(**kwargs)
@@ -107,9 +119,21 @@ class Roc:
             fpr = {}
             tpr = {}
             roc_auc = {}
-            for i, k in enumerate(self.classes):
-                fpr[k], tpr[k], _ = roc_curve(lb_test[:, i], lb_pred[:, i])
-                roc_auc[k] = auc(fpr[k], tpr[k])
+            if is_prob:
+                for i, k in enumerate(self.classes):
+                    lb_test_inverse = [3 - x for x in lb_test[:, i]]
+                    lb_pred_inverse = [1 - x for x in lb_pred[:, i]]
+                    # fpr[k], tpr[k], _ = roc_curve(lb_test[:, i], lb_pred_inverse)
+                    fpr[k], tpr[k], _ = roc_curve(lb_test[:, i], lb_pred[:, i])
+                    print(fpr[k], tpr[k])
+                    roc_auc[k] = auc(fpr[k], tpr[k])
+                    print(roc_auc[k])
+            else:
+                for i, k in enumerate(self.classes):
+                    fpr[k], tpr[k], _ = roc_curve(lb_test[:, i], lb_pred[:, i])
+                    roc_auc[k] = auc(fpr[k], tpr[k])
+                    print(fpr[k], tpr[k])
+                    print(roc_auc[k])
 
             if average == 'micro' or average == 'both':
                 # Compute micro-average ROC curve and ROC area.
@@ -151,8 +175,13 @@ class Roc:
                         label=f'ROC curve of {labels[k]} (area = {roc_auc[k]:0.2f})', lw=lw)
 
         else:
-            fpr, tpr, _ = roc_curve(lb_test, lb_pred)
-            roc_auc = auc(fpr, tpr)
+            if is_prob:
+                y_prob = y_pred[:, 1]
+                fpr, tpr, _ = roc_curve(lb_test, y_prob)
+                roc_auc = auc(fpr, tpr)
+            else:
+                fpr, tpr, _ = roc_curve(lb_test, lb_pred)
+                roc_auc = auc(fpr, tpr)
 
             if labels is None:
                 labels = 'target'
@@ -168,5 +197,5 @@ class Roc:
         ax.set_ylabel('True Positive Rate')
         ax.set_title(title)
         ax.legend(loc='best')
-        plt.show()
-        plt.close()
+        # plt.show()
+        # plt.close()

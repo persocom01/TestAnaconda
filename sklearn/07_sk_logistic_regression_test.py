@@ -59,13 +59,13 @@ y_pred = lr.predict(X_test)
 # You use predict_proba when you wish to use a different threshold probability
 # for determining if the target is 0 or 1. It is possible to map a new list of
 # predictions based on this new probability.
-y_pred_prob = lr.predict_proba(X_test)
+y_prob = lr.predict_proba(X_test)
 print('logreg predict vs y_test:')
 print(y_pred)
 print(y_test)
 print()
 print('logreg prob:')
-print(y_pred_prob[:5])
+print(y_prob[:5])
 print()
 
 print('logreg accuracy:')
@@ -75,10 +75,11 @@ print()
 # Logistic regression is interpreted by as a unit increase in x makes the
 # odds of Chronic Kidney Disease e^coefficient more likely. To get a more
 # interpretable number, use np.exp.
-print('coefficient as odds:')
-print(np.exp(lr.coef_))
-print()
+# print('coefficient as odds:')
+# print(np.exp(lr.coef_))
+# print()
 
 # Plots the roc curve.
+y_prob = lr.predict_proba(X_test)
 roc = dp.Roc()
-roc.plot(y_test, y_pred, figsize=(12.5, 7.5))
+roc.plot(y_test, y_prob, figsize=(12.5, 7.5))
