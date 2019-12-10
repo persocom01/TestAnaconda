@@ -142,6 +142,7 @@ pca = PCA(n_components=n_comp)
 pca.fit(X_train_ss)
 most_important = [np.abs(pca.components_[i]).argmax() for i in range(n_comp)]
 most_important_names = [features[most_important[i]] for i in range(n_comp)]
+# Restores the original order.
 most_important_names = [x for x in X_train.columns if x in most_important_names]
 X_train_pca = X_train[most_important_names]
 # How much of the variance is explained by each feature.

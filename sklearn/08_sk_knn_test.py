@@ -83,7 +83,7 @@ def knn_k_error_plot(X_train, y_train, y_test, k=10, **kwargs):
     ax.set_ylabel('Error Rate')
     ax.set_title('Error Rate vs. K Value')
     plt.show()
-    plt.clf()
+    plt.close()
 
 
 knn_k_error_plot(X_train, y_train, y_test)
@@ -130,4 +130,4 @@ print(classification_report(y_test, y_pred, output_dict=False))
 # Plots multiple ROC curves for a multi categorical target in a single figure.
 roc = dp.Roc()
 roc.plot(y_test, y_pred, average='both', lw=2, title='species ROC plot',
-         class_labels=data.target_names, figsize=(12, 7.5))
+         labels=data.target_names, figsize=(12, 7.5))
