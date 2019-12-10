@@ -121,7 +121,7 @@ class Roc:
             roc_auc = {}
             if is_prob:
                 for i, k in enumerate(self.classes):
-                    lb_test_inverse = [3 - x for x in lb_test[:, i]]
+                    lb_test_inverse = [1 - x for x in lb_test[:, i]]
                     lb_pred_inverse = [1 - x for x in lb_pred[:, i]]
                     # fpr[k], tpr[k], _ = roc_curve(lb_test[:, i], lb_pred_inverse)
                     fpr[k], tpr[k], _ = roc_curve(lb_test[:, i], lb_pred[:, i])
