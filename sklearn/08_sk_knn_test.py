@@ -129,5 +129,5 @@ print(classification_report(y_test, y_pred, output_dict=False))
 # Plots multiple ROC curves for a multi categorical target in a single figure.
 y_prob = knn.predict_proba(X_test)
 roc = dp.Roc()
-roc.plot(y_test, y_pred, average='both', lw=2, title='species ROC plot',
+roc.plot(y_test, y_prob, average='both', lw=2, title='species ROC plot',
          labels=data.target_names, figsize=(12, 7.5))

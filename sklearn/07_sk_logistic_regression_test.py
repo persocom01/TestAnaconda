@@ -76,7 +76,7 @@ print()
 # odds of Chronic Kidney Disease e^coefficient more likely. To get a more
 # interpretable number, use np.exp.
 # print('coefficient as odds:')
-# print(np.exp(lr.coef_))
+print(np.exp(lr.coef_))
 # print()
 
 # Plots the roc curve.

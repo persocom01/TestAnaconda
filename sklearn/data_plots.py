@@ -4,35 +4,51 @@
 
 class Roc:
 
-    def __init__(self, y_test=None, y_pred=None):
+    def __init__(self, y_test=None, y_prob=None):
         self.classes = None
 
-    def auc_score(self, y_test, y_pred):
+    def auc_score(self, y_test, y_prob):
         '''
         A wrapper on the sklearn roc_auc_score that makes it work even if the
         target is multi-categorical or has not been label encoded.
+
+        The auc_score normally ranges between 0.5 and 1. Less than 0.5 makes
+        the model worse than the baseline.
+
+        The use of label_binarize means the function assumes y_prob is ordered
+        in ascending order starting from 0-9a-z for alphanumeric characters.
+        However, if a digit is passed as a string, it will go after
+        alphabetical characters instead of before. To eliminate the risk of
+        unexpected results, label_binarize y before generating predictions.
         '''
         from sklearn.preprocessing import label_binarize
         from sklearn.metrics import roc_auc_score
 
-        self.classes = list(set(y_test) | set(y_pred))
-        is_multi_categorical = len(self.classes) > 2
+        self.classes = list(set(y_test))
+        n_classes = len(self.classes)
+        is_multi_categorical = n_classes > 2
 
         # Avoids label_binarize if unnecessary.
-        if not is_multi_categorical:
+        if is_multi_categorical:
+            lb_test = label_binarize(y_test, classes=self.classes)
+            auc_scores = []
+            for i in range(n_classes):
+                auc_scores.append(roc_auc_score(lb_test[:, i], y_prob[:, i]))
+            # Returns the mean roc auc score.
+            return auc_scores / n_classes
+        else:
             try:
-                return roc_auc_score(y_test, y_pred)
+                y_prob = y_prob[:, 1]
+                return roc_auc_score(y_test, y_prob)
+            except IndexError:
+                print('y_prob needs to have at least 2 columns.')
             except TypeError:
-                pass
-        lb_test = label_binarize(y_test, classes=self.classes)
-        lb_pred = label_binarize(y_pred, classes=self.classes)
-
-        # Returns the mean roc auc score. The closer it is to 1, the better.
-        return roc_auc_score(lb_test, lb_pred)
+                lb_test = label_binarize(y_test, classes=self.classes)
+                return roc_auc_score(lb_test, y_prob)
 
     def dt_auc_scores(self, X_train, X_test, y_train, y_test, param_grid):
         '''
-        Returns the AUC scores for the 3 most important parameters of a
+        Returns the AUROC scores for the 3 most important parameters of a
         decision tree. It is used in conjunction with plot_auc to help
         visualize decision tree parameters.
         '''
@@ -52,11 +68,11 @@ class Roc:
                     raise Exception('unrecognized keyword.')
                 dt.fit(X_train, y_train)
 
-                y_pred_train = dt.predict(X_train)
-                train_auc_scores.append(self.auc_score(y_train, y_pred_train))
+                y_prob_train = dt.predict_proba(X_train)
+                train_auc_scores.append(self.auc_score(y_train, y_prob_train))
 
-                y_pred = dt.predict(X_test)
-                test_auc_scores.append(self.auc_score(y_test, y_pred))
+                y_prob = dt.predict_proba(X_test)
+                test_auc_scores.append(self.auc_score(y_test, y_prob))
 
         return [train_auc_scores, test_auc_scores]
 
@@ -74,13 +90,25 @@ class Roc:
         plt.show()
         plt.close()
 
-    def plot(self, y_test, y_pred, average='macro', multi=False, lw=2, title=None, labels=None, **kwargs):
+    def plot(self, y_test, y_prob, average='macro', multi=False, lw=2, title=None, labels=None, **kwargs):
         '''
         Plots Receiver Operating Characteristic (ROC) curves.
+
+        This function is built to make plotting of ROC curves for
+        multi-categorical targets painless.
+
+        multi=True makes the function capable of plotting the ROC curves of
+        multiple binary target models in the same figure.
 
         labels accepts a dictionary of the column values mapped onto class
         names. If the column values are simply integers, it is possible to just
         pass a list.
+
+        The use of label_binarize means the function assumes y_prob is ordered
+        in ascending order starting from 0-9a-z for alphanumeric characters.
+        However, if a digit is passed as a string, it will go after
+        alphabetical characters instead of before. To eliminate the risk of
+        unexpected results, label_binarize y before generating predictions.
         '''
         import numpy as np
         import matplotlib.pyplot as plt
@@ -89,26 +117,10 @@ class Roc:
         from itertools import cycle
         from scipy import interp
 
-        is_prob = False
-        try:
-            is_prob = isinstance(y_pred.shape[1], int)
-            is_multi_categorical = y_pred.shape[1] > 2
-            # Gets all unique categories.
-            self.classes = list(set(y_test))
-            lb_test = label_binarize(y_test, classes=self.classes)
-            lb_pred = y_pred
-            # print(lb_test[:5])
-            # print(lb_pred[:5])
-
-        except IndexError:
-            # Gets all unique categories.
-            self.classes = list(set(y_test) | set(y_pred))
-            is_multi_categorical = len(self.classes) > 2
-
-            # Converts each categorical prediction into a list of 0 and 1 for each
-            # category.
-            lb_test = label_binarize(y_test, classes=self.classes)
-            lb_pred = label_binarize(y_pred, classes=self.classes)
+        # Gets all unique categories.
+        self.classes = list(set(y_test))
+        is_multi_categorical = len(self.classes) > 2
+        lb_test = label_binarize(y_test, classes=self.classes)
 
         # Initialize graph.
         fig, ax = plt.subplots(**kwargs)
@@ -119,26 +131,14 @@ class Roc:
             fpr = {}
             tpr = {}
             roc_auc = {}
-            if is_prob:
-                for i, k in enumerate(self.classes):
-                    lb_test_inverse = [1 - x for x in lb_test[:, i]]
-                    lb_pred_inverse = [1 - x for x in lb_pred[:, i]]
-                    # fpr[k], tpr[k], _ = roc_curve(lb_test[:, i], lb_pred_inverse)
-                    fpr[k], tpr[k], _ = roc_curve(lb_test[:, i], lb_pred[:, i])
-                    print(fpr[k], tpr[k])
-                    roc_auc[k] = auc(fpr[k], tpr[k])
-                    print(roc_auc[k])
-            else:
-                for i, k in enumerate(self.classes):
-                    fpr[k], tpr[k], _ = roc_curve(lb_test[:, i], lb_pred[:, i])
-                    roc_auc[k] = auc(fpr[k], tpr[k])
-                    print(fpr[k], tpr[k])
-                    print(roc_auc[k])
+            for i, k in enumerate(self.classes):
+                fpr[k], tpr[k], _ = roc_curve(lb_test[:, i], y_prob[:, i])
+                roc_auc[k] = auc(fpr[k], tpr[k])
 
             if average == 'micro' or average == 'both':
                 # Compute micro-average ROC curve and ROC area.
                 fpr['micro'], tpr['micro'], _ = roc_curve(
-                    lb_test.ravel(), lb_pred.ravel())
+                    lb_test.ravel(), y_prob.ravel())
                 roc_auc['micro'] = auc(fpr['micro'], tpr['micro'])
 
                 ax.plot(fpr['micro'], tpr['micro'], ':r',
@@ -175,19 +175,25 @@ class Roc:
                         label=f'ROC curve of {labels[k]} (area = {roc_auc[k]:0.2f})', lw=lw)
 
         else:
-            if is_prob:
-                y_prob = y_pred[:, 1]
+
+            def plot_single_roc(lb_test, y_prob, labels, i='target'):
+                y_prob = y_prob[:, 1]
                 fpr, tpr, _ = roc_curve(lb_test, y_prob)
                 roc_auc = auc(fpr, tpr)
+                if labels is None:
+                    labels = f'class {i}'
+                else:
+                    labels = labels[i]
+                ax.plot(
+                    fpr, tpr, label=f'ROC curve of {labels} (area = {roc_auc:0.2f})', lw=lw)
+
+            # Allows plotting of multiple binary target ROC curves in the same
+            # figure.
+            if multi:
+                for i in range(len(y_prob)):
+                    plot_single_roc(lb_test, y_prob[i], labels, i)
             else:
-                fpr, tpr, _ = roc_curve(lb_test, lb_pred)
-                roc_auc = auc(fpr, tpr)
-
-            if labels is None:
-                labels = 'target'
-
-            ax.plot(
-                fpr, tpr, label=f'ROC curve of {labels} (area = {roc_auc:0.2f})', lw=lw)
+                plot_single_roc(lb_test, y_prob, labels)
 
         # Plot the curve of the baseline model (mean).
         ax.plot([0, 1], [0, 1], 'k--')
@@ -197,5 +203,5 @@ class Roc:
         ax.set_ylabel('True Positive Rate')
         ax.set_title(title)
         ax.legend(loc='best')
-        # plt.show()
-        # plt.close()
+        plt.show()
+        plt.close()

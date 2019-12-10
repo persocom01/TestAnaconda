@@ -49,25 +49,25 @@ cz.word_cloud(full_text)
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, random_state=1, stratify=y)
 
-# At this point one can use pipe and GridSearchCV to find the best parameters:
-pipe = Pipeline([
-    ('tvec', TfidfVectorizer()),
-    ('nb', MultinomialNB())
-])
-params = {
-    'tvec__stop_words': [None, 'english'],
-    'tvec__ngram_range': [(1, 1), (1, 2)],
-    'tvec__max_df': [.85, .9, .95],
-    'tvec__min_df': [2, 4, 6],
-    'tvec__max_features': [1000, 2000, 3000],
-}
-gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
-gs.fit(X_train, y_train)
-# best score: 0.9316081330868762
-print('best score:', gs.best_score_)
-# best params: {'tvec__max_df': 0.85, 'tvec__max_features': 3000, 'tvec__min_df': 2, 'tvec__ngram_range': (1, 1), 'tvec__stop_words': None}
-print('best params:', gs.best_params_)
-print()
+# # At this point one can use pipe and GridSearchCV to find the best parameters:
+# pipe = Pipeline([
+#     ('tvec', TfidfVectorizer()),
+#     ('nb', MultinomialNB())
+# ])
+# params = {
+#     'tvec__stop_words': [None, 'english'],
+#     'tvec__ngram_range': [(1, 1), (1, 2)],
+#     'tvec__max_df': [.85, .9, .95],
+#     'tvec__min_df': [2, 4, 6],
+#     'tvec__max_features': [1000, 2000, 3000],
+# }
+# gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
+# gs.fit(X_train, y_train)
+# # best score: 0.9316081330868762
+# print('best score:', gs.best_score_)
+# # best params: {'tvec__max_df': 0.85, 'tvec__max_features': 3000, 'tvec__min_df': 2, 'tvec__ngram_range': (1, 1), 'tvec__stop_words': None}
+# print('best params:', gs.best_params_)
+# print()
 
 # CountVectorizer(input='content', encoding='utf-8', decode_error='strict',
 # strip_accents=None, lowercase=True, preprocessor=None, tokenizer=None,
@@ -140,5 +140,5 @@ print()
 y_prob = model.predict_proba(X_test_cvec)
 y_prob_tvec = model_tvec.predict_proba(X_test_tvec)
 roc = dp.Roc()
-roc.plot(y_test, y_prob, figsize=(12.5, 7.5))
-roc.plot(y_test, y_prob_tvec, figsize=(12.5, 7.5))
+roc.plot(y_test, [y_prob, y_prob_tvec], multi=True, figsize=(12.5, 7.5))
+# roc.plot(y_test, y_prob_tvec, figsize=(12.5, 7.5))
