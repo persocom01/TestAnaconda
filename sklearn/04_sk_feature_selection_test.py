@@ -130,8 +130,8 @@ print('feature ranking (1 being best):', rfe.ranking_)
 print(X_train_rfe.columns)
 print()
 
-# PCA(n_components=None, copy=True, whiten=False, svd_solver=’auto’,
-# tol=0.0, iterated_power=’auto’, random_state=None)
+# PCA(n_components=None, copy=True, whiten=False, svd_solver='auto',
+# tol=0.0, iterated_power='auto', random_state=None)
 # Principal component analysis.
 # n_components determines number of features to keep.
 ss = StandardScaler()
@@ -142,6 +142,7 @@ pca = PCA(n_components=n_comp)
 pca.fit(X_train_ss)
 most_important = [np.abs(pca.components_[i]).argmax() for i in range(n_comp)]
 most_important_names = [features[most_important[i]] for i in range(n_comp)]
+most_important_names = [x for x in X_train.columns if x in most_important_names]
 X_train_pca = X_train[most_important_names]
 # How much of the variance is explained by each feature.
 print('Principal component analysis:')
