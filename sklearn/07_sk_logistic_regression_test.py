@@ -82,4 +82,4 @@ print(np.exp(lr.coef_))
 # Plots the roc curve.
 y_prob = lr.predict_proba(X_test)
 roc = dp.Roc()
-roc.plot(y_test, y_prob, figsize=(12.5, 7.5))
+roc.plot_roc(y_test, y_prob, figsize=(12.5, 7.5))

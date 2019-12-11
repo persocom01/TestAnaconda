@@ -155,4 +155,4 @@ print('best params:', gs.best_params_)
 print()
 
 y_prob = gs.predict_proba(X_test)
-roc.plot(y_test, y_prob, figsize=(12.5, 7.5))
+roc.plot_roc(y_test, y_prob, figsize=(12.5, 7.5))

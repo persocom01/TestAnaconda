@@ -131,5 +131,5 @@ y_prob = knn.predict_proba(X_test)
 roc = dp.Roc()
 # Due to the unrealistically high accuracy of the model, th ROC for the model
 # is 1. This is not a bug.
-roc.plot(y_test, y_prob, average='both', lw=2, title='species ROC plot',
+roc.plot_roc(y_test, y_prob, average='both', lw=2, title='species ROC plot',
          labels=data.target_names, figsize=(12, 7.5))

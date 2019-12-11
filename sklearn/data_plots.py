@@ -90,15 +90,16 @@ class Roc:
         plt.show()
         plt.close()
 
-    def plot(self, y_test, y_prob, average='macro', multi=False, lw=2, title=None, labels=None, **kwargs):
+    def plot_roc(self, y_test, y_prob, average='macro', mm=False, lw=2, title=None, labels=None, **kwargs):
         '''
         Plots Receiver Operating Characteristic (ROC) curves.
 
         This function is built to make plotting of ROC curves for
         multi-categorical targets painless.
 
-        multi=True makes the function capable of plotting the ROC curves of
-        multiple binary target models in the same figure.
+        mm=True makes the function capable of plotting the ROC curves of
+        multiple binary target models in the same figure. mm stands for multi
+        model.
 
         labels accepts a dictionary of the column values mapped onto class
         names. If the column values are simply integers, it is possible to just
@@ -189,7 +190,7 @@ class Roc:
 
             # Allows plotting of multiple binary target ROC curves in the same
             # figure.
-            if multi:
+            if mm:
                 for i in range(len(y_prob)):
                     plot_single_roc(lb_test, y_prob[i], labels, i)
             else:
