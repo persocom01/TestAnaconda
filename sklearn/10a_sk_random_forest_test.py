@@ -1,17 +1,17 @@
-# Bagging is an ensemble method that first applies bootstrapping (sampling with
-# replacement) on the original sample to create new, slighlty different
-# samples, running an estimator (default being decision tree) on each of them,
-# and averaging the predictions to give a final prediction. This is done to
-# simulate running the model on different datasets in order to make it more
-# robust.
+# Random forest is a tried and tested algorithm and can be said to be an
+# improvement over the basic decision tree. It attempts to correct for the
+# decision tree's tendency to always favor the best predictor, resulting in
+# similar trees if a single feature overshadows the others. Random forest
+# comprises trees all built with a different subset of features and coming up
+# with a mean prediction from all the trees. It can be said to be a special
+# bagging ensemble of decision trees.
 import pandas as pd
 import pleiades as ple
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import BaggingClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import confusion_matrix
 import data_plots as dp
 
@@ -40,24 +40,22 @@ print()
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 
-
-# BaggingClassifier(base_estimator=None, n_estimators=10, max_samples=1.0,
-# max_features=1.0, bootstrap=True, bootstrap_features=False, oob_score=False,
-# warm_start=False, n_jobs=None, random_state=None, verbose=0)
-# The main use for BaggingClassifier is running the same model on bootstapped
-# datasets.
-# base_estimator is by default a decision tree. Different models can be passed,
-# for instance, LogisticRegression in this case.
-# n_estimators=int determines the number of trees in the forest (or model
-# instances)
-# max_samples=float_int determines the size of the bootstrapped samples. By
-# default it is the same size as the dataset given, but can be made smaller or
-# bigger in relation to the dataset if a float is given, or a fixed number if
-# an int is given.
-lr = LogisticRegression(solver='lbfgs', multi_class='auto', max_iter=100)
+# RandomForestClassifier(n_estimators=100, criterion='gini', max_depth=None,
+# min_samples_split=2, min_samples_leaf=1, min_weight_fraction_leaf=0.0,
+# max_features='auto', max_leaf_nodes=None, min_impurity_decrease=0.0,
+# min_impurity_split=None, bootstrap=True, oob_score=False, n_jobs=None,
+# random_state=None, verbose=0, warm_start=False, class_weight=None,
+# ccp_alpha=0.0, max_samples=None)
+# The arguments for random forest are similar to base decision trees, but it
+# should be noted that due to the smaller set of features per tree, the optimal
+# max debt is often much deeper, so much so that it is uncertain if there is a
+# point in searching for it.
+# max_features determines the number of features per tree. The default is
+# sqrt(n_features) but a float between 0 and 1, ints or 'log2' can also be
+# used.
 pipe = Pipeline([
     ('tvec', TfidfVectorizer()),
-    ('bc', BaggingClassifier(base_estimator=lr))
+    ('dt', RandomForestClassifier(n_estimators=100))
 ])
 params = {
     'tvec__stop_words': [None, 'english'],
@@ -68,7 +66,7 @@ params = {
 }
 gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
 gs.fit(X_train, y_train)
-# best score: 0.9149722735674677
+# best score: 0.9066543438077634
 print('best score:', gs.best_score_)
 
 
@@ -91,7 +89,7 @@ def get_params(dict):
         return f'{k}: {joined_list}'
 
 
-# best params: tvec: max_df=0.9, max_features=3000, min_df=2, ngram_range=(1, 1), stop_words=None
+# best params: tvec: max_df=0.85, max_features=1000, min_df=4, ngram_range=(1, 1), stop_words=None
 print('best params:', get_params(gs.best_params_))
 print()
 
@@ -104,10 +102,10 @@ print('TfidfVectorizer:')
 print(X_train.sum().sort_values(ascending=False)[:5])
 print()
 
-bc = BaggingClassifier(base_estimator=lr)
-bc.fit(X_train, y_train)
-y_pred = bc.predict(X_test)
-y_prob = bc.predict_proba(X_test)
+rf = RandomForestClassifier(n_estimators=100)
+rf.fit(X_train, y_train)
+y_pred = rf.predict(X_test)
+y_prob = rf.predict_proba(X_test)
 
 print('confusion matrix:')
 print(confusion_matrix(y_test, y_pred))

@@ -125,6 +125,7 @@ print()
 # referenced via dict[str_label_name][metric_name]
 print('classification report:')
 print(classification_report(y_test, y_pred, output_dict=False))
+print()
 
 # Plots multiple ROC curves for a multi categorical target in a single figure.
 y_prob = knn.predict_proba(X_test)
@@ -132,4 +133,4 @@ roc = dp.Roc()
 # Due to the unrealistically high accuracy of the model, th ROC for the model
 # is 1. This is not a bug.
 roc.plot_roc(y_test, y_prob, average='both', lw=2, title='species ROC plot',
-         labels=data.target_names, figsize=(12, 7.5))
+             labels=data.target_names, figsize=(12, 7.5))

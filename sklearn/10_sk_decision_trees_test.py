@@ -14,6 +14,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import confusion_matrix
 import data_plots as dp
 
 import_path = r'.\datasets\reddit.csv'
@@ -68,6 +69,10 @@ print()
 # The most important parameters are max_depth, min_samples_split, and
 # min_samples_leaf. Floats between 0 and 1 can be given for the latter 2 to
 # make the minimums a proportion rather than a number.
+# criterion='entropy' makes the loss function information gain instead of gini.
+# The result is often very similar, but entropy is slightly more
+# computationally intensive. Both can be tried to see if one gives better
+# results.
 pipe = Pipeline([
     ('tvec', TfidfVectorizer()),
     ('dt', DecisionTreeClassifier())
@@ -152,6 +157,15 @@ gs.fit(X_train, y_train)
 print('best score:', gs.best_score_)
 # best params: {'max_depth': 4, 'min_samples_leaf': 0.05, 'min_samples_split': 0.2}
 print('best params:', gs.best_params_)
+print()
+
+dt = DecisionTreeClassifier(max_depth=4, min_samples_leaf=0.05, min_samples_split=0.2)
+dt.fit(X_train, y_train)
+y_pred = dt.predict(X_test)
+y_prob = gs.predict_proba(X_test)
+
+print('confusion matrix:')
+print(confusion_matrix(y_test, y_pred))
 print()
 
 y_prob = gs.predict_proba(X_test)

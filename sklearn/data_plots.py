@@ -18,8 +18,10 @@ class Roc:
         The use of label_binarize means the function assumes y_prob is ordered
         in ascending order starting from 0-9a-z for alphanumeric characters.
         However, if a digit is passed as a string, it will go after
-        alphabetical characters instead of before. To eliminate the risk of
-        unexpected results, label_binarize y before generating predictions.
+        alphabetical characters instead of before. It does not appear to
+        produce incorrect results with the models in sklearn, but it can cause
+        problems when GridSearchCV.predict_proba is used instead of that of the
+        models themselves.
         '''
         from sklearn.preprocessing import label_binarize
         from sklearn.metrics import roc_auc_score
@@ -92,24 +94,33 @@ class Roc:
 
     def plot_roc(self, y_test, y_prob, average='macro', mm=False, lw=2, title=None, labels=None, **kwargs):
         '''
-        Plots Receiver Operating Characteristic (ROC) curves.
+        Plots Receiver Operating Characteristic (ROC) curves for predict_proba
+        method for sklearn models.
 
-        This function is built to make plotting of ROC curves for
-        multi-categorical targets painless.
+        This function is built to make plotting of ROC curves for a model with
+        multi-categorical targets painless. It takes the one vs all approach
+        when plotting the ROC curve for each target class.
 
-        mm=True makes the function capable of plotting the ROC curves of
-        multiple binary target models in the same figure. mm stands for multi
-        model.
-
-        labels accepts a dictionary of the column values mapped onto class
-        names. If the column values are simply integers, it is possible to just
-        pass a list.
+        params:
+            average 'macro' accepts 3 possible arguments besides None. 'macro',
+                    'micro' or 'both'. It determines whether and what kind of
+                    mean ROC curve to plot for multi-categorical targets.
+            mm      If set to True, makes the function capable of plotting
+                    ROC curves of multiple binary target models in the same
+                    figure. It will cause the function to treat y_prob as a
+                    list of y_probs instead of the y_prob of a single model.
+                    mm stands for multi model.
+            labels  accepts a dictionary of column values mapped onto class
+                    names. If the column values are simply integers, it is
+                    possible to just pass a list.
 
         The use of label_binarize means the function assumes y_prob is ordered
         in ascending order starting from 0-9a-z for alphanumeric characters.
         However, if a digit is passed as a string, it will go after
-        alphabetical characters instead of before. To eliminate the risk of
-        unexpected results, label_binarize y before generating predictions.
+        alphabetical characters instead of before. It does not appear to
+        produce incorrect results with the models in sklearn, but it can cause
+        problems when GridSearchCV.predict_proba is used instead of that of the
+        models themselves.
         '''
         import numpy as np
         import matplotlib.pyplot as plt
@@ -157,7 +168,7 @@ class Roc:
                 for k in self.classes:
                     mean_tpr += interp(all_fpr, fpr[k], tpr[k])
 
-                # Finally average it and compute AUC
+                # Finally average it and compute AUC.
                 mean_tpr /= len(self.classes)
 
                 fpr['macro'] = all_fpr
