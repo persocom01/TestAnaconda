@@ -1,17 +1,16 @@
-# RandomForest is a tried and tested algorithm and can be said to be an
-# improvement over the basic decision tree. It attempts to correct for the
-# decision tree's tendency to always favor the best predictor, resulting in
-# similar trees if a single feature overshadows the others. RandomForest
-# comprises trees all built with a different subset of features and coming up
-# with a mean prediction from all the trees. It can be said to be a special
-# bagging ensemble of decision trees.
+# ExtraTrees is another take on improving the basic decision tree model. This
+# time, not only does it randomize the features in each tree, it also
+# randomizes how each decision node in each tree is split. By default though,
+# ExtraTrees does not bootstrap the dataset. It is said that ExtraTrees results
+# in many more leaves than RandomForest, and works better on noisy datasets,
+# but it is uncertain which would perform better without trying them out first.
 import pandas as pd
 import pleiades as ple
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.metrics import confusion_matrix
 import data_plots as dp
 
@@ -40,22 +39,17 @@ print()
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 
-# RandomForestClassifier(n_estimators=100, criterion='gini', max_depth=None,
+# ExtraTreesClassifier(n_estimators=100, criterion='gini', max_depth=None,
 # min_samples_split=2, min_samples_leaf=1, min_weight_fraction_leaf=0.0,
 # max_features='auto', max_leaf_nodes=None, min_impurity_decrease=0.0,
-# min_impurity_split=None, bootstrap=True, oob_score=False, n_jobs=None,
+# min_impurity_split=None, bootstrap=False, oob_score=False, n_jobs=None,
 # random_state=None, verbose=0, warm_start=False, class_weight=None,
 # ccp_alpha=0.0, max_samples=None)
-# The arguments for RandomForest are similar to base decision trees, but it
-# should be noted that due to the smaller set of features per tree, the optimal
-# max debt is often much deeper, so much so that it is uncertain if there is a
-# point in searching for it.
-# max_features determines the number of features per tree. The default is
-# sqrt(n_features) but a float between 0 and 1, ints or 'log2' can also be
-# used.
+# The arguments for ExtraTrees are similar to RandomForest, but bootstrap=False
+# by default and a random_state argument exists for reproducability.
 pipe = Pipeline([
     ('tvec', TfidfVectorizer()),
-    ('dt', RandomForestClassifier(n_estimators=100))
+    ('dt', ExtraTreesClassifier(n_estimators=100))
 ])
 params = {
     'tvec__stop_words': [None, 'english'],
@@ -66,7 +60,7 @@ params = {
 }
 gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
 gs.fit(X_train, y_train)
-# best score: 0.9066543438077634
+# best score: 0.9177449168207024
 print('best score:', gs.best_score_)
 
 
@@ -89,11 +83,11 @@ def get_params(dict):
         return f'{k}: {joined_list}'
 
 
-# best params: tvec: max_df=0.85, max_features=1000, min_df=4, ngram_range=(1, 1), stop_words=None
+# best params: tvec: max_df=0.9, max_features=2000, min_df=2, ngram_range=(1, 1), stop_words=None
 print('best params:', get_params(gs.best_params_))
 print()
 
-tvec = TfidfVectorizer(max_df=0.9, max_features=3000, min_df=2, ngram_range=(1, 1), stop_words=None)
+tvec = TfidfVectorizer(max_df=0.9, max_features=2000, min_df=2, ngram_range=(1, 1), stop_words=None)
 X_train = tvec.fit_transform(X_train)
 X_train = pd.DataFrame(X_train.toarray(), columns=tvec.get_feature_names())
 X_test = tvec.transform(X_test)
@@ -102,10 +96,10 @@ print('TfidfVectorizer:')
 print(X_train.sum().sort_values(ascending=False)[:5])
 print()
 
-rf = RandomForestClassifier(n_estimators=100)
-rf.fit(X_train, y_train)
-y_pred = rf.predict(X_test)
-y_prob = rf.predict_proba(X_test)
+et = ExtraTreesClassifier(n_estimators=100)
+et.fit(X_train, y_train)
+y_pred = et.predict(X_test)
+y_prob = et.predict_proba(X_test)
 
 print('confusion matrix:')
 print(confusion_matrix(y_test, y_pred))

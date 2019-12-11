@@ -48,26 +48,36 @@ class Roc:
                 lb_test = label_binarize(y_test, classes=self.classes)
                 return roc_auc_score(lb_test, y_prob)
 
-    def dt_auc_scores(self, X_train, X_test, y_train, y_test, param_grid):
+    def dt_auc_scores(self, X_train, X_test, y_train, y_test, param_grid, tree='dt', **kwargs):
         '''
         Returns the AUROC scores for the 3 most important parameters of a
         decision tree. It is used in conjunction with plot_auc to help
         visualize decision tree parameters.
         '''
-        from sklearn.tree import DecisionTreeClassifier
+        if tree == 'dt':
+            from sklearn.tree import DecisionTreeClassifier
+            dt_type = DecisionTreeClassifier
+        elif tree == 'rf':
+            from sklearn.ensemble import RandomForestClassifier
+            dt_type = RandomForestClassifier
+        elif tree == 'et':
+            from sklearn.ensemble import ExtraTreesClassifier
+            dt_type = ExtraTreesClassifier
+        else:
+            raise Exception('unrecognized tree type.')
+
         train_auc_scores = []
         test_auc_scores = []
-
         for key, value in param_grid.items():
             for v in value:
                 if key == 'max_depth' or key == 'md':
-                    dt = DecisionTreeClassifier(max_depth=v)
+                    dt = dt_type(max_depth=v, **kwargs)
                 elif key == 'min_samples_split' or key == 'mss':
-                    dt = DecisionTreeClassifier(min_samples_split=v)
+                    dt = dt_type(min_samples_split=v, **kwargs)
                 elif key == 'min_samples_leaf' or key == 'msl':
-                    dt = DecisionTreeClassifier(min_samples_leaf=v)
+                    dt = dt_type(min_samples_leaf=v, **kwargs)
                 else:
-                    raise Exception('unrecognized keyword.')
+                    raise Exception('unrecognized param.')
                 dt.fit(X_train, y_train)
 
                 y_prob_train = dt.predict_proba(X_train)

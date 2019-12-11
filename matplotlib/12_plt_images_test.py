@@ -67,6 +67,9 @@ image_colors = ImageColorGenerator(mask)
 # contour_width and contour_color are used to create an outline to the cloud.
 # background_color=None and mode='RGBA' at the same time makes the background
 # transparent.
+# stopwords=None does not mean stopwords will not be removed. It actually means
+# that the default in-built stopwords list will be used. To keep stopwords in
+# the wordcloud, pass an empty list.
 cloud = WordCloud(background_color='white', max_words=200,
                   mask=mask, stopwords=stops, mode='RGB')
 cloud.generate(full_text)
