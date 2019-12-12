@@ -1,7 +1,8 @@
-# The concept behind the ensemble methods used thus far is to build n
-# independent estimators and average their predictions. What boosting does,
-# however, is start with a base estimator and sequentially build other
-# estimators on top of it to build a powerful ensemble of estimators.
+# xgboost stands for extreme gradient boosting. Like AdaBoost, it start with a
+# base estimator and sequentially build other estimators on top of it. Unlike
+# AdaBoost though, it does not reweigh misclassified data after each iteration,
+# but instead predicts the residuals or errors of the prior estimators. It
+# appears to be more noise intolerant than most other algorithms.
 import pandas as pd
 import pleiades as ple
 from sklearn.model_selection import train_test_split
