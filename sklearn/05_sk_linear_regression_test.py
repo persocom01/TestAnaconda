@@ -33,7 +33,7 @@ y = df[target].values
 
 # train_test_split(arr_features, arr_target, test_size=0.25, **options)
 # options accepts a number of arguments, including:
-# test_size=float_int if given an int, it takes it as the absolute number of
+# test_size=0-1_int if given an int, it takes it as the absolute number of
 # rows to take as the test data. If given a float, takes it as the proportion
 # of the total data to take as the test set.
 # random_state=int is the rng seed.

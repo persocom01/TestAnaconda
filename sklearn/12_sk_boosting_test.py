@@ -44,9 +44,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 # and iterates it n times over the dataset. At each iteration, the weights for
 # the incorrectly classified data are increased before the estimator is run
 # again, thus allowing the estimator to focus on the incorrectly classified
-# cases. The final model comprises a weighted sum of all the estimators. In
-# a way, since each new iteration seeks a new feature in the dataset to
-# classify it by, AdaBoost does something resembling RandomForest.
+# cases. The final model comprises a weighted sum of all the estimators.
 # AdaBoost uses a decision tree of depth 1 as its base estimator by default.
 # If using other estimators, remember to scale when necessary.
 # n_estimators is a hyperparameter that causes the model to be overfit if it

@@ -79,7 +79,7 @@ print()
 # stop_words='english' works for most cases but you can pass your own list.
 # ngram_range=(min_words, max_words) determines the min and max length of each
 # word feature.
-# max / min_df=float_int ignores terms that occur in more or less than float
+# max / min_df=0-1_int ignores terms that occur in more or less than float
 # proportion of documents or more or less than int number of times.
 # max_features=int self explanatory, but know that it eliminates features
 # with the smallest column sums first.

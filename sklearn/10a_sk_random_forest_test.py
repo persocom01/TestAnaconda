@@ -89,7 +89,7 @@ def get_params(dict):
         return f'{k}: {joined_list}'
 
 
-# best params: tvec: max_df=0.85, max_features=1000, min_df=4, ngram_range=(1, 1), stop_words=None
+# best params: tvec: max_df=0.9, max_features=3000, min_df=2, ngram_range=(1, 1), stop_words=None
 print('best params:', get_params(gs.best_params_))
 print()
 
