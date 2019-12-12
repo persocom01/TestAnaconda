@@ -48,6 +48,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 # a way, since each new iteration seeks a new feature in the dataset to
 # classify it by, AdaBoost does something resembling RandomForest.
 # AdaBoost uses a decision tree of depth 1 as its base estimator by default.
+# If using other estimators, remember to scale when necessary.
 # n_estimators is a hyperparameter that causes the model to be overfit if it
 # is too high.
 # learning_rate=float is rate each estimator is shrunk by. The concept is

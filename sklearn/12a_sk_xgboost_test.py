@@ -1,15 +1,14 @@
 # The concept behind the ensemble methods used thus far is to build n
 # independent estimators and average their predictions. What boosting does,
 # however, is start with a base estimator and sequentially build other
-# estimators on top of it in the hope that the combined ensemble would be a
-# powerful one.
+# estimators on top of it to build a powerful ensemble of estimators.
 import pandas as pd
 import pleiades as ple
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.ensemble import AdaBoostClassifier
+import xgboost as xgb
 from sklearn.metrics import confusion_matrix
 import data_plots as dp
 
@@ -38,20 +37,13 @@ print()
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 
-# AdaBoostClassifier(base_estimator=None, n_estimators=50, learning_rate=1.0,
-# algorithm='SAMME.R', random_state=None)
-# AdaBoost uses a decision tree of depth 1 as its base estimator by default.
-# It then creates n_estimators from n_bootstraps of the data and reweighs them
-# based on whether their predictions were good.
-# n_estimators is a hyperparameter that causes the model to be overfit if it
-# is too high.
-# learning_rate=float is rate each estimator is shrunk by. The concept is
-# similar to alpha in gradient descent; a smaller learning rate equals a
-# smaller step, potentially making the solution more accurate at the cost of
-# computation time. A small step may, however, cause the model to overfit.
+# xgb.XGBClassifier(eta=0-1, gamma=0, max_depth=6, min_child_weight=1,
+# max_delta_step=0, subsample=1, colsample_bytree=1, colsample_bylevel=1,
+# colsample_bynode=1,lambda=1, alpha=0, )
+xgb_class = xgb.XGBClassifier()
 pipe = Pipeline([
     ('tvec', TfidfVectorizer()),
-    ('ab', AdaBoostClassifier(n_estimators=50))
+    ('xgb', AdaBoostClassifier(n_estimators=50))
 ])
 params = {
     'tvec__stop_words': [None, 'english'],
@@ -99,10 +91,23 @@ print('TfidfVectorizer:')
 print(X_train.sum().sort_values(ascending=False)[:5])
 print()
 
-ab = AdaBoostClassifier(n_estimators=50)
-ab.fit(X_train, y_train)
-y_pred = ab.predict(X_test)
-y_prob = ab.predict_proba(X_test)
+# Can be done in pipeline but done here as TfidfVectorizer is problem specific.
+ab = AdaBoostClassifier()
+dt = DecisionTreeClassifier
+params = {
+    'base_estimator': [dt(max_depth=1), dt(max_depth=2)],
+    'n_estimators': [30, 50, 70]
+}
+gs = GridSearchCV(ab, param_grid=params, cv=5, n_jobs=-1)
+gs.fit(X_train, y_train)
+# best score: 0.8909426987060998
+print('best score:', gs.best_score_)
+# best params: {'base_estimator': dt(max_depth=1), 'n_estimators': 30}
+print('best params:', gs.best_params_)
+print()
+
+y_pred = gs.predict(X_test)
+y_prob = gs.predict_proba(X_test)
 
 print('confusion matrix:')
 print(confusion_matrix(y_test, y_pred))

@@ -1,4 +1,4 @@
-import numpy as np
+# Demonstrates various data preprocessing methods.
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.compose import ColumnTransformer
@@ -27,7 +27,7 @@ y = df[target].values
 
 X_train, X_test, y_train, y_test = train_test_split(X, y)
 
-# ColumnTransformer(transformers, remainder=’drop’, sparse_threshold=0.3,
+# ColumnTransformer(transformers, remainder='drop', sparse_threshold=0.3,
 # n_jobs=None, transformer_weights=None, verbose=False)
 # transformers accepts a list of (trans_name, trans_function, cols) tuples.
 # The cols in which the transformations are to be applied must not overlap.
@@ -41,6 +41,7 @@ ct = ColumnTransformer(
     [('mms', MinMaxScaler(feature_range=(0, 10)), ['beer_servings']),
      # StandardScaler(copy=True, with_mean=True, with_std=True) scales
      # variables on a scale of +- std deviations about the mean.
+     # with_mean=False is needed to scale sparse matrices.
      ('ss', StandardScaler(), ['spirit_servings'])],
     remainder='passthrough')
 # A warning occurs if you try an overwrite the original DataFrame like:

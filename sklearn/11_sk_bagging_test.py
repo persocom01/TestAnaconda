@@ -3,10 +3,11 @@
 # samples, running an estimator (default being decision tree) on each of them,
 # and averaging the predictions to give a final prediction. This is done to
 # simulate running the model on different datasets in order to make it more
-# robust.
+# robust. Remember to scale the data if the estimator requires scaled data.
 import pandas as pd
 import pleiades as ple
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -40,7 +41,6 @@ print()
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 
-
 # BaggingClassifier(base_estimator=None, n_estimators=10, max_samples=1.0,
 # max_features=1.0, bootstrap=True, bootstrap_features=False, oob_score=False,
 # warm_start=False, n_jobs=None, random_state=None, verbose=0)
@@ -57,6 +57,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 lr = LogisticRegression(solver='lbfgs', multi_class='auto', max_iter=100)
 pipe = Pipeline([
     ('tvec', TfidfVectorizer()),
+    ('ss', StandardScaler(with_mean=False)),
     ('bc', BaggingClassifier(base_estimator=lr))
 ])
 params = {
@@ -68,7 +69,7 @@ params = {
 }
 gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
 gs.fit(X_train, y_train)
-# best score: 0.9149722735674677
+# best score: 0.9242144177449169
 print('best score:', gs.best_score_)
 
 
@@ -95,19 +96,8 @@ def get_params(dict):
 print('best params:', get_params(gs.best_params_))
 print()
 
-tvec = TfidfVectorizer(max_df=0.9, max_features=3000, min_df=2, ngram_range=(1, 1), stop_words=None)
-X_train = tvec.fit_transform(X_train)
-X_train = pd.DataFrame(X_train.toarray(), columns=tvec.get_feature_names())
-X_test = tvec.transform(X_test)
-X_test = pd.DataFrame(X_test.toarray(), columns=tvec.get_feature_names())
-print('TfidfVectorizer:')
-print(X_train.sum().sort_values(ascending=False)[:5])
-print()
-
-bc = BaggingClassifier(base_estimator=lr)
-bc.fit(X_train, y_train)
-y_pred = bc.predict(X_test)
-y_prob = bc.predict_proba(X_test)
+y_pred = gs.predict(X_test)
+y_prob = gs.predict_proba(X_test)
 
 print('confusion matrix:')
 print(confusion_matrix(y_test, y_pred))
