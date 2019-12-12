@@ -15,16 +15,15 @@ class Roc:
         The auc_score normally ranges between 0.5 and 1. Less than 0.5 makes
         the model worse than the baseline.
 
-        The use of label_binarize means the function assumes y_prob is ordered
-        in ascending order starting from 0-9a-z for alphanumeric characters.
-        However, if a digit is passed as a string, it will go after
-        alphabetical characters instead of before. To eliminate the risk of
-        unexpected results, label_binarize y before generating predictions.
+        The function assumes y_prob is ordered in ascending order for the
+        target.
         '''
         from sklearn.preprocessing import label_binarize
         from sklearn.metrics import roc_auc_score
 
-        self.classes = list(set(y_test))
+        classes = list(set(y_test))
+        classes.sort()
+        self.classes = classes
         n_classes = len(self.classes)
         is_multi_categorical = n_classes > 2
 
@@ -46,26 +45,36 @@ class Roc:
                 lb_test = label_binarize(y_test, classes=self.classes)
                 return roc_auc_score(lb_test, y_prob)
 
-    def dt_auc_scores(self, X_train, X_test, y_train, y_test, param_grid):
+    def dt_auc_scores(self, X_train, X_test, y_train, y_test, param_grid, tree='dt', **kwargs):
         '''
         Returns the AUROC scores for the 3 most important parameters of a
         decision tree. It is used in conjunction with plot_auc to help
         visualize decision tree parameters.
         '''
-        from sklearn.tree import DecisionTreeClassifier
+        if tree == 'dt':
+            from sklearn.tree import DecisionTreeClassifier
+            dt_type = DecisionTreeClassifier
+        elif tree == 'rf':
+            from sklearn.ensemble import RandomForestClassifier
+            dt_type = RandomForestClassifier
+        elif tree == 'et':
+            from sklearn.ensemble import ExtraTreesClassifier
+            dt_type = ExtraTreesClassifier
+        else:
+            raise Exception('unrecognized tree type.')
+
         train_auc_scores = []
         test_auc_scores = []
-
         for key, value in param_grid.items():
             for v in value:
                 if key == 'max_depth' or key == 'md':
-                    dt = DecisionTreeClassifier(max_depth=v)
+                    dt = dt_type(max_depth=v, **kwargs)
                 elif key == 'min_samples_split' or key == 'mss':
-                    dt = DecisionTreeClassifier(min_samples_split=v)
+                    dt = dt_type(min_samples_split=v, **kwargs)
                 elif key == 'min_samples_leaf' or key == 'msl':
-                    dt = DecisionTreeClassifier(min_samples_leaf=v)
+                    dt = dt_type(min_samples_leaf=v, **kwargs)
                 else:
-                    raise Exception('unrecognized keyword.')
+                    raise Exception('unrecognized param.')
                 dt.fit(X_train, y_train)
 
                 y_prob_train = dt.predict_proba(X_train)
@@ -90,26 +99,30 @@ class Roc:
         plt.show()
         plt.close()
 
-    def plot_roc(self, y_test, y_prob, average='macro', mm=False, lw=2, title=None, labels=None, **kwargs):
+    def plot_roc(self, y_test, y_prob, average='macro', mm=False, reverse_classes=False, lw=2, title=None, labels=None, **kwargs):
         '''
-        Plots Receiver Operating Characteristic (ROC) curves.
+        Plots Receiver Operating Characteristic (ROC) curves for predict_proba
+        method for sklearn models.
 
-        This function is built to make plotting of ROC curves for
-        multi-categorical targets painless.
+        This function is built to make plotting of ROC curves for a model with
+        multi-categorical targets painless. It takes the one vs all approach
+        when plotting the ROC curve for each target class.
 
-        mm=True makes the function capable of plotting the ROC curves of
-        multiple binary target models in the same figure. mm stands for multi
-        model.
+        params:
+            average 'macro' accepts 3 possible arguments besides None. 'macro',
+                    'micro' or 'both'. It determines whether and what kind of
+                    mean ROC curve to plot for multi-categorical targets.
+            mm      If set to True, makes the function capable of plotting
+                    ROC curves of multiple binary target models in the same
+                    figure. It will cause the function to treat y_prob as a
+                    list of y_probs instead of the y_prob of a single model.
+                    mm stands for multi model.
+            labels  accepts a dictionary of column values mapped onto class
+                    names. If the column values are simply integers, it is
+                    possible to just pass a list.
 
-        labels accepts a dictionary of the column values mapped onto class
-        names. If the column values are simply integers, it is possible to just
-        pass a list.
-
-        The use of label_binarize means the function assumes y_prob is ordered
-        in ascending order starting from 0-9a-z for alphanumeric characters.
-        However, if a digit is passed as a string, it will go after
-        alphabetical characters instead of before. To eliminate the risk of
-        unexpected results, label_binarize y before generating predictions.
+        The function assumes y_prob is ordered in ascending order for the
+        target.
         '''
         import numpy as np
         import matplotlib.pyplot as plt
@@ -119,7 +132,9 @@ class Roc:
         from scipy import interp
 
         # Gets all unique categories.
-        self.classes = list(set(y_test))
+        classes = list(set(y_test))
+        classes.sort()
+        self.classes = classes
         is_multi_categorical = len(self.classes) > 2
         lb_test = label_binarize(y_test, classes=self.classes)
 
@@ -157,7 +172,7 @@ class Roc:
                 for k in self.classes:
                     mean_tpr += interp(all_fpr, fpr[k], tpr[k])
 
-                # Finally average it and compute AUC
+                # Finally average it and compute AUC.
                 mean_tpr /= len(self.classes)
 
                 fpr['macro'] = all_fpr

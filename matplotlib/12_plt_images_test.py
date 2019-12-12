@@ -10,7 +10,7 @@ from wordcloud import WordCloud
 from wordcloud import ImageColorGenerator
 
 # Demonstrates opening and displaying a basic image file.
-with open('./datasets/Innocence.jpg', 'rb') as f:
+with open('./images/Innocence.jpg', 'rb') as f:
     img = plt.imread(f)
 
 fig, ax = plt.subplots(figsize=(12.5, 7.5))
@@ -47,7 +47,7 @@ full_text = ' '.join(X)
 stops = stopwords.words('english') + ['wa', 'ha']
 print(stops)
 
-import_path = r'.\datasets\Reddit.jpg'
+import_path = r'.\images\Reddit.jpg'
 # The way masks work is all values that are 255 in the matrix are treated as
 # off limits to the wordcloud. It is possible to manipulate the mask using
 # functions if you wish to reverse the image or something.
@@ -83,5 +83,5 @@ plt.show()
 plt.close()
 
 # Demonstrates exporting the wordcloud to a file.
-export_path = r'.\datasets\wordcloud.jpg'
+export_path = r'.\images\wordcloud.jpg'
 cloud.to_file(export_path)

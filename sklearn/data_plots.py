@@ -15,18 +15,15 @@ class Roc:
         The auc_score normally ranges between 0.5 and 1. Less than 0.5 makes
         the model worse than the baseline.
 
-        The use of label_binarize means the function assumes y_prob is ordered
-        in ascending order starting from 0-9a-z for alphanumeric characters.
-        However, if a digit is passed as a string, it will go after
-        alphabetical characters instead of before. It does not appear to
-        produce incorrect results with the models in sklearn, but it can cause
-        problems when GridSearchCV.predict_proba is used instead of that of the
-        models themselves.
+        The function assumes y_prob is ordered in ascending order for the
+        target.
         '''
         from sklearn.preprocessing import label_binarize
         from sklearn.metrics import roc_auc_score
 
-        self.classes = list(set(y_test))
+        classes = list(set(y_test))
+        classes.sort()
+        self.classes = classes
         n_classes = len(self.classes)
         is_multi_categorical = n_classes > 2
 
@@ -102,7 +99,7 @@ class Roc:
         plt.show()
         plt.close()
 
-    def plot_roc(self, y_test, y_prob, average='macro', mm=False, lw=2, title=None, labels=None, **kwargs):
+    def plot_roc(self, y_test, y_prob, average='macro', mm=False, reverse_classes=False, lw=2, title=None, labels=None, **kwargs):
         '''
         Plots Receiver Operating Characteristic (ROC) curves for predict_proba
         method for sklearn models.
@@ -124,13 +121,8 @@ class Roc:
                     names. If the column values are simply integers, it is
                     possible to just pass a list.
 
-        The use of label_binarize means the function assumes y_prob is ordered
-        in ascending order starting from 0-9a-z for alphanumeric characters.
-        However, if a digit is passed as a string, it will go after
-        alphabetical characters instead of before. It does not appear to
-        produce incorrect results with the models in sklearn, but it can cause
-        problems when GridSearchCV.predict_proba is used instead of that of the
-        models themselves.
+        The function assumes y_prob is ordered in ascending order for the
+        target.
         '''
         import numpy as np
         import matplotlib.pyplot as plt
@@ -140,7 +132,9 @@ class Roc:
         from scipy import interp
 
         # Gets all unique categories.
-        self.classes = list(set(y_test))
+        classes = list(set(y_test))
+        classes.sort()
+        self.classes = classes
         is_multi_categorical = len(self.classes) > 2
         lb_test = label_binarize(y_test, classes=self.classes)
 
