@@ -20,8 +20,8 @@ This project was done on atom within the anaconda environment.
 
 Pip was used to install several python modules that helped enhance anaconda.
 
-pip install xgboost
-pip install graphviz
+* pip install xgboost
+* pip install graphviz
 
 graphviz must also be installed on windows from the following link:
 
@@ -29,8 +29,8 @@ graphviz must also be installed on windows from the following link:
 
 The following keys must then be added to the windows environmental PATH variable:
 
-C:\\Program Files (x86)\\Graphviz2.38\\bin
-C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot.exe
+* C:\\Program Files (x86)\\Graphviz2.38\\bin
+* C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot.exe
 
 After installation of atom and anaconda, open atom within the anaconda environment by opening the anaconda prompt and typing:
 
