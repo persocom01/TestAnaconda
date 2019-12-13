@@ -14,6 +14,7 @@ y2 = [7, 5, 4, 3, 5, 5, 2, 4, 6, 8]
 # They can be created together using plt.subplots(figsize=(int, int)).
 # It is here that fig parameters are best passed, namely:
 # figsize=(float, float)
+# dpi=int determines the resolution of the image. The default value is 100.
 # facecolor=color which sets the color of the layer behind the graph.
 # matplotlib doesn't use html colors. The acceptable color documentation can be
 # found here: https://matplotlib.org/3.1.1/api/colors_api.html

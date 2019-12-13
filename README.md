@@ -18,9 +18,23 @@ This project was done on atom within the anaconda environment.
 * [https://atom.io/] - atom 1.40.1
 * [https://www.anaconda.com/distribution/#download-section] - Anaconda 2019.07
 
-After installation of atom and anaconda, open atom within the anaconda environment by opening the anaconda powershell and typing:
+Pip was used to install several python modules that helped enhance anaconda.
 
-atom --new-instance
+pip install xgboost
+pip install graphviz
+
+graphviz must also be installed on windows from the following link:
+
+* [https://graphviz.gitlab.io/_pages/Download/Download_windows.html] - graphviz 2.38
+
+The following keys must then be added to the windows environmental PATH variable:
+
+C:\\Program Files (x86)\\Graphviz2.38\\bin
+C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot.exe
+
+After installation of atom and anaconda, open atom within the anaconda environment by opening the anaconda prompt and typing:
+
+atom
 
 ### Atom packages used:
 

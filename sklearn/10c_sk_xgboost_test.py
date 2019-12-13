@@ -11,6 +11,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import TfidfVectorizer
 import xgboost as xgb
 from sklearn.metrics import confusion_matrix
+import matplotlib.pyplot as plt
 import data_plots as dp
 
 import_path = r'.\datasets\reddit.csv'
@@ -64,45 +65,45 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 # https://xgboost.readthedocs.io/en/latest/parameter.html
 # gamma, alpha and lambda are regularization parameters. L1 is lasso, lambda is
 # ridge.
-pipe = Pipeline([
-    ('tvec', TfidfVectorizer()),
-    ('xgb_class', xgb.XGBClassifier())
-])
-params = {
-    'tvec__stop_words': [None, 'english'],
-    'tvec__ngram_range': [(1, 1)],
-    'tvec__max_df': [.45, .45, .65],
-    'tvec__min_df': [5, 6, 7],
-    'tvec__max_features': [200, 300, 400],
-}
-gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
-gs.fit(X_train, y_train)
-# best score: 0.890018484288355
-print('best score:', gs.best_score_)
-
-
-def get_params(dict):
-    from re import match
-    params = {}
-    pattern = r'^([a-zA-Z0-9_]+)__([a-zA-Z0-9_]+)'
-    for k, v in dict.items():
-        if isinstance(v, str):
-            v = "'" + v + "'"
-        m = match(pattern, k)
-        key = m.group(1)
-        kwarg = f'{m.group(2)}={v}'
-        if key in params:
-            params[key].append(kwarg)
-        else:
-            params[key] = [kwarg]
-    for k, v in params.items():
-        joined_list = ', '.join(map(str, v))
-        return f'{k}: {joined_list}'
-
-
-# best params: tvec: max_df=0.65, max_features=300, min_df=5, ngram_range=(1, 1), stop_words=None
-print('best params:', get_params(gs.best_params_))
-print()
+# pipe = Pipeline([
+#     ('tvec', TfidfVectorizer()),
+#     ('xgb_class', xgb.XGBClassifier())
+# ])
+# params = {
+#     'tvec__stop_words': [None, 'english'],
+#     'tvec__ngram_range': [(1, 1)],
+#     'tvec__max_df': [.45, .45, .65],
+#     'tvec__min_df': [5, 6, 7],
+#     'tvec__max_features': [200, 300, 400],
+# }
+# gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
+# gs.fit(X_train, y_train)
+# # best score: 0.890018484288355
+# print('best score:', gs.best_score_)
+#
+#
+# def get_params(dict):
+#     from re import match
+#     params = {}
+#     pattern = r'^([a-zA-Z0-9_]+)__([a-zA-Z0-9_]+)'
+#     for k, v in dict.items():
+#         if isinstance(v, str):
+#             v = "'" + v + "'"
+#         m = match(pattern, k)
+#         key = m.group(1)
+#         kwarg = f'{m.group(2)}={v}'
+#         if key in params:
+#             params[key].append(kwarg)
+#         else:
+#             params[key] = [kwarg]
+#     for k, v in params.items():
+#         joined_list = ', '.join(map(str, v))
+#         return f'{k}: {joined_list}'
+#
+#
+# # best params: tvec: max_df=0.65, max_features=300, min_df=5, ngram_range=(1, 1), stop_words=None
+# print('best params:', get_params(gs.best_params_))
+# print()
 
 tvec = TfidfVectorizer(max_df=0.65, max_features=300, min_df=5, ngram_range=(1, 1), stop_words=None)
 X_train = tvec.fit_transform(X_train)
@@ -116,7 +117,7 @@ print()
 # Can be done in pipeline but done here as TfidfVectorizer is problem specific.
 xgb_class = xgb.XGBClassifier()
 params = {
-    'max_depth': [1, 3, 5],
+    'max_depth': [4, 5, 6],
     'subsample': [.8, 1],
     'colsample_bytree': [.8, 1]
 }
@@ -137,6 +138,16 @@ print()
 
 roc = dp.Roc()
 roc.plot_roc(y_test, y_prob, figsize=(12.5, 7.5))
+
+xgb.plot_tree(xgb_class, num_trees=0)
+plt.rcParams['figure.figsize'] = [50, 10]
+plt.show()
+plt.clf()
+
+xgb.plot_importance(xgb_class)
+plt.rcParams['figure.figsize'] = [5, 5]
+plt.show()
+plt.close()
 
 # XGBRegressor(max_depth=3, learning_rate=0.1, n_estimators=100, verbosity=1,
 # objective='reg:squarederror', booster='gbtree', tree_method='auto', n_jobs=1,
