@@ -4,6 +4,7 @@
 # and averaging the predictions to give a final prediction. This is done to
 # simulate running the model on different datasets in order to make it more
 # robust. Remember to scale the data if the estimator requires scaled data.
+import numpy as np
 import pandas as pd
 import pleiades as ple
 from sklearn.model_selection import train_test_split
@@ -35,7 +36,7 @@ reddit_lingo = {
 cz = ple.CZ()
 print('before:', X[1])
 X = cz.text_list_cleaner(X, cz.contractions, reddit_lingo,
-                         r'[^a-zA-Z ]', cz.lemmatize_sentence)
+                         r'[^a-zA-Z ]', cz.lemmatize_sentence, ['wa', 'ha'])
 print('after:', X[1])
 print()
 
@@ -61,43 +62,31 @@ pipe = Pipeline([
     ('bc', BaggingClassifier(base_estimator=lr))
 ])
 params = {
-    'tvec__stop_words': [None, 'english'],
+    'tvec__stop_words': ['english'],
     'tvec__ngram_range': [(1, 1), (1, 2)],
-    'tvec__max_df': [.85, .9, .95],
+    'tvec__max_df': [.5, .7, .9],
     'tvec__min_df': [2, 4, 6],
-    'tvec__max_features': [1000, 2000, 3000],
+    'tvec__max_features': [2000, 3000, 4000],
 }
 gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
 gs.fit(X_train, y_train)
-# best score: 0.9242144177449169
+# best score: 0.8521256931608133
 print('best score:', gs.best_score_)
-
-
-def get_params(dict):
-    from re import match
-    params = {}
-    pattern = r'^([a-zA-Z0-9_]+)__([a-zA-Z0-9_]+)'
-    for k, v in dict.items():
-        if isinstance(v, str):
-            v = "'" + v + "'"
-        m = match(pattern, k)
-        key = m.group(1)
-        kwarg = f'{m.group(2)}={v}'
-        if key in params:
-            params[key].append(kwarg)
-        else:
-            params[key] = [kwarg]
-    for k, v in params.items():
-        joined_list = ', '.join(map(str, v))
-        return f'{k}: {joined_list}'
-
-
-# best params: tvec: max_df=0.9, max_features=3000, min_df=2, ngram_range=(1, 1), stop_words=None
-print('best params:', get_params(gs.best_params_))
+sebas = ple.Sebastian()
+# best params: tvec: max_df=0.5, max_features=3000, min_df=2, ngram_range=(1, 2), stop_words='english'
+print('best params:', sebas.get_params(gs.best_params_))
 print()
 
 y_pred = gs.predict(X_test)
 y_prob = gs.predict_proba(X_test)
+
+mean_coeff = np.mean([
+    model.coef_ for model in gs.best_estimator_.named_steps['bc'].estimators_
+], axis=0)
+
+print('effect of each feature on odds it will be worldnews:')
+print(np.exp(mean_coeff))
+print()
 
 print('confusion matrix:')
 print(confusion_matrix(y_test, y_pred))

@@ -16,6 +16,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import confusion_matrix
 import data_plots as dp
+from io import StringIO
+from sklearn.tree import export_graphviz
+import pydotplus
 
 import_path = r'.\datasets\reddit.csv'
 data = pd.read_csv(import_path)
@@ -36,7 +39,7 @@ reddit_lingo = {
 cz = ple.CZ()
 print('before:', X[1])
 X = cz.text_list_cleaner(X, cz.contractions, reddit_lingo,
-                         r'[^a-zA-Z ]', cz.lemmatize_sentence)
+                         r'[^a-zA-Z ]', cz.lemmatize_sentence, ['wa', 'ha'])
 print('after:', X[1])
 print()
 
@@ -78,43 +81,23 @@ pipe = Pipeline([
     ('dt', DecisionTreeClassifier())
 ])
 params = {
-    'tvec__stop_words': [None, 'english'],
+    'tvec__stop_words': ['english'],
     'tvec__ngram_range': [(1, 1), (1, 2)],
-    'tvec__max_df': [.85, .9, .95],
+    'tvec__max_df': [.5, .7, .9],
     'tvec__min_df': [2, 4, 6],
-    'tvec__max_features': [1000, 2000, 3000],
+    'tvec__max_features': [2000, 3000, 4000],
 }
 gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
 gs.fit(X_train, y_train)
-# best score: 0.865988909426987
+# best score: 0.7689463955637708
 print('best score:', gs.best_score_)
-
-
-def get_params(dict):
-    from re import match
-    params = {}
-    pattern = r'^([a-zA-Z0-9_]+)__([a-zA-Z0-9_]+)'
-    for k, v in dict.items():
-        if isinstance(v, str):
-            v = "'" + v + "'"
-        m = match(pattern, k)
-        key = m.group(1)
-        kwarg = f'{m.group(2)}={v}'
-        if key in params:
-            params[key].append(kwarg)
-        else:
-            params[key] = [kwarg]
-    for k, v in params.items():
-        joined_list = ', '.join(map(str, v))
-        return f'{k}: {joined_list}'
-
-
-# best params: {'tvec__max_df': 0.85, 'tvec__max_features': 1000, 'tvec__min_df': 2, 'tvec__ngram_range': (1, 2), 'tvec__stop_words': None}
-print('best params:', get_params(gs.best_params_))
+sebas = ple.Sebastian()
+# best params: tvec: max_df=0.5, max_features=3000, min_df=2, ngram_range=(1, 2), stop_words='english'
+print('best params:', sebas.get_params(gs.best_params_))
 print()
 
-tvec = TfidfVectorizer(max_df=0.85, max_features=1000,
-                       min_df=2, ngram_range=(1, 2), stop_words=None)
+tvec = TfidfVectorizer(max_df=0.5, max_features=3000, min_df=2,
+                       ngram_range=(1, 2), stop_words='english')
 X_train = tvec.fit_transform(X_train)
 X_train = pd.DataFrame(X_train.toarray(), columns=tvec.get_feature_names())
 X_test = tvec.transform(X_test)
@@ -147,26 +130,38 @@ roc.plot_auc(min_samples_leafs, auc_scores, title='AUC score vs Min samples leaf
 
 dt = DecisionTreeClassifier()
 params = {
-    'max_depth': [3, 4, 5],
-    'min_samples_split': [0.2, 0.3, 0.4],
+    'max_depth': [2, 3, 4],
+    'min_samples_split': [0.1, 0.2, 0.3],
     'min_samples_leaf': [0.05, 0.1, 0.15]
 }
 gs = GridSearchCV(dt, param_grid=params, cv=5, n_jobs=-1)
 gs.fit(X_train, y_train)
-# best score: 0.7911275415896488
+# best score: 0.5517560073937153
 print('best score:', gs.best_score_)
-# best params: {'max_depth': 4, 'min_samples_leaf': 0.05, 'min_samples_split': 0.2}
-print('best params:', gs.best_params_)
+# best params: model args: max_depth=2, min_samples_leaf=0.05, min_samples_split=0.1
+print('best params:', sebas.get_params(gs.best_params_))
 print()
 
-dt = DecisionTreeClassifier(max_depth=4, min_samples_leaf=0.05, min_samples_split=0.2)
+dt = DecisionTreeClassifier(max_depth=2, min_samples_leaf=0.05, min_samples_split=0.1)
 dt.fit(X_train, y_train)
 y_pred = dt.predict(X_test)
-y_prob = gs.predict_proba(X_test)
+y_prob = dt.predict_proba(X_test)
+
+print('most_important_features:', sebas.get_features(X_train, dt.feature_importances_))
+print()
 
 print('confusion matrix:')
 print(confusion_matrix(y_test, y_pred))
 print()
 
-y_prob = gs.predict_proba(X_test)
+# auc = 0.58
 roc.plot_roc(y_test, y_prob, figsize=(12.5, 7.5))
+
+# Demonstrates plotting of a decision tree.
+# The tree can be interpreted by getting the most important features from the
+# model.
+dot_data = StringIO()
+export_graphviz(dt, out_file=dot_data, filled=True, rounded=True, special_characters=True)
+graph = pydotplus.graph_from_dot_data(dot_data.getvalue())
+export_path = r'.\images\decision_tree.jpg'
+graph.write_png(export_path)

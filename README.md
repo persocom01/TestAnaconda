@@ -18,10 +18,12 @@ This project was done on atom within the anaconda environment.
 * [https://atom.io/] - atom 1.40.1
 * [https://www.anaconda.com/distribution/#download-section] - Anaconda 2019.07
 
-Pip was used to install several python modules that helped enhance anaconda.
+pip was used to install several python modules that helped enhance anaconda.
 
-* pip install xgboost
 * pip install graphviz
+* pip install modin
+* pip install pydotplus
+* pip install xgboost
 
 graphviz must also be installed on windows from the following link:
 

@@ -1,5 +1,36 @@
 # Module containing personalized data cleaning and exploration tools.
 
+# Nabe deals with data cleaning.
+
+
+class Nabe:
+
+    def __init__(self):
+        self.null_dict = None
+
+    def get_nulls(self, df):
+        self.null_dict = {}
+        for k, v in df.isnull().sum().iteritems():
+            if v > 0:
+                self.null_dict[k] = v
+        return self.null_dict
+
+    # Drops columns with 75% or more null values.
+    def drop_null_cols(self, df, null_size=0.75, inplace=False):
+        if self.null_dict is None:
+            raise Exception(r'use get_nulls(df) first.')
+        if inplace is False:
+            df = df.copy()
+        df_size = df.shape[0]
+        for k, v in self.null_dict.items():
+            if null_size <= 1:
+                if v/df_size >= null_size:
+                    del df[k]
+            else:
+                if v >= null_size:
+                    del df[k]
+        return df
+
 # CZ deals with word processing.
 # She pastes 1 yen stickers on things she likes.
 
@@ -44,7 +75,7 @@ class CZ:
         # Returns sentence instead of individual words.
         return ' '.join(words)
 
-    def text_list_cleaner(self, text_list, *args, inplace=False):
+    def text_list_cleaner(self, text_list, *args, replace=' ', inplace=False):
         '''
         Cleans text in lists.
         '''
@@ -64,11 +95,11 @@ class CZ:
                 # Removes all words passed as a list.
                 elif not isinstance(arg, str):
                     for a in arg:
-                        pattern = f'\b{a}\b'
-                        text_list[i] = re.sub(pattern, r'', text_list[i])
+                        pattern = f' {a} '
+                        text_list[i] = re.sub(pattern, replace, text_list[i])
                 # For any other special cases.
                 else:
-                    text_list[i] = re.sub(arg, r' ', text_list[i])
+                    text_list[i] = re.sub(arg, replace, text_list[i])
         return text_list
 
     def word_cloud(self, text, figsize=(12.5, 7.5), max_font_size=None, max_words=200, background_color='black', mask=None, recolor=False, **kwargs):
@@ -103,33 +134,56 @@ class CZ:
         plt.show()
         plt.close()
 
-        # Sebastian deals with data cleaning.
-
 
 class Sebastian:
 
     def __init__(self):
-        self.null_dict = None
+        pass
 
-    def get_nulls(self, df):
-        self.null_dict = {}
-        for k, v in df.isnull().sum().iteritems():
-            if v > 0:
-                self.null_dict[k] = v
-        return self.null_dict
+    def get_params(self, dict):
+        '''
+        Formats the .best_params_ attribute of sklearn's models into a format
+        that can be easily copy pasted onto the functions themselves.
+        '''
+        from re import match
+        params = {}
+        pattern = r'^([a-zA-Z0-9_]+)__([a-zA-Z0-9_]+)'
+        for k, v in dict.items():
 
-    # Drops columns with 75% or more null values.
-    def drop_null_cols(self, df, null_size=0.75, inplace=False):
-        if self.null_dict is None:
-            raise Exception(r'use get_nulls(df) first.')
-        if inplace is False:
-            df = df.copy()
-        df_size = df.shape[0]
-        for k, v in self.null_dict.items():
-            if null_size <= 1:
-                if v/df_size >= null_size:
-                    del df[k]
+            if isinstance(v, str):
+                v = "'" + v + "'"
+
+            try:
+                m = match(pattern, k)
+                key = m.group(1)
+                kwarg = f'{m.group(2)}={v}'
+            except AttributeError:
+                key = 'model args'
+                kwarg = f'{k}={v}'
+
+            if key in params:
+                params[key].append(kwarg)
             else:
-                if v >= null_size:
-                    del df[k]
-        return df
+                params[key] = [kwarg]
+
+        for k, v in params.items():
+            joined_list = ', '.join(map(str, v))
+            return f'{k}: {joined_list}'
+
+    def get_features(self, X, feature_importances_, sort=True):
+        '''
+        Takes the train DataFrame and the .feature_importances_ attribute
+        of sklearn's model and returns a sorted dictionary of
+        feature_names: feature_importance for easy interpretation.
+        '''
+        feature_dict = {}
+        for i, v in enumerate(feature_importances_):
+            if v != 0:
+                feature_dict[X.columns[i]] = v
+        if sort:
+            sorted_features = sorted(feature_dict, key=feature_dict.__getitem__, reverse=True)
+            sorted_values = sorted(feature_dict.values(), reverse=True)
+            sorted_feature_dict = {k: v for k, v in zip(sorted_features, sorted_values)}
+            return sorted_feature_dict
+        else:
+            return feature_dict

@@ -39,7 +39,7 @@ reddit_lingo = {
 cz = ple.CZ()
 print('before:', X[1])
 X = cz.text_list_cleaner(X, cz.contractions, reddit_lingo,
-                         r'[^a-zA-Z ]', cz.lemmatize_sentence)
+                         r'[^a-zA-Z ]', cz.lemmatize_sentence, ['wa', 'ha'])
 print('after:', X[1])
 print()
 
@@ -55,18 +55,19 @@ pipe = Pipeline([
     ('nb', MultinomialNB())
 ])
 params = {
-    'tvec__stop_words': [None, 'english'],
+    'tvec__stop_words': ['english'],
     'tvec__ngram_range': [(1, 1), (1, 2)],
-    'tvec__max_df': [.85, .9, .95],
+    'tvec__max_df': [.5, .7, .9],
     'tvec__min_df': [2, 4, 6],
-    'tvec__max_features': [1000, 2000, 3000],
+    'tvec__max_features': [2000, 3000, 4000],
 }
 gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
 gs.fit(X_train, y_train)
-# best score: 0.9316081330868762
+# best score: 0.8585951940850277
 print('best score:', gs.best_score_)
-# best params: {'tvec__max_df': 0.85, 'tvec__max_features': 3000, 'tvec__min_df': 2, 'tvec__ngram_range': (1, 1), 'tvec__stop_words': None}
-print('best params:', gs.best_params_)
+sebas = ple.Sebastian()
+# best params: tvec: max_df=0.5, max_features=3000, min_df=2, ngram_range=(1, 2), stop_words='english'
+print('best params:', sebas.get_params(gs.best_params_))
 print()
 
 # CountVectorizer(input='content', encoding='utf-8', decode_error='strict',
@@ -88,8 +89,8 @@ print()
 # \b to each side of the word during regex.
 print('stopwords:', stopwords.words('english'))
 print()
-cvec = CountVectorizer(stop_words=None, ngram_range=(
-    1, 1), max_df=0.85, min_df=2, max_features=3000)
+cvec = CountVectorizer(max_df=0.5, max_features=3000, min_df=2,
+                       ngram_range=(1, 2), stop_words='english')
 X_train_cvec = cvec.fit_transform(X_train)
 X_train_cvec = pd.DataFrame(X_train_cvec.toarray(),
                             columns=cvec.get_feature_names())
@@ -109,8 +110,8 @@ print()
 # penalizes words that occur too often and boosts words that occur less often.
 # In practice it often produces much better results than CountVectorizer.
 # The equivalent of using CountVectorizer() followed by TfidfTransformer().
-tvec = TfidfVectorizer(stop_words=None, ngram_range=(
-    1, 1), max_df=0.85, min_df=2, max_features=3000)
+tvec = TfidfVectorizer(max_df=0.5, max_features=3000, min_df=2,
+                       ngram_range=(1, 2), stop_words='english')
 X_train_tvec = tvec.fit_transform(X_train)
 X_train_tvec = pd.DataFrame(X_train_tvec.toarray(),
                             columns=tvec.get_feature_names())
@@ -134,10 +135,12 @@ print('tvec:', model_tvec.score(X_train_tvec, y_train))
 print()
 print('model accuracy on test set:')
 print('cvec:', model.score(X_test_cvec, y_test))
+# tvec: 0.8864265927977839
 print('tvec:', model_tvec.score(X_test_tvec, y_test))
 print()
 
 y_prob = model.predict_proba(X_test_cvec)
 y_prob_tvec = model_tvec.predict_proba(X_test_tvec)
 roc = dp.Roc()
+# auc = 0.96
 roc.plot_roc(y_test, [y_prob, y_prob_tvec], mm=True, figsize=(12.5, 7.5))

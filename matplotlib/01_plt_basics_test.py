@@ -10,6 +10,18 @@ x = np.arange(10)
 y = [1, 2, 4, 6, 4, 4, 3, 5, 6, 7]
 y2 = [7, 5, 4, 3, 5, 5, 2, 4, 6, 8]
 
+# Demonstrates setting fontsize
+SMALL_SIZE = 8
+MEDIUM_SIZE = 10
+BIGGER_SIZE = 12
+plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
+plt.rc('axes', titlesize=SMALL_SIZE)     # fontsize of the axes title
+plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
+plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
+plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
+
 # matplotlib objects are composed of two parts, the figure and the axes.
 # They can be created together using plt.subplots(figsize=(int, int)).
 # It is here that fig parameters are best passed, namely:
@@ -89,7 +101,9 @@ ax2 = ax.twinx()
 # Demonstrates saving the figure into a file.
 # plt.gcf() gets the current figure.
 # fig = plt.gcf()
-fig.savefig('./saved graphs/matplotlib figure.jpg')
+# dpi=int allows figures to be saved with better resolution. This is necessary
+# for larger graphs.
+fig.savefig('./saved graphs/matplotlib graphs.jpg', dpi=100)
 
 
 # Used to open the plot in a new window if not using Jupyter or Hydrogen.
@@ -100,6 +114,6 @@ plt.show()
 plt.clf()
 
 # Used to open the plot in a new window if not using Jupyter or Hydrogen.
-plt.show()
+# plt.show()
 # Closes the plot window entirely.
 plt.close()

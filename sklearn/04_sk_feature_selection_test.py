@@ -27,12 +27,13 @@ print()
 # A correlation of 0.2 and below is considered low. 0.75 and above is
 # considered high. Features with high correlations between themselves need to
 # be eliminated using VIF.
-fig, ax = plt.subplots(figsize=(12, 7.5))
-sb.heatmap(df.corr(), cmap='PiYG', annot=False)
-# Corrects the heatmap for later versions of matplotlib.
-bottom, top = ax.get_ylim()
-ax.set_ylim(bottom+0.5, top-0.5)
+# fig, ax = plt.subplots(figsize=(12, 7.5))
+# sb.heatmap(df.corr(), cmap='PiYG', annot=False)
+# # Corrects the heatmap for later versions of matplotlib.
+# bottom, top = ax.get_ylim()
+# ax.set_ylim(bottom+0.5, top-0.5)
 # plt.show()
+# plt.close()
 
 X = df[features]
 y = df[target].values
@@ -87,12 +88,13 @@ features = X.columns
 print(features)
 print()
 
-fig, ax = plt.subplots(figsize=(12, 7.5))
-sb.heatmap(X.corr(), cmap='PiYG', annot=False)
-# Corrects the heatmap for later versions of matplotlib.
-bottom, top = ax.get_ylim()
-ax.set_ylim(bottom+0.5, top-0.5)
+# fig, ax = plt.subplots(figsize=(12, 7.5))
+# sb.heatmap(X.corr(), cmap='PiYG', annot=False)
+# # Corrects the heatmap for later versions of matplotlib.
+# bottom, top = ax.get_ylim()
+# ax.set_ylim(bottom+0.5, top-0.5)
 # plt.show()
+# plt.close()
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, random_state=1, stratify=data.target)
@@ -133,6 +135,8 @@ print()
 # PCA(n_components=None, copy=True, whiten=False, svd_solver='auto',
 # tol=0.0, iterated_power='auto', random_state=None)
 # Principal component analysis.
+# Can be used for feature selection, especially when the goal of the subsequent
+# analysis is to find clusters as it is a good at removing noise.
 # n_components determines number of features to keep.
 ss = StandardScaler()
 X_train_ss = pd.DataFrame(ss.fit_transform(
@@ -142,11 +146,23 @@ pca = PCA(n_components=n_comp)
 pca.fit(X_train_ss)
 most_important = [np.abs(pca.components_[i]).argmax() for i in range(n_comp)]
 most_important_names = [features[most_important[i]] for i in range(n_comp)]
+pca_features = {k: v for k, v in zip(most_important_names, pca.explained_variance_ratio_)}
+print('Principal component analysis:')
+# How much of the variance is explained by each feature.
+print(pca_features)
 # Restores the original order.
 most_important_names = [x for x in X_train.columns if x in most_important_names]
 X_train_pca = X_train[most_important_names]
-# How much of the variance is explained by each feature.
-print('Principal component analysis:')
-print(pca.explained_variance_ratio_)
 print(X_train_pca.columns)
-print()
+
+# Plot cumulative variance explains.
+cve = np.cumsum(np.round(pca.explained_variance_ratio_, decimals=4))
+fig, ax = plt.subplots(figsize=(12, 7.5))
+ax.plot(range(5), cve)
+# Reduces number of x ticks in order to eliminate the xtick decimal place.
+plt.locator_params(nbins=len(cve))
+ax.set_title('PCA cumulative variance explained')
+ax.set_xlabel('Number of features')
+ax.set_ylabel('Proportion of variance explained')
+plt.show()
+plt.close()

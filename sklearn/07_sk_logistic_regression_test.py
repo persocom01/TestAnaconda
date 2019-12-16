@@ -77,7 +77,7 @@ print()
 # interpretable number, use np.exp.
 # print('coefficient as odds:')
 print(np.exp(lr.coef_))
-# print()
+print()
 
 # Plots the roc curve.
 y_prob = lr.predict_proba(X_test)

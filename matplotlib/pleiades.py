@@ -44,7 +44,7 @@ class CZ:
         # Returns sentence instead of individual words.
         return ' '.join(words)
 
-    def text_list_cleaner(self, text_list, *args, inplace=False):
+    def text_list_cleaner(self, text_list, *args, replace=' ', inplace=False):
         '''
         Cleans text in lists.
         '''
@@ -64,11 +64,11 @@ class CZ:
                 # Removes all words passed as a list.
                 elif not isinstance(arg, str):
                     for a in arg:
-                        pattern = f'\b{a}\b'
-                        text_list[i] = re.sub(pattern, r'', text_list[i])
+                        pattern = f' {a} '
+                        text_list[i] = re.sub(pattern, replace, text_list[i])
                 # For any other special cases.
                 else:
-                    text_list[i] = re.sub(arg, r' ', text_list[i])
+                    text_list[i] = re.sub(arg, replace, text_list[i])
         return text_list
 
     def word_cloud(self, text, figsize=(12.5, 7.5), max_font_size=None, max_words=200, background_color='black', mask=None, recolor=False, **kwargs):
