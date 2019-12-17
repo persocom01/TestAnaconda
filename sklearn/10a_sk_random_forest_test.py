@@ -32,6 +32,7 @@ reddit_lingo = {
 }
 
 cz = ple.CZ()
+
 print('before:', X[1])
 X = cz.text_list_cleaner(X, cz.contractions, reddit_lingo,
                          r'[^a-zA-Z ]', cz.lemmatize_sentence, ['wa', 'ha'])
@@ -39,6 +40,8 @@ print('after:', X[1])
 print()
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
+
+sebas = ple.Sebastian()
 
 # RandomForestClassifier(n_estimators=100, criterion='gini', max_depth=None,
 # min_samples_split=2, min_samples_leaf=1, min_weight_fraction_leaf=0.0,
@@ -68,7 +71,6 @@ gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
 gs.fit(X_train, y_train)
 # best score: 0.833641404805915
 print('best score:', gs.best_score_)
-sebas = ple.Sebastian()
 # best params: tvec: max_df=0.7, max_features=3000, min_df=2, ngram_range=(1, 2), stop_words='english'
 print('best params:', sebas.get_params(gs.best_params_))
 print()
