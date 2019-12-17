@@ -22,6 +22,7 @@ pip was used to install several python modules that helped enhance anaconda.
 
 * pip install graphviz
 * pip install modin
+* pip install pmdarima
 * pip install pydotplus
 * pip install xgboost
 
