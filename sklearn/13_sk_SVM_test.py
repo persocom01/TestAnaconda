@@ -25,7 +25,9 @@ reddit_lingo = {
     'ff+uu+': 'ffuuu'
 }
 
+# Initialize nlp class.
 cz = ple.CZ()
+
 print('before:', X[1])
 X = cz.text_list_cleaner(X, cz.contractions, reddit_lingo,
                          r'[^a-zA-Z ]', cz.lemmatize_sentence, ['wa', 'ha'])

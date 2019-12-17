@@ -29,6 +29,7 @@ reddit_lingo = {
     'ff+uu+': 'ffuuu'
 }
 
+# Initialize nlp class.
 cz = ple.CZ()
 
 print('before:', X[1])
