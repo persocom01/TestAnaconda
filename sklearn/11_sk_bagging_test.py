@@ -70,7 +70,7 @@ params = {
 }
 gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
 gs.fit(X_train, y_train)
-# best score: 0.8521256931608133
+# best score: 0.8456561922365989
 print('best score:', gs.best_score_)
 sebas = ple.Sebastian()
 # best params: tvec: max_df=0.5, max_features=3000, min_df=2, ngram_range=(1, 2), stop_words='english'
@@ -84,6 +84,9 @@ mean_coeff = np.mean([
     model.coef_ for model in gs.best_estimator_.named_steps['bc'].estimators_
 ], axis=0)
 
+# Bagging does come with a feature_importances_ attribute. For feature
+# importances the easiest way is to find feature_importances_ for one of the
+# models in the bag.
 print('effect of each feature on odds it will be worldnews:')
 print(np.exp(mean_coeff))
 print()
@@ -93,4 +96,5 @@ print(confusion_matrix(y_test, y_pred))
 print()
 
 roc = dp.Roc()
+# auc = 0.95
 roc.plot_roc(y_test, y_prob, figsize=(12.5, 7.5))

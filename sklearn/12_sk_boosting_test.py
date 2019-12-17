@@ -32,7 +32,7 @@ reddit_lingo = {
 cz = ple.CZ()
 print('before:', X[1])
 X = cz.text_list_cleaner(X, cz.contractions, reddit_lingo,
-                         r'[^a-zA-Z ]', cz.lemmatize_sentence)
+                         r'[^a-zA-Z ]', cz.lemmatize_sentence, ['wa', 'ha'])
 print('after:', X[1])
 print()
 
@@ -58,43 +58,23 @@ pipe = Pipeline([
     ('ab', AdaBoostClassifier(n_estimators=50))
 ])
 params = {
-    'tvec__stop_words': [None, 'english'],
+    'tvec__stop_words': ['english'],
     'tvec__ngram_range': [(1, 1), (1, 2)],
-    'tvec__max_df': [.85, .9, .95],
+    'tvec__max_df': [.5, .7, .9],
     'tvec__min_df': [2, 4, 6],
-    'tvec__max_features': [1000, 2000, 3000],
+    'tvec__max_features': [2000, 3000, 4000],
 }
 gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
 gs.fit(X_train, y_train)
-# best score: 0.88909426987061
+# best score: 0.7569316081330869
 print('best score:', gs.best_score_)
-
-
-def get_params(dict):
-    from re import match
-    params = {}
-    pattern = r'^([a-zA-Z0-9_]+)__([a-zA-Z0-9_]+)'
-    for k, v in dict.items():
-        if isinstance(v, str):
-            v = "'" + v + "'"
-        m = match(pattern, k)
-        key = m.group(1)
-        kwarg = f'{m.group(2)}={v}'
-        if key in params:
-            params[key].append(kwarg)
-        else:
-            params[key] = [kwarg]
-    for k, v in params.items():
-        joined_list = ', '.join(map(str, v))
-        return f'{k}: {joined_list}'
-
-
-# best params: tvec: max_df=0.85, max_features=1000, min_df=2, ngram_range=(1, 2), stop_words=None
-print('best params:', get_params(gs.best_params_))
+sebas = ple.Sebastian()
+# best params: tvec: max_df=0.9, max_features=2000, min_df=2, ngram_range=(1, 1), stop_words='english'
+print('best params:', sebas.get_params(gs.best_params_))
 print()
 
-tvec = TfidfVectorizer(max_df=0.85, max_features=1000, min_df=2,
-                       ngram_range=(1, 2), stop_words=None)
+tvec = TfidfVectorizer(max_df=0.9, max_features=2000, min_df=2,
+                       ngram_range=(1, 1), stop_words='english')
 X_train = tvec.fit_transform(X_train)
 X_train = pd.DataFrame(X_train.toarray(), columns=tvec.get_feature_names())
 X_test = tvec.transform(X_test)
@@ -121,9 +101,15 @@ print()
 y_pred = gs.predict(X_test)
 y_prob = gs.predict_proba(X_test)
 
+# {'china': 0.026813815042157026, 'man': 0.018697088515042638, 'say': 0.018319367054757642, 'russia': 0.017747708591077632, 'right': 0.014303497603874534, 'state': 0.012878299754861385, 'year': 0.011985191727532254, 'trump': 0.011764876191658238,
+print('most_important_features:', sebas.get_features(
+    X_train, gs.best_estimator_.feature_importances_))
+print()
+
 print('confusion matrix:')
 print(confusion_matrix(y_test, y_pred))
 print()
 
 roc = dp.Roc()
+# auc = 0.86
 roc.plot_roc(y_test, y_prob, figsize=(12.5, 7.5))
