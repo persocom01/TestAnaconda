@@ -11,7 +11,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_predict
 from sklearn.metrics import accuracy_score
-import data_plots as dp
+import pleiades as ple
 
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
@@ -81,5 +81,7 @@ print()
 
 # Plots the roc curve.
 y_prob = lr.predict_proba(X_test)
-roc = dp.Roc()
-roc.plot_roc(y_test, y_prob, figsize=(12.5, 7.5))
+
+yuri = ple.Yuri()
+
+yuri.plot_roc(y_test, y_prob, figsize=(12.5, 7.5))

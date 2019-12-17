@@ -13,7 +13,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import xgboost as xgb
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
-import data_plots as dp
 
 import_path = r'.\datasets\reddit.csv'
 data = pd.read_csv(import_path)
@@ -132,9 +131,10 @@ print('confusion matrix:')
 print(confusion_matrix(y_test, y_pred))
 print()
 
-roc = dp.Roc()
+yuri = ple.Yuri()
+
 # auc = 0.90
-roc.plot_roc(y_test, y_prob, figsize=(12.5, 7.5))
+yuri.plot_roc(y_test, y_prob, figsize=(12.5, 7.5))
 
 # xgb.plot_tree breaks if feature names contain whitespaces.
 xgb.plot_tree(xgb_class, num_trees=0)

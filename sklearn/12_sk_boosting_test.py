@@ -11,7 +11,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import confusion_matrix
-import data_plots as dp
 
 import_path = r'.\datasets\reddit.csv'
 data = pd.read_csv(import_path)
@@ -113,6 +112,7 @@ print('confusion matrix:')
 print(confusion_matrix(y_test, y_pred))
 print()
 
-roc = dp.Roc()
+yuri = ple.Yuri()
+
 # auc = 0.86
-roc.plot_roc(y_test, y_prob, figsize=(12.5, 7.5))
+yuri.plot_roc(y_test, y_prob, figsize=(12.5, 7.5))

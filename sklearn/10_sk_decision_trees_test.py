@@ -15,7 +15,6 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import confusion_matrix
-import data_plots as dp
 from io import StringIO
 from sklearn.tree import export_graphviz
 import pydotplus
@@ -109,27 +108,28 @@ print('TfidfVectorizer:')
 print(X_train.sum().sort_values(ascending=False)[:5])
 print()
 
+yuri = ple.Yuri()
+
 # Demonstrates hyperparameter tuning of a decision tree.
 # max_depth.
 max_depths = np.linspace(1, 10, 10)
-roc = dp.Roc()
-auc_scores = roc.dt_auc_scores(X_train, X_test, y_train, y_test, {'max_depth': max_depths})
-roc.plot_auc(max_depths, auc_scores, title='AUC score vs Tree depth',
-             xlabel='Tree depth', labels=['train AUC', 'test AUC'], figsize=(12.5, 7.5))
+auc_scores = yuri.dt_auc_scores(X_train, X_test, y_train, y_test, {'max_depth': max_depths})
+yuri.plot_auc(max_depths, auc_scores, title='AUC score vs Tree depth',
+              xlabel='Tree depth', labels=['train AUC', 'test AUC'], figsize=(12.5, 7.5))
 
 # min_samples_split.
 min_samples_splits = np.linspace(0.1, 1.0, 10, endpoint=True)
-auc_scores = roc.dt_auc_scores(X_train, X_test, y_train, y_test, {
-                               'min_samples_split': min_samples_splits})
-roc.plot_auc(min_samples_splits, auc_scores, title='AUC score vs Min samples split',
-             xlabel='Min samples split', labels=['train AUC', 'test AUC'], figsize=(12.5, 7.5))
+auc_scores = yuri.dt_auc_scores(X_train, X_test, y_train, y_test, {
+    'min_samples_split': min_samples_splits})
+yuri.plot_auc(min_samples_splits, auc_scores, title='AUC score vs Min samples split',
+              xlabel='Min samples split', labels=['train AUC', 'test AUC'], figsize=(12.5, 7.5))
 
 # min_samples_leaf.
 min_samples_leafs = np.linspace(0.1, 0.5, 5, endpoint=True)
-auc_scores = roc.dt_auc_scores(X_train, X_test, y_train, y_test, {
-                               'min_samples_leaf': min_samples_leafs})
-roc.plot_auc(min_samples_leafs, auc_scores, title='AUC score vs Min samples leaf',
-             xlabel='Min samples leaf', labels=['train AUC', 'test AUC'], figsize=(12.5, 7.5))
+auc_scores = yuri.dt_auc_scores(X_train, X_test, y_train, y_test, {
+    'min_samples_leaf': min_samples_leafs})
+yuri.plot_auc(min_samples_leafs, auc_scores, title='AUC score vs Min samples leaf',
+              xlabel='Min samples leaf', labels=['train AUC', 'test AUC'], figsize=(12.5, 7.5))
 
 dt = DecisionTreeClassifier()
 params = {
@@ -158,7 +158,7 @@ print(confusion_matrix(y_test, y_pred))
 print()
 
 # auc = 0.58
-roc.plot_roc(y_test, y_prob, figsize=(12.5, 7.5))
+yuri.plot_roc(y_test, y_prob, figsize=(12.5, 7.5))
 
 # Demonstrates plotting of a decision tree.
 # The tree can be interpreted by getting the most important features from the

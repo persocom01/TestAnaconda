@@ -12,7 +12,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
-import data_plots as dp
+import pleiades as ple
 
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
@@ -129,8 +129,9 @@ print()
 
 # Plots multiple ROC curves for a multi categorical target in a single figure.
 y_prob = knn.predict_proba(X_test)
-roc = dp.Roc()
+
+yuri = ple.Yuri()
+
 # Due to the unrealistically high accuracy of the model, th ROC for the model
 # is 1. This is not a bug.
-roc.plot_roc(y_test, y_prob, average='both', lw=2, title='species ROC plot',
-             labels=data.target_names, figsize=(12, 7.5))
+yuri.plot_roc(y_test, y_prob, figsize=(12.5, 7.5))

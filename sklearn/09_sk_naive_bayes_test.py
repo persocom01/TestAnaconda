@@ -11,7 +11,6 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
-import data_plots as dp
 # For binary features.
 # from sklearn.naive_bayes import BernoulliNB
 # For discrete features.
@@ -144,6 +143,8 @@ print()
 
 y_prob = model.predict_proba(X_test_cvec)
 y_prob_tvec = model_tvec.predict_proba(X_test_tvec)
-roc = dp.Roc()
+
+yuri = ple.Yuri()
+
 # auc = 0.96
-roc.plot_roc(y_test, [y_prob, y_prob_tvec], mm=True, figsize=(12.5, 7.5))
+yuri.plot_roc(y_test, y_prob, figsize=(12.5, 7.5))
