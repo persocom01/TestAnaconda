@@ -19,7 +19,7 @@ from sklearn.naive_bayes import MultinomialNB
 # from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
-
+import pickle
 
 import_path = r'.\datasets\reddit.csv'
 data = pd.read_csv(import_path)
@@ -157,3 +157,13 @@ print()
 
 # auc = 0.96
 yuri.plot_roc(y_test, y_prob, figsize=(12.5, 7.5))
+
+# Demonstrates how to save models for use later.
+# pickle the vectorizer.
+pickle.dump(tvec, open(r'.\pickles\vector_nb_tvec.sav', 'wb'))
+# pickle the model.
+pickle.dump(nb, open(r'.\pickles\model_nb.sav', 'wb'))
+
+# Code on how to load the saved models.
+# with open(r'.\pickles\vector_nb_tvec.sav', 'rb') as f:
+#     tvec = pickle.load(f)
