@@ -18,13 +18,15 @@ This project was done on atom within the anaconda environment.
 * [https://atom.io/] - atom 1.40.1
 * [https://www.anaconda.com/distribution/#download-section] - Anaconda 2019.07
 
-pip was used to install several python modules that helped enhance anaconda.
+pip or conda was used to install several python modules that helped enhance anaconda. Open the anaconda prompt in admin mode and type:
 
 * pip install graphviz
 * pip install modin
 * pip install pmdarima
 * pip install pydotplus
 * pip install xgboost
+* conda install pysal
+* pip install folium
 
 graphviz must also be installed on windows from the following link:
 

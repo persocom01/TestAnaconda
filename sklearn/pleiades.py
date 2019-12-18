@@ -114,7 +114,6 @@ class CZ:
         from wordcloud import WordCloud, ImageColorGenerator
 
         fig, ax = plt.subplots(figsize=figsize)
-
         if mask is None:
             cloud = WordCloud(background_color=background_color, max_words=max_words, **kwargs)
             cloud.generate(text)
@@ -129,7 +128,6 @@ class CZ:
                 ax.imshow(cloud.recolor(color_func=image_colors), interpolation='bilinear')
             else:
                 ax.imshow(cloud, interpolation='bilinear')
-
         ax.axis('off')
         plt.show()
         plt.close()
@@ -151,20 +149,16 @@ class Solution:
         drop_list=True gets a list of features that would be dropped instead.
         '''
         import numpy as np
-
         # Avoids overwriting the original DataFrame by default.
         if inplace is False:
             df = df.copy()
-
         # Creates an empty list for the first iteration.
         if _drops is None:
             _drops = []
-
         features = df.columns
         # VIF is the diagonal of the correlation matrix.
         vifs = np.linalg.inv(df.corr().values).diagonal()
         max_vif_index = np.argmax(vifs)
-
         # Eliminate feature with the highest VIF score and rerun the function.
         if vifs[max_vif_index] >= max_score:
             _drops.append(features[max_vif_index])
@@ -192,44 +186,45 @@ class Sebastian:
         that can be easily copy pasted onto the functions themselves.
         '''
         from re import match
-
         params = {}
         pattern = r'^([a-zA-Z0-9_]+)__([a-zA-Z0-9_]+)'
         for k, v in dict.items():
-
+            # Puts quotes on string argument values.
             if isinstance(v, str):
                 v = "'" + v + "'"
-
+            # Checks if params are from a pipeline.
             try:
                 m = match(pattern, k)
                 key = m.group(1)
                 kwarg = f'{m.group(2)}={v}'
+            # For non pipeline params.
             except AttributeError:
                 key = 'model args'
                 kwarg = f'{k}={v}'
-
+            # Populates dictionary with step: params.
             if key in params:
                 params[key].append(kwarg)
             else:
                 params[key] = [kwarg]
-
+        # Turns dictionary into string for easy copy paste.
         s = ''
         for k, v in params.items():
             joined_list = ', '.join(map(str, v))
             s += f'{k}: {joined_list} '
-
         return s.strip(' ')
 
-    def get_features(self, X, feature_importances_, sort=True):
+    def get_features(self, X_train, feature_importances_, sort=True):
         '''
         Takes the train DataFrame and the .feature_importances_ attribute
         of sklearn's model and returns a sorted dictionary of
         feature_names: feature_importance for easy interpretation.
         '''
+        # Creates feature dict of features with non zero importances.
         feature_dict = {}
         for i, v in enumerate(feature_importances_):
             if v != 0:
-                feature_dict[X.columns[i]] = v
+                feature_dict[X_train.columns[i]] = v
+        # Sorts dict from most important feature to least.
         if sort:
             sorted_features = sorted(feature_dict, key=feature_dict.__getitem__, reverse=True)
             sorted_values = sorted(feature_dict.values(), reverse=True)
@@ -240,14 +235,33 @@ class Sebastian:
             self.feature_dict = feature_dict
             return feature_dict
 
-        def plot_features(dict):
-            import matplotlib.pyplot as plt
-            features = dict.keys()
-            importances = dict.values()
-            plt.barh(range(len(features)), importances, align='center')
-            plt.yticks(range(len(features)), features)
-            plt.show()
-            plt.close()
+    def plot_importances(self, X_train=None, feature_importances_=None, max_features=10, figsize=(12.5, 7.5), **kwargs):
+        import matplotlib.pyplot as plt
+        # Allows the function to be called after get_features with no
+        # arguments.
+        if X_train is None or feature_importances_ is None:
+            if self.get_features is None:
+                raise TypeError('missing "X_train" or "feature_importances_" arguments.')
+            else:
+                feature_dict = self.feature_dict
+        else:
+            feature_dict = self.get_features(X_train, feature_importances_)
+        # Arranges the graph from most important at the top to least at the
+        # bottom.
+        features = list(feature_dict.keys())
+        importances = list(feature_dict.values())
+        # Limits number of features shown.
+        features = features[:max_features]
+        importances = importances[:max_features]
+        # Arranges most important feature at top instead of bottom.
+        features.reverse()
+        importances.reverse()
+        fig, ax = plt.subplots(figsize=figsize, **kwargs)
+        ax.barh(range(len(features)), importances, align='center')
+        ax.set_yticks(range(len(features)))
+        ax.set_yticklabels(features)
+        plt.show()
+        plt.close()
 
 # Yuri handles data plots.
 
@@ -270,13 +284,12 @@ class Yuri:
         '''
         from sklearn.preprocessing import label_binarize
         from sklearn.metrics import roc_auc_score
-
+        # Gets all unique classes.
         classes = list(set(y_test))
         classes.sort()
         self.classes = classes
         n_classes = len(self.classes)
         is_multi_categorical = n_classes > 2
-
         # Avoids label_binarize if unnecessary.
         if is_multi_categorical:
             lb_test = label_binarize(y_test, classes=self.classes)
@@ -301,6 +314,7 @@ class Yuri:
         decision tree. It is used in conjunction with plot_auc to help
         visualize decision tree parameters.
         '''
+        # Set tree model.
         if tree == 'dt':
             from sklearn.tree import DecisionTreeClassifier
             dt_type = DecisionTreeClassifier
@@ -312,7 +326,7 @@ class Yuri:
             dt_type = ExtraTreesClassifier
         else:
             raise Exception('unrecognized tree type.')
-
+        # Sets hyperparameter.
         train_auc_scores = []
         test_auc_scores = []
         for key, value in param_grid.items():
@@ -326,13 +340,10 @@ class Yuri:
                 else:
                     raise Exception('unrecognized param.')
                 dt.fit(X_train, y_train)
-
                 y_prob_train = dt.predict_proba(X_train)
                 train_auc_scores.append(self.auc_score(y_train, y_prob_train))
-
                 y_prob = dt.predict_proba(X_test)
                 test_auc_scores.append(self.auc_score(y_test, y_prob))
-
         return [train_auc_scores, test_auc_scores]
 
     def plot_auc(self, x, auc_scores, lw=2, title=None, xlabel=None, labels=None, **kwargs):
@@ -380,8 +391,7 @@ class Yuri:
         from sklearn.metrics import roc_curve, auc
         from itertools import cycle
         from scipy import interp
-
-        # Gets all unique categories.
+        # Gets all unique classes.
         classes = list(set(y_test))
         classes.sort()
         self.classes = classes

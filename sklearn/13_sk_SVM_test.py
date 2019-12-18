@@ -13,7 +13,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import SVC
-import matplotlib.pyplot as plt
+from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 
 import_path = r'.\datasets\reddit.csv'
@@ -49,13 +49,18 @@ sebas = ple.Sebastian()
 # probability=False, tol=0.001, cache_size=200, class_weight=None,
 # verbose=False, max_iter=-1, decision_function_shape='ovr', break_ties=False,
 # random_state=None)
-# C=float is the regularization hyperparameter. The higher the less
-# regularized.
+# C=float is the cost of misclassification. A higher value will result in a
+# greater likelyhood of overfitting.
 # kernel=str can be one of 5 values, or a collable. The values are 'linear',
 # 'poly', 'rbf', 'sigmoid', and 'precomputed'. The default value is 'rbf', but
 # for nlp classification problems with only two target classes, we can go with
 # 'linear', which is meant for classes which are linearly separable (always
 # the case when there are only 2 classes).
+# gamma=float is the kernel coefficient. It controls how aggressively the
+# kernel will try to fit points via higher dimensional transformation. A larger
+# value makes the kernel less aggressive and increases the likelyhood of
+# underfitting. Manual values of gamma normally range take the range
+# {'gamma':np.logspace(-5, -1, 10)}
 pipe = Pipeline([
     ('tvec', TfidfVectorizer()),
     ('svc', SVC(gamma='scale'))
@@ -66,16 +71,16 @@ params = {
     'tvec__max_df': [.5, .7, .9],
     'tvec__min_df': [2, 4, 6],
     'tvec__max_features': [2000, 3000, 4000],
-    'svc__C': [1, 10, 100],
-    'svc__kernel': ['linear']
+    'svc__C': [1, 4, 7],
+    'svc__kernel': ['linear'],
 }
-# gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
-# gs.fit(X_train, y_train)
-# # best score: 0.8604436229205176
-# print('best score:', gs.best_score_)
-# # best params: svc: C=1, kernel='linear' tvec: max_df=0.5, max_features=2000, min_df=2, ngram_range=(1, 1), stop_words='english'
-# print('best params:', sebas.get_params(gs.best_params_))
-# print()
+gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
+gs.fit(X_train, y_train)
+# best score: 0.8604436229205176
+print('best score:', gs.best_score_)
+# best params: svc: C=1, kernel='linear' tvec: max_df=0.5, max_features=2000, min_df=2, ngram_range=(1, 1), stop_words='english'
+print('best params:', sebas.get_params(gs.best_params_))
+print()
 
 tvec = TfidfVectorizer(max_df=0.5, max_features=2000, min_df=2,
                        ngram_range=(1, 1), stop_words='english')
@@ -94,32 +99,15 @@ svc.fit(X_train, y_train)
 
 y_pred = svc.predict(X_test)
 
+# Only usable if SVC kernel='linear'.
 print('most_important_features:', sebas.get_features(X_train, svc.coef_.ravel()))
 print()
 
+sebas.plot_importances()
 
-def plot_importances(dict):
-    features = dict.keys()
-    importances = dict.values()
-    plt.barh(range(len(features)), importances, align='center')
-    plt.yticks(range(len(features)), features)
-    plt.show()
-
-
-plot_importances(sebas.get_features(X_train, svc.coef_.ravel()))
-# def f_importances(coef, names):
-#     imp = coef
-#     imp, names = zip(*sorted(zip(imp, names)))
-#     plt.barh(range(len(names)), imp, align='center')
-#     plt.yticks(range(len(names)), names)
-#     plt.show()
-#
-#
-# f_importances(svc.coef_, X_train.columns)
-
-# print('most_important_features:', sebas.get_features(
-#     X_train, gs.best_estimator_.named_steps['svc'][1].coef_))
-# print()
+print('classification report:')
+print(classification_report(y_test, y_pred, output_dict=False))
+print()
 
 print('confusion matrix:')
 print(confusion_matrix(y_test, y_pred))
