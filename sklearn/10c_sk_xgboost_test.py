@@ -11,6 +11,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import TfidfVectorizer
 import xgboost as xgb
+from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 
@@ -125,6 +126,10 @@ y_prob = xgb_class.predict_proba(X_test)
 
 print('most_important_features:', sebas.get_features(
     X_train, xgb_class.feature_importances_))
+print()
+
+print('classification report:')
+print(classification_report(y_test, y_pred, output_dict=False))
 print()
 
 print('confusion matrix:')

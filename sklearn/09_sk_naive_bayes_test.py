@@ -17,6 +17,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 # For features that follow a normal distribution.
 # from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import classification_report
+from sklearn.metrics import confusion_matrix
 
 
 import_path = r'.\datasets\reddit.csv'
@@ -130,6 +132,8 @@ model_tvec = nb.fit(X_train_tvec, y_train)
 
 y_pred = model.predict(X_test_cvec)
 y_pred_tvec = model_tvec.predict(X_test_tvec)
+y_prob = model.predict_proba(X_test_cvec)
+y_prob_tvec = model_tvec.predict_proba(X_test_tvec)
 
 print('model accuracy on itself:')
 print('cvec:', model.score(X_train_cvec, y_train))
@@ -141,10 +145,15 @@ print('cvec:', model.score(X_test_cvec, y_test))
 print('tvec:', model_tvec.score(X_test_tvec, y_test))
 print()
 
-y_prob = model.predict_proba(X_test_cvec)
-y_prob_tvec = model_tvec.predict_proba(X_test_tvec)
-
 yuri = ple.Yuri()
+
+print('classification report:')
+print(classification_report(y_test, y_pred, output_dict=False))
+print()
+
+print('confusion matrix:')
+print(confusion_matrix(y_test, y_pred))
+print()
 
 # auc = 0.96
 yuri.plot_roc(y_test, y_prob, figsize=(12.5, 7.5))

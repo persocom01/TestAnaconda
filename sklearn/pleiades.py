@@ -1,6 +1,6 @@
 # Module containing personalized data analysis tools.
 
-# Nabe deals with data cleaning.
+# Nabe deals with data cleaning and exploration.
 
 
 class Nabe:
@@ -134,11 +134,57 @@ class CZ:
         plt.show()
         plt.close()
 
+# Solution handles feature selection and scaling.
+
+
+class Solution:
+
+    def __init__(self):
+        pass
+
+    def vif_feature_select(self, df, max_score=5.0, inplace=False, drop_list=False, _drops=None):
+        '''
+        Takes a DataFrame and returns it after recursively eliminating columns
+        with the highest VIF scores until the remainder have a VIF scores of
+        less than max_score.
+
+        drop_list=True gets a list of features that would be dropped instead.
+        '''
+        import numpy as np
+
+        # Avoids overwriting the original DataFrame by default.
+        if inplace is False:
+            df = df.copy()
+
+        # Creates an empty list for the first iteration.
+        if _drops is None:
+            _drops = []
+
+        features = df.columns
+        # VIF is the diagonal of the correlation matrix.
+        vifs = np.linalg.inv(df.corr().values).diagonal()
+        max_vif_index = np.argmax(vifs)
+
+        # Eliminate feature with the highest VIF score and rerun the function.
+        if vifs[max_vif_index] >= max_score:
+            _drops.append(features[max_vif_index])
+            del df[features[max_vif_index]]
+            return self.vif_feature_select(df, max_score, inplace, drop_list, _drops)
+        else:
+            # Returns a list of features that would be dropped instead of a
+            # DataFrame
+            if drop_list:
+                return _drops
+            else:
+                return df
+
+# Sebastian handles modeling.
+
 
 class Sebastian:
 
     def __init__(self):
-        pass
+        self.feature_dict = None
 
     def get_params(self, dict):
         '''
@@ -146,6 +192,7 @@ class Sebastian:
         that can be easily copy pasted onto the functions themselves.
         '''
         from re import match
+
         params = {}
         pattern = r'^([a-zA-Z0-9_]+)__([a-zA-Z0-9_]+)'
         for k, v in dict.items():
@@ -166,9 +213,12 @@ class Sebastian:
             else:
                 params[key] = [kwarg]
 
+        s = ''
         for k, v in params.items():
             joined_list = ', '.join(map(str, v))
-            return f'{k}: {joined_list}'
+            s += f'{k}: {joined_list} '
+
+        return s.strip(' ')
 
     def get_features(self, X, feature_importances_, sort=True):
         '''
@@ -184,9 +234,20 @@ class Sebastian:
             sorted_features = sorted(feature_dict, key=feature_dict.__getitem__, reverse=True)
             sorted_values = sorted(feature_dict.values(), reverse=True)
             sorted_feature_dict = {k: v for k, v in zip(sorted_features, sorted_values)}
+            self.feature_dict = sorted_feature_dict
             return sorted_feature_dict
         else:
+            self.feature_dict = feature_dict
             return feature_dict
+
+        def plot_features(dict):
+            import matplotlib.pyplot as plt
+            features = dict.keys()
+            importances = dict.values()
+            plt.barh(range(len(features)), importances, align='center')
+            plt.yticks(range(len(features)), features)
+            plt.show()
+            plt.close()
 
 # Yuri handles data plots.
 

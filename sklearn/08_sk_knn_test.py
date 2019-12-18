@@ -10,8 +10,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import cross_val_score
-from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
+from sklearn.metrics import confusion_matrix
 import pleiades as ple
 
 # Use this command if using Jupyter notebook to plot graphs inline.
@@ -94,21 +94,12 @@ print()
 
 knn.fit(X_train, y_train)
 y_pred = knn.predict(X_test)
+y_prob = knn.predict_proba(X_test)
 print(y_pred)
 print(y_test)
 
-# confusion_matrix(y_true, y_pred, labels=None, sample_weight=None)
-# By default, the y_pred are the columns of the matrix, y_true are the rows,
-# arranged from smallest to largest from left to right. If strings are used,
-# they will be in alphabetical order. You may determine the order by passing a
-# list to the labels argument.
-# sample_weight=list must be the same size as y_pred. It determines the value
-# of each prediction relative to the others as it is shown in the matrix.
-# By default, all predictions are worth 1.
-# The number of true predictions will be the sum of the diagonal.
-print('confusion matrix:')
-print(confusion_matrix(y_test, y_pred))
-print()
+yuri = ple.Yuri()
+
 # classification_report(y_true, y_pred, labels=None, target_names=None,
 # sample_weight=None, digits=2, output_dict=False)
 # Precision is the percentage of positive predictions that were correct.
@@ -126,11 +117,18 @@ print()
 print('classification report:')
 print(classification_report(y_test, y_pred, output_dict=False))
 print()
-
-# Plots multiple ROC curves for a multi categorical target in a single figure.
-y_prob = knn.predict_proba(X_test)
-
-yuri = ple.Yuri()
+# confusion_matrix(y_true, y_pred, labels=None, sample_weight=None)
+# By default, the y_pred are the columns of the matrix, y_true are the rows,
+# arranged from smallest to largest from left to right. If strings are used,
+# they will be in alphabetical order. You may determine the order by passing a
+# list to the labels argument.
+# sample_weight=list must be the same size as y_pred. It determines the value
+# of each prediction relative to the others as it is shown in the matrix.
+# By default, all predictions are worth 1.
+# The number of true predictions will be the sum of the diagonal.
+print('confusion matrix:')
+print(confusion_matrix(y_test, y_pred))
+print()
 
 # Due to the unrealistically high accuracy of the model, th ROC for the model
 # is 1. This is not a bug.

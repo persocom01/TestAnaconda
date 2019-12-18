@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import seaborn as sb
+import pleiades as ple
 import matplotlib.pyplot as plt
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
@@ -38,6 +38,8 @@ print()
 X = df[features]
 y = df[target].values
 
+sol = ple.Solution()
+
 # VIF, or Variance Inflation Factor, is a measure of colinearity among
 # predictor variables within a multiple regression. It is used to eliminate
 # continuous or ordinal features that are highly correlated with each other.
@@ -48,42 +50,8 @@ y = df[target].values
 # It seems to give funny results if the variables contain string values.
 # Recommend separating the string columns from the rest before attempting
 # to do this.
-
-
-def vif_feature_select(df, max_score=5.0, inplace=False, drop_list=False, _drops=None):
-    '''
-    Takes a DataFrame and returns it after recursively eliminating columns
-    with the highest VIF scores until the remainder have a VIF scores of less
-    than max_score.
-
-    drop_list=True gets a list of features that would be dropped instead.
-    '''
-    # Avoids overwriting the original DataFrame by default.
-    if inplace is False:
-        df = df.copy()
-    # Creates an empty list for the first iteration.
-    if _drops is None:
-        _drops = []
-    features = df.columns
-    # VIF is the diagonal of the correlation matrix.
-    vifs = np.linalg.inv(df.corr().values).diagonal()
-    max_vif_index = np.argmax(vifs)
-    # Eliminate feature with the highest VIF score and rerun the function.
-    if vifs[max_vif_index] >= max_score:
-        _drops.append(features[max_vif_index])
-        del df[features[max_vif_index]]
-        return vif_feature_select(df, max_score, inplace, drop_list, _drops)
-    else:
-        # Returns a list of features that would be dropped instead of a
-        # DataFrame
-        if drop_list:
-            return _drops
-        else:
-            return df
-
-
 print('VIF:')
-X = vif_feature_select(X)
+X = sol.vif_feature_select(X)
 features = X.columns
 print(features)
 print()

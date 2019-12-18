@@ -14,6 +14,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import BaggingClassifier
+from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 
 import_path = r'.\datasets\reddit.csv'
@@ -91,6 +92,10 @@ mean_coeff = np.mean([
 # models in the bag.
 print('effect of each feature on odds it will be worldnews:')
 print(np.exp(mean_coeff))
+print()
+
+print('classification report:')
+print(classification_report(y_test, y_pred, output_dict=False))
 print()
 
 print('confusion matrix:')

@@ -11,6 +11,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 
 import_path = r'.\datasets\reddit.csv'
@@ -85,6 +86,10 @@ y_pred = et.predict(X_test)
 y_prob = et.predict_proba(X_test)
 
 print('most_important_features:', sebas.get_features(X_train, et.feature_importances_))
+print()
+
+print('classification report:')
+print(classification_report(y_test, y_pred, output_dict=False))
 print()
 
 print('confusion matrix:')

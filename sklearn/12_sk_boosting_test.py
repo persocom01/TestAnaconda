@@ -10,6 +10,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 
 import_path = r'.\datasets\reddit.csv'
@@ -106,6 +107,10 @@ y_prob = gs.predict_proba(X_test)
 # {'china': 0.026813815042157026, 'man': 0.018697088515042638, 'say': 0.018319367054757642, 'russia': 0.017747708591077632, 'right': 0.014303497603874534, 'state': 0.012878299754861385, 'year': 0.011985191727532254, 'trump': 0.011764876191658238,
 print('most_important_features:', sebas.get_features(
     X_train, gs.best_estimator_.feature_importances_))
+print()
+
+print('classification report:')
+print(classification_report(y_test, y_pred, output_dict=False))
 print()
 
 print('confusion matrix:')

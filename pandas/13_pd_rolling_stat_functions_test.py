@@ -1,7 +1,10 @@
 import numpy as np
 import pandas as pd
+from pandas.plotting import register_matplotlib_converters
 import seaborn as sb
 import matplotlib.pyplot as plt
+
+register_matplotlib_converters()
 
 np.random.seed(1)
 df = pd.DataFrame(np.random.randint(0, 10, (30, 2)),
@@ -9,7 +12,9 @@ df = pd.DataFrame(np.random.randint(0, 10, (30, 2)),
                   columns=['A', 'B'])
 
 # df.rolling(self, window, min_periods=None, center=False, win_type=None,
-# on=None, axis=0, closed=None)
+# on=None, axis=0, closed=None) takes the stat function on top of it, applies
+# it to window number of rows, and returns the result to the last row in the
+# window. It is used to calculate stuff like moving averages.
 # window=int_offset is the number of periods to roll or a time offset, such as
 # '3d' for 3 days.
 # min_periods=window_size by default. If set lower, you can avoid NaN that
@@ -17,12 +22,36 @@ df = pd.DataFrame(np.random.randint(0, 10, (30, 2)),
 # if a time offset is given for window instead of an int.
 # center=True puts the rolled value in the middle of the window instead of the
 # end.
-# on=col_name of a datetime column if you don't want to roll by DataFrame
-# index.
+# on=datetime_col_name if you don't want to roll by DataFrame index.
 fig, ax = plt.subplots()
 ax.plot(df['A'])
 ax.plot(df['A'].rolling(window='3d').mean())
-# Identical to the above in this case, but the first tow values will be NaN.
+# Identical to the above in this case, but the first two values will be NaN.
 ax.plot(df['A'].rolling(window=3).mean())
+plt.show()
+plt.close()
+
+# df.expanding(self, min_periods=1, center=False, axis=0) takes the stat
+# function on top of it, applies it to min periods number of rows, and returns
+# the result to the last row. Subsequent rows add themselves to the end of this
+# calculation without taking away the beginning. The result is a cumsum for
+# sum(), but functions like mean() get very gradual.
+fig, ax = plt.subplots()
+ax.plot(df['A'])
+ax.plot(df['A'].expanding(min_periods=3).sum())
+ax.plot(df['A'].expanding(min_periods=3).mean())
+plt.show()
+plt.close()
+
+# df.ewm(self, com=None, span=None, halflife=None, alpha=None, min_periods=0,
+# adjust=True, ignore_na=False, axis=0) calculates the exponential moving
+# average. The parameters determine how important the most recent data point
+# is. Either com, span or halflife must be specified.
+print(df['A'][:5])
+print(df['A'].ewm(com=0.5, min_periods=3).mean()[:5])
+fig, ax = plt.subplots()
+ax.plot(df['A'])
+ax.plot(df['A'].expanding(min_periods=3).mean())
+ax.plot(df['A'].ewm(com=0.5, min_periods=3).mean())
 plt.show()
 plt.close()

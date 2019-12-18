@@ -68,6 +68,10 @@ from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.ensemble import GradientBoostingRegressor
 from xgboost import XGBClassifier
 
+# SVM
+from sklearn.svm import SVC
+from sklearn.svm import SVR
+
 # Metrics.
 from sklearn.metrics import r2_score
 from sklearn.metrics import mean_absolute_error
