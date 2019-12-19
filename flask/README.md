@@ -11,3 +11,11 @@ python -m venv env_name
 env_name\\Scripts\\activate
 
 pip install flask
+
+## Running
+
+open the project folder in cmd and type:
+
+env_name\\Scripts\\activate
+
+start_flask.sh

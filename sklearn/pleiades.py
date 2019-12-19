@@ -182,7 +182,12 @@ class Solution:
         with the highest VIF scores until the remainder have VIF scores less
         than max_score.
 
-        drop_list=True gets a list of features that would be dropped instead.
+        params:
+            drop_list       when set to True, the function returns a list of
+                            features that would be dropped instead.
+            check_string    determines if the DataFrame is checked for columns
+                            containing string values which will cause the
+                            function to return an unreliable result.
         '''
         import numpy as np
         # Avoids overwriting the original DataFrame by default.
@@ -195,7 +200,7 @@ class Solution:
             if check_string:
                 dtypes = [dt for dt in df.dtypes]
                 if 'object' in dtypes:
-                    print('Feature(s) contain string values. Result may not be reliable.')
+                    print('Feature(s) contain string values. Result may be unreliable.')
         features = df.columns
         # VIF is the diagonal of the correlation matrix.
         vifs = np.linalg.inv(df.corr().values).diagonal()
@@ -256,9 +261,9 @@ class Sebastian:
 
     def get_features(self, X_train, feature_importances_, sort=True):
         '''
-        Takes the train DataFrame and the .feature_importances_ attribute
-        of sklearn's model and returns a sorted dictionary of
-        feature_names: feature_importance for easy interpretation.
+        Takes the train DataFrame and the .feature_importances_ attribute of
+        sklearn's model and returns a sorted dictionary of feature_names:
+        feature_importance for easy interpretation.
         '''
         # Creates feature dict of features with non zero importances.
         feature_dict = {}
@@ -277,6 +282,18 @@ class Sebastian:
             return feature_dict
 
     def plot_importances(self, X_train=None, feature_importances_=None, max_features=10, figsize=(12.5, 7.5), **kwargs):
+        '''
+        Takes the train DataFrame and the .feature_importances_ attribute of
+        sklearn's model and plots a horizontal bar graph of the 10 most
+        important features and their importances.
+
+        Can be called without any arguments if get_features() was called
+        beforehand.
+
+        params:
+            max_features    determines the number of features plotted. The
+                            default is 10.
+        '''
         import matplotlib.pyplot as plt
         # Allows the function to be called after get_features with no
         # arguments.
@@ -314,7 +331,7 @@ class Yuri:
 
     def auc_score(self, y_test, y_prob):
         '''
-        A wrapper on the sklearn roc_auc_score that makes it work even if the
+        A wrapper on sklearn's roc_auc_score that makes it work even if the
         target is multi-categorical or has not been label encoded.
 
         The auc_score normally ranges between 0.5 and 1. Less than 0.5 makes
