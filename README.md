@@ -7,6 +7,7 @@ An Anaconda testing playground based on tutorials found here:
 * matplotlib https://www.tutorialspoint.com/matplotlib/index.htm
 * seaborn https://www.tutorialspoint.com/seaborn/index.htm
 * sklearn https://www.tutorialspoint.com/machine_learning_with_python/index.htm
+* flask https://flask.palletsprojects.com/en/1.1.x/
 * jupyter https://www.tutorialspoint.com/jupyter/index.htm
 
 Workable code is written on each topic to demonstrate use of the python module in the topic area.

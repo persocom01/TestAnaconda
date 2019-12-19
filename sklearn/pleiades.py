@@ -176,11 +176,11 @@ class Solution:
         df_corr_matrix = pd.DataFrame(corr_matrix, index=cols, columns=cols)
         return df_corr_matrix
 
-    def vif_feature_select(self, df, max_score=5.0, inplace=False, drop_list=False, _drops=None):
+    def vif_feature_select(self, df, max_score=5.0, inplace=False, drop_list=False, check_string=True, _drops=None):
         '''
         Takes a DataFrame and returns it after recursively eliminating columns
-        with the highest VIF scores until the remainder have a VIF scores of
-        less than max_score.
+        with the highest VIF scores until the remainder have VIF scores less
+        than max_score.
 
         drop_list=True gets a list of features that would be dropped instead.
         '''
@@ -191,6 +191,11 @@ class Solution:
         # Creates an empty list for the first iteration.
         if _drops is None:
             _drops = []
+            # Check if features contain string values.
+            if check_string:
+                dtypes = [dt for dt in df.dtypes]
+                if 'object' in dtypes:
+                    print('Feature(s) contain string values. Result may not be reliable.')
         features = df.columns
         # VIF is the diagonal of the correlation matrix.
         vifs = np.linalg.inv(df.corr().values).diagonal()

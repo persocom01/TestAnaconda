@@ -67,12 +67,16 @@ print()
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, random_state=1, stratify=data.target)
 
+# A rule of thub as to an acceptable number of features is
+# n_features = sqrt(n_rows)
+n_features = 5
+
 # SelectKBest(score_func=<function f_classif>, k=10)
 # k sets the ending number of desired features.
 # chi2(X, y) is the chi2 test used to compare a categorical y with non
 # zero features x.
 # Use skb.scores_ to see the actual chi2 score.
-skb = SelectKBest(score_func=chi2, k=5)
+skb = SelectKBest(score_func=chi2, k=n_features)
 skb.fit(X_train, y_train)
 # Preserves the column names compared to a straight skb.fit_transform()
 selected_cols = [v for i, v in enumerate(
@@ -90,7 +94,7 @@ print()
 # step determines the number of features to remove at each iteration. If step
 # is between 0.0 and 1.0, it is taken as the proportion of total features.
 lm = LinearRegression()
-rfe = RFE(lm, 5)
+rfe = RFE(lm, n_features)
 rfe.fit(X_train, y_train)
 selected_cols = [v for i, v in enumerate(
     X_train.columns) if i in rfe.get_support(indices=True)]
@@ -104,16 +108,17 @@ print()
 # tol=0.0, iterated_power='auto', random_state=None)
 # Principal component analysis.
 # Can be used for feature selection, especially when the goal of the subsequent
-# analysis is to find clusters as it is a good at removing noise.
+# analysis is to find clusters as it is a good at removing noise. It is good at
+# removing multicollinearity. However, it should be noted PCA assumes that
+# features have linear relationships.
 # n_components determines number of features to keep.
 ss = StandardScaler()
-X_train_ss = pd.DataFrame(ss.fit_transform(
-    X_train[features]), columns=features)
-n_comp = 5
-pca = PCA(n_components=n_comp)
-pca.fit(X_train_ss)
-most_important = [np.abs(pca.components_[i]).argmax() for i in range(n_comp)]
-most_important_names = [features[most_important[i]] for i in range(n_comp)]
+X_train = pd.DataFrame(ss.fit_transform(X_train), columns=features)
+X_test = pd.DataFrame(ss.transform(X_test), columns=features)
+pca = PCA(n_components=n_features)
+pca.fit(X_train)
+most_important = [np.abs(pca.components_[i]).argmax() for i in range(n_features)]
+most_important_names = [features[most_important[i]] for i in range(n_features)]
 pca_features = {k: v for k, v in zip(most_important_names, pca.explained_variance_ratio_)}
 print('Principal component analysis:')
 # How much of the variance is explained by each feature.
@@ -123,14 +128,19 @@ most_important_names = [x for x in X_train.columns if x in most_important_names]
 X_train_pca = X_train[most_important_names]
 print(X_train_pca.columns)
 
-# Plot cumulative variance explains.
-cve = np.cumsum(np.round(pca.explained_variance_ratio_, decimals=4))
+# Plot cumulative variance explains. There is no hard and fast rule as to how
+# much of the variance has to be explained to be considered enough, but roughly
+# 80-90% is probably okay.
 fig, ax = plt.subplots(figsize=(12, 7.5))
-ax.plot(range(5), cve)
+ax.plot(range(5), np.round(pca.explained_variance_ratio_, decimals=4), label='Variance explained')
+cve = np.cumsum(np.round(pca.explained_variance_ratio_, decimals=4))
+ax.plot(range(5), cve, label='Cumulative variance explained')
 # Reduces number of x ticks in order to eliminate the xtick decimal place.
 plt.locator_params(nbins=len(cve))
-ax.set_title('PCA cumulative variance explained')
-ax.set_xlabel('Number of features')
-ax.set_ylabel('Proportion of variance explained')
+ax.legend()
+ax.set_ylim(0, 1)
+ax.set_title('Variance explained vs Components')
+ax.set_xlabel('Principal components')
+ax.set_ylabel('Variance explained')
 plt.show()
 plt.close()
