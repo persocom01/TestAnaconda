@@ -114,7 +114,8 @@ yuri = ple.Yuri()
 # Demonstrates hyperparameter tuning of a decision tree.
 # max_depth.
 max_depths = np.linspace(1, 10, 10)
-auc_scores = yuri.dt_auc_scores(X_train, X_test, y_train, y_test, {'max_depth': max_depths})
+auc_scores = yuri.dt_auc_scores(X_train, X_test, y_train, y_test, {
+                                'max_depth': max_depths})
 yuri.plot_auc(max_depths, auc_scores, title='AUC score vs Tree depth',
               xlabel='Tree depth', labels=['train AUC', 'test AUC'], figsize=(12.5, 7.5))
 
@@ -146,12 +147,14 @@ print('best score:', gs.best_score_)
 print('best params:', sebas.get_params(gs.best_params_))
 print()
 
-dt = DecisionTreeClassifier(max_depth=2, min_samples_leaf=0.05, min_samples_split=0.1)
+dt = DecisionTreeClassifier(
+    max_depth=2, min_samples_leaf=0.05, min_samples_split=0.1)
 dt.fit(X_train, y_train)
 y_pred = dt.predict(X_test)
 y_prob = dt.predict_proba(X_test)
 
-print('most_important_features:', sebas.get_features(X_train, dt.feature_importances_))
+print('most_important_features:', sebas.get_features(
+    X_train, dt.feature_importances_))
 print()
 
 print('classification report:')
@@ -169,7 +172,24 @@ yuri.plot_roc(y_test, y_prob, figsize=(12.5, 7.5))
 # The tree can be interpreted by getting the most important features from the
 # model.
 dot_data = StringIO()
-export_graphviz(dt, out_file=dot_data, filled=True, rounded=True, special_characters=True)
+# export_graphviz(decision_tree, out_file=None, max_depth=None,
+# feature_names=None, class_names=None, label='all', filled=False,
+# leaves_parallel=False, impurity=True, node_ids=False, proportion=False,
+# rotate=False, rounded=False, special_characters=False, precision=3)
+# Generates a graphviz representation of a decision tree.
+# feature_names=list names each of the feature with the names in the list.
+# This list should contain all feature names, whether they end up appearing in
+# the tree or not.
+# filled=True makes the node color change depending on the class used for
+# classification or the purity of the node in other cases.
+# leaves_parallel=True makes the decision tree look more like a flat decision
+# caterpillar.
+# rounded=True gives the nodes rouded edges and uses Helvetica instead of
+# Times-Roman fonts.
+# special_characters=False ignores special characters which may be desirable
+# for compatibility reasons.
+export_graphviz(dt, out_file=dot_data, feature_names=X_train.columns,
+                filled=True, rounded=True, special_characters=True)
 graph = pydotplus.graph_from_dot_data(dot_data.getvalue())
-export_path = r'.\images\decision_tree.jpg'
+export_path = r'.\saved graphs\decision_tree.png'
 graph.write_png(export_path)

@@ -21,13 +21,14 @@ This project was done on atom within the anaconda environment.
 
 pip or conda was used to install several python modules that helped enhance anaconda. Open the anaconda prompt in admin mode and type:
 
-* pip install graphviz
-* pip install modin
-* pip install pmdarima
-* pip install pydotplus
-* pip install xgboost
-* conda install pysal
-* pip install folium
+* [pip install graphviz] - for drawing graphs in DOT language scripts.
+* [pip install kaggle] - for use of the kaggle API for kaggle competition submissions.
+* [pip install modin] - for multi-core pandas.
+* [pip install pmdarima] - adds AutoARIMA to python's time series analysis capability.
+* [pip install pydotplus] - python's interface to graphviz's DOT language.
+* [pip install xgboost] - eXtreme Gradient Boosting.
+* [conda install pysal] - for analysis of geospatial data.
+* [pip install folium] - for interactive map visualizations.
 
 graphviz must also be installed on windows from the following link:
 
