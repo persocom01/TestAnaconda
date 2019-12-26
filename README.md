@@ -1,14 +1,14 @@
 # TestAnaconda
 
-An Anaconda testing playground based on tutorials found here:
-* numpy https://www.tutorialspoint.com/numpy/index.htm
-* scipy https://www.tutorialspoint.com/scipy/index.htm
-* pandas https://www.tutorialspoint.com/python_pandas/index.htm
-* matplotlib https://www.tutorialspoint.com/matplotlib/index.htm
-* seaborn https://www.tutorialspoint.com/seaborn/index.htm
-* sklearn https://www.tutorialspoint.com/machine_learning_with_python/index.htm
-* flask https://flask.palletsprojects.com/en/1.1.x/
-* jupyter https://www.tutorialspoint.com/jupyter/index.htm
+An Anaconda testing playground. Tutorials for various modules found here:
+* [https://www.tutorialspoint.com/numpy/index.htm](numpy)
+* [https://www.tutorialspoint.com/scipy/index.htm](scipy)
+* [https://www.tutorialspoint.com/python_pandas/index.htm](pandas)
+* [https://www.tutorialspoint.com/matplotlib/index.htm](matplotlib)
+* [https://www.tutorialspoint.com/seaborn/index.htm](seaborn)
+* [https://www.tutorialspoint.com/machine_learning_with_python/index.htm](sklearn)
+* [https://flask.palletsprojects.com/en/1.1.x/](flask)
+* [https://www.tutorialspoint.com/jupyter/index.htm](jupyter)
 
 Workable code is written on each topic to demonstrate use of the python module in the topic area.
 
