@@ -7,6 +7,13 @@ class Nabe:
 
     def __init__(self):
         self.null_dict = None
+        self.steps = '''
+        1. df.head()
+        2. df.info()
+        3. df.isnull().sum() or 1 - df.count() / df.shape[0]
+        4. clean
+        5. visualize correlations
+        '''
 
     def get_nulls(self, df):
         self.null_dict = {}
@@ -115,7 +122,8 @@ class CZ:
 
         fig, ax = plt.subplots(figsize=figsize)
         if mask is None:
-            cloud = WordCloud(background_color=background_color, max_words=max_words, **kwargs)
+            cloud = WordCloud(background_color=background_color,
+                              max_words=max_words, **kwargs)
             cloud.generate(text)
             ax.imshow(cloud, interpolation='bilinear')
         else:
@@ -125,7 +133,8 @@ class CZ:
             cloud.generate(text)
             if recolor:
                 image_colors = ImageColorGenerator(mask)
-                ax.imshow(cloud.recolor(color_func=image_colors), interpolation='bilinear')
+                ax.imshow(cloud.recolor(color_func=image_colors),
+                          interpolation='bilinear')
             else:
                 ax.imshow(cloud, interpolation='bilinear')
         ax.axis('off')
@@ -176,7 +185,7 @@ class Solution:
         df_corr_matrix = pd.DataFrame(corr_matrix, index=cols, columns=cols)
         return df_corr_matrix
 
-    def vif_feature_select(self, df, max_score=5.0, inplace=False, drop_list=False, check_string=True, _drops=None):
+    def vif_feature_select(self, df, max_score=5.0, inplace=False, drop_list=False, _drops=None):
         '''
         Takes a DataFrame and returns it after recursively eliminating columns
         with the highest VIF scores until the remainder have VIF scores less
@@ -185,9 +194,6 @@ class Solution:
         params:
             drop_list       when set to True, the function returns a list of
                             features that would be dropped instead.
-            check_string    determines if the DataFrame is checked for columns
-                            containing string values which will cause the
-                            function to return an unreliable result.
         '''
         import numpy as np
         # Avoids overwriting the original DataFrame by default.
@@ -197,10 +203,9 @@ class Solution:
         if _drops is None:
             _drops = []
             # Check if features contain string values.
-            if check_string:
-                dtypes = [dt for dt in df.dtypes]
-                if 'object' in dtypes:
-                    print('Feature(s) contain string values. Result may be unreliable.')
+            dtypes = [dt for dt in df.dtypes]
+            if 'object' in dtypes:
+                print('Feature(s) contain string values. Result may be unreliable.')
         features = df.columns
         # VIF is the diagonal of the correlation matrix.
         vifs = np.linalg.inv(df.corr().values).diagonal()
@@ -272,9 +277,11 @@ class Sebastian:
                 feature_dict[X_train.columns[i]] = v
         # Sorts dict from most important feature to least.
         if sort:
-            sorted_features = sorted(feature_dict, key=feature_dict.__getitem__, reverse=True)
+            sorted_features = sorted(
+                feature_dict, key=feature_dict.__getitem__, reverse=True)
             sorted_values = sorted(feature_dict.values(), reverse=True)
-            sorted_feature_dict = {k: v for k, v in zip(sorted_features, sorted_values)}
+            sorted_feature_dict = {k: v for k, v in zip(
+                sorted_features, sorted_values)}
             self.feature_dict = sorted_feature_dict
             return sorted_feature_dict
         else:
@@ -299,7 +306,8 @@ class Sebastian:
         # arguments.
         if X_train is None or feature_importances_ is None:
             if self.get_features is None:
-                raise TypeError('missing "X_train" or "feature_importances_" arguments.')
+                raise TypeError(
+                    'missing "X_train" or "feature_importances_" arguments.')
             else:
                 feature_dict = self.feature_dict
         else:

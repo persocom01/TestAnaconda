@@ -71,39 +71,39 @@ X_train, X_test, y_train, y_test = train_test_split(
 # A rule of thub as to an acceptable number of features is
 # n_features = sqrt(n_rows)
 n_features = 5
-#
-# # SelectKBest(score_func=<function f_classif>, k=10)
-# # k sets the ending number of desired features.
-# # chi2(X, y) is the chi2 test used to compare a categorical y with non
-# # zero features x.
-# # Use skb.scores_ to see the actual chi2 score.
-# skb = SelectKBest(score_func=chi2, k=n_features)
-# skb.fit(X_train, y_train)
-# # Preserves the column names compared to a straight skb.fit_transform()
-# selected_cols = [v for i, v in enumerate(
-#     X_train.columns) if i in skb.get_support(indices=True)]
-# X_train_chi2 = X_train[selected_cols]
-# ranking = [{v: k for k, v in enumerate(
-#     np.sort(skb.scores_)[::-1])}.get(r) for r in skb.scores_]
-# print('chi2 feature selection:')
-# print('feature ranking (0 being best):', ranking)
-# print(X_train_chi2.columns)
-# print()
-#
-# # RFE(estimator, n_features_to_select=None, step=1, verbose=0) performs
-# # recursive feature elimination of features.
-# # step determines the number of features to remove at each iteration. If step
-# # is between 0.0 and 1.0, it is taken as the proportion of total features.
-# lm = LinearRegression()
-# rfe = RFE(lm, n_features)
-# rfe.fit(X_train, y_train)
-# selected_cols = [v for i, v in enumerate(
-#     X_train.columns) if i in rfe.get_support(indices=True)]
-# X_train_rfe = X_train[selected_cols]
-# print('recursive feature elimination:')
-# print('feature ranking (1 being best):', rfe.ranking_)
-# print(X_train_rfe.columns)
-# print()
+
+# SelectKBest(score_func=<function f_classif>, k=10)
+# k sets the ending number of desired features.
+# chi2(X, y) is the chi2 test used to compare a categorical y with non
+# zero features x.
+# Use skb.scores_ to see the actual chi2 score.
+skb = SelectKBest(score_func=chi2, k=n_features)
+skb.fit(X_train, y_train)
+# Preserves the column names compared to a straight skb.fit_transform()
+selected_cols = [v for i, v in enumerate(
+    X_train.columns) if i in skb.get_support(indices=True)]
+X_train_chi2 = X_train[selected_cols]
+ranking = [{v: k for k, v in enumerate(
+    np.sort(skb.scores_)[::-1])}.get(r) for r in skb.scores_]
+print('chi2 feature selection:')
+print('feature ranking (0 being best):', ranking)
+print(X_train_chi2.columns)
+print()
+
+# RFE(estimator, n_features_to_select=None, step=1, verbose=0) performs
+# recursive feature elimination of features.
+# step determines the number of features to remove at each iteration. If step
+# is between 0.0 and 1.0, it is taken as the proportion of total features.
+lm = LinearRegression()
+rfe = RFE(lm, n_features)
+rfe.fit(X_train, y_train)
+selected_cols = [v for i, v in enumerate(
+    X_train.columns) if i in rfe.get_support(indices=True)]
+X_train_rfe = X_train[selected_cols]
+print('recursive feature elimination:')
+print('feature ranking (1 being best):', rfe.ranking_)
+print(X_train_rfe.columns)
+print()
 
 # PCA(n_components=None, copy=True, whiten=False, svd_solver='auto',
 # tol=0.0, iterated_power='auto', random_state=None)
