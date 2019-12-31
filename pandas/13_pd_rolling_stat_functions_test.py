@@ -25,9 +25,10 @@ df = pd.DataFrame(np.random.randint(0, 10, (30, 2)),
 # on=datetime_col_name if you don't want to roll by DataFrame index.
 fig, ax = plt.subplots()
 ax.plot(df['A'])
-ax.plot(df['A'].rolling(window='3d').mean())
+ax.plot(df['A'].rolling(window='3d').mean(), label='rolling mean 3d')
 # Identical to the above in this case, but the first two values will be NaN.
-ax.plot(df['A'].rolling(window=3).mean())
+ax.plot(df['A'].rolling(window=3).mean(), label='rolling mean 3')
+ax.legend()
 plt.show()
 plt.close()
 
@@ -38,8 +39,9 @@ plt.close()
 # sum(), but functions like mean() get very gradual.
 fig, ax = plt.subplots()
 ax.plot(df['A'])
-ax.plot(df['A'].expanding(min_periods=3).sum())
-ax.plot(df['A'].expanding(min_periods=3).mean())
+ax.plot(df['A'].expanding(min_periods=3).sum(), label='expanding sum')
+ax.plot(df['A'].expanding(min_periods=3).mean(), label='expanding mean')
+ax.legend()
 plt.show()
 plt.close()
 
@@ -51,7 +53,23 @@ print(df['A'][:5])
 print(df['A'].ewm(com=0.5, min_periods=3).mean()[:5])
 fig, ax = plt.subplots()
 ax.plot(df['A'])
-ax.plot(df['A'].expanding(min_periods=3).mean())
-ax.plot(df['A'].ewm(com=0.5, min_periods=3).mean())
+ax.plot(df['A'].rolling(window=3).mean(), label='rolling mean 3')
+ax.plot(df['A'].ewm(com=0.5, min_periods=3).mean(),
+        label='exponential moving mean 3')
+ax.legend()
+plt.show()
+plt.close()
+
+# df.diff(self, periods=1, axis=0)
+# diff =  current - previous(with periods number of lags)
+# period=int sets the number of periods to lag. Setting it higher doesn't take
+# the sum of more previous periods, it simply takes a period from further back.
+# Used in time series ARIMA analysis to find d in (p, d, q). A period more than
+# 1 can be used to get a seasonal difference, such as 12 for annual seasonality
+# in monthly periods.
+fig, ax = plt.subplots()
+ax.plot(df['A'])
+ax.plot(df['A'].diff(2), label='diff 2')
+ax.legend()
 plt.show()
 plt.close()

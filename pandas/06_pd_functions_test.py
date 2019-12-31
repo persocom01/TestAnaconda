@@ -1,4 +1,5 @@
 # Demonstrates how to apply functions to pandas DataFrames.
+import numpy as np
 import pandas as pd
 
 data = {
@@ -37,21 +38,17 @@ df['from_asia'] = df['origin'].map(lambda x: 1 if x in asia else 0)
 print(df)
 print()
 
-
-def shortfall(df):
-    return df['supply'] - df['demand']
-
-
 # df.apply(self, func, axis=0, raw=False, result_type=None, args=(), **kwds)
 # applies a function to a series, or in the case of a DataFrame, divides the
 # DataFrame into series based on the axis argument and applies the function
 # to it. It does not apply the function to each cell individually, and as such,
 # the function must be workable on the series object and not individual values.
-# For simpler operations like this one, it is simplier use:
-# df['shortfall'] = df['supply'] - df['demand']
+# For simpler operations, it is easier to use:
+# df['result'] = df['supply'] - df['demand']
 # df[col_name].apply(pd.Series) can be used to unpack nested dictionaries.
 print('apply:')
-df['shortfall'] = df.apply(shortfall, axis=1)
+# log transforms are often used to make exponential graphs linear.
+df['log transform'] = df['supply'].apply((lambda x: np.log(x)))
 print(df)
 print()
 
