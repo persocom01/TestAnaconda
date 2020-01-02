@@ -1,12 +1,12 @@
-import numpy as np
+# Demonstrates how to use autoarima to find the optimal parameters for a
+# SARIMAX model. autoarima can then be used to make the predictions by itself,
+# or one can use the parameters to initialize a statsmodels SARIMAX model.
 import pandas as pd
 import matplotlib.pyplot as plt
-from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
-from statsmodels.tsa.seasonal import seasonal_decompose
-from statsmodels.tsa.stattools import adfuller
-from statsmodels.tsa.statespace.sarimax import SARIMAX
-from sklearn.metrics import mean_squared_error
 from pmdarima.arima import auto_arima
+from pandas.plotting import register_matplotlib_converters
+
+register_matplotlib_converters()
 
 import_path = r'.\datasets\stocks_data.csv'
 # When doing time series modeling, it is common to set the index equal to a
@@ -34,8 +34,23 @@ test = data[split_date:]
 # random_state=None, n_fits=10, return_valid_fits=False, out_of_sample_size=0,
 # scoring='mse', scoring_args=None, with_intercept=True, sarimax_kwargs=None,
 # **fit_args)
-aar = auto_arima(data, start_p=1, start_q=1,
-                 max_p=3, max_q=3, m=12,
-                 start_P=0, seasonal=True,
-                 d=1, D=1, trace=True,
-                 suppress_warnings=True, n_jobs=-1)
+# seasonal=True fits a SARIMA.
+# trace=True will print status of fits.
+offset = 1
+aar = auto_arima(train['DOW'].iloc[offset:], exogenous=train[['INTC_l1']].iloc[offset:], start_p=1, d=1, start_q=1, max_p=3,
+                 max_d=1, max_q=3, start_P=0, D=None, start_Q=0, m=16, seasonal=True, error_action='ignore', suppress_warnings=True, trace=True)
+model = aar.fit(train['DOW'])
+print(model.summary())
+
+# Unlike SARIMAX, you don't need to provide the exogenous variable to make a
+# prediction.
+pred = model.predict(n_periods=data.shape[0]-train.shape[0])
+pred = pd.DataFrame(pred, index=test.index, columns=['prediction'])
+
+fig, ax = plt.subplots(figsize=(12, 7.5))
+ax.plot(train['DOW'], label='train')
+ax.plot(test['DOW'], label='test')
+ax.plot(pred, label='pred')
+ax.legend()
+plt.show()
+plt.close()

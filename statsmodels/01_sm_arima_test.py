@@ -1,3 +1,4 @@
+# Demonstrates the steps in constructing a SARIMAX model for time series.
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
