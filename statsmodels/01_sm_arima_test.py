@@ -1,14 +1,10 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
-from statsmodels.tsa.stattools import adfuller
-from datetime import datetime
-from datetime import timedelta
-import seaborn as sb
-from statsmodels.tsa.statespace.sarimax import SARIMAX
-# import statsmodels.api as sm
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 from statsmodels.tsa.seasonal import seasonal_decompose
+from statsmodels.tsa.stattools import adfuller
+from statsmodels.tsa.statespace.sarimax import SARIMAX
 from sklearn.metrics import mean_squared_error
 
 import_path = r'.\datasets\stocks_data.csv'
@@ -18,7 +14,7 @@ data = pd.read_csv(import_path)
 # Change to datetime format if necessary.
 # data.index = pd.to_datetime(data.index)
 data.index = pd.date_range(
-    start='1/1/1998', periods=len(data['date']), freq='M')
+    start='1998-01-01', periods=len(data['date']), freq='M')
 data.drop(columns='date', inplace=True)
 print(data.head())
 print()
@@ -94,6 +90,8 @@ print()
 # As a rule of thumb, q is added when the correlation at lag 1 is -ve, and the
 # order of differencing is last bar sticking out of the confidence interval
 # closest to the y axis of the acf plot.
+# +ve correlations at lag 1, 2, 3 are also taken as evidence that a trend
+# exists.
 # If both acf and pacf show gradual decay, a manual gridsearch ARIMA may be
 # needed.
 plot_acf(data['DOW_d1'].dropna(), alpha=0.05)
@@ -111,21 +109,23 @@ plot_pacf(data['DOW_d1'].dropna(), method='ywmle')
 plt.show()
 plt.close()
 
+# Preperation for addition of exogenous variables to the SARIMAX model. We
+# shift the time series because the current price of one stock cannot be used
+# to predict the current price of another. shift(1) is used to introduce a
+# lag of 1.
+data['INTC_l1'] = data['INTC'].shift(1)
+
 # Train test split by date. It only works because the index has been set to
-# datetime format. It works on strings, but with a different result. To ensure
-# that the index is already in datetime format, using:
-# split_date = pd.datetime(2010, 12, 31)
-# will return an error if the DataFrame index is not in datetime format.
+# datetime format. Using string formats like '2010-01-01' can result in the
+# overlapping of the last train and the first test value, so be be sure, always
+# use pd.datetime(yyyy, mm, dd) format.
 # It is possible to split in other ways such as index by taking:
 # cutoff = df.shape[0] * 0.8
 # train = df.iloc[:cutoff]
 # test = df.iloc[cutoff:]
-split_date = '2010-01'
-train = data['DOW'][:split_date]
-test = data['DOW'][split_date:]
-# To find the end date.
-print(test.tail())
-print()
+split_date = pd.datetime(2010, 1, 1)
+train = data[:split_date]
+test = data[split_date:]
 
 # The correlation at lag 1 is -ve.
 order = (0, 1, 2)
@@ -138,23 +138,49 @@ seasonal_order = (1, 0, 0, 16)
 # enforce_invertibility=True, hamilton_representation=False,
 # concentrate_scale=False, trend_offset=1, use_exact_diffuse=False, dates=None,
 # freq=None, missing='none', **kwargs)
-ar = SARIMAX(train, order=order, seasonal_order=seasonal_order)
+ar = SARIMAX(train['DOW'], order=order, seasonal_order=seasonal_order)
 model = ar.fit()
-# When using AIC as a model selection criterion, the lower the AIC the better.
+# When using AIC as a model evaluation criterion, the lower the AIC the better.
+# This is also the criteria used by autoarima.
 print(model.summary())
 
-# Also possible to use period numbers. The end in that case would be
-# data.shape[0]
-forecast = model.predict(start='2010-01', end='2013-08')
-# rmse is commonly used to evaluate time series models.
-print(forecast)
-print('rmse:', np.sqrt(mean_squared_error(test, forecast)))
+# Also possible to use string dates. However, since it appears the day in
+# string dates is not recognized, using period numbers is more reliable.
+pred = model.predict(start=train.shape[0], end=data.shape[0]-1)
+# rmse is another criteria commonly used to evaluate time series models.
+print('rmse:', np.sqrt(mean_squared_error(test['DOW'], pred)))
 print()
 
 fig, ax = plt.subplots(figsize=(12, 7.5))
-ax.plot(train, label='train')
-ax.plot(test, label='test')
-ax.plot(forecast, label='forecast')
+ax.plot(train['DOW'], label='train')
+ax.plot(test['DOW'], label='test')
+ax.plot(pred, label='pred')
+ax.legend()
+plt.show()
+plt.close()
+
+# Demonstrates addition of a exogenous variable to the SARIMAX model. Since the
+# exogenous variable has been lagged by 1, the first row contains a nan value,
+# thus the data has to start with an offset of 1.
+offset = 1
+arx = SARIMAX(train['DOW'].iloc[offset:], order=order,
+              seasonal_order=seasonal_order, exog=train['INTC_l1'].iloc[offset:])
+model = arx.fit()
+# When using AIC as a model selection criterion, the lower the AIC the better.
+print(model.summary())
+
+# When using exogenous variables, we need to reduce the exogenous variable
+# argument by 1 period. I don't really know why. I assume it is the last value
+# because predicting 1 value doesn't require any value input.
+pred = model.predict(
+    start=train.shape[0]-offset, end=data.shape[0]-offset-1, exog=test[['INTC_l1']])
+print('rmse:', np.sqrt(mean_squared_error(test['DOW'], pred)))
+print()
+
+fig, ax = plt.subplots(figsize=(12, 7.5))
+ax.plot(train['DOW'], label='train')
+ax.plot(test['DOW'], label='test')
+ax.plot(pred, label='pred')
 ax.legend()
 plt.show()
 plt.close()
