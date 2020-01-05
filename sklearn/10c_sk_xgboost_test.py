@@ -69,6 +69,9 @@ sebas = ple.Sebastian()
 # objective sets the loss function. It is automatically set for the base xgb
 # objectif you call the classifier or regressor but other options can be found
 # here: https://xgboost.readthedocs.io/en/latest/parameter.html
+# subsample=0-1 if < 1, enables random sampling of the train set.
+# colsample_bytree=0-1 if < 1, enables random sampling of feature columns. For
+# comparison, in RandomForest, max_features=sqrt(n_features).
 pipe = Pipeline([
     ('tvec', TfidfVectorizer()),
     ('xgb_class', xgb.XGBClassifier())
