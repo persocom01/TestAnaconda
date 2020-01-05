@@ -36,6 +36,8 @@ test = data[split_date:]
 # **fit_args)
 # seasonal=True fits a SARIMA.
 # trace=True will print status of fits.
+# n_jobs=-1 uses all cores in the case stepwise=False, but that is not
+# recommended.
 offset = 1
 aar = auto_arima(train['DOW'].iloc[offset:], exogenous=train[['INTC_l1']].iloc[offset:], start_p=1, d=1, start_q=1, max_p=3,
                  max_d=1, max_q=3, start_P=0, D=None, start_Q=0, m=16, seasonal=True, error_action='ignore', suppress_warnings=True, trace=True)
