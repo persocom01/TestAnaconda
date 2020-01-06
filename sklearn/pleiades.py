@@ -206,6 +206,9 @@ class Solution:
             dtypes = [dt for dt in df.dtypes]
             if 'object' in dtypes:
                 print('Feature(s) contain string values. Result may be unreliable.')
+            # Check if any feature contains all 0s.
+            if (df == 0).all().any():
+                raise Exception('Feature(s) contain all 0s. Drop them before use.')
         features = df.columns
         # VIF is the diagonal of the correlation matrix.
         vifs = np.linalg.inv(df.corr().values).diagonal()

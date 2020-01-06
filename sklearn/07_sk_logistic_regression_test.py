@@ -80,8 +80,6 @@ print(np.exp(lr.coef_))
 print()
 
 # Plots the roc curve.
-y_prob = lr.predict_proba(X_test)
-
 yuri = ple.Yuri()
 
 yuri.plot_roc(y_test, y_prob, figsize=(12.5, 7.5))
