@@ -10,6 +10,8 @@ from sklearn.datasets import load_digits
 from sklearn.datasets import load_linnerud
 from sklearn.datasets import load_wine
 from sklearn.datasets import load_breast_cancer
+from sklearn.datasets import make_classification
+from sklearn.datasets import make_regression
 
 # Preprocessing.
 from sklearn.compose import ColumnTransformer

@@ -6,6 +6,8 @@ from sklearn.datasets import load_boston
 # from sklearn.datasets import load_linnerud
 # from sklearn.datasets import load_wine
 # from sklearn.datasets import load_breast_cancer
+# from sklearn.datasets import make_classification
+# from sklearn.datasets import make_regression
 
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
@@ -18,6 +20,10 @@ from sklearn.datasets import load_boston
 # load_linnerud() linnerud dataset(multivariate regression).
 # load_wine() wine dataset(classification).
 # load_breast_cancer() breast cancer wisconsin dataset(classification).
+
+# You can also create a new dataset.
+# X, y = make_classification(n_samples=10000, n_features=20, random_state=1)
+# X, y = make_regression(n_samples=10000, n_features=20, random_state=1)
 
 # Each dataset object is a dictionary that contains several attributes.
 data = load_boston()
