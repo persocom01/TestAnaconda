@@ -1,7 +1,11 @@
-# Demonstrates the k nearest neighbors algorithm which is mainly used for
+# Demonstrates the k nearest neighbor algorithm which is mainly used for
 # categorical target predictive problems. It can be used on a continuous target
 # as well, but there are probably better models for that. It works well on
-# datasets with fewer features. It is unknown if it works on multiple targets.
+# datasets with fewer features. It requires feature scaling so that features
+# with large scales will not bias the model towards them. Multicolinearity can
+# also be an issue, and so to this end, VIF or PCA can be used to reduce or
+# eliminate it, as well as simultaneously eliminating features. It is unknown
+# if KNN works on multiple targets.
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt

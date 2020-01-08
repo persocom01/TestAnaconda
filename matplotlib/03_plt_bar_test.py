@@ -25,7 +25,7 @@ fig, ax = plt.subplots()
 # graph. For the right side, set width to a -ve number.
 ax.bar(df['movie'], df['profit'], edgecolor='black', lw=2)
 plt.show()
-plt.clf()
+plt.close()
 
 fig, ax = plt.subplots()
 # Demonstrates adding a reference vertical mean profit line to the graph.
@@ -38,7 +38,7 @@ ax.vlines([np.mean(df['profit']), np.mean(df['cost'])], -1,
 # ax.barh(y, width, height=0.8, left=None, *, align='center', **kwargs) or
 # alternatively, plt.barh().
 ax.barh(df['movie'], df['profit'])
-plt.barh(df['movie'], df['cost'], left=df['profit'])
+ax.barh(df['movie'], df['cost'], left=df['profit'])
 plt.show()
 
 # To do:

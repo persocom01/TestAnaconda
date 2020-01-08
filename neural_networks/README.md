@@ -39,5 +39,8 @@ We also specify the number of times it runs through the data attempting to find 
 
 Regularizations:
 1. Penalty parameters in the layers.
+Just like logreg, L1 and L2 regularization is available. In practice most use L2. This is done during the addition of NN layers.
 2. Dropout.
+Randomly deactivates nodes in order to reduce the model's reliance on patterns in dominant features. It can be useful in trying to generalize the model for weak features when the sample size is small. This is done by adding a dropout layer after a NN layer you want it to apply to.
 3. Early stopping.
+Unlike the other methods, this is used during the model fitting stage by giving the callback argument of the model an early stopping function. The early stopping function specifies the metric to monitor to determine when to stop, the patience (number of epochs to continue for if the metric does not improve), and so on.

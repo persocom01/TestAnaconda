@@ -112,7 +112,13 @@ print()
 # analysis is to find clusters as it is a good at removing noise. When used to
 # transform features, it removes multicollinearity. However, it should be noted
 # PCA assumes that features have linear relationships.
-# n_components determines number of features to keep.
+# n_components=0-1_int determines number of features to keep. By default, all
+# components are kept. If set to a number between 0 and 1 and
+# svd_solver='full', components are kept until explained_variance_ is greater
+# than the number.
+# whiten=True sets the variance for each vector to 1.
+# svd_solver='auto' == svd_solver='full' as long as the matrix is smaller than
+# 500x500. It might be 'arpack' otherwise.
 ss = StandardScaler()
 X_train = pd.DataFrame(ss.fit_transform(X_train), columns=features)
 X_test = pd.DataFrame(ss.transform(X_test), columns=features)
@@ -124,7 +130,32 @@ most_important_names = [features[most_important[i]] for i in range(n_features)]
 pca_features = {k: v for k, v in zip(
     most_important_names, pca.explained_variance_ratio_)}
 print('Principal component analysis:')
-print(pca.transform(X_train)[0])
+# pca transform eliminates the correlations between the features, but the
+# DataFrame will now be in terms of PCs.
+print(pd.DataFrame(pca.transform(X_train), columns=[
+      'PC' + str(i+1) for i in range(n_features)]).head())
+
+# Visualizing the features that contribute to the PCs can be difficult.
+
+
+def plot_pc(pc, features=None):
+    if features is None:
+        features = range(len(pc))
+    fig, ax = plt.subplots()
+    pc = pc[::-1]
+    features = features[::-1]
+    ax.barh(features, pc)
+
+
+def plot_two_pcs(pc1, pc2):
+    fig, ax = plt.subplots()
+    for p0, p1 in zip(pca.components_[0], pca.components_[1]):
+        plt.plot([0, p0], [0, p1])
+
+
+plot_pc(pca.components_[0], features)
+plt.show()
+plt.close()
 # How much of the variance is explained by each feature.
 print(pca_features)
 # Restores the original order.
@@ -138,10 +169,10 @@ print()
 # much of the variance has to be explained to be considered enough, but roughly
 # 80-90% is probably okay.
 fig, ax = plt.subplots(figsize=(12, 7.5))
-ax.plot(range(5), np.round(pca.explained_variance_ratio_,
-                           decimals=4), label='Variance explained')
+ax.plot(range(n_features), np.round(pca.explained_variance_ratio_,
+                                    decimals=4), label='Variance explained')
 cve = np.cumsum(np.round(pca.explained_variance_ratio_, decimals=4))
-ax.plot(range(5), cve, label='Cumulative variance explained')
+ax.plot(range(n_features), cve, label='Cumulative variance explained')
 # Reduces number of x ticks in order to eliminate the xtick decimal place.
 plt.locator_params(nbins=len(cve))
 ax.legend()
@@ -167,7 +198,6 @@ most_important_names = [features[most_important[i]] for i in range(n_features)]
 tsvd_features = {k: v for k, v in zip(
     most_important_names, tsvd.explained_variance_ratio_)}
 print('TruncatedSVD:')
-print(tsvd.transform(X_train)[0])
 # How much of the variance is explained by each feature.
 print(tsvd_features)
 # Restores the original order.
