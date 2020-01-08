@@ -52,7 +52,7 @@ sebas = ple.Sebastian()
 # ccp_alpha=0.0, max_samples=None)
 # The arguments for RandomForest are similar to base decision trees, but it
 # should be noted that due to the smaller set of features per tree, the optimal
-# max debt is often much deeper, so much so that it is uncertain if there is a
+# max depth is often much deeper, so much so that it is uncertain if there is a
 # point in searching for it.
 # max_features determines the number of features per tree. The default is
 # sqrt(n_features) but a float between 0 and 1, ints or 'log2' can also be

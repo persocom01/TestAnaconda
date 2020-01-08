@@ -72,7 +72,7 @@ knn = KNeighborsClassifier(n_neighbors=5, weights='distance', p=2)
 # rough range of k to use.
 
 
-def knn_k_error_plot(X_train, y_train, y_test, k=10, **kwargs):
+def knn_k_error_plot(X_train, X_test, y_train, y_test, k=10, **kwargs):
     error_rate = []
     for i in range(1, k):
         knn = KNeighborsClassifier(n_neighbors=i)
@@ -90,7 +90,7 @@ def knn_k_error_plot(X_train, y_train, y_test, k=10, **kwargs):
     plt.close()
 
 
-knn_k_error_plot(X_train, y_train, y_test)
+knn_k_error_plot(X_train, X_test, y_train, y_test)
 
 print('cross val score:')
 print(cross_val_score(knn, X_train, y_train, cv=5))
