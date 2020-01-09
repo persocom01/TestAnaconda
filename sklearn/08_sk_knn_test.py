@@ -137,3 +137,17 @@ print()
 # Due to the unrealistically high accuracy of the model, th ROC for the model
 # is 1. This is not a bug.
 yuri.plot_roc(y_test, y_prob, figsize=(12.5, 7.5))
+
+# KNN has no native way to extract feature importances, but one can get them by
+# finding the accuracy of the model running on each feature individually, the
+# highest being the most important. Alternatively, one an remove each feature
+# and run the model and see which caused the accuracy to fall the most.
+# print('Feature  Accuracy')
+# for i in range(n_feats):
+#     X = iris.data[:, i].reshape(-1, 1)
+#     scores = cross_val_score(clf, X, y, cv=3)
+#     print(f'{i}        {scores.mean():g}')
+#      X_head = np.atleast_2d(iris.data[:, 0:i])
+#
+# X_tail = np.atleast_2d(iris.data[:, i+1:])
+# X = np.hstack((X_head, X_tail))

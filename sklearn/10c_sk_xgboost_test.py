@@ -2,7 +2,8 @@
 # base estimator and sequentially build other estimators on top of it. Unlike
 # AdaBoost though, it does not reweigh misclassified data after each iteration,
 # but instead predicts the residuals or errors of the prior estimators. It
-# does not require feature scaling. xgboost can be used to feature select for
+# does not require feature scaling using the default mode, but if the mode is
+# changed to gblinear it may need it. xgboost can be used to feature select for
 # itself.
 import pandas as pd
 import pleiades as ple
