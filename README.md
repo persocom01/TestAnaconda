@@ -17,10 +17,10 @@ Workable code is written on each topic to demonstrate use of the python module i
 
 ## Installation
 
-This project was done on atom within the anaconda environment.
+Anaconda has to be downloaded and installed. Atom was used as text editor.
 
-* [atom_1.40.1](https://atom.io/)
 * [Anaconda_2019.07](https://www.anaconda.com/distribution/#download-section)
+* [atom_1.40.1](https://atom.io/)
 
 pip/conda install was used to add several python modules to anaconda. Open the anaconda prompt in admin mode and type:
 
