@@ -25,28 +25,30 @@ Anaconda has to be downloaded and installed. Atom was used as text editor.
 pip/conda install was used to add several python modules to anaconda. Open the anaconda prompt in admin mode and type:
 
 ```
+pip install folium
 pip install graphviz
 conda install -c conda-forge imbalanced-learn
 pip install kaggle
 pip install modin
 pip install pmdarima
 pip install pydotplus
-pip install xgboost
 conda install pysal
-pip install folium
+conda install -c conda-forge selenium
+pip install xgboost
 ```
 
 They following packages will be installed:
 
+* folium - for interactive map visualizations.
 * graphviz - for drawing graphs in DOT language scripts.
 * imbalanced-learn - for dealing with unbalanced classes.
 * kaggle - for use of the kaggle API for kaggle competition submissions.
 * modin - for multi-core pandas.
 * pmdarima - adds AutoARIMA to python's time series analysis capability.
 * pydotplus - python's interface to graphviz's DOT language.
-* xgboost - eXtreme Gradient Boosting.
 * pysal - for analysis of geospatial data.
-* folium - for interactive map visualizations.
+* selenium - for scraping web pages.
+* xgboost - eXtreme Gradient Boosting.
 
 graphviz must also be installed on windows from the following link:
 
