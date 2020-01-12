@@ -22,7 +22,7 @@ Anaconda has to be downloaded and installed. Atom was used as text editor.
 * [Anaconda 2019.07](https://www.anaconda.com/distribution/#download-section)
 * [atom 1.40.1](https://atom.io/)
 
-pip/conda install was used to add several python modules to anaconda. Open the anaconda prompt in admin mode and type:
+pip/conda install was used to add modules to anaconda. Open the anaconda prompt in admin mode and type:
 
 ```
 pip install folium
@@ -34,6 +34,7 @@ pip install pmdarima
 pip install pydotplus
 conda install pysal
 conda install -c conda-forge selenium
+conda install -c conda-forge wordcloud
 pip install xgboost
 ```
 
@@ -48,6 +49,7 @@ They following packages will be installed:
 * pydotplus - python's interface to graphviz's DOT language.
 * pysal - for analysis of geospatial data.
 * selenium - for scraping web pages.
+* wordcloud - for generation of wordclouds for NLP visualization.
 * xgboost - eXtreme Gradient Boosting.
 
 graphviz must also be installed on windows from the following link:
