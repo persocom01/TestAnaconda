@@ -40,6 +40,7 @@ print()
 # & = and
 # | = or
 # ~ = not
+# Remember to use brackets when using conditions.
 print('row subsets:')
 # All rows that are not == 3 in column 'B'.
 print(df[~(df['B'] == 3)])
