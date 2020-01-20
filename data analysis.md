@@ -19,7 +19,9 @@ Industry and scope of project.
 2. Business objective.
 Comprises the output of the project (best something), for a business goal (revenue), on a target demographic (customer).
 3. Data objective.
-To get certain data and understand it in order to determine...
+Where to get the data?
+Give a solid definition as to what you are looking for.
+Fulfil objectives within a reasonable timeframe.
 4. Evaluation.
 How to know it was successful?
 
