@@ -92,7 +92,16 @@ class CZ:
         import re
         if inplace is False:
             text_list = text_list.copy()
-        for i in range(len(text_list)):
+
+        # Prevents KeyError from passing a pandas series with index not
+        # beginning in 0.
+        try:
+            iter(text_list.index)
+            r = text_list.index
+        except TypeError:
+            r = range(len(text_list))
+
+        for i in r:
             for arg in args:
                 # Maps text with a function.
                 if callable(arg):
