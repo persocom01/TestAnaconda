@@ -55,11 +55,14 @@ class CZ:
             "'re": " are"
         }
 
+    # Lowercase.
+    def to_lower(self, sentence):
+        return sentence.lower()
+
     # To tokenize is to split the sentence into words.
-    def re_tokenize(self, sentence):
+    def re_tokenize(self, sentence, sep=r'\w+'):
         from nltk.tokenize import RegexpTokenizer
-        retoken = RegexpTokenizer(r'\w+')
-        sentence = sentence.lower()
+        retoken = RegexpTokenizer(sep)
         words = retoken.tokenize(sentence)
         return words
 

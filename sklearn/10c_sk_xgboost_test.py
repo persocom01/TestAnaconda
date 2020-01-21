@@ -37,7 +37,7 @@ cz = ple.CZ()
 
 print('before:', X[1])
 X = cz.text_list_cleaner(X, cz.contractions, reddit_lingo,
-                         r'[^a-zA-Z ]', cz.lemmatize_sentence, ['wa', 'ha'])
+                         r'[^a-zA-Z ]', cz.tolower, cz.lemmatize_sentence, ['wa', 'ha'])
 print('after:', X[1])
 print()
 
