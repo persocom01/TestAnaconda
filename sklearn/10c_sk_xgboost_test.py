@@ -17,7 +17,7 @@ from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 
 import_path = r'.\datasets\reddit.csv'
-data = pd.read_csv(import_path)
+data = pd.read_csv(import_path, index_col=None)
 # print(data.columns)
 df = data[['title', 'subreddit']]
 

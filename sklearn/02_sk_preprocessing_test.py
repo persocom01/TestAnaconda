@@ -11,7 +11,7 @@ from sklearn.preprocessing import OrdinalEncoder
 # %matplotlib inline
 
 import_path = r'.\datasets\drinks.csv'
-data = pd.read_csv(import_path, na_filter=False)
+data = pd.read_csv(import_path, index_col=None, na_filter=False)
 data.pop('country')
 df = pd.DataFrame(data)
 # Gets rid of any string variables.

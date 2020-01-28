@@ -21,7 +21,7 @@ from sklearn.tree import export_graphviz
 import pydotplus
 
 import_path = r'.\datasets\reddit.csv'
-data = pd.read_csv(import_path)
+data = pd.read_csv(import_path, index_col=None)
 # print(data.columns)
 df = data[['title', 'subreddit']]
 
