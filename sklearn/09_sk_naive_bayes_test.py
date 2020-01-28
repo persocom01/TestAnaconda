@@ -47,7 +47,7 @@ print('after:', X[1])
 print()
 
 full_text = ' '.join(X)
-cz.word_cloud(full_text)
+cz.word_cloud(full_text, background_color='white', colormap='nipy_spectral_r')
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, random_state=1, stratify=y)
