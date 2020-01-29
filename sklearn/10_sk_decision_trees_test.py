@@ -87,8 +87,8 @@ pipe = Pipeline([
 params = {
     'tvec__stop_words': ['english'],
     'tvec__ngram_range': [(1, 1), (1, 2)],
-    'tvec__max_df': [.5, .7, .9],
-    'tvec__min_df': [2, 4, 6],
+    'tvec__max_df': [.3, .6, .9],
+    'tvec__min_df': [1, 3, 7],
     'tvec__max_features': [2000, 3000, 4000],
 }
 gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
