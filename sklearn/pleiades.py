@@ -15,11 +15,22 @@ class Nabe:
         5. visualize correlations
         '''
 
-    def get_nulls(self, df):
+    def get_null_indexes(self, df, cols=None):
+        '''
+        Takes a DataFrame and returns a dictionary of columns and the row
+        indexes of the null values in them.
+        '''
+        # Prevents errors from passing a string instead of a list.
+        if isinstance(cols, str):
+            cols = [cols]
+
+        null_indexes = []
         null_dict = {}
-        for k, v in df.isnull().sum().iteritems():
-            if v > 0:
-                null_dict[k] = v
+        if cols is None:
+            cols = df.columns
+        for col in cols:
+            null_indexes = df[df[col].isnull()].index.tolist()
+            null_dict[col] = null_indexes
         return null_dict
 
     # Drops columns with 75% or more null values.
@@ -48,11 +59,22 @@ class CZ:
         # Contractions dict.
         self.contractions = {
             "n't": " not",
+            "n’t": " not",
             "'s": " is",
+            "’s": " is",
             "'m": " am",
+            "’m": " am",
             "'ll": " will",
+            "’ll": " will",
             "'ve": " have",
-            "'re": " are"
+            "’ve": " have",
+            "'re": " are",
+            "’re": " are"
+        }
+        self.re_ref = {
+            'email': r'([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)',
+            'links': r'(https?://[^ ]+)',
+            'gender_pronouns': ['[hH]e/[hH]im', '[tT]hey/[tT]hem', '[tT]ey/[tT]em', '[eE]y/[eE]m', '[eE]/[eE]m', '[tT]hon/[tT]hon', '[fF]ae/[fF]aer', '[vV]ae/[vV]aer', '[aA]e/[aA]er', '[nN]e/[nN]ym', '[nN]e/[nN]em', '[xX]e/[xX]em', '[xX]e/[xX]im', '[xX]ie/[xX]em', '[zZ]e/[zZ]ir', '[zZ]ie/[zZ]ir', '[zZ]he/[zZ]hir', '[zZ]e/[hH]ir', '[sS]ie/[sS]ier', '[zZ]ed/[zZ]ed', '[zZ]ed/[zZ]ed', '[cC]e/[cC]ir', '[cC]o/[cC]os', '[vV]e/[vV]is', '[jJ]ee/[jJ]em', '[lL]ee/[lL]im', '[kK]ye/[kK]yr', '[pP]er/[pP]er', '[hH]u/[hH]um', '[bB]un/[bB]un', '[iI]t/[iI]t']
         }
 
     # Lowercase.
@@ -85,7 +107,21 @@ class CZ:
         # Returns sentence instead of individual words.
         return ' '.join(words)
 
-    def text_list_cleaner(self, text_list, *args, replace=' ', inplace=False):
+    def remove_punctuation(self, sentence, sep=' '):
+        import string
+        import re
+        translator = str.maketrans(string.punctuation, sep*len(string.punctuation))
+        sentence = sentence.translate(translator)
+        # Remove pesky non standard character punctuations.
+        sentence = re.sub(r'[’“”]', sep, sentence)
+        return sentence
+
+    def split_camel_case(self, sentence):
+        import re
+        splitted = re.sub('([A-Z][a-z]+)', r' \1', re.sub('([A-Z]+)', r' \1', sentence)).split()
+        return ' '.join(splitted)
+
+    def text_list_cleaner(self, text_list, *args, sep=' ', inplace=False):
         '''
         Cleans text in lists.
         '''
@@ -115,13 +151,13 @@ class CZ:
                 elif not isinstance(arg, str):
                     for a in arg:
                         pattern = f' {a} '
-                        text_list[i] = re.sub(pattern, replace, text_list[i])
+                        text_list[i] = re.sub(pattern, sep, text_list[i])
                 # For any other special cases.
                 else:
-                    text_list[i] = re.sub(arg, replace, text_list[i])
+                    text_list[i] = re.sub(arg, sep, text_list[i])
         return text_list
 
-    def word_cloud(self, text, figsize=(12.5, 7.5), max_font_size=None, max_words=200, background_color='black', mask=None, recolor=False, **kwargs):
+    def word_cloud(self, text, figsize=(12.5, 7.5), max_font_size=None, max_words=200, background_color='black', mask=None, recolor=False, export_path=None, **kwargs):
         '''
         Plots a wordcloud.
 
@@ -149,6 +185,8 @@ class CZ:
                           interpolation='bilinear')
             else:
                 ax.imshow(cloud, interpolation='bilinear')
+        if export_path:
+            cloud.to_file(export_path)
         ax.axis('off')
         plt.show()
         plt.close()
@@ -279,7 +317,7 @@ class Sebastian:
             s += f'{k}: {joined_list} '
         return s.strip(' ')
 
-    def get_features(self, X_train, feature_importances_, sort=True):
+    def get_features(self, X_train, feature_importances_, sort=False):
         '''
         Takes the train DataFrame and the .feature_importances_ attribute of
         sklearn's model and returns a sorted dictionary of feature_names:
@@ -295,15 +333,14 @@ class Sebastian:
             sorted_features = sorted(
                 feature_dict, key=feature_dict.__getitem__, reverse=True)
             sorted_values = sorted(feature_dict.values(), reverse=True)
-            sorted_feature_dict = {k: v for k, v in zip(
-                sorted_features, sorted_values)}
+            sorted_feature_dict = {k: v for k, v in zip(sorted_features, sorted_values)}
             self.feature_dict = sorted_feature_dict
             return sorted_feature_dict
         else:
             self.feature_dict = feature_dict
             return feature_dict
 
-    def plot_importances(self, X_train=None, feature_importances_=None, max_features=10, figsize=(12.5, 7.5), **kwargs):
+    def plot_importances(self, X_train=None, feature_importances_=None, max_features=10, order='dsc', figsize=(12.5, 7.5), **kwargs):
         '''
         Takes the train DataFrame and the .feature_importances_ attribute of
         sklearn's model and plots a horizontal bar graph of the 10 most
@@ -315,6 +352,12 @@ class Sebastian:
         params:
             max_features    determines the number of features plotted. The
                             default is 10.
+            order           'des' plots features with the highest importances.
+                            'asc' plots features with the lowest importances.
+                            This can be useful if importances have -ve values.
+                            'abs' takes the absolute value of feature
+                            importances before plotting those with the highest
+                            values.
         '''
         import matplotlib.pyplot as plt
         # Allows the function to be called after get_features with no
@@ -326,11 +369,30 @@ class Sebastian:
             else:
                 feature_dict = self.feature_dict
         else:
-            feature_dict = self.get_features(X_train, feature_importances_)
+            feature_dict = self.get_features(X_train, feature_importances_, sort=False)
+            self.feature_dict = feature_dict
         # Arranges the graph from most important at the top to least at the
         # bottom.
-        features = list(feature_dict.keys())
-        importances = list(feature_dict.values())
+        if order == 'dsc':
+            sorted_features = sorted(
+                feature_dict, key=feature_dict.__getitem__, reverse=True)
+            sorted_values = sorted(feature_dict.values(), reverse=True)
+            sorted_feature_dict = {k: v for k, v in zip(sorted_features, sorted_values)}
+        elif order == 'asc':
+            sorted_features = sorted(
+                feature_dict, key=feature_dict.__getitem__, reverse=False)
+            sorted_values = sorted(feature_dict.values(), reverse=False)
+            sorted_feature_dict = {k: v for k, v in zip(sorted_features, sorted_values)}
+        elif order == 'abs':
+            feature_dict = {k: abs(v) for k, v in feature_dict.items()}
+            sorted_features = sorted(
+                feature_dict, key=feature_dict.__getitem__, reverse=True)
+            sorted_values = sorted(feature_dict.values(), reverse=True)
+            sorted_feature_dict = {k: v for k, v in zip(sorted_features, sorted_values)}
+        else:
+            raise Exception('unrecognized order.')
+        features = list(sorted_feature_dict.keys())
+        importances = list(sorted_feature_dict.values())
         # Limits number of features shown.
         features = features[:max_features]
         importances = importances[:max_features]

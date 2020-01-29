@@ -61,26 +61,26 @@ sebas = ple.Sebastian()
 # value makes the kernel less aggressive and increases the likelyhood of
 # underfitting. Manual values of gamma normally range take the range
 # {'gamma':np.logspace(-5, -1, 10)}
-pipe = Pipeline([
-    ('tvec', TfidfVectorizer()),
-    ('svc', SVC(gamma='scale'))
-])
-params = {
-    'tvec__stop_words': ['english'],
-    'tvec__ngram_range': [(1, 1), (1, 2)],
-    'tvec__max_df': [.5, .7, .9],
-    'tvec__min_df': [2, 4, 6],
-    'tvec__max_features': [2000, 3000, 4000],
-    'svc__C': [1, 4, 7],
-    'svc__kernel': ['linear'],
-}
-gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
-gs.fit(X_train, y_train)
-# best score: 0.8604436229205176
-print('best score:', gs.best_score_)
-# best params: svc: C=1, kernel='linear' tvec: max_df=0.5, max_features=2000, min_df=2, ngram_range=(1, 1), stop_words='english'
-print('best params:', sebas.get_params(gs.best_params_))
-print()
+# pipe = Pipeline([
+#     ('tvec', TfidfVectorizer()),
+#     ('svc', SVC(gamma='scale'))
+# ])
+# params = {
+#     'tvec__stop_words': ['english'],
+#     'tvec__ngram_range': [(1, 1), (1, 2)],
+#     'tvec__max_df': [.5, .7, .9],
+#     'tvec__min_df': [2, 4, 6],
+#     'tvec__max_features': [2000, 3000, 4000],
+#     'svc__C': [1, 4, 7],
+#     'svc__kernel': ['linear'],
+# }
+# gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
+# gs.fit(X_train, y_train)
+# # best score: 0.8604436229205176
+# print('best score:', gs.best_score_)
+# # best params: svc: C=1, kernel='linear' tvec: max_df=0.5, max_features=2000, min_df=2, ngram_range=(1, 1), stop_words='english'
+# print('best params:', sebas.get_params(gs.best_params_))
+# print()
 
 tvec = TfidfVectorizer(max_df=0.5, max_features=2000, min_df=2,
                        ngram_range=(1, 1), stop_words='english')
@@ -103,7 +103,9 @@ y_pred = svc.predict(X_test)
 print('most_important_features:', sebas.get_features(X_train, svc.coef_.ravel()))
 print()
 
-sebas.plot_importances()
+sebas.plot_importances(order='dsc')
+sebas.plot_importances(order='asc')
+sebas.plot_importances(order='abs')
 
 print('classification report:')
 print(classification_report(y_test, y_pred, output_dict=False))
