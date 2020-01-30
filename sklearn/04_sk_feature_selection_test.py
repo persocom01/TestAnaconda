@@ -46,8 +46,8 @@ sol = ple.Solution()
 # continuous or ordinal features that are highly correlated with each other.
 # Variables with the highest VIF scores should be eliminated until the VIF
 # scores are below between 10 to 2.5, depending on how conservative you want
-# to be. This function either takes a VIF score to eliminate features until,
-# or the number of features you want returned.
+# to be. This function takes a DataFrame and eliminate features until, their
+# maxium VIF scores are below 5 or the argument specified.
 # It seems to give funny results if the variables contain string values.
 # Recommend separating the string columns from the rest before attempting
 # to do this.
