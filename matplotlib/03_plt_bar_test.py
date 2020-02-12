@@ -24,6 +24,11 @@ fig, ax = plt.subplots()
 # align can be set to 'edge' to align the label to the left side of the bar
 # graph. For the right side, set width to a -ve number.
 ax.bar(df['movie'], df['profit'], edgecolor='black', lw=2)
+# Demonstrates how to change the color of individual bars.
+ax.get_children()[0].set_color('y')
+ax.get_children()[1].set_color('#f97306')
+ax.get_children()[2].set_color('r')
+ax.get_children()[3].set_color('b')
 plt.show()
 plt.close()
 

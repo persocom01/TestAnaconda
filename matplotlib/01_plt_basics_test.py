@@ -5,6 +5,10 @@ import matplotlib.pyplot as plt
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
 
+# Changes the graph style. A style reference can be found here:
+# https://matplotlib.org/3.1.0/gallery/style_sheets/style_sheets_reference.html
+plt.style.use('bmh')
+
 np.random.seed(123)
 x = np.arange(10)
 y = [1, 2, 4, 6, 4, 4, 3, 5, 6, 7]

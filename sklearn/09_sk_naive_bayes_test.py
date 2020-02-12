@@ -15,6 +15,11 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 # from sklearn.naive_bayes import BernoulliNB
 # For discrete features.
 from sklearn.naive_bayes import MultinomialNB
+# This is MultinomialNB but instead of taking into account the probability of
+# an element being in a class, it calculates the probability of the element
+# occuring in other classes, then takes the complement. (1-P) The lowest result
+# is the predicted class.
+# from sklearn.naive_bayes import ComplementNB
 # For features that follow a normal distribution.
 # from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import classification_report
@@ -22,7 +27,7 @@ from sklearn.metrics import confusion_matrix
 import pickle
 
 import_path = r'.\datasets\reddit.csv'
-data = pd.read_csv(import_path)
+data = pd.read_csv(import_path, index_col=None)
 # print(data.columns)
 df = data[['title', 'subreddit']]
 
@@ -42,12 +47,12 @@ cz = ple.CZ()
 
 print('before:', X[1])
 X = cz.text_list_cleaner(X, cz.contractions, reddit_lingo,
-                         r'[^a-zA-Z ]', cz.lemmatize_sentence, ['wa', 'ha'])
+                         r'[^a-zA-Z ]', cz.to_lower, cz.lemmatize_sentence, ['wa', 'ha'])
 print('after:', X[1])
 print()
 
 full_text = ' '.join(X)
-cz.word_cloud(full_text)
+cz.word_cloud(full_text, background_color='white', colormap='nipy_spectral_r')
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, random_state=1, stratify=y)
@@ -62,8 +67,8 @@ pipe = Pipeline([
 params = {
     'tvec__stop_words': ['english'],
     'tvec__ngram_range': [(1, 1), (1, 2)],
-    'tvec__max_df': [.5, .7, .9],
-    'tvec__min_df': [2, 4, 6],
+    'tvec__max_df': [.3, .6, .9],
+    'tvec__min_df': [1, 3, 7],
     'tvec__max_features': [2000, 3000, 4000],
 }
 gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)

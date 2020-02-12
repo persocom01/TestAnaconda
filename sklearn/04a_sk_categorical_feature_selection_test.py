@@ -10,7 +10,7 @@ import seaborn as sb
 # Data dictionary found here:
 # https://www.kaggle.com/uciml/mushroom-classification
 import_path = r'.\datasets\mushrooms.csv'
-data = pd.read_csv(import_path)
+data = pd.read_csv(import_path, index_col=None)
 
 df = pd.DataFrame(data)
 # This column contains only one value and is thus useless.

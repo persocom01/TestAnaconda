@@ -17,7 +17,9 @@ export_path = r'.\datasets\SacramentocrimeJanuary2006.xlsx'
 # names=list allows you to customize the column label. If the number of names
 # passed is smaller than the number of columns, the resulting columns will
 # contain repeated data columns equivalent to the number of missing names.
-# index_col=int_str_list determines the column to use as the row label.
+# index_col=int_str_list determines the column to use as the row label. Can be
+# set to 0 to reuse an index if you did not specify index=False when using
+# pandas to save a file.
 # usecols=list_callable lets you specify a subset of columns to extract from
 # the file instead of extracting the whole thing. Callable is a one argument
 # function that will return an int. The order of the list is not taken into
@@ -35,7 +37,7 @@ export_path = r'.\datasets\SacramentocrimeJanuary2006.xlsx'
 # pd.read_excel('xls or xlsx')
 # pd.read_table('xml')
 # pd.read_json('json')
-data = pd.read_csv(import_path, keep_default_na=False, na_values=[''])
+data = pd.read_csv(import_path, index_col=None, keep_default_na=False, na_values=[''])
 df = pd.DataFrame(data)
 print(df.head())
 

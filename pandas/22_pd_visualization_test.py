@@ -91,7 +91,14 @@ df.plot(kind='bar', x='movie')
 # Good at showing relative proportions.
 # Use df.plot.pie() for more customization.
 # Commonly used after grouping data using df.groupby().
-df.plot(kind='pie', y='number', labels=df['movie'])
+# explode=list separates a slice of the pie from the whole. The list has have
+# the same number of elements as the number of pie slices.
+# autopct=str makes the % of each pie slice appear in the slice according to
+# the formating specified by the string.
+df.plot(kind='pie', y='number', labels=df['movie'], explode=[0.1, 0, 0, 0, 0], autopct='%.1f%%')
+plt.ylabel('')  # Removes y axis label.
+plt.legend(loc='center left')  # Changes location of legend.
+plt.show()
 
 import_path = r'.\datasets\SacramentocrimeJanuary2006.csv'
 data = pd.read_csv(import_path)

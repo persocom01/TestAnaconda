@@ -17,7 +17,7 @@ from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 
 import_path = r'.\datasets\reddit.csv'
-data = pd.read_csv(import_path)
+data = pd.read_csv(import_path, index_col=None)
 # print(data.columns)
 df = data[['title', 'subreddit']]
 
@@ -37,7 +37,7 @@ cz = ple.CZ()
 
 print('before:', X[1])
 X = cz.text_list_cleaner(X, cz.contractions, reddit_lingo,
-                         r'[^a-zA-Z ]', cz.lemmatize_sentence, ['wa', 'ha'])
+                         r'[^a-zA-Z ]', cz.to_lower, cz.lemmatize_sentence, ['wa', 'ha'])
 print('after:', X[1])
 print()
 
@@ -80,9 +80,12 @@ pipe = Pipeline([
 params = {
     'tvec__stop_words': ['english'],
     'tvec__ngram_range': [(1, 1), (1, 2)],
-    'tvec__max_df': [.1, .3, .5],
-    'tvec__min_df': [2, 4, 6],
+    'tvec__max_df': [.3, .6, .9],
+    'tvec__min_df': [1, 3, 7],
     'tvec__max_features': [1000, 1500, 2000],
+    'xgb_class__max_depth': [4, 5, 6],
+    'xgb_class__subsample': [.8, 1],
+    'xgb_class__colsample_bytree': [.8, 1]
 }
 gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
 gs.fit(X_train, y_train)

@@ -2,7 +2,8 @@
 # predictive problems. It differs from KNN in that it is strictly a linear
 # model, and thus may require polynomial feature creation to work correctly.
 # However, it can return probabilities instead of labels, which can be useful
-# in some cases.
+# in some cases. As ln0 is undefined, it is unable to be used on rows with 0
+# values on all features.
 import numpy as np
 import pandas as pd
 from sklearn.datasets import load_breast_cancer

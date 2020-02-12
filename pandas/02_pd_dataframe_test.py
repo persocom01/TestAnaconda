@@ -2,6 +2,15 @@
 # Demonstrates the various attributes and methods available for use with
 # DataFrames.
 import pandas as pd
+# Changes pandas default maximum displayed cols and rows.
+print('max cols before:', pd.get_option('display.max_columns'))
+pd.set_option('display.max_columns', 100)
+print('max cols after:', pd.get_option('display.max_columns'))
+print('max rows before:', pd.get_option('display.max_rows'))
+pd.set_option('display.max_rows', 300)
+print('max rows after:', pd.get_option('display.max_rows'))
+
+pd.options.display.max_rows = 300
 
 # The DataFrame constructor is as follows:
 # pd.DataFrame(data, index, columns, dtype, copy=False).

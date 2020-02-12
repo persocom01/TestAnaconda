@@ -14,7 +14,7 @@ from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 
 import_path = r'.\datasets\reddit.csv'
-data = pd.read_csv(import_path)
+data = pd.read_csv(import_path, index_col=None)
 # print(data.columns)
 df = data[['title', 'subreddit']]
 
@@ -34,7 +34,7 @@ cz = ple.CZ()
 
 print('before:', X[1])
 X = cz.text_list_cleaner(X, cz.contractions, reddit_lingo,
-                         r'[^a-zA-Z ]', cz.lemmatize_sentence, ['wa', 'ha'])
+                         r'[^a-zA-Z ]', cz.to_lower, cz.lemmatize_sentence, ['wa', 'ha'])
 print('after:', X[1])
 print()
 

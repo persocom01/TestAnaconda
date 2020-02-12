@@ -21,7 +21,7 @@ from sklearn.tree import export_graphviz
 import pydotplus
 
 import_path = r'.\datasets\reddit.csv'
-data = pd.read_csv(import_path)
+data = pd.read_csv(import_path, index_col=None)
 # print(data.columns)
 df = data[['title', 'subreddit']]
 
@@ -41,7 +41,7 @@ cz = ple.CZ()
 
 print('before:', X[1])
 X = cz.text_list_cleaner(X, cz.contractions, reddit_lingo,
-                         r'[^a-zA-Z ]', cz.lemmatize_sentence, ['wa', 'ha'])
+                         r'[^a-zA-Z ]', cz.to_lower, cz.lemmatize_sentence, ['wa', 'ha'])
 print('after:', X[1])
 print()
 
@@ -87,8 +87,8 @@ pipe = Pipeline([
 params = {
     'tvec__stop_words': ['english'],
     'tvec__ngram_range': [(1, 1), (1, 2)],
-    'tvec__max_df': [.5, .7, .9],
-    'tvec__min_df': [2, 4, 6],
+    'tvec__max_df': [.3, .6, .9],
+    'tvec__min_df': [1, 3, 7],
     'tvec__max_features': [2000, 3000, 4000],
 }
 gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
