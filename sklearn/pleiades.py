@@ -109,14 +109,10 @@ class CZ:
         return ' '.join(words)
 
     def remove_punctuation(self, sentence, sep=None):
-        import string
         import re
         if sep is None:
             sep = self.sep
-        translator = str.maketrans(string.punctuation, sep*len(string.punctuation))
-        sentence = sentence.translate(translator)
-        # Remove pesky non standard character punctuations.
-        sentence = re.sub(r'[’“”]', sep, sentence)
+        sentence = re.sub(r'[!"#$%&\'()*+, -./:; <= >?@[\]^_`{|}~’“”]', sep, sentence)
         return sentence
 
     def split_camel_case(self, sentence):
@@ -134,7 +130,8 @@ class CZ:
         if sep is None:
             sep = self.sep
 
-        # Prevents KeyError from passing a pandas series without range indexes.
+        # Prevents KeyError from passing a pandas series with index not
+        # beginning in 0.
         try:
             iter(text_list.index)
             r = text_list.index
@@ -321,7 +318,7 @@ class Sebastian:
             s += f'{k}: {joined_list} '
         return s.strip(' ')
 
-    def get_features(self, X_train, feature_importances_, sort=False):
+    def get_features(self, X_train, feature_importances_, order=None):
         '''
         Takes the train DataFrame and the .feature_importances_ attribute of
         sklearn's model and returns a sorted dictionary of feature_names:
@@ -333,18 +330,28 @@ class Sebastian:
             if v != 0:
                 feature_dict[X_train.columns[i]] = v
         # Sorts dict from most important feature to least.
-        if sort:
+        if order == 'dsc':
             sorted_features = sorted(
                 feature_dict, key=feature_dict.__getitem__, reverse=True)
             sorted_values = sorted(feature_dict.values(), reverse=True)
             sorted_feature_dict = {k: v for k, v in zip(sorted_features, sorted_values)}
-            self.feature_dict = sorted_feature_dict
-            return sorted_feature_dict
+        elif order == 'asc':
+            sorted_features = sorted(
+                feature_dict, key=feature_dict.__getitem__, reverse=False)
+            sorted_values = sorted(feature_dict.values(), reverse=False)
+            sorted_feature_dict = {k: v for k, v in zip(sorted_features, sorted_values)}
+        elif order == 'abs':
+            feature_dict = {k: abs(v) for k, v in feature_dict.items()}
+            sorted_features = sorted(
+                feature_dict, key=feature_dict.__getitem__, reverse=True)
+            sorted_values = sorted(feature_dict.values(), reverse=True)
+            sorted_feature_dict = {k: v for k, v in zip(sorted_features, sorted_values)}
         else:
-            self.feature_dict = feature_dict
-            return feature_dict
+            sorted_feature_dict = feature_dict
+        self.feature_dict = sorted_feature_dict
+        return sorted_feature_dict
 
-    def plot_importances(self, X_train=None, feature_importances_=None, max_features=10, order='dsc', figsize=(12.5, 7.5), **kwargs):
+    def plot_importances(self, X_train=None, feature_importances_=None, max_features=10, order='dsc', fontsize=10, title=None, **kwargs):
         '''
         Takes the train DataFrame and the .feature_importances_ attribute of
         sklearn's model and plots a horizontal bar graph of the 10 most
@@ -403,10 +410,12 @@ class Sebastian:
         # Arranges most important feature at top instead of bottom.
         features.reverse()
         importances.reverse()
-        fig, ax = plt.subplots(figsize=figsize, **kwargs)
+        fig, ax = plt.subplots(**kwargs)
         ax.barh(range(len(features)), importances, align='center')
         ax.set_yticks(range(len(features)))
         ax.set_yticklabels(features)
+        ax.set_title(title)
+        plt.rc('font', size=fontsize)
         plt.show()
         plt.close()
 
@@ -493,7 +502,7 @@ class Yuri:
                 test_auc_scores.append(self.auc_score(y_test, y_prob))
         return [train_auc_scores, test_auc_scores]
 
-    def plot_auc(self, x, auc_scores, lw=2, title=None, xlabel=None, labels=None, **kwargs):
+    def plot_auc(self, x, auc_scores, lw=2, title=None, xlabel=None, labels=None, fontsize=10, **kwargs):
         import matplotlib.pyplot as plt
         fig, ax = plt.subplots(**kwargs)
         for i, scores in enumerate(auc_scores):
@@ -504,10 +513,11 @@ class Yuri:
         ax.set_ylabel('AUC score')
         ax.set_title(title)
         ax.legend(loc='best')
+        plt.rc('font', size=fontsize)
         plt.show()
         plt.close()
 
-    def plot_roc(self, y_test, y_prob, average='macro', mm=False, reverse_classes=False, lw=2, title=None, labels=None, **kwargs):
+    def plot_roc(self, y_test, y_prob, average='macro', mm=False, reverse_classes=False, lw=2, title=None, labels=None, fontsize=10, **kwargs):
         '''
         Plots Receiver Operating Characteristic (ROC) curves for predict_proba
         method for sklearn models.
@@ -626,5 +636,6 @@ class Yuri:
         ax.set_ylabel('True Positive Rate')
         ax.set_title(title)
         ax.legend(loc='best')
+        plt.rc('font', size=fontsize)
         plt.show()
         plt.close()
