@@ -3,7 +3,7 @@ import pandas as pd
 
 characters = {
     'name': ['Kazuma', 'Aqua', 'Megumin', 'Darkness', 'Chris', 'Yunyun', 'Wiz'],
-    'class': ['adventurer', 'priest', 'crusader', 'wizard', 'thief', 'wizard', 'wizard'],
+    'class': ['adventurer', 'priest', 'wizard', 'crusader', 'thief', 'wizard', 'wizard'],
 }
 df = pd.DataFrame(characters)
 

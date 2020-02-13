@@ -49,11 +49,10 @@ class Nabe:
         else:
             return df.loc[df[col_name] == value].index
 
-# CZ deals with word processing.
-# She pastes 1 yen stickers on things she likes.
+# Lupusregina deals with word processing.
 
 
-class CZ:
+class Lupus:
 
     def __init__(self):
         # Contractions dict.
@@ -112,12 +111,14 @@ class CZ:
         import re
         if sep is None:
             sep = self.sep
-        sentence = re.sub(r'[!"#$%&\'()*+, -./:; <= >?@[\]^_`{|}~’“”]', sep, sentence)
+        sentence = re.sub(
+            r'[!"#$%&\'()*+, -./:; <= >?@[\]^_`{|}~’“”]', sep, sentence)
         return sentence
 
     def split_camel_case(self, sentence):
         import re
-        splitted = re.sub('([A-Z][a-z]+)', r' \1', re.sub('([A-Z]+)', r' \1', sentence)).split()
+        splitted = re.sub('([A-Z][a-z]+)', r' \1',
+                          re.sub('([A-Z]+)', r' \1', sentence)).split()
         return ' '.join(splitted)
 
     def text_list_cleaner(self, text_list, *args, sep=None, inplace=False):
@@ -259,7 +260,8 @@ class Solution:
                 print('Feature(s) contain string values. Result may be unreliable.')
             # Check if any feature contains all 0s.
             if (df == 0).all().any():
-                raise Exception('Feature(s) contain all 0s. Drop them before use.')
+                raise Exception(
+                    'Feature(s) contain all 0s. Drop them before use.')
         features = df.columns
         # VIF is the diagonal of the correlation matrix.
         vifs = np.linalg.inv(df.corr().values).diagonal()
@@ -334,18 +336,21 @@ class Sebastian:
             sorted_features = sorted(
                 feature_dict, key=feature_dict.__getitem__, reverse=True)
             sorted_values = sorted(feature_dict.values(), reverse=True)
-            sorted_feature_dict = {k: v for k, v in zip(sorted_features, sorted_values)}
+            sorted_feature_dict = {k: v for k, v in zip(
+                sorted_features, sorted_values)}
         elif order == 'asc':
             sorted_features = sorted(
                 feature_dict, key=feature_dict.__getitem__, reverse=False)
             sorted_values = sorted(feature_dict.values(), reverse=False)
-            sorted_feature_dict = {k: v for k, v in zip(sorted_features, sorted_values)}
+            sorted_feature_dict = {k: v for k, v in zip(
+                sorted_features, sorted_values)}
         elif order == 'abs':
             feature_dict = {k: abs(v) for k, v in feature_dict.items()}
             sorted_features = sorted(
                 feature_dict, key=feature_dict.__getitem__, reverse=True)
             sorted_values = sorted(feature_dict.values(), reverse=True)
-            sorted_feature_dict = {k: v for k, v in zip(sorted_features, sorted_values)}
+            sorted_feature_dict = {k: v for k, v in zip(
+                sorted_features, sorted_values)}
         else:
             sorted_feature_dict = feature_dict
         self.feature_dict = sorted_feature_dict
@@ -380,7 +385,8 @@ class Sebastian:
             else:
                 feature_dict = self.feature_dict
         else:
-            feature_dict = self.get_features(X_train, feature_importances_, sort=False)
+            feature_dict = self.get_features(
+                X_train, feature_importances_, sort=False)
             self.feature_dict = feature_dict
         # Arranges the graph from most important at the top to least at the
         # bottom.
@@ -388,18 +394,21 @@ class Sebastian:
             sorted_features = sorted(
                 feature_dict, key=feature_dict.__getitem__, reverse=True)
             sorted_values = sorted(feature_dict.values(), reverse=True)
-            sorted_feature_dict = {k: v for k, v in zip(sorted_features, sorted_values)}
+            sorted_feature_dict = {k: v for k, v in zip(
+                sorted_features, sorted_values)}
         elif order == 'asc':
             sorted_features = sorted(
                 feature_dict, key=feature_dict.__getitem__, reverse=False)
             sorted_values = sorted(feature_dict.values(), reverse=False)
-            sorted_feature_dict = {k: v for k, v in zip(sorted_features, sorted_values)}
+            sorted_feature_dict = {k: v for k, v in zip(
+                sorted_features, sorted_values)}
         elif order == 'abs':
             feature_dict = {k: abs(v) for k, v in feature_dict.items()}
             sorted_features = sorted(
                 feature_dict, key=feature_dict.__getitem__, reverse=True)
             sorted_values = sorted(feature_dict.values(), reverse=True)
-            sorted_feature_dict = {k: v for k, v in zip(sorted_features, sorted_values)}
+            sorted_feature_dict = {k: v for k, v in zip(
+                sorted_features, sorted_values)}
         else:
             raise Exception('unrecognized order.')
         features = list(sorted_feature_dict.keys())
