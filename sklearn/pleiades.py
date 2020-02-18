@@ -72,8 +72,8 @@ class Lupus:
         }
         self.re_ref = {
             'email': r'([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)',
-            'links': r'(https?://[^ ]+)',
-            'gender_pronouns': ['[hH]e/[hH]im', '[tT]hey/[tT]hem', '[tT]ey/[tT]em', '[eE]y/[eE]m', '[eE]/[eE]m', '[tT]hon/[tT]hon', '[fF]ae/[fF]aer', '[vV]ae/[vV]aer', '[aA]e/[aA]er', '[nN]e/[nN]ym', '[nN]e/[nN]em', '[xX]e/[xX]em', '[xX]e/[xX]im', '[xX]ie/[xX]em', '[zZ]e/[zZ]ir', '[zZ]ie/[zZ]ir', '[zZ]he/[zZ]hir', '[zZ]e/[hH]ir', '[sS]ie/[sS]ier', '[zZ]ed/[zZ]ed', '[zZ]ed/[zZ]ed', '[cC]e/[cC]ir', '[cC]o/[cC]os', '[vV]e/[vV]is', '[jJ]ee/[jJ]em', '[lL]ee/[lL]im', '[kK]ye/[kK]yr', '[pP]er/[pP]er', '[hH]u/[hH]um', '[bB]un/[bB]un', '[iI]t/[iI]t']
+            'link': r'(https?://[^ ]+)',
+            'gender_pronoun': [r'[hH]e/[hH]im', '[tT]hey/[tT]hem', '[tT]ey/[tT]em', '[eE]y/[eE]m', '[eE]/[eE]m', '[tT]hon/[tT]hon', '[fF]ae/[fF]aer', '[vV]ae/[vV]aer', '[aA]e/[aA]er', '[nN]e/[nN]ym', '[nN]e/[nN]em', '[xX]e/[xX]em', '[xX]e/[xX]im', '[xX]ie/[xX]em', '[zZ]e/[zZ]ir', '[zZ]ie/[zZ]ir', '[zZ]he/[zZ]hir', '[zZ]e/[hH]ir', '[sS]ie/[sS]ier', '[zZ]ed/[zZ]ed', '[zZ]ed/[zZ]ed', '[cC]e/[cC]ir', '[cC]o/[cC]os', '[vV]e/[vV]is', '[jJ]ee/[jJ]em', '[lL]ee/[lL]im', '[kK]ye/[kK]yr', '[pP]er/[pP]er', '[hH]u/[hH]um', '[bB]un/[bB]un', '[iI]t/[iI]t']
         }
         self.sep = ' '
 
@@ -118,12 +118,18 @@ class Lupus:
     def split_camel_case(self, sentence):
         import re
         splitted = re.sub('([A-Z][a-z]+)', r' \1',
-                          re.sub('([A-Z]+)', r' \1', sentence)).split()
+                          re.sub('([0-9A-Z]+)', r' \1', sentence)).split()
         return ' '.join(splitted)
 
     def text_list_cleaner(self, text_list, *args, sep=None, inplace=False):
         '''
-        Cleans text in lists.
+        Function made to make chain transformations on text lists easy.
+
+        Maps words when passed functions or dictionaries as *arguments.
+        Removes words when passed lists or strings.
+
+        Aside from lists, all *arguments should be made in regex format, as the
+        function does not account for spaces or word boundaries by default.
         '''
         import re
         if inplace is False:
@@ -152,7 +158,7 @@ class Lupus:
                 # Removes all words passed as a list.
                 elif not isinstance(arg, str):
                     for a in arg:
-                        pattern = f' {a} '
+                        pattern = r'\b{}\b'.format(a)
                         text_list[i] = re.sub(pattern, sep, text_list[i])
                 # For any other special cases.
                 else:

@@ -38,7 +38,7 @@ conda install -c conda-forge wordcloud
 pip install xgboost
 ```
 
-They following packages will be installed:
+This installs following modules:
 
 * folium - for interactive map visualizations.
 * graphviz - for drawing graphs in DOT language scripts.
