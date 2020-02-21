@@ -250,8 +250,8 @@ class Solution:
         than max_score.
 
         params:
-            drop_list       when set to True, the function returns a list of
-                            features that would be dropped instead.
+            drop_list   when set to True, the function returns a list of
+                        features that would be dropped instead.
         '''
         import numpy as np
         # Avoids overwriting the original DataFrame by default.

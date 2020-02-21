@@ -109,9 +109,12 @@ print()
 # tol=0.0, iterated_power='auto', random_state=None)
 # Principal component analysis.
 # Can be used for feature selection, especially when the goal of the subsequent
-# analysis is to find clusters as it is a good at removing noise. When used to
-# transform features, it removes multicollinearity. However, it should be noted
-# PCA assumes that features have linear relationships.
+# analysis is to find clusters, as it is a good at removing noise. When used to
+# transform features, it removes multicollinearity. However, this should not be
+# taken as a solution to high multicollinearity, as highly correlated features
+# will result in their Principal Component being overemphasized, therefore it
+# may be better to remove them before performing PCA. PCA assumes that features
+# have linear relationships.
 # n_components=0-1_int determines number of features to keep. By default, all
 # components are kept. If set to a number between 0 and 1 and
 # svd_solver='full', components are kept until explained_variance_ is greater
