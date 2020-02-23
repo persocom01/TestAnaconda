@@ -6,8 +6,10 @@ from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LogisticRegression
 from sklearn.feature_selection import SelectKBest
-from sklearn.feature_selection import chi2
+from sklearn.feature_selection import f_classif
+from sklearn.feature_selection import mutual_info_classif
 from sklearn.feature_selection import RFE
 from sklearn.decomposition import PCA
 from sklearn.decomposition import TruncatedSVD
@@ -45,9 +47,9 @@ sol = ple.Solution()
 # predictor variables within a multiple regression. It is used to eliminate
 # continuous or ordinal features that are highly correlated with each other.
 # Variables with the highest VIF scores should be eliminated until the VIF
-# scores are below between 10 to 2.5, depending on how conservative you want
-# to be. This function takes a DataFrame and eliminate features until, their
-# maxium VIF scores are below 5 or the argument specified.
+# scores are below between 10 to 2.5, the lower value being more conservative.
+# This function takes a DataFrame and eliminate features until, their maximum
+# VIF scores are below 5 or the argument specified.
 # It seems to give funny results if the variables contain string values.
 # Recommend separating the string columns from the rest before attempting
 # to do this.
@@ -74,28 +76,53 @@ n_features = 5
 
 # SelectKBest(score_func=<function f_classif>, k=10)
 # k sets the ending number of desired features.
-# chi2(X, y) is the chi2 test used to compare a categorical y with non
-# zero features x.
-# Use skb.scores_ to see the actual chi2 score.
-skb = SelectKBest(score_func=chi2, k=n_features)
+# By default, SelectKBest uses the f-test, also known as ANOVA for feature
+# selection between a categorical y and continuous features X.
+# To use other tests, import them from sklearn.feature_selection.
+# f_regression is used for continuous y and continuous features X.
+# chi2 is used for categorical y and non zero features X such as categories,
+# booleans or frequencies. Use skb.scores_ to see the actual scores.
+skb = SelectKBest(score_func=f_classif, k=n_features)
 skb.fit(X_train, y_train)
 # Preserves the column names compared to a straight skb.fit_transform()
 selected_cols = [v for i, v in enumerate(
     X_train.columns) if i in skb.get_support(indices=True)]
-X_train_chi2 = X_train[selected_cols]
+X_train_ftest = X_train[selected_cols]
 ranking = [{v: k for k, v in enumerate(
     np.sort(skb.scores_)[::-1])}.get(r) for r in skb.scores_]
-print('chi2 feature selection:')
+print('ftest feature selection:')
 print('feature ranking (0 being best):', ranking)
-print(X_train_chi2.columns)
+print(X_train_ftest.columns)
+print()
+
+# Mutual information measures the level of dependence between two variables.
+# The main difference between it and the f test type feature selection methods
+# is that they are able to capture non linear dependencies, and they require
+# sample sizes of at least 1000 or risk being inaccurate.
+# For a categorial y, use mutual_info_classif.
+# For a continuous y, use mutual_info_regression.
+skb = SelectKBest(score_func=mutual_info_classif, k=n_features)
+skb.fit(X_train, y_train)
+# Preserves the column names compared to a straight skb.fit_transform()
+selected_cols = [v for i, v in enumerate(
+    X_train.columns) if i in skb.get_support(indices=True)]
+X_train_mic = X_train[selected_cols]
+ranking = [{v: k for k, v in enumerate(
+    np.sort(skb.scores_)[::-1])}.get(r) for r in skb.scores_]
+print('mutual info feature selection:')
+print('feature ranking (0 being best):', ranking)
+print(X_train_mic.columns)
 print()
 
 # RFE(estimator, n_features_to_select=None, step=1, verbose=0) performs
-# recursive feature elimination of features.
+# recursive feature elimination of features based on a given model. Besides
+# LinearRegression() and LogisticRegression(solver='lbfgs', max_iter=100),
+# RandomForestClassifier() is also a popular RFE algorithm.
 # step determines the number of features to remove at each iteration. If step
 # is between 0.0 and 1.0, it is taken as the proportion of total features.
-lm = LinearRegression()
-rfe = RFE(lm, n_features)
+lr = LogisticRegression(solver='lbfgs', max_iter=200)
+# lm = LinearRegression()
+rfe = RFE(lr, n_features)
 rfe.fit(X_train, y_train)
 selected_cols = [v for i, v in enumerate(
     X_train.columns) if i in rfe.get_support(indices=True)]
