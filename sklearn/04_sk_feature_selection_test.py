@@ -117,7 +117,8 @@ print()
 # RFE(estimator, n_features_to_select=None, step=1, verbose=0) performs
 # recursive feature elimination of features based on a given model. Besides
 # LinearRegression() and LogisticRegression(solver='lbfgs', max_iter=100),
-# RandomForestClassifier() is also a popular RFE algorithm.
+# RandomForestClassifier() is also a popular RFE algorithm. Note that
+# RandomForestClassifier may be a poor option on sparse datasets.
 # step determines the number of features to remove at each iteration. If step
 # is between 0.0 and 1.0, it is taken as the proportion of total features.
 lr = LogisticRegression(solver='lbfgs', max_iter=200)
