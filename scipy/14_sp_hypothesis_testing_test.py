@@ -1,6 +1,9 @@
 # Demonstrates the use of scipy in hypothesis testing. Namely the t test.
-# The t test is used on y or y and one feature, x. It is used on samples <= 30.
-# For samples > 30, use the z test instead.
+# The t test is used on y or y and one feature, x. It is used on small samples
+# (approx <= 30) assumes that the population variance is not known. In
+# practice, population variance is generally unknown, but in large enough
+# samples, sample variance is taken to be equal to the population variance. No
+# hard cuttoff exists, but the z test is recommended when that happens.
 import numpy as np
 import scipy.stats as stats
 
@@ -54,11 +57,12 @@ print()
 
 # ttest_rel(a, b, axis=0, nan_policy='propagate')
 # The paired sample t-test is somewhat similar to the independent samples t
-# test but this time instead of two seperate samples from the same population
-# we seeking know if there is a significant difference in the same sample
-# before and after some process. Such as the same batch of students before and
-# after tution in this case. In practice, it is more sensitive than the
-# independent samples t test.
+# test but instead of two seperate samples from the same population we seek
+# know if there is a significant difference in the same sample before and after
+# some process. Such as the same batch of students before and after tution in
+# this case. It may also be applied on two samples if the second sample was
+# purposefully selected to be similar to the first. In practice the paired
+# sample t test is more sensitive than the independent samples t test.
 no_tution_scores = [12, 42, 24, 70, 86, 50, 15, 71, 16, 97, 79, 3, 12,
                     14, 44, 10, 79, 94, 97, 81, 29, 41, 95, 78, 51, 11, 81, 50, 72, 73]
 tution_scores = [21, 47, 23, 65, 89, 53, 24, 67, 11, 97, 85, 0, 17,
