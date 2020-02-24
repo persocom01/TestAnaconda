@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import LogisticRegression
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif
@@ -75,13 +74,18 @@ X_train, X_test, y_train, y_test = train_test_split(
 n_features = 5
 
 # SelectKBest(score_func=<function f_classif>, k=10)
+# Selects features with the best scores based on a defined score function.
+# Features are assumed to be univariate, or independent of each other,
+# therefore feature reduction using heatmaps or VIF should be done beforehand.
 # k sets the ending number of desired features.
 # By default, SelectKBest uses the f-test, also known as ANOVA for feature
-# selection between a categorical y and continuous features X.
+# selection between a categorical y and continuous features X. It assumes
+# that feature values are drawn from a normally distributed population.
 # To use other tests, import them from sklearn.feature_selection.
 # f_regression is used for continuous y and continuous features X.
 # chi2 is used for categorical y and non zero features X such as categories,
-# booleans or frequencies. Use skb.scores_ to see the actual scores.
+# booleans or frequencies. Ordinal variables are normally considered
+# categorical. Use skb.scores_ to see the actual scores.
 skb = SelectKBest(score_func=f_classif, k=n_features)
 skb.fit(X_train, y_train)
 # Preserves the column names compared to a straight skb.fit_transform()
