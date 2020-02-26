@@ -1,11 +1,15 @@
-# Demonstrates the use of scipy in hypothesis testing. Namely the t test.
-# The t test is used on y or y and one feature, x. It is used on small samples
-# (approx <= 30) assumes that the population variance is not known. In
-# practice, population variance is generally unknown, but in large enough
-# samples, sample variance is taken to be equal to the population variance. No
-# hard cuttoff exists, but the z test is recommended when that happens.
+# Demonstrates the use of the scipy t test in hypothesis testing.
+# The t test is used on continuous y or binary y and one continuous feature, x.
+# It is used on small samples (approx <= 30) assumes that the population
+# variance is unknown. In practice, population variance is generally unknown,
+# but for large samples, sample variance is taken to be the population
+# variance. No hard cuttoff exists, but the z test is recommended when that
+# happens.
+# For multiple features, use the f test, also known as ANOVA.
+# For multicategorical y, use chi2.
 import numpy as np
 import scipy.stats as stats
+import pandas as pd
 
 # ttest_1samp(a, popmean, axis=0, nan_policy='propagate')
 # We will use the 1 sample t test here to determine if a coin is fair (null
@@ -42,9 +46,17 @@ no_tution_scores = [84, 24, 2, 80, 94, 78, 67, 55, 70, 37, 46, 76, 99,
                     5, 47, 40, 59, 37, 73, 93, 94, 20, 22, 34, 83, 20, 47, 84, 46, 73]
 tution_scores = [27, 71, 47, 40, 20, 14, 21, 92, 61, 88, 65, 80, 26,
                  11, 23, 73, 75, 54, 14, 49, 25, 82, 71, 78, 97, 47, 39, 26, 31, 34]
-print('mean no tution scores:', np.mean(no_tution_scores))
-print('mean tution scores:', np.mean(tution_scores))
-ttest, pval = stats.ttest_ind(tution_scores, no_tution_scores)
+# In practice, the two samples are often represented as two categories in a
+# DataFrame. As such, an extra step will be taken to put our test values into
+# a DataFrame.
+class_dic = {'scores': no_tution_scores + tution_scores,
+             'tution': [0 for x in no_tution_scores] + [1 for x in tution_scores]}
+df = pd.DataFrame(class_dic)
+no_tution = df[df['tution'] == 0]
+tution = df[df['tution'] == 1]
+print('mean no tution scores:', np.mean(no_tution['scores']))
+print('mean tution scores:', np.mean(tution['scores']))
+ttest, pval = stats.ttest_ind(no_tution['scores'], tution['scores'])
 
 null = 'tution had no effect'
 if pval <= 0.05:
@@ -67,9 +79,14 @@ no_tution_scores = [12, 42, 24, 70, 86, 50, 15, 71, 16, 97, 79, 3, 12,
                     14, 44, 10, 79, 94, 97, 81, 29, 41, 95, 78, 51, 11, 81, 50, 72, 73]
 tution_scores = [21, 47, 23, 65, 89, 53, 24, 67, 11, 97, 85, 0, 17,
                  22, 40, 16, 81, 99, 98, 75, 35, 41, 100, 77, 54, 16, 86, 58, 78, 73]
-print('mean no tution scores:', np.mean(no_tution_scores))
-print('mean tution scores:', np.mean(tution_scores))
-ttest, pval = stats.ttest_rel(tution_scores, no_tution_scores)
+class_dic = {'scores': no_tution_scores + tution_scores,
+             'tution': [0 for x in no_tution_scores] + [1 for x in tution_scores]}
+df = pd.DataFrame(class_dic)
+no_tution = df[df['tution'] == 0]
+tution = df[df['tution'] == 1]
+print('mean no tution scores:', np.mean(no_tution['scores']))
+print('mean tution scores:', np.mean(tution['scores']))
+ttest, pval = stats.ttest_ind(no_tution['scores'], tution['scores'])
 
 null = 'tution had no effect'
 if pval <= 0.05:
