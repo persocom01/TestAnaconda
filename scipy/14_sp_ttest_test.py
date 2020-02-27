@@ -1,5 +1,5 @@
 # Demonstrates the use of the scipy t-test in hypothesis testing.
-# The t-test is used on continuous y or binary y and one continuous feature, x.
+# The t-test is used on a continuous x and a continuous or binary y.
 # It is used on small samples (approx <= 30) and does not require information
 # on the population variance. In practice, population variance is normally
 # unknown, sample variance is taken to be population variance in larger
@@ -25,7 +25,8 @@ tval, pval = stats.ttest_1samp(coin_flips, chance_of_heads)
 # The null hypothesis is the default position, which we must strive to prove
 # untrue. In this case, it is the position that the odds of a heads are 0.5.
 null = 'coin is fair'
-if pval <= 0.05:
+alpha = 0.05
+if pval <= alpha:
     print(
         f'pval = {pval}, therefore reject null hypothesis that {null}.')
 else:
@@ -59,7 +60,7 @@ print('mean tution scores:', np.mean(tution['scores']))
 ttest, pval = stats.ttest_ind(no_tution['scores'], tution['scores'])
 
 null = 'tution had no effect'
-if pval <= 0.05:
+if pval <= alpha:
     print(
         f'pval = {pval}, therefore reject null hypothesis that {null}.')
 else:
@@ -89,10 +90,13 @@ print('mean tution scores:', np.mean(tution['scores']))
 ttest, pval = stats.ttest_ind(no_tution['scores'], tution['scores'])
 
 null = 'tution had no effect'
-if pval <= 0.05:
+if pval <= alpha:
     print(
         f'pval = {pval}, therefore reject null hypothesis that {null}.')
 else:
     print(
         f'pval = {pval}, therefore unable to reject null hypothesis that {null}.')
 print()
+
+df = pd.read_csv('./datasets/mushrooms.csv')
+print(df.head())

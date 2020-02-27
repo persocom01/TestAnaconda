@@ -222,11 +222,11 @@ class Solution:
         from itertools import combinations
 
         def cramers_v(x, y):
-            con_matrix = pd.crosstab(x, y)
-            chi2 = stats.chi2_contingency(con_matrix)[0]
-            n = con_matrix.sum().sum()
+            con_table = pd.crosstab(x, y)
+            chi2 = stats.chi2_contingency(con_table)[0]
+            n = con_table.sum().sum()
             phi2 = chi2/n
-            r, k = con_matrix.shape
+            r, k = con_table.shape
             phi2corr = max(0, phi2-((k-1)*(r-1))/(n-1))
             rcorr = r-((r-1)**2)/(n-1)
             kcorr = k-((k-1)**2)/(n-1)
@@ -243,14 +243,14 @@ class Solution:
         df_corr_matrix = pd.DataFrame(corr_matrix, index=cols, columns=cols)
         return df_corr_matrix
 
-    def vif_feature_select(self, df, max_score=5.0, inplace=False, drop_list=False, _drops=None):
+    def vif_feature_select(self, df, max_score=5.0, inplace=False, printable=False, _drops=None):
         '''
         Takes a DataFrame and returns it after recursively eliminating columns
         with the highest VIF scores until the remainder have VIF scores less
         than max_score.
 
         params:
-            drop_list   when set to True, the function returns a list of
+            printable   when set to True, the function returns a list of
                         features that would be dropped instead.
         '''
         import numpy as np
@@ -276,11 +276,11 @@ class Solution:
         if vifs[max_vif_index] >= max_score:
             _drops.append(features[max_vif_index])
             del df[features[max_vif_index]]
-            return self.vif_feature_select(df, max_score, inplace, drop_list, _drops)
+            return self.vif_feature_select(df, max_score, inplace, printable, _drops)
         else:
             # Returns a list of features that would be dropped instead of a
             # DataFrame
-            if drop_list:
+            if printable:
                 return _drops
             else:
                 return df
