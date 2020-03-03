@@ -177,12 +177,7 @@ class Lupus:
         from wordcloud import WordCloud, ImageColorGenerator
 
         fig, ax = plt.subplots(figsize=figsize)
-        if mask is None:
-            cloud = WordCloud(background_color=background_color,
-                              max_words=max_words, **kwargs)
-            cloud.generate(text)
-            ax.imshow(cloud, interpolation='bilinear')
-        else:
+        if mask:
             m = np.array(Image.open(mask))
             cloud = WordCloud(background_color=background_color,
                               max_words=max_words, mask=m, **kwargs)
@@ -193,6 +188,11 @@ class Lupus:
                           interpolation='bilinear')
             else:
                 ax.imshow(cloud, interpolation='bilinear')
+        else:
+            cloud = WordCloud(background_color=background_color,
+                              max_words=max_words, **kwargs)
+            cloud.generate(text)
+            ax.imshow(cloud, interpolation='bilinear')
         if export_path:
             cloud.to_file(export_path)
         ax.axis('off')
