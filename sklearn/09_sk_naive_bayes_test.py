@@ -43,16 +43,16 @@ reddit_lingo = {
 }
 
 # Initialize nlp class.
-cz = ple.CZ()
+lup = ple.Lupus()
 
 print('before:', X[1])
-X = cz.text_list_cleaner(X, cz.contractions, reddit_lingo,
-                         r'[^a-zA-Z ]', cz.to_lower, cz.lemmatize_sentence, ['wa', 'ha'])
+X = lup.text_list_cleaner(X, lup.contractions, reddit_lingo,
+                          r'[^a-zA-Z ]', lup.to_lower, lup.lemmatize_sentence, ['wa', 'ha'])
 print('after:', X[1])
 print()
 
 full_text = ' '.join(X)
-cz.word_cloud(full_text, background_color='white', colormap='nipy_spectral_r')
+lup.word_cloud(full_text, background_color='white', colormap='nipy_spectral_r')
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, random_state=1, stratify=y)

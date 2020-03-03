@@ -31,11 +31,11 @@ reddit_lingo = {
 }
 
 # Initialize nlp class.
-cz = ple.CZ()
+lup = ple.Lupus()
 
 print('before:', X[1])
-X = cz.text_list_cleaner(X, cz.contractions, reddit_lingo,
-                         r'[^a-zA-Z ]', cz.to_lower, cz.lemmatize_sentence, ['wa', 'ha'])
+X = lup.text_list_cleaner(X, lup.contractions, reddit_lingo,
+                          r'[^a-zA-Z ]', lup.to_lower, lup.lemmatize_sentence, ['wa', 'ha'])
 print('after:', X[1])
 print()
 
@@ -86,7 +86,8 @@ et.fit(X_train, y_train)
 y_pred = et.predict(X_test)
 y_prob = et.predict_proba(X_test)
 
-print('most_important_features:', sebas.get_features(X_train, et.feature_importances_))
+print('most_important_features:', sebas.get_features(
+    X_train, et.feature_importances_))
 print()
 
 print('classification report:')
