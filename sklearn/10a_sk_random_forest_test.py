@@ -32,7 +32,7 @@ reddit_lingo = {
 }
 
 # Initialize nlp class.
-lup = ple.Lupus()
+lup = ple.Lupu()
 
 print('before:', X[1])
 X = lup.text_list_cleaner(X, lup.contractions, reddit_lingo,

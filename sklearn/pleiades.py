@@ -52,7 +52,7 @@ class Nabe:
 # Lupusregina deals with word processing.
 
 
-class Lupus:
+class Lupu:
 
     def __init__(self):
         # Contractions dict.
