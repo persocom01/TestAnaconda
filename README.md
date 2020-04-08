@@ -72,10 +72,8 @@ atom
 ### Atom packages used:
 
 * Hydrogen
-* atom-ide-debugger-python
 * linter-flake8
 * python-autopep8
-* python-debugger
 
 ### General packages:
 
