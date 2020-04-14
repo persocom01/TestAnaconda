@@ -1,5 +1,6 @@
 import json
 import boto3
+import pleiades as ple
 
 with open(r'.\boto3\keys.json') as f:
     keys = json.load(f)
@@ -12,14 +13,9 @@ s3 = boto3.resource(
 )
 
 
-def keys(bucket_name, prefix='/', delimiter='/'):
-    prefix = prefix[1:] if prefix.startswith(delimiter) else prefix
-    bucket = boto3.resource('s3').Bucket(bucket_name)
-    return (_.key for _ in bucket.objects.filter(Prefix=prefix))
+cz = ple.CZ(s3)
 
-print(keys('inp-dil-ap-southeast-1'))
-
-# file_path = './boto3/files/d_cpt.csv.gz'
-# s3.download_file('inp-dil-ap-southeast-1', file_path, '/data/MIMIC/D_CPT.csv.gz')
-
-# print(s3.list_buckets())
+bucket = 'inp-dil-ap-southeast-1'
+keys = cz.get_keys(bucket, prefix='/data/eICU/')
+savein = './boto3/eicu/'
+print(cz.download_files(bucket, keys, savein=savein))

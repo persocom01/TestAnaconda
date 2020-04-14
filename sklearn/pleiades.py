@@ -6,7 +6,7 @@
 
 class CZ:
 
-    def __init__(self, cursor=None, type='sql'):
+    def __init__(self, cursor=None, alchemy=False):
         self.cursor = cursor
         self.dtype_dic = {
             'int64': 'INT',
@@ -14,8 +14,14 @@ class CZ:
             'bool': 'BOOLEAN',
             'datetime64': 'DATETIME'
         }
-        self.type = type
+        self.alchemy = alchemy
         self.tabspace = 4
+
+    # This function is meant to be used on boto3.resource objects.
+    def get_keys(self, bucket_name, prefix='/', delimiter='/'):
+        prefix = prefix[1:] if prefix.startswith(delimiter) else prefix
+        bucket = self.cursor.Bucket(bucket_name)
+        return (_.key for _ in bucket.objects.filter(Prefix=prefix))
 
     class SQL:
         '''
@@ -23,13 +29,13 @@ class CZ:
         where() before being executed with .ex()
 
         params:
-            type    when set to 'alchemy', assumes that cursor is a sqlalchemy
-                    engine. This results in some sql commands being
-                    returned as a DataFrame.
+            alchemy     when set to true, assumes that cursor is an sqlalchemy
+                        engine. This results in some sql commands being
+                        returned as a DataFrame.
         '''
 
-        def __init__(self, command, cursor=None, type=False, tabspace=4):
-            self.type = type
+        def __init__(self, command, cursor=None, alchemy=False, tabspace=4):
+            self.alchemy = alchemy
             self.command = command
             self.cursor = cursor
             self.tabspace = tabspace
@@ -38,7 +44,7 @@ class CZ:
             command = self.command
             if p or self.cursor is None:
                 return command
-            if self.type == 'alchemy':
+            if self.alchemy:
                 import pandas as pd
                 df = pd.read_sql_query(command, self.cursor)
                 return df
@@ -56,7 +62,7 @@ class CZ:
         command = 'SELECT DATABASE();'
         if printable or self.cursor is None:
             return command
-        if self.type == 'alchemy':
+        if self.alchemy:
             return self.cursor.connect().execute(command).fetchone()[0]
         else:
             self.cursor.execute(command)
@@ -66,7 +72,7 @@ class CZ:
         command = f'USE {db};'
         if printable or self.cursor is None:
             return command
-        if self.type == 'alchemy':
+        if self.alchemy:
             self.cursor.connect().execute(command)
         else:
             self.cursor.execute(command)
@@ -78,7 +84,7 @@ class CZ:
         command += f'\nDROP DATABASE {_db};'
         if printable or self.cursor is None:
             return command
-        if self.type == 'alchemy':
+        if self.alchemy:
             self.cursor.connect().execute(command)
         else:
             self.cursor.execute(command)
@@ -98,7 +104,7 @@ class CZ:
         else:
             command += f' *\n'
         command += f'FROM {table}\n;'
-        return self.SQL(command, cursor=self.cursor, type=self.type)
+        return self.SQL(command, cursor=self.cursor, alchemy=self.alchemy)
 
     def csv_table(self, file, pkey=None, printable=False, nrows=100):
         from pathlib import Path
@@ -131,7 +137,7 @@ class CZ:
         command = command[:-(self.tabspace+1)] + ');'
         if printable or self.cursor is None:
             return command
-        if self.type == 'alchemy':
+        if self.alchemy:
             self.cursor.connect().execute(command)
         else:
             self.cursor.execute(command)
@@ -183,7 +189,7 @@ class CZ:
         command = command[:-(self.tabspace+1)] + ';'
         if printable or self.cursor is None:
             return command
-        if self.type == 'alchemy':
+        if self.alchemy:
             self.cursor.connect().execute(command)
         else:
             self.cursor.execute(command)
@@ -243,7 +249,7 @@ class CZ:
             return_string = ', '.join(tables)
         if printable or self.cursor is None:
             return command
-        if self.type == 'alchemy':
+        if self.alchemy:
             self.cursor.connect().execute(command)
         else:
             self.cursor.execute(command)
@@ -254,7 +260,7 @@ class CZ:
             command = f"SHOW ALL COLUMNS FROM {table};"
         else:
             command = f"SHOW COLUMNS FROM {table};"
-        if self.type == 'alchemy':
+        if self.alchemy:
             import pandas as pd
             df = pd.read_sql_query(command, self.cursor)
             return df
@@ -267,7 +273,7 @@ class CZ:
             command = f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE';"
         else:
             command = 'SHOW TABLES;'
-        if self.type == 'alchemy':
+        if self.alchemy:
             import pandas as pd
             df = pd.read_sql_query(command, self.cursor)
             return df
