@@ -25,6 +25,7 @@ Anaconda has to be downloaded and installed. Atom was used as text editor.
 pip/conda install was used to add modules to anaconda. Open the anaconda prompt in admin mode and type:
 
 ```
+pip install boto3
 pip install folium
 pip install graphviz
 conda install -c conda-forge imbalanced-learn
@@ -40,6 +41,7 @@ pip install xgboost
 
 This installs following modules:
 
+* boto3 - python connector for Amazon Web Services.
 * folium - for interactive map visualizations.
 * graphviz - for drawing graphs in DOT language scripts.
 * imbalanced-learn - for dealing with unbalanced classes.
