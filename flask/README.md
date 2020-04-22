@@ -20,11 +20,13 @@ pip install flask
 
 2. Download the .pem key.
 
-3. git bash in the folder with the key and type:
+3. git bash (install on computer if not already present) in the folder with the key and type:
 
 ```
 chmod 400 keyname.pem
 ```
+
+which gives the user permission to read the file (4) and no permissions (0) to the group and everyone else.
 
 4. Connect to the aws instance using the following command:
 
