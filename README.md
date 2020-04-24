@@ -32,6 +32,7 @@ conda install -c conda-forge imbalanced-learn
 pip install kaggle
 pip install modin
 pip install pmdarima
+pip install ppscore
 pip install pydotplus
 conda install pysal
 conda install -c conda-forge selenium
@@ -48,6 +49,7 @@ This installs following modules:
 * kaggle - for use of the kaggle API for kaggle competition submissions.
 * modin - for multi-core pandas.
 * pmdarima - adds AutoARIMA to python's time series analysis capability.
+* ppscore - an alternative to pandas' df.corr() that works across continuous and categorical variables and is asymmetric. It does, however, take potentially much longer to compute.
 * pydotplus - python's interface to graphviz's DOT language.
 * pysal - for analysis of geospatial data.
 * selenium - for scraping web pages.
