@@ -73,6 +73,18 @@ After installation of atom and anaconda, open atom within the anaconda environme
 atom
 ```
 
+### Updating
+
+Open the anaconda prompt in admin mode and type:
+```
+conda update -n root conda
+```
+
+After which, update individual environments using:
+```
+conda update --all
+```
+
 ### Atom packages used:
 
 * Hydrogen
