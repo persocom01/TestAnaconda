@@ -16,7 +16,7 @@ pip install flask
 
 ### Amazon
 
-1. Spin up an aws instance. Normally linux or ubuntu AMI.
+1. Spin up an aws ec2 instance. Normally linux or ubuntu AMI.
 
 2. Download the .pem key.
 
@@ -51,6 +51,12 @@ The list of user names is as follows:
 | NanoStack | ubuntu |
 | FreeBSD | ec2-user |
 | OmniOS | root |
+
+To end the connection, enter:
+
+```
+exit
+```
 
 ## Running
 
