@@ -52,6 +52,12 @@ The list of user names is as follows:
 | FreeBSD | ec2-user |
 | OmniOS | root |
 
+To remove the added ip from the known hosts list, use:
+
+```
+$ ssh-keygen -R server_ip_address
+```
+
 ## Running
 
 ### Local machine
