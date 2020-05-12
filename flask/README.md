@@ -57,7 +57,7 @@ The list of user names is as follows:
 To remove the added ip from the known hosts list, use:
 
 ```
-$ ssh-keygen -R server_ip_address
+ssh-keygen -R server_ip_address
 ```
 
 To end the connection, enter:
