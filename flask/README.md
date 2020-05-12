@@ -8,15 +8,17 @@ A flask app testing playground.
 
 Open the project folder in cmd and type:
 
+```
 python -m venv env_name
 
 env_name\\Scripts\\activate
 
 pip install flask
+```
 
 ### Amazon
 
-1. Spin up an aws instance. Normally linux or ubuntu AMI.
+1. Spin up an aws ec2 instance. Normally linux or ubuntu AMI.
 
 2. Download the .pem key.
 
@@ -56,6 +58,12 @@ To remove the added ip from the known hosts list, use:
 
 ```
 $ ssh-keygen -R server_ip_address
+```
+
+To end the connection, enter:
+
+```
+exit
 ```
 
 ## Running
