@@ -73,6 +73,15 @@ After installation of atom and anaconda, open atom within the anaconda environme
 atom
 ```
 
+To use anaconda nlp modules, there is also a need to run the following as a python file:
+
+```
+import nltk
+nltk.download()
+```
+
+A window will pop up, where desired nlp packages can be selected.
+
 ### Updating
 
 Open the anaconda prompt in admin mode and type:
