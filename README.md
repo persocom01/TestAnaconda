@@ -31,6 +31,7 @@ pip install graphviz
 conda install -c conda-forge imbalanced-learn
 pip install kaggle
 pip install modin
+conda install -c conda-forge opencv
 pip install pmdarima
 pip install ppscore
 pip install pydotplus
@@ -48,6 +49,7 @@ This installs following modules:
 * imbalanced-learn - for dealing with unbalanced classes.
 * kaggle - for use of the kaggle API for kaggle competition submissions.
 * modin - for multi-core pandas.
+* opencv - Open Source Computer Vision library.
 * pmdarima - adds AutoARIMA to python's time series analysis capability.
 * ppscore - an alternative to pandas' df.corr() that works across continuous and categorical variables and is asymmetric. It does, however, take potentially much longer to compute.
 * pydotplus - python's interface to graphviz's DOT language.
