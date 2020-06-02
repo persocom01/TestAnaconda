@@ -186,8 +186,8 @@ class CZ:
                         chunksize of 10000 is imposed if chunksize is not
                         already specified.
             printable   returns the SQL command that would have been executed
-                        as a printable string. From experience, having more
-                        than a few thousand rows might cause the
+                        as a printable string. It doesn't work well past a few
+                        thousand rows or so.
             **kwargs    Other arguments to be passed on to pandas read_csv.
         '''
         from pathlib import Path
@@ -240,12 +240,15 @@ class CZ:
             for chunk in reader:
                 df = pd.DataFrame(chunk)
                 if self.alchemy and printable is False:
-                    alchemy_insert(df, updatekey=updatekey, tablename=tablename)
+                    alchemy_insert(df, updatekey=updatekey,
+                                   tablename=tablename)
                 if printable or self.cursor is None:
                     with open('chunk_insert.txt', 'a') as f:
-                        f.write(cursor_insert(df, updatekey=updatekey, postgre=postgre, tablename=tablename, printable=printable))
+                        f.write(cursor_insert(
+                            df, updatekey=updatekey, postgre=postgre, tablename=tablename, printable=printable))
                 else:
-                    cursor_insert(df, updatekey=updatekey, postgre=postgre, tablename=tablename, printable=printable)
+                    cursor_insert(df, updatekey=updatekey, postgre=postgre,
+                                  tablename=tablename, printable=printable)
 
             if printable is None and self.cursor:
                 return f'data loaded into table {tablename}.'
@@ -260,7 +263,8 @@ class CZ:
             if printable or self.cursor is None:
                 return cursor_insert(df, updatekey=updatekey, postgre=postgre, tablename=tablename, printable=printable)
 
-            cursor_insert(df, updatekey=updatekey, postgre=postgre, tablename=tablename, printable=printable)
+            cursor_insert(df, updatekey=updatekey, postgre=postgre,
+                          tablename=tablename, printable=printable)
             return f'data loaded into table {tablename}.'
 
     def csvs_into_database(self, file_paths, pkeys=None, printable=False, **kwargs):
