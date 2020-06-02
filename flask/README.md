@@ -66,7 +66,7 @@ To end the connection, enter:
 exit
 ```
 
-## Running
+## Usage
 
 ### Local machine
 

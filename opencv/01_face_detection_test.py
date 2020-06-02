@@ -18,4 +18,12 @@
 # a 64 (8x8) pixel grid can be reduced to 9 values. In practice, HOG trains
 # much faster than the other two methods, but due to the SVM component,
 # comes up with a prediction much slower.
-import cv2
+import cv2 as cv
+import matplotlib.pyplot as plt
+import time
+
+def detect_face(img):
+    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    gray = cv.equalizeHist(gray)
+
+face_cascade = cv2.CascadeClassifier('opencv-files/lbpcascade_frontalface.xml')
