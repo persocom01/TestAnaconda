@@ -112,3 +112,16 @@ conda update --all
 * open_in_cmd
 * project-manager
 * script
+
+## Known issues
+
+1. python's locale.getpreferredencoding() returns cp1252 in windows. This may cause problems with information from web apis. To rectify this problem insert the following code on top of python files with encoding issues:
+
+```
+import sys
+import io
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
+```
+
+2. pandas appears to use utf-8 encoding by default. This may cause problems when the encoding is actually cp1252. To rectify this problem set encoding='cp1252' when reading the file.
