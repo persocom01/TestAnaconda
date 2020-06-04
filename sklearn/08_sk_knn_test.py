@@ -106,8 +106,10 @@ yuri = ple.Yuri()
 
 # classification_report(y_true, y_pred, labels=None, target_names=None,
 # sample_weight=None, digits=2, output_dict=False)
-# Precision is the percentage of positive predictions that were correct.
+# Precision is the percentage of positive predictions that were correct. It is
+# the quality of predictions.
 # Recall is the percentage of positive outcomes that were correctly predicted.
+# It is the quantity of correct labels captured by the predictions.
 # f1-score is a combination of both following the formula:
 # 2*(Recall * Precision) / (Recall + Precision)
 # Support is the total number of true outcomes of each class.
