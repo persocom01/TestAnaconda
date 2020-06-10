@@ -98,9 +98,9 @@ print()
 # Model performance measures.
 print('mean absolute error(MAE):', round(
     mean_absolute_error(y_test, y_pred), 2))
-# For MSE square=False by default.
+# For MSE square=True by default.
 print('root mean squared error(RMSE):', round(
-    mean_squared_error(y_test, y_pred, squared=True), 2))
+    mean_squared_error(y_test, y_pred, squared=False), 2))
 print('median absolute error:', round(
     median_absolute_error(y_test, y_pred), 2))
 # explained_variance_score(y_true, y_pred, sample_weight=None,
