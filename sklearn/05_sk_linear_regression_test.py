@@ -108,16 +108,17 @@ print('median absolute error:', round(
 # return the same result regardless of the bias of the model, reflecting only
 # the closeness of the slope of the prediction with the slope test values,
 # regardless of the y intercept (bias).
-print('explained variance score:', round(explained_variance_score(y_test, y_pred), 2))
+print('explained variance score:', round(
+    explained_variance_score(y_test, y_pred), 2))
 # r2_score(y_true, y_pred, sample_weight=None,
 # multioutput=’uniform_average) returns the R**2 value of the prediction,
 # where:
-# R**2 = 1 - (sum of squared residuals) / (total sum of squares)
+# r_square = 1 - (sum of squared residuals) / (total sum of squares)
 # squared residuals being (actual value - prediction)**2,
 # and squares being (actual value - mean)**2.
-# The maximum value of R**2 is 1.0, but can be negative, if the model performs
+# The maximum value of r2 is 1.0, but can be negative, if the model performs
 # worse than the mean.
-print('R**2:', round(r2_score(y_test, y_pred), 2))
+print('r_square:', round(r2_score(y_test, y_pred), 2))
 print()
 
 

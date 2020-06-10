@@ -31,7 +31,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 
 # Using any of the special linear regressions requires the features to be
 # scaled. You should also remove features that are highly correlated with each
-# other whichw as not done here.
+# other which was not done here.
 ss = StandardScaler()
 X_train = pd.DataFrame(ss.fit_transform(X_train[features]), columns=features)
 X_test = pd.DataFrame(ss.transform(X_test[features]), columns=features)
@@ -91,12 +91,14 @@ print('random alpha:', rs.best_params_)
 # return_train_score=False) searches for the best parameters for a model
 # systematically.
 param_grid = {'alpha': (np.linspace(.1, 50, 50))}
-gs = GridSearchCV(ridge, param_grid=param_grid, n_jobs=-1, cv=5, iid=False)
+gs = GridSearchCV(ridge, param_grid=param_grid, n_jobs=-1, cv=5)
 gs.fit(X_train, y_train)
 print('grid alpha:', gs.best_params_)
 print()
 
-# Cross validation phase.
+# Cross validation phase. For regression this is the r2 score. The maximum
+# value of r2 is 1.0, but can be negative, if the model performs worse than the
+# mean.
 ridge_scores_rand = cross_val_score(rs, X_train, y_train, cv=5)
 print('ridge_random:', ridge_scores_rand.mean())
 ridge_scores_grid = cross_val_score(gs, X_train, y_train, cv=5)
@@ -117,7 +119,7 @@ y_pred = ridge.predict(X_test)
 pd.Series(ridge.coef_, index=features).plot.bar(figsize=(12, 7.5))
 plt.title('coefficients plot')
 plt.show()
-plt.clf()
+plt.close()
 
 # A residual vs fitted values plot.
 residuals = y_test - y_pred
