@@ -175,3 +175,5 @@ plt.close()
 # colsample_bytree=1, colsample_bylevel=1, colsample_bynode=1, reg_alpha=0,
 # reg_lambda=1, scale_pos_weight=1, base_score=0.5, random_state=0,
 # missing=None, num_parallel_tree=1, importance_type='gain', **kwargs
+#
+# xgb_reg = xgb.XGBRegressor(objective='reg:squarederror')

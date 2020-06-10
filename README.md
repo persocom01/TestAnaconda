@@ -38,7 +38,7 @@ pip install pydotplus
 conda install pysal
 conda install -c conda-forge selenium
 conda install -c conda-forge wordcloud
-pip install xgboost
+conda install -c anaconda py-xgboost
 ```
 
 This installs following modules:
