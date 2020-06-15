@@ -10,11 +10,28 @@ Open the project folder in cmd and type:
 
 ```
 python -m venv env_name
-
-env_name\\Scripts\\activate
-
+env_name\Scripts\activate
 pip install flask
 ```
+
+After which, create a python file with the following minimalist code:
+
+```
+from flask import Flask
+
+app = Flask(__name__)
+
+
+@app.route('/')
+def hello():
+    return 'Hello, World!'
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+
+Do not set debug=True if using it as a production environment.
 
 ### Amazon
 
@@ -72,15 +89,13 @@ exit
 
 1. Open the project folder in cmd and type:
 
-env_name\\Scripts\\activate
-
+```
+env_name\Scripts\activate
 set FLASK_APP=test_app
-
 set FLASK_ENV=development
-
 any_custom_flask_commands
-
 flask run
+```
 
 2. Use the shell script by opening the project folder in cmd and typing:
 
