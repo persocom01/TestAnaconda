@@ -6,11 +6,12 @@ A flask app testing playground.
 
 ### Local machine
 
+It seems to be recommended that you install flask and all the packages the app needs in a separate environment, which is what venv is for. Flask can be run without installing the virtual environment.
 Open the project folder in cmd and type:
 
 ```
 python -m venv env_name
-env_name\Scripts\activate
+cd env_name/Scripts/activate
 pip install flask
 ```
 
