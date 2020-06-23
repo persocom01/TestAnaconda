@@ -48,3 +48,19 @@ model choice:
 1. speed - the time needed by the model to process data and make predictions.
 2. explainability - whether the model can be easily explained.
 3. performance - how accurate the model is.
+
+the 5 purposes of data quality processing are:
+1. Validity
+Are the values out of range?
+Are null values acceptable?
+Are the datatypes correct?
+2. Accuracy.
+Does the data conform to an objective true value?
+3. Completeness.
+Is data missing?
+4. Consistency.
+Is there duplicate data?
+Concurrency (multiple user access) issues.
+5. Uniformity.
+Same timezone?
+Same unit of measurement?
