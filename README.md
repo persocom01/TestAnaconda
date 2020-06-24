@@ -30,6 +30,7 @@ pip install folium
 pip install graphviz
 conda install -c conda-forge imbalanced-learn
 pip install kaggle
+conda install -c conda-forge lightgbm
 pip install modin
 conda install -c conda-forge opencv
 pip install pmdarima
@@ -48,6 +49,7 @@ This installs following modules:
 * graphviz - for drawing graphs in DOT language scripts.
 * imbalanced-learn - for dealing with unbalanced classes.
 * kaggle - for use of the kaggle API for kaggle competition submissions.
+* lightgbm - LightGBM gradient boosting framework.
 * modin - for multi-core pandas.
 * opencv - Open Source Computer Vision library.
 * pmdarima - adds AutoARIMA to python's time series analysis capability.
