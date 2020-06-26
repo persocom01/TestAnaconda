@@ -44,7 +44,9 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 
 sebas = ple.Sebastian()
 
-# lightgbm.Dataset(data, label=None, reference=None, weight=None, group=None, init_score=None, silent=False, feature_name='auto', categorical_feature='auto', params=None, free_raw_data=True)
+# lightgbm.Dataset(data, label=None, reference=None, weight=None, group=None,
+# init_score=None, silent=False, feature_name='auto',
+# categorical_feature='auto', params=None, free_raw_data=True)
 
 # xgb.XGBClassifier(max_depth=3, learning_rate=0.1, n_estimators=100,
 # verbosity=1, objective='binary:logistic', booster='gbtree',

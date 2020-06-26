@@ -4,7 +4,7 @@ to the home directory instead of root, which is normally prohibited. -->
 user_name@aws_public_dns:path_to_file -->
 scp -i key_path file_path user_name@aws_public_dns:path_to_file
 
-<!-- Copy folder to aws. Not the -r. It copies the folder itself, and not just
+<!-- Copy folder to aws. Note the -r. It copies the folder itself, and not just
 folder contents. -->
 scp -i path/to/key -r directory/to/copy user@ec2-xx-xx-xxx-xxx.compute-1.amazonaws.com:path/to/directory
 

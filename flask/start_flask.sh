@@ -1,4 +1,7 @@
 #!/bin/sh
+# The above code is called a shebang, and it defines what program the sh script
+# is interpreted with. The most common shebangs are #!/bin/sh and #!/bin/sh
+
 export FLASK_APP=test_app
 # development mode lets the server reload itself on code changes, and also sets
 # FLASK_DEBUG=1
