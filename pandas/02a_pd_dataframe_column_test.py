@@ -16,6 +16,11 @@ print()
 # You may also use the attribute df.column_name like python as well.
 print('select by column:')
 print(df['col1'])
+# Selecting by column returns the column index, even if there is only 1 row in
+# the selection. To return the actual value, use .iloc[0]. To return a list of
+# values, use .tolist()
+print(df['col1'].iloc[0])
+print(df['col1'].tolist())
 print()
 
 # Add a column by 'selecting' and defining a new column label.
