@@ -21,6 +21,9 @@ print(df['col1'])
 # values, use .tolist()
 print(df['col1'].iloc[0])
 print(df['col1'].tolist())
+# To check if value(s) are present in a column, use isin(list) followed by
+# any() or all().
+print(df['col1'].isin([2]).any())
 print()
 
 # Add a column by 'selecting' and defining a new column label.
