@@ -34,7 +34,7 @@ if __name__ == '__main__':
 
 Do not set debug=True if using it as a production environment.
 
-### Amazon
+### AWS
 
 1. Spin up an aws ec2 instance. Normally linux or ubuntu AMI.
 
@@ -101,3 +101,11 @@ flask run
 2. Use the shell script by opening the project folder in cmd and typing:
 
 start_flask.sh
+
+### AWS
+
+In order to allow a shell script to be run on linux, the file must be given the appropriate permissions. Do so with the following code:
+
+```
+sudo chmod 755 start_flask.sh
+```
