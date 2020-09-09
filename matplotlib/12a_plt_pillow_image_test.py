@@ -1,7 +1,5 @@
 # Tests for the pillow image object.
-import matplotlib.pyplot as plt
-import numpy as np
-import os, sys
+import os
 from PIL import Image
 
 infile = r'.\images\Reddit.jpg'
