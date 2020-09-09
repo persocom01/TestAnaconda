@@ -1,6 +1,7 @@
 # Tests for the pillow image object.
 import os
 from PIL import Image
+import numpy as np
 
 infile = r'.\images\Reddit.jpg'
 # Image.open(fp, mode='r')
@@ -108,4 +109,8 @@ im = im.transpose(Image.FLIP_TOP_BOTTOM)
 # dither is FLOYDSTEINBERG by default. The effect of which can described as
 # making color gradients appear less choppy.
 im = im.convert('L')
-im.show()
+# im.show()
+
+# Convert image to array.
+im_data = np.asarray(im)
+print(im_data)
