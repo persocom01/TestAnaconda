@@ -9,6 +9,16 @@ print('empty:')
 print(arr)
 print()
 
+# np.append(arr, values, axis=None) appends two numpy arrays together. Unlike
+# python lists, they must have the same dimensionality or an error will be
+# returned.
+# axis=None/0/1 by default, arr and values are flattened before being appended.
+# axis=0 appends a new row to the list.
+arr = np.append(arr, [[1, 2, 3]], axis=0)
+print('append:')
+print(arr)
+print()
+
 # np.zeros(), which does the same thing but filled with zeros instead.
 arr = np.zeros([2, 3], dtype=float)
 print('zeros:')
