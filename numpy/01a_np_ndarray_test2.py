@@ -4,6 +4,8 @@ import numpy as np
 # np.empty(shape, dtype=float, order='C') creates an ndarray with random values
 # of the specified shape and dtype.
 # shape=[rows, columns] or int, where int is the length of the array.
+# To create an empty array with each row being a 2d matrix, use [0, xlen, ylen]
+# as the shape.
 arr = np.empty([2, 3], dtype=int)
 print('empty:')
 print(arr)
@@ -14,6 +16,8 @@ print()
 # returned.
 # axis=None/0/1 by default, arr and values are flattened before being appended.
 # axis=0 appends a new row to the list.
+# Note that you often have to put the input into a new list to get the intended
+# result.
 arr = np.append(arr, [[1, 2, 3]], axis=0)
 print('append:')
 print(arr)
