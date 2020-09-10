@@ -37,9 +37,9 @@ if infile != outfile:
 # coordinates (left_x, left_y, right_x, right_y), where the upper left of the
 # image is considered to have coordinates (0, 0).
 width, height = im.size
-min = min(im.size)
-new_width = min
-new_height = min
+m = min(im.size)
+new_width = m
+new_height = m
 
 # Center image.
 left = (width - new_width)/2
@@ -89,7 +89,7 @@ im = im.rotate(45, fillcolor=(0, 100, 0))
 # im.show()
 # img.resize will cause an image to be stretched or squashed depending on its
 # original dimensions.
-im = im.resize((min, min))
+im = im.resize((m, m))
 # im.show()
 
 # Image.transpose(method) is used for 90 degree image rotations as well as
