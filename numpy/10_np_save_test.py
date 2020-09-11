@@ -21,7 +21,8 @@ print(a)
 
 class NumpyEncoder(json.JSONEncoder):
     '''
-    Special json encoder for numpy types.
+    Special json encoder for numpy types to be passed to
+    json.dumps(cls=encoder).
     '''
     def default(self, obj):
         if isinstance(obj, np.integer):
