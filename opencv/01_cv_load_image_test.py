@@ -1,13 +1,18 @@
 # Demonstrates loading an image using opencv.
-import glob
-from pathlib import Path
 import cv2 as cv
 import numpy as np
 from PIL import Image
 
 infile = './images/innocence.jpg'
 
+# cv.imread(img) returns a matrix of the image with the color channels in BGR
+# order. PIL images are in RGB order when converted to arrays.
 im = cv.imread(infile)
+pil_img = Image.open(infile)
+pil_data = np.asarray(pil_img)
+print('opencv BGR: ', im[0][0])
+print('pillow RGB: ', pil_data[0][0])
+
 width = im.shape[0]
 height = im.shape[1]
 
@@ -21,8 +26,15 @@ top = (height - new_height)/2
 right = (width + new_width)/2
 bottom = (height + new_height)/2
 
+# Crop.
 im = im[int(top): int(bottom), int(left): int(right)]
 inp = cv.resize(im, (800, 600))
-cv.imshow('image', inp)
+# Opencv python stores images in BGR order.
+gray = cv.cvtColor(inp, cv.COLOR_BGR2GRAY)
+gray = cv.equalizeHist(gray)
+# cv.imshow(title, img)
+cv.imshow('image', gray)
+# Important in when using cv.imshow(title, img) or else the window will close
+# immediately.
 cv.waitKey(0)
 cv.destroyAllWindows()
