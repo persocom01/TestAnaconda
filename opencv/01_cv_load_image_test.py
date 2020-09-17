@@ -3,10 +3,15 @@ import cv2 as cv
 import numpy as np
 from PIL import Image
 
-infile = './images/innocence.jpg'
+# Color image.
+# infile = './images/innocence.jpg'
+# Grayscale image.
+infile = './images/eye.png'
 
 # cv.imread(img) returns a matrix of the image with the color channels in BGR
-# order. PIL images are in RGB order when converted to arrays.
+# order, even if the image is in grayscale. PIL returns the colors of an image
+# in RGB order when converted to arrays, and returns an array instead of a
+# matrix when used on grayscale images.
 im = cv.imread(infile)
 pil_img = Image.open(infile)
 pil_data = np.asarray(pil_img)

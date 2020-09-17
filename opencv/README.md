@@ -6,7 +6,7 @@ The xml files for opencv face detectors can be found here: https://github.com/op
 
 ## Known issues
 
-1. opencv stores colors in a BGR matrix when an image is loaded. pillow and probably most other applications use RGB order.
+1. opencv stores colors in a BGR matrix when an image is loaded. pillow and probably most other applications use RGB order. Unlike pillow, it will still return a matrix when used on a grayscale image.
 
 2. The coordinates opencv takes while cropping are as follows:
 
