@@ -6,6 +6,6 @@ During the convolution (filtering) stage, the convolution matrix is equal to (n-
 
 We may also use padding, or 0s around the image, of size (f-1)/2 in order to preserve edge information of the image.
 
-stride is the size of the step the filter takes to make the result matrix. A large step results in a smaller result. We still need an overlap during convolution.
+Stride is the size of the step the filter takes to make the result matrix. A large step results in a smaller result. We still need an overlap during convolution.
 
-During pooling, we compress the convolution matrix without overlap with a 2x2 pooling matrix, which halves the dimensions. For this reason we should try and have a convolution matrix with even dimensions. How we compress it can be adjusted, but we can choose things like max value in the pooling matrix. Average also exists but is uncommonly used.
+Pooling us the compression of the convolution matrix without overlap with a 2x2 pooling matrix, which halves the dimensions. For this reason we should try and have a convolution matrix with even dimensions. There are 3 main ways data can be pooled. Max, average and min. These relate to how the value that represents the 4 values in a 2x2 matrix is calculated. Max means the maximum value in a 2x2 is taken. Average pooling tends to smooth out the image and remove sharp features. Max pooling makes bright features more visible, while min pooling makes dark features more visible. In practice, max pooling is most often used.

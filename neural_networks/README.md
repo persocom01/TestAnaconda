@@ -21,6 +21,12 @@ The choice of activation functions, including:
 5. tanh - -1-1, same as Sigmoid by can go -ve. Tends to perform worse than Relu for layers and same as Sigmoid for output.
 6. softmax - 0-1 outputs which sum to 1 for multiclass problems.
 
+Prior to ReLU, tanh was the most common activation function for layers. The reason it went into disuse was the "vanishing gradient problem". This is due to the fact tanh and sigmoid squash inputs into a range between 0 and 1, where close to the ends the gradient of the function becomes very small. This gets exponentially worse the more layers there are in the network, as subsequent layers use the gradient of the gradient of this function, making training of the network ineffective. The solutions to this problem are as follows:
+1. Use ReLU instead.
+2. Residual networks.
+3. Batch normalization.
+By normalizing the input to a mean of 0 and standard deviation of 1, we can ensure that the function doesn't use the ends of the curve. Normally, just making sure the input lies between 0 and 1 is sufficient.
+
 NN are fit using gradient descent using your choice of loss functions:
 1. binary_crossentropy - binary classification problems.
 2. categorical_crossentropy - multiclass problems.
