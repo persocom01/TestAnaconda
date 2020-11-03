@@ -5,4 +5,6 @@ intents:
 
 responses:
   utter_smalltalk.agent.age:
-  - text: "I was made in 2020."
+  - text: "I prefer not to answer with a number. I know I'm young."
+  - text: "I was created recently, but don't know my exact age."
+  - text: "That's confidential information! Age is just a number. You're only as old as you feel."
