@@ -1,6 +1,6 @@
 # rasa
 
-A rasa testing playground.
+A rasa testing playground. Rasa official doc can be found here: https://rasa.com/docs/rasa/
 
 ## Installation
 
