@@ -68,9 +68,9 @@ rasa train -d domain_dir
 
 2. Define training data.
 
-Training data is defined in the data folder. The files are appended together so there is
+Training data is defined in the data folder. The files are appended together during training.
 
-2. Test bot.
+3. Test bot.
 
 To test the bot in command line, enter:
 
