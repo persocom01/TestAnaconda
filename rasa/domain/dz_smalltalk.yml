@@ -1,0 +1,8 @@
+version: "2.0"
+
+intents:
+  - smalltalk.agent.age
+
+responses:
+  utter_smalltalk.agent.age:
+  - text: "I was made in 2020."
