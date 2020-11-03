@@ -19,7 +19,11 @@ rasa 2.0 generally uses 2.0 as the version number.
 
 ## nlu
 
-nlu is where you define the intent training phrases. They are defined in the following way:
+nlu is where you define intent training phrases as well as how rasa recognizes entities.
+
+### intent training phrases
+
+Intent training phrases are defined in the following way:
 
 ```
 nlu:
@@ -35,3 +39,33 @@ nlu:
 ```
 
 If the same intent is defined in another file, the training phrases are added together.
+
+### entity recognition
+
+Rasa can recognize entities in 3 different ways:
+1. Synonyms
+2. regex
+3. Lookup table
+
+They are added in the following ways:
+
+```
+nlu:
+- synonym: entity1
+  examples: |
+    - ex1
+    - ex2
+
+- regex: email
+  examples: |
+    - \w+@\w+\.com
+
+- lookup: countries
+  examples: |
+    - Australia
+    - Singapore
+```
+
+## rules
+
+## stories
