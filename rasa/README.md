@@ -54,6 +54,22 @@ Initialize the rasa project.
 rasa init
 ```
 
+5. (optional) Install rasa x
+
+rasa x is a dashboard like browser interface with which to interact with and share rasa. Install it by entering:
+
+```
+pip install rasa-x --extra-index-url https://pypi.rasa.com/simple
+```
+
+Run it by navigating to the rasa bot folder and entering:
+
+```
+rasa x
+```
+
+Use the web browser and navigate to http://localhost:5002/ to access the dashboard.
+
 ## Usage
 
 1. Define domain.

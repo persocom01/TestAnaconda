@@ -9,7 +9,7 @@ Data is where you enter training phrases for intents and how the bot should resp
 
 ## version
 
-version is determines how rasa parses the domain file. If not defined, it is assumed to be latest version supported by the Rasa Open Source you have installed. version is defined in the following way:
+version is determines how rasa parses the domain file. If not defined, it is assumed to be latest version supported by the version of Rasa Open Source you have installed. version is defined in the following way:
 
 ```
 version: "2.0"
