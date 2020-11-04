@@ -65,13 +65,17 @@ responses are defined in the following way:
 responses:
   utter_response1:
   - dtype: "string_or_link"
+    dtype: "string_or_link"
   - dtype: "string_or_link"
 
   utter_response2:
   - dtype: "string_or_link"
+    dtype: "string_or_link"
   - dtype: "string_or_link"
 ```
 
-All responses must start with utter_, otherwise they will be considered custom actions and an error will be returned if they are not defined.
+All responses must start with utter_, otherwise they will be considered custom actions.
+
+Each response entry can have multiple datatypes, but each datatype may only appear once.
 
 If two files share the same response keys, the latest (by alphabetical order) file will take precedence. As such, it is possible to keep the base responses and build on them by overriding them.
