@@ -47,7 +47,7 @@ Rasa can recognize entities in 3 different ways:
 2. regex
 3. Lookup table
 
-They are added in the following ways:
+They are added in the following way:
 
 ```
 nlu:
