@@ -1,6 +1,6 @@
 # rasa
 
-A rasa testing playground. Rasa official doc can be found here: https://rasa.com/docs/rasa/
+A rasa testing playground. Rasa is an open source framework for building AI chatbots. Rasa's official docs can be found here: https://rasa.com/docs/rasa/
 
 ## Installation
 
