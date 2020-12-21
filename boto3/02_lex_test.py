@@ -1,14 +1,18 @@
 # Demonstrates how to use boto3 to access the lex api.
+# This code is meant to test a lex chatbot. It takes excel files from the input
+# folder and outputs them to the output folder.
 import json
 import boto3
 import glob
+from pathlib import Path
 import pandas as pd
 
 # All configuration variables here.
 server_config = './boto3/keys.json'
 bot_config = './boto3/bot.json'
-input_dir = './input/'
-output_dir = './output/'
+input_dir = './boto3/input/'
+output_dir = './boto3/output/'
+number_of_test_runs = 2
 
 input_file_paths = input_dir + '*.xlsx'
 
@@ -41,24 +45,17 @@ def get_msg(bot_config, input_text):
         raise RuntimeError(f'Server response code: {res_code}')
 
 
-print(get_msg(bot_config, 'Hello'))
+def map_func(input_text):
+    return get_msg(bot_config, input_text)
 
 
+files = glob.glob(input_file_paths)
 
-
-
-
-
-with open(r'./boto3/bot.json') as f:
-    bot = json.load(f)
-
-input_text = 'hello'
-res = lex.post_text(
-    botAlias=bot['botAlias'],
-    botName=bot['botName'],
-    userId=bot['userId'],
-    inputText=input_text
-)
-
-if res['ResponseMetadata']['HTTPStatusCode'] == 200:
-    print(res['ResponseMetadata'])
+for file in files:
+    export_path = output_dir + Path(file).stem + '_result.xlsx'
+    data = pd.read_excel(file)
+    df = pd.DataFrame(data)
+    for i in range(number_of_test_runs):
+        col = 'Results for ROUND ' + str(i + 1)
+        df[col] = df['Sample Utterances'].map(lambda x: get_msg(bot_config, x))
+    df.to_excel(export_path, index=False)
