@@ -29,6 +29,7 @@ lex = boto3.client(
 )
 
 
+# Gets the response message for a given input text to the chatbot.
 def get_msg(bot_config, input_text):
     with open(bot_config) as f:
         bot = json.load(f)
@@ -45,10 +46,12 @@ def get_msg(bot_config, input_text):
         raise RuntimeError(f'Server response code: {res_code}')
 
 
+# Wrapper function for the pandas map method which only accepts one argument.
 def map_func(input_text):
     return get_msg(bot_config, input_text)
 
 
+# Processes all excel files in the input folder.
 files = glob.glob(input_file_paths)
 
 for file in files:
