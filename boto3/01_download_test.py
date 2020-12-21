@@ -5,9 +5,11 @@ import json
 import boto3
 import pleiades as ple
 
-with open(r'.\boto3\keys.json') as f:
+with open(r'./boto3/keys.json') as f:
     keys = json.load(f)
 
+# To see a list of available resources, use:
+# print(boto3.session.Session().get_available_resources())
 s3 = boto3.resource(
     's3',
     aws_access_key_id=keys['access_key'],

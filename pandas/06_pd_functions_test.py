@@ -19,12 +19,14 @@ def suffix_adder(df, suffix):
 # DataFrame. It does not apply the function to the cells individually. However,
 # certain operations like df ** 2 or df + str can be performed as if they were
 # applied to every cell in the DataFrame.
+# Because the returned object is a dataframe, pipe can be chained to apply
+# multiple functions to the same dataframe.
 # args and kwargs are passed to the function.
-print(df[['name', 'origin']].pipe(suffix_adder, '_suff'))
+print(df[['name', 'origin']].pipe(suffix_adder, '_suff').pipe(suffix_adder, '_suff2'))
 print()
 
 # s.map(self, func_dict_series, na_action=None) returns the series with its
-# values maped using the argument passed. Unlike apply or pipe, it does apply
+# values maped using the argument passed. Unlike apply or pipe, it applies
 # the function to each cell individually.
 print('map:')
 print(df['name'].map({
@@ -41,15 +43,16 @@ print()
 # df.apply(self, func, axis=0, raw=False, result_type=None, args=(), **kwds)
 # applies a function to a series, or in the case of a DataFrame, divides the
 # DataFrame into series based on the axis argument and applies the function
-# to it. It does not apply the function to each cell individually, and as such,
-# the function must be workable on the series object and not individual values.
+# to it. The default axis treats each column in the dataframe as a series.
+# It does not apply the function to each cell individually, and as such, the
+# function must be workable on the series object and not individual values.
 # For simpler operations, it is easier to use:
 # df['result'] = df['supply'] - df['demand']
 # df[col_name].apply(pd.Series) can be used to unpack nested dictionaries.
 print('apply:')
 # log transforms are often used to make exponential graphs linear.
-df['log transform'] = df['supply'].apply((lambda x: np.log(x)))
-print(df)
+df['log transform'] = df['supply'].apply(lambda x: np.log(x))
+print(df[['supply', 'demand']].apply(lambda x: x.max() - x.min()))
 print()
 
 
@@ -57,8 +60,8 @@ def lower_case(s, case='lower'):
     return str(s).lower()
 
 
-# df.applymap(self, func) actually applies a function to all cells in the
-# DataFrame. Strangely, it can't pass any arguments to the function.
+# df.applymap(self, func) is the DataFrame version of map, and applies a
+# function to all cells in the DataFrame.
 print('applymap:')
 print(df.applymap(lower_case))
 print()
