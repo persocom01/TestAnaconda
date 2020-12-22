@@ -12,6 +12,8 @@ server_config = './boto3/keys.json'
 bot_config = './boto3/bot.json'
 input_dir = './boto3/input/'
 output_dir = './boto3/output/'
+utterances_column = 'Sample Utterances'
+result_column = 'Results for ROUND '
 number_of_test_runs = 2
 
 input_file_paths = input_dir + '*.xlsx'
@@ -54,6 +56,6 @@ for file in files:
     data = pd.read_excel(file)
     df = pd.DataFrame(data)
     for i in range(number_of_test_runs):
-        col = 'Results for ROUND ' + str(i + 1)
-        df[col] = df['Sample Utterances'].map(lambda x: get_msg(bot_config, x))
+        col = result_column + str(i + 1)
+        df[col] = df[utterances_column].map(lambda x: get_msg(bot_config, x))
     df.to_excel(export_path, index=False)
