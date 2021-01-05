@@ -23,9 +23,17 @@ print('append:')
 print(arr)
 print()
 
-# np.zeros(), which does the same thing but filled with zeros instead.
+# np.zeros(shape, dtype=float, order='C') does the same thing as np.empty() but
+# filled with zeros.
 arr = np.zeros([2, 3], dtype=float)
 print('zeros:')
+print(arr)
+print()
+
+# np.ones(shape, dtype=float, order='C') does the same thing as np.empty() but
+# filled with ones.
+arr = np.ones([2, 3], dtype=float)
+print('ones:')
 print(arr)
 print()
 
