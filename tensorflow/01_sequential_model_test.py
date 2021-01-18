@@ -1,9 +1,9 @@
 import tensorflow as tf
 
-# mnist = tf.keras.datasets.mnist
-#
-# (X_train, y_train), (X_test, y_test) = mnist.load_data()
-# X_train, X_test = X_train / 255.0, X_test / 255.0
+mnist = tf.keras.datasets.mnist
+
+(X_train, y_train), (X_test, y_test) = mnist.load_data()
+X_train, X_test = X_train / 255.0, X_test / 255.0
 
 # define the model
 model = tf.keras.models.Sequential([
@@ -17,8 +17,19 @@ model = tf.keras.models.Sequential([
 ])
 # Check the output shape of the model. layers[index] is unnecessary if you only
 # want the final output. The layer index starts from 0.
-print(model.layers[2].output.shape)
+print('model shape:', model.layers[2].output.shape)
 # Add additional layer to model.
 # By default, the output of a dense layer is a logit (multiclass) or
 # log odds (binary). To change this an appropriate activation
 model.add(tf.keras.layers.Dense(10))
+
+# Also possible to use:
+# model(X_train[:1]).numpy()
+# Without .numpy() a tensor object will be returned that contains the result,
+# shape, and the dtype.
+y_pred_logit = model.predict(X_train[:1])
+
+# softmax can also be used as an activation function, but tensorflow advises
+# against it for the purpose of loss calculation.
+y_pred = tf.nn.softmax(y_pred_logit).numpy()
+print(y_pred)

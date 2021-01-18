@@ -27,6 +27,8 @@ pip/conda install was used to add modules to anaconda. Open the anaconda prompt 
 ```
 pip install boto3
 pip install folium
+conda install -c anaconda gensim
+conda update smart_open
 pip install graphviz
 conda install -c conda-forge imbalanced-learn
 pip install kaggle
@@ -46,6 +48,7 @@ This installs following modules:
 
 * boto3 - python connector for Amazon Web Services.
 * folium - for interactive map visualizations.
+* gensim - NLP topic modelling library.
 * graphviz - for drawing graphs in DOT language scripts.
 * imbalanced-learn - for dealing with unbalanced classes.
 * kaggle - for use of the kaggle API for kaggle competition submissions.
