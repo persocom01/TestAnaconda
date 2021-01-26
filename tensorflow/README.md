@@ -71,9 +71,9 @@ Optimizers can be found here: https://www.tensorflow.org/api_docs/python/tf/kera
 
 The choice of [loss function](https://www.tensorflow.org/api_docs/python/tf/keras/losses) is as follows:
 1. keras.losses.binary_crossentropy (binary cross entropy)
-For binary classification problems.
+For binary classification problems, as well as multiclass problems where the target can have a combination of binary labels.
 2. keras.losses.categorical_crossentropy (categorical cross entropy)
-For multiclass problems.
+For multiclass problems where the target can only be of one class.
 3. keras.losses.sparse_categorical_crossentropy (sparse categorical cross entropy)
 A more memory efficient version of categorical cross entropy for instances when all classes are mutually exclusive, or when the number of classes is very large. The main difference is it produces the predicted class and probability instead of all possibly classes and their probabilities.
 4. keras.losses.poisson (poisson loss)

@@ -4,6 +4,10 @@
 
 RNNs, LSTMs, GRUs (Gated Recurrent Units) preserve word order.
 
+RNNs suffer from the vanishing gradient problem. This means earlier layers in a deep RNN do not learn, and they have a short term memory.
+
+To fix this problem, LSTMs and GRUs were created. Both are used very frequently and whole GRUs are faster than LSTMs, both are often tried to see which work better.
+
 # Embeddings
 
 Word2Vec, GloVe give words a location modeling relationships between words.
