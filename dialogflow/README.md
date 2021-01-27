@@ -37,3 +37,9 @@ pip install dialogflow
 
 -y = auto yes
 -U = update
+
+# Usage
+
+Get dialogflow lanuage code from the bot. Get project id from the chatbot settings.
+
+Get the dialogflow project key by clicking on the dialogflow project id and going to google cloud console. From there got to IAM_&_Admin>service_accounts>choose_account>add_key>json

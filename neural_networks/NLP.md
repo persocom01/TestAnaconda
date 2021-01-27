@@ -10,6 +10,9 @@ RNNs suffer from the vanishing gradient problem. This means earlier layers in a 
 
 To fix this problem, LSTMs and GRUs were created. Both are used very frequently and whole GRUs are faster than LSTMs, both are often tried to see which work better.
 
+In tensorflow, LSTM layers have two optional parameters: LSTM(dim_number, return_state=False, return_sequence=False)
+Return state returns 3 values, an array of arrays hidden states at each time step (if return_sequence=True), or just the final hidden state otherwise. The second is an array of the final hidden state, and the last is an array of the final cell state as usual.
+
 # Embeddings
 
 Word2Vec, GloVe give words a location modeling relationships between words.
