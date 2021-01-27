@@ -1,5 +1,7 @@
 # NLP
 
+A native English speaker knows approx 20k words. This is a reference point when determining max vocabulary in nlp.
+
 # Architectures
 
 RNNs, LSTMs, GRUs (Gated Recurrent Units) preserve word order.
