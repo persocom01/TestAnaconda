@@ -13,6 +13,8 @@ To fix this problem, LSTMs and GRUs were created. Both are used very frequently 
 In tensorflow, LSTM layers have two optional parameters: LSTM(dim_number, return_state=False, return_sequence=False)
 Return state returns 3 values, an array of arrays hidden states at each time step (if return_sequence=True), or just the final hidden state otherwise. The second is an array of the final hidden state, and the last is an array of the final cell state as usual.
 
+Bidirectional RNNs are used to improve classification when words after the word in question may have a significant impact on its classifiction. Implementing a bidirectional RNN is easy in keras, simple wrap an existing LSTM layer with `Bidirectional()`. However, bidirectional RNNs should not be used when predicting future events if the concern.
+
 # Embeddings
 
 Word2Vec, GloVe give words a location modeling relationships between words.
