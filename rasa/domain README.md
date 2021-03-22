@@ -79,3 +79,22 @@ All responses must start with utter_, otherwise they will be considered custom a
 Each response entry can have multiple datatypes, but each datatype may only appear once.
 
 If two files share the same response keys, the latest (by alphabetical order) file will take precedence. As such, it is possible to keep the base responses and build on them by overriding them.
+
+## actions
+
+actions are defined in the following way:
+
+```
+actions:
+  - action_action1
+  - action_action2
+```
+
+## session_config
+
+session_config is defined in the following way:
+
+```
+session_expiration_time: 60  # value in minutes
+carry_over_slots_to_new_session: true
+```
