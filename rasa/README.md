@@ -4,6 +4,8 @@ A rasa testing playground. Rasa is an open source framework for building AI chat
 
 ## Installation
 
+### Windows
+
 1. Ensure anaconda and Microsoft VC++ Compiler are installed
 
 * [Anaconda 2019.07](https://www.anaconda.com/distribution/#download-section)
@@ -69,6 +71,64 @@ rasa x
 ```
 
 Use the web browser and navigate to http://localhost:5002/ to access the dashboard.
+
+### Linux
+
+1. Update apt or apt-get
+
+```
+RUN apt-get update
+RUN apt-get -y upgrade
+```
+
+2. Install locale
+
+If writing a Dockerfile:
+```
+# Set the locale
+RUN apt-get -y install locales
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+```
+
+server:
+```
+sudo locale-gen en_US en_US.UTF-8
+sudo dpkg-reconfigure locales
+```
+
+You may check the current locale setting at any time by using the command `locale`.
+
+3. Install pip and python3
+
+```
+RUN apt-get -y install python3-dev
+RUN apt-get -y install python3-pip
+pip3 install -U pip
+```
+
+4. Install rasa
+
+```
+pip install rasa
+```
+
+5. Initialize new rasa project
+
+Go to the desired rasa project location, create the project folder and enter it:
+
+```
+mkdir project_name
+cd project_name
+```
+
+Initialize the rasa project.
+
+```
+rasa init
+```
 
 ## Usage
 
