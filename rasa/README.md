@@ -153,3 +153,11 @@ To test the bot in command line, enter:
 ```
 rasa shell
 ```
+
+### Running an action server
+
+To run an action server, enter:
+
+```
+rasa run actions
+```
