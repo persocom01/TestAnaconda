@@ -1,10 +1,7 @@
 version: "2.0"
 
-intents:
-  - smalltalk.agent.age
-
 responses:
-  utter_smalltalk.agent.age:
+  utter_smalltalk/agent_age:
   - text: "I prefer not to answer with a number. I know I'm young."
   - text: "I was created recently, but don't know my exact age."
   - text: "That's confidential information! A lady must have her secrets."

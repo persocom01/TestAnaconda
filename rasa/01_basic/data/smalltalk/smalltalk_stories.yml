@@ -4,5 +4,5 @@ stories:
 
 - story: ask age
   steps:
-  - intent: smalltalk.agent.age
-  - action: utter_smalltalk.agent.age
+  - intent: smalltalk/agent_age
+  - action: utter_smalltalk/agent_age
