@@ -44,17 +44,110 @@ entities:
 
 ## slots
 
-slots are defined in the following way:
+slots are the how you ask the bot to store information. They are defined in the following way:
 
 ```
 slots:
   slot1:
     type: dtype
+    initial_value: value
+    auto_fill: true_or_false
     influence_conversation: true_or_false
 
   slot2:
-    type: dtype
-    influence_conversation: true_or_false
+    type: categorical
+    values:
+      - rare
+      - medium
+      - well done
+
+  slot3:
+    type: float
+    min_value: 0.0
+    max_value: 1.0
+```
+
+### slot datatypes
+
+slots can be of the following dtypes:
+1. text
+2. bool
+bool can be set to either `true` or `false`.
+3. categorical
+Unlike other types of slots, when defining categorical slots, you need to also define all their possible values.
+4. float
+The float category is used to store numbers. Unlike other types of slots, it comes with two innate properties: `min_value` and `max_value` which are by default 0.0 and 1.0 respectively. If float is set to any value below or above those limits, those values are treated as equal to those limits for the purposes of influencing conversation.
+5. list
+You might need to define a custom action to use this slot type.
+6. any
+
+### Other slot properties
+
+1. influence_conversation
+Setting `influence_conversation: true` allows the slot to affect the next action prediction. By default, this is true. For the `list` dtype, predictions are only affected by whether the list is empty or filled. dtype `any` cannot influence conversations.
+2. auto_fill
+By default, if an entity and a slot share the same name, the slot will be set when the entity is identified. Setting `auto_fill: false` prevents this behavior.
+3. initial_value
+Sets the initial value of a slot.
+
+### Custom slots
+
+Slots can also be of a custom dtype. To do this:
+
+1. Create a python file defining the behavior of the custom slot.
+
+Example:
+
+```
+from rasa.shared.core.slots import Slot
+
+class CustomSlot(Slot):
+
+    def feature_dimensionality(self):
+        return 2
+
+    def as_feature(self):
+        r = [0.0] * self.feature_dimensionality()
+        if self.value:
+            if self.value <= 6:
+                r[0] = 1.0
+            else:
+                r[1] = 1.0
+        return r
+```
+
+2. Have the file be identified as a python module inside the rasa project folder.
+
+To do this, create a new folder (or use an existing one) inside the rasa project folder with an empty `__init__.py` file. Place the custom slot python file in it.
+
+```
+└── rasa_bot
+    ├── addons
+    │   ├── __init__.py
+    │   └── my_custom_slots.py
+    ├── config.yml
+    ├── credentials.yml
+    ├── data
+    ├── domain.yml
+    ├── endpoints.yml
+```
+
+3. Define a slot with the custom slot type.
+
+```
+slots:
+  slot4:
+    type: addons.my_custom_slots.CustomSlot
+    influence_conversation: true
+```
+
+### setting slots
+
+To use a slot, enter the following line in `stories:`
+
+```
+- slot_was_set:
+  - slot1: slot_value
 ```
 
 ## responses
@@ -98,3 +191,6 @@ session_config is defined in the following way:
 session_expiration_time: 60  # value in minutes
 carry_over_slots_to_new_session: true
 ```
+
+session_expiration_time determines the elapsed time before the bot assumes a new session has started.
+carry_over_slots_to_new_session determines if slots set in prior sessions affect new sessions.
