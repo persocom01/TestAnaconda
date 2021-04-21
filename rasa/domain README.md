@@ -81,10 +81,10 @@ The float category is used to store numbers. Unlike other types of slots, it com
 You might need to define a custom action to use this slot type.
 6. any
 
-### Other slot properties
+### Optional slot properties
 
 1. influence_conversation
-Setting `influence_conversation: true` allows the slot to affect the next action prediction. By default, this is true. For the `list` dtype, predictions are only affected by whether the list is empty or filled. dtype `any` cannot influence conversations.
+Setting `influence_conversation: false` prevents the slot to from affecting the next action prediction. By default, this is true. For the `list` dtype, predictions are only affected by whether the list is empty or filled. dtype `any` cannot influence conversations.
 2. auto_fill
 By default, if an entity and a slot share the same name, the slot will be set when the entity is identified. Setting `auto_fill: false` prevents this behavior.
 3. initial_value
@@ -172,6 +172,22 @@ All responses must start with utter_, otherwise they will be considered custom a
 Each response entry can have multiple datatypes, but each datatype may only appear once.
 
 If two files share the same response keys, the latest (by alphabetical order) file will take precedence. As such, it is possible to keep the base responses and build on them by overriding them.
+
+### retrieval intent responses
+
+Responses for retrieval intents are written in the same way, but named in the format utter_retrieval_intent/sub_intent:
+
+```
+responses:
+  utter_retrieval_intent/sub_intent1:
+  - dtype: "string_or_link"
+    dtype: "string_or_link"
+  - dtype: "string_or_link"
+  utter_retrieval_intent/sub_intent2:
+  - dtype: "string_or_link"
+    dtype: "string_or_link"
+  - dtype: "string_or_link"
+```
 
 ## actions
 

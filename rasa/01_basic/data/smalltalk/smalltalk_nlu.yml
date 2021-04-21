@@ -11,3 +11,15 @@ nlu:
     - tell me your age
     - your age
     - are you 21 years old
+- intent: smalltalk/agent_annoying
+  examples: |
+    - you annoy me
+    - you're incredibly annoying
+    - you are annoying
+    - how annoying you are
+    - you are annoying me
+    - you're too annoying
+    - you are irritating
+    - you are very annoying
+    - you are such annoying
+    - you are annoying me so much
