@@ -134,7 +134,11 @@ rasa init
 
 1. Define domain.
 
-A domain file is needed to define all intents, entities, slots and responses in rasa. By default, the domain file is domain.yml. However, one can use a domain directory instead, where all files will be appended together. Once defined, train the model on the new domain by entering:
+A domain file is needed to define all intents, entities, slots and responses in rasa. By default, the domain file is domain.yml. However, one can use a domain directory instead, where all files will be appended together.
+
+rasa uses .yml files for all training data, but accepts .md for compatibility with legacy versions. README should be written in other formats or they will cause errors during training.
+
+Once the domain is defined, train the model by entering:
 
 ```
 rasa train -d domain_dir
