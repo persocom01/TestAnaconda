@@ -130,4 +130,17 @@ By default, rules implicitly end with `- action: action_listen`. Setting `wait_f
 
 ## stories
 
-stories is where you define how the bot works by putting together intents and responses
+stories is where you define how the bot works by putting together intents and responses.
+
+### checkpoint
+
+Using checkpoint is how you modularize your story. For instance, in story_file1 we can have:
+
+```
+
+```
+
+and story_file2 we have:
+
+```
+```
