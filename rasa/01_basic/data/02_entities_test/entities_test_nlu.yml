@@ -1,0 +1,10 @@
+version: "2.0"
+
+nlu:
+- intent: start_count
+  examples: |
+    - you can start counting
+    - please start counting
+    - count
+    - start counting
+    - you may count

@@ -21,10 +21,6 @@ rasa 2.0 generally uses 2.0 as the version number.
 
 nlu is where you define intent training phrases as well as how rasa recognizes entities.
 
-### intent training phrases
-
-Intent training phrases are defined in the following way:
-
 ```
 nlu:
 - intent: intent1
@@ -71,13 +67,23 @@ nlu:
 
 - regex: email
   examples: |
-    - \w+@\w+\.com
+    - ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
+- intent: inform_email
+  examples: |
+    - my email is [user@user.com](email)
+    - This is my email [user@user.com](email)
 
 - lookup: countries
   examples: |
     - Australia
     - Singapore
 ```
+
+`RegexFeaturizer` needs to be added to pipeline in `config.yml` for regex to be recognized as a feature during intent classification.
+
+`CRFEntityExtractor` or `DIETClassifier` need to be added to pipeline in `config.yml` to use regex entities.
+
+
 
 ## rules
 

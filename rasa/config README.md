@@ -1,6 +1,10 @@
 # rasa config
 
+A readme on how to configure the rasa `config.yml` file.
+
 ## pipeline
+
+How to configure the data pipeline: https://rasa.com/docs/rasa/2.4.x/components
 
 ### retrieval intents
 
@@ -32,7 +36,7 @@ The Transformer Embedding Dialogue Policy (TEDPolicy) is what you adjust when yo
     epochs: 100
 ```
 
-`max_history` is the main parameter you might want to change. By default, TEDPolicy has no max_history, which means the model looks at the entire story, no matter how long it is.
+`max_history` is the main parameter you might want to change. By default, TEDPolicy has no max_history, which means the model looks at the entire story, no matter how long it is. Setting a finite `max_history` can be desirable to decrease training time.
 
 TEDPolicy has many more optional parameters that are likely too complicated to be worth adjusting, but they can be found here: https://rasa.com/docs/rasa/policies/
 

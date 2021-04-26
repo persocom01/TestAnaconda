@@ -148,7 +148,11 @@ rasa train -d domain_dir
 
 2. Define training data.
 
-Training data is defined in the data folder. The files are appended together during training.
+Training data is defined in the data folder. The files are appended together during training. If domain and responses are already defined, you may use rasa interactive to help write a story for rasa:
+
+```
+rasa interactive -d domain_dir
+```
 
 3. Test bot.
 
@@ -157,6 +161,9 @@ To test the bot in command line, enter:
 ```
 rasa shell
 ```
+
+`nlu` can be added to see what the model extracts as intents and entities from text.
+`--debug` can be added to help diagnose background processes during training.
 
 ### Running an action server
 

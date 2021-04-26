@@ -85,8 +85,21 @@ You might need to define a custom action to use this slot type.
 
 1. influence_conversation
 Setting `influence_conversation: false` prevents the slot to from affecting the next action prediction. By default, this is true. For the `list` dtype, predictions are only affected by whether the list is empty or filled. dtype `any` cannot influence conversations.
+
 2. auto_fill
 By default, if an entity and a slot share the same name, the slot will be set when the entity is identified. Setting `auto_fill: false` prevents this behavior.
+
+```
+<!-- Assume the slot "name" is defined in domain -->
+stories:
+
+- story: entity slot-filling
+  steps:
+  - intent: greet
+    entities:
+    - name: John
+```
+
 3. initial_value
 Sets the initial value of a slot.
 
@@ -143,6 +156,12 @@ slots:
 
 ### setting slots
 
+Slots can be set in three ways:
+
+1. Through identification of entities in intents.
+2. Through forms.
+3. Via custom actions.
+
 To use a slot, enter the following line in `stories:`
 
 ```
@@ -177,13 +196,25 @@ responses:
   - dtype: "string_or_link"
 ```
 
-All responses must start with utter_, otherwise they will be considered custom actions.
+Where each `-` indicates a response variation. Each response variation can have multiple datatypes, but each datatype may only appear once.
 
-Each response entry can have multiple datatypes, but each datatype may only appear once.
+All responses must start with utter_, otherwise they will be considered custom actions.
 
 If two files share the same response keys, the latest (by alphabetical order) file will take precedence. As such, it is possible to keep the base responses and build on them by overriding them.
 
 Responses for retrieval intents are written in the same way, but named in the format utter_retrieval_intent/sub_intent.
+
+### Response variables
+
+You are able to insert slot data into variables in the following way:
+
+```
+responses:
+  utter_greeting:
+  - text: "Hi {name}."
+```
+
+
 
 ## actions
 
