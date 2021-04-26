@@ -34,13 +34,25 @@ intents:
 
 ## entities
 
-entities are defined in the following way:
+entities is a list of entities that can extracted by an entity extractor in your NLU pipline defined in `config.yml`. They are defined in the following way:
 
 ```
 entities:
+  - PERSON        # entity extracted by SpacyEntityExtractor
+  - time          # entity extracted by DucklingEntityExtractor
   - entity1
+      entity1_property1:
+      - entity1_prop1_value1
+      - entity1_prop1_value2
+      entity1_property2:
+      - entity1_prop2_value1
+      - entity1_prop2_value2
   - entity2
 ```
+
+`PERSON` and `time` are special entities reserved by the `SpacyEntityExtractor` and `DucklingEntityExtractor` respectively.
+
+If you wish to give entities additional properties, they should be listed and defined here.
 
 ## slots
 
@@ -211,10 +223,8 @@ You are able to insert slot data into variables in the following way:
 ```
 responses:
   utter_greeting:
-  - text: "Hi {name}."
+  - dtype: "other_text {name}."
 ```
-
-
 
 ## actions
 

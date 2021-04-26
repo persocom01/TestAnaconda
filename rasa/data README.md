@@ -56,16 +56,31 @@ Rasa can recognize entities in 3 different ways:
 2. regex
 3. Lookup table
 
-They are added in the following way:
+To recognize entities, they must first be defined in the `domain` as an entity:
+
+```
+entities:
+  - syn_bad
+  - regex_email
+  - lookup_countries
+```
+
+They are added to and used in nlu in the following way:
 
 ```
 nlu:
-- synonym: entity1
+- synonym: bad_syn
   examples: |
-    - ex1
-    - ex2
+    - bad
+    - useless
+    - disgusting
+    - terrible
+- intent: smalltalk/agent_bad
+  examples: |
+    - you're [bad](bad)
+    - you are so [useless](bad)
 
-- regex: email
+- regex: regex_email
   examples: |
     - ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
 - intent: inform_email
@@ -73,7 +88,7 @@ nlu:
     - my email is [user@user.com](email)
     - This is my email [user@user.com](email)
 
-- lookup: countries
+- lookup: lookup_countries
   examples: |
     - Australia
     - Singapore
@@ -82,8 +97,6 @@ nlu:
 `RegexFeaturizer` needs to be added to pipeline in `config.yml` for regex to be recognized as a feature during intent classification.
 
 `CRFEntityExtractor` or `DIETClassifier` need to be added to pipeline in `config.yml` to use regex entities.
-
-
 
 ## rules
 

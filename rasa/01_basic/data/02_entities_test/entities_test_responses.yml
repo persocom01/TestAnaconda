@@ -1,25 +1,8 @@
 version: "2.0"
 
 responses:
-  utter_0_countdown:
-  - text: "End of countdown!"
-  utter_1_countdown:
-  - text: "Countdown! ETA 1 🎵"
-  utter_2_countdown:
-  - text: "Countdown! ETA 2 🎵"
-  utter_3_countdown:
-  - text: "Countdown! ETA 3 🎵"
-  utter_4_countdown:
-  - text: "Countdown! ETA 4 🎵"
-  utter_5_countdown:
-  - text: "Countdown! ETA 5 🎵"
-  utter_6_countdown:
-  - text: "Countdown! ETA 6 🎵"
-  utter_7_countdown:
-  - text: "Countdown! ETA 7 🎵"
-  utter_8_countdown:
-  - text: "Countdown! ETA 8 🎵"
-  utter_9_countdown:
-  - text: "Countdown! ETA 9 🎵"
-  utter_10_countdown:
-  - text: "Countdown! ETA 10 🎵"
+  utter_choose_weapon:
+  - text: "Choose your weapon."
+
+  utter_weapon_choice:
+  - text: "You have chosen a {weapon}."

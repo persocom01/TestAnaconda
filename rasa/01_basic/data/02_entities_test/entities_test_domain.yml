@@ -1,6 +1,10 @@
 version: "2.0"
 
 intents:
-  - synonym_test
-  - regex_test
-  - lookup_test
+  - start_adventure
+  - inform_weapon
+  # - regex_test
+  # - lookup_test
+
+entities:
+  - weapon
