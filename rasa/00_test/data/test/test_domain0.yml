@@ -13,4 +13,4 @@ slots:
   weapon:
     type: categorical
     values:
-      - range
+      - melee

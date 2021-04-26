@@ -2,47 +2,11 @@ version: "2.0"
 
 stories:
 
-- story: test base
+- story: adventure base
   steps:
-  - intent: start_count
-  - action: utter_10_countdown
-  - intent: affirm
-  - intent: affirm
-  - action: utter_8_countdown
-  - intent: affirm
-  - intent: affirm
-  - action: utter_6_countdown
-  - intent: affirm
-  - intent: affirm
-  - action: utter_4_countdown
-  - intent: affirm
-  - intent: affirm
-  - action: utter_2_countdown
-  - intent: affirm
-  - intent: affirm
-  - action: utter_0_countdown
-
-# - story: test base
-#   steps:
-#   - intent: start_count
-#   - action: utter_10_countdown
-#   - intent: affirm
-#   - action: utter_9_countdown
-#   - intent: affirm
-#   - action: utter_8_countdown
-#   - intent: affirm
-#   - action: utter_7_countdown
-#   - intent: affirm
-#   - action: utter_6_countdown
-#   - intent: affirm
-#   - action: utter_5_countdown
-#   - intent: affirm
-#   - action: utter_4_countdown
-#   - intent: affirm
-#   - action: utter_3_countdown
-#   - intent: affirm
-#   - action: utter_2_countdown
-#   - intent: affirm
-#   - action: utter_1_countdown
-#   - intent: affirm
-#   - action: utter_0_countdown
+  - intent: start_adventure
+  - action: utter_ask_weapon
+  - intent: inform_weapon
+    entities:
+      - weapon: melee
+  - action: utter_weapon

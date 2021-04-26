@@ -1,10 +1,12 @@
 version: "2.0"
 
 nlu:
-- intent: start_count
+- intent: start_adventure
   examples: |
-    - you can start counting
-    - please start counting
-    - count
-    - start counting
-    - you may count
+    - start adventure
+    - adventure start
+
+- intent: inform_weapon
+  examples: |
+    - [range](weapon)
+    - [melee](weapon)

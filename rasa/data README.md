@@ -51,36 +51,45 @@ Retrieval intents are a way to group multiple intents of the same type into one 
 
 ### entity recognition
 
-Recognizing entities in `nlu` is different from the entities defined in `domain`. The reason being that the entities recognized here are only for the purpose of prediction. To store them as entities and return them to the user, you need to define an entity and slot of the same name. Rasa can recognize entities in 3 different ways:
+Recognizing entities in `nlu` is different from the entities defined in `domain`. The reason being that the entities recognized here are only for the purpose of prediction. To store return them to the user, you need to define them as `entities` and `slots` of the same name inside `domain`. Rasa can recognize entities in 3 different ways:
 1. Synonyms
 2. regex
 3. Lookup table
 
-Enabling rasa to recognize entities is a three step process:
+They are written the following way:
 
-1. Define the entity in the `domain`:
+In `domain`:
 
 ```
 entities:
-  - bad
+  - weapon
   - email
   - lookup_countries
+
+slots:
+  - weapon
+  type: text
+  - email
+  type: text
+  - lookup_countries
+  type: text
 ```
 
-2. Add the entity to `nlu`:
+In `nlu`:
 
 ```
 nlu:
-- synonym: bad
+- synonym: bow
   examples: |
-    - bad
-    - useless
-    - disgusting
-    - terrible
-- intent: smalltalk/agent_bad
+    - bow
+    - longbow
+    - shortbow
+    - hunting bow
+- intent: inform_weapon
   examples: |
-    - you're [bad](syn_bad)
-    - you are so [useless](syn_bad)
+    - [longbow](weapon)
+    - [shortbow](weapon)
+    - [hunting bow]{"entity": "weapon", "value": "bow"}
 
 - regex: regex_email
   examples: |
@@ -96,21 +105,22 @@ nlu:
     - Singapore
 ```
 
-In `- synonym: syn_name`, all variations of the word will be recognized as the word `syn_name`.
-
-`RegexFeaturizer` needs to be added to pipeline in `config.yml` for regex to be recognized as a feature during intent classification.
-
-`CRFEntityExtractor` or `DIETClassifier` need to be added to pipeline in `config.yml` to use regex entities. However, if you want an exact regex match, replace them with `RegexEntityExtractor` instead. When providing examples for intents using regex entities, provide at least two training examples.
-
-3. Recognize the entity inside `stories`:
+Finally in stories:
 
 ```
 - story: entity slot-filling
   steps:
-  - intent: smalltalk/agent_bad
+  - intent: inform_weapon
     entities:
-    - entity_name: entity_synonym
+    - weapon: longbow
 ```
+
+
+In `- synonym: syn_name`, all variations of the word will be recognized as the word `syn_name`. In the above case, when extracting the slot `weapon`
+
+`RegexFeaturizer` needs to be added to pipeline in `config.yml` for regex to be recognized as a feature during intent classification.
+
+`CRFEntityExtractor` or `DIETClassifier` need to be added to pipeline in `config.yml` to use regex entities. However, their matches are not limited to exact matches. More on the issue can be found here: https://github.com/RasaHQ/rasa/issues/3880
 
 ## rules
 

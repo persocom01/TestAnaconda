@@ -79,6 +79,8 @@ slots:
     max_value: 1.0
 ```
 
+If the same slot is defined in another file, the latest (by alphabetical order) file will take precedence.
+
 ### slot datatypes
 
 slots can be of the following dtypes:
@@ -212,7 +214,7 @@ Where each `-` indicates a response variation. Each response variation can have 
 
 All responses must start with utter_, otherwise they will be considered custom actions.
 
-If two files share the same response keys, the latest (by alphabetical order) file will take precedence. As such, it is possible to keep the base responses and build on them by overriding them.
+If the same response is defined in another file, the latest (by alphabetical order) file will take precedence. As such, it is possible to keep the base responses and build on them by overriding them.
 
 Responses for retrieval intents are written in the same way, but named in the format utter_retrieval_intent/sub_intent.
 
