@@ -49,7 +49,7 @@ MemoizationPolicy determines if the bot should look at and try to match the curr
     max_history: 3
 ```
 
-`max_history` determines how far back in current conversation history the bot should take into account when looking for a match in stories data. 1 step includes the message by the user as well as any actions that result from it.
+`max_history` determines how far back in current conversation history the bot should take into account when looking for a match in stories data. 1 turn includes the message by the user as well as any actions that result from it.
 
 `AugmentedMemoizationPolicy` is used when you do not wish for slots set earlier in the conversation to affect the current prediction. The slots are forgotten when trying to find a match in the story if they are set prior to `max_history`, or only the slots set within `max_history` will affect the prediction. To use this policy specifically so that the conversation will continue without slots, stories should be written with and without slots.
 
@@ -65,3 +65,13 @@ RulePolicy is necessary to use rules.
   restrict_rules: true
   check_for_contradictions: true
 ```
+
+`core_fallback_threshold` determines the prediction threshold above which the core_fallback_action is triggered.
+
+`core_fallback_action_name` is where you determine what the fallback action is. By default, this is set to `action_default_fallback`, which is a default action inbuilt with rasa that calls the `utter_default` response. This can be customized, if desired, by defining `class ActionDefaultFallback(Action)` in `actions.py`.
+
+`enable_fallback_prediction` (default true) enables usage of the fallback.
+
+`restrict_rules` (default true) restricts rules to 1 user turn. Making this false may result in unexpected behavior.
+
+`check_for_contradictions` (default true) before training, performs a check to make sure that slots and active loops set by actions are defined consistently for all rules.

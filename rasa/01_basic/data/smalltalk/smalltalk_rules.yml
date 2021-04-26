@@ -6,4 +6,3 @@ rules:
   steps:
   - intent: smalltalk
   - action: utter_smalltalk
-  wait_for_user_input: false

@@ -165,20 +165,8 @@ responses:
   - dtype: "string_or_link"
     dtype: "string_or_link"
   - dtype: "string_or_link"
-```
 
-All responses must start with utter_, otherwise they will be considered custom actions.
-
-Each response entry can have multiple datatypes, but each datatype may only appear once.
-
-If two files share the same response keys, the latest (by alphabetical order) file will take precedence. As such, it is possible to keep the base responses and build on them by overriding them.
-
-### retrieval intent responses
-
-Responses for retrieval intents are written in the same way, but named in the format utter_retrieval_intent/sub_intent:
-
-```
-responses:
+<!-- Responses for retrieval intents -->
   utter_retrieval_intent/sub_intent1:
   - dtype: "string_or_link"
     dtype: "string_or_link"
@@ -188,6 +176,14 @@ responses:
     dtype: "string_or_link"
   - dtype: "string_or_link"
 ```
+
+All responses must start with utter_, otherwise they will be considered custom actions.
+
+Each response entry can have multiple datatypes, but each datatype may only appear once.
+
+If two files share the same response keys, the latest (by alphabetical order) file will take precedence. As such, it is possible to keep the base responses and build on them by overriding them.
+
+Responses for retrieval intents are written in the same way, but named in the format utter_retrieval_intent/sub_intent.
 
 ## actions
 

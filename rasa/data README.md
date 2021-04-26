@@ -36,15 +36,8 @@ nlu:
   examples: |
     - ex1
     - ex2
-```
 
-If the same intent is defined in another file, the training phrases are added together.
-
-### retrieval intents
-
-Retrieval intents are a way to group multiple intents of the same type into one main type into one big one with many sub-intents. They are written similar to normal intents but with format retrieval_intent/sub_intent:
-
-```
+<!-- Retrieval intents -->
 - intent: retrieval_intent/sub_intent1
   examples: |
     - ex1
@@ -55,6 +48,10 @@ Retrieval intents are a way to group multiple intents of the same type into one 
     - ex1
     - ex2
 ```
+
+If the same intent is defined in another file, the training phrases are added together.
+
+Retrieval intents are a way to group multiple intents of the same type into one main type into one big one with many sub-intents. They are written similar to normal intents but with format retrieval_intent/sub_intent.
 
 ### entity recognition
 
@@ -88,7 +85,7 @@ rules are a kind of rigid story you create when you always want a specific respo
 
 ```
 policies:
-  - name: OtherPolicies
+  - name: ...OtherPolicies
   - name: RulePolicy
 ```
 
@@ -106,18 +103,15 @@ rules:
   - intent: greet
   - action: utter_greet
   wait_for_user_input: false
-```
 
-### retrieval intents
-
-Using retrieval intents require a rule to be written for them:
-
-```
+<!-- Rules for retrieval intents -->
 - rule: retrieval intent
   steps:
   - intent: retrieval_intent
   - action: utter_retrieval_intent
 ```
+
+Using retrieval intents require a rule to be written for them.
 
 ### Optional rule properties
 
@@ -126,7 +120,7 @@ Setting `conversation_start: true` makes the rule only apply at the beginning of
 2. condition
 You may set a condition to be fulfilled for the rule to apply. These can be `slot_was_set` or `active_loop` events.
 3. wait_for_user_input
-By default, rules implicitly end with `- action: action_listen`. In practice, this results in the end of the current conversational flow. By setting `wait_for_user_input: false`, the conversation does not end when the rule is executed but can pick off where it last left off.
+By default, rules implicitly end with `- action: action_listen`. In practice, this results in the end of the current conversational flow. By setting `wait_for_user_input: false`, the conversation flow does not stop when the rule is executed but pick off where it last left off. This however, includes fallback actions.
 
 ## stories
 
