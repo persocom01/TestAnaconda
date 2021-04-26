@@ -126,7 +126,7 @@ Setting `conversation_start: true` makes the rule only apply at the beginning of
 2. condition
 You may set a condition to be fulfilled for the rule to apply. These can be `slot_was_set` or `active_loop` events.
 3. wait_for_user_input
-By default, rules implicitly end with `- action: action_listen`. Setting `wait_for_user_input: false` indicates that the bot should execute another action instead of waiting for user input.
+By default, rules implicitly end with `- action: action_listen`. In practice, this results in the end of the current conversational flow. By setting `wait_for_user_input: false`, the conversation does not end when the rule is executed but can pick off where it last left off.
 
 ## stories
 
