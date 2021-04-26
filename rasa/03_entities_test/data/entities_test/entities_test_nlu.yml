@@ -6,19 +6,28 @@ nlu:
     - start adventure
     - adventure start
 
-- synonym: weapon
+- regex: regex_seed
   examples: |
-    - gun
-    - sword
+    - \b\d{5}\b
+- intent: inform_seed
+  examples: |
+    - [12345](regex_seed)
+    - [54321](regex_seed)
+
+- synonym: bow
+  examples: |
     - bow
     - longbow
     - shortbow
-    - axe
-    - mace
-    - dagger
-    - staff
+    - hunting bow
 - intent: inform_weapon
   examples: |
     - [gun](weapon)
-    - [longbow]{"entity": "weapon", "value": "bow"}
-    - [shortbow]{"entity": "weapon", "value": "bow"}
+    - [sword](weapon)
+    - [bow](weapon)
+    - [axe](weapon)
+    - [mace](weapon)
+    - [dagger](weapon)
+    - [staff](weapon)
+#    - [longbow]{"entity": "weapon", "value": "bow"}
+#    - [shortbow]{"entity": "weapon", "value": "bow"}

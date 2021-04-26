@@ -5,8 +5,14 @@ stories:
 - story: adventure base
   steps:
   - intent: start_adventure
-  - action: utter_choose_weapon
+  - action: utter_ask_seed
+  - intent: inform_seed
+    entities:
+      - regex_seed: "43215"
+  - action: utter_seed
+
+  - action: utter_ask_weapon
   - intent: inform_weapon
     entities:
       - weapon: sword
-  - action: utter_weapon_choice
+  - action: utter_weapon

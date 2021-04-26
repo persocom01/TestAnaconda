@@ -51,7 +51,7 @@ Retrieval intents are a way to group multiple intents of the same type into one 
 
 ### entity recognition
 
-Rasa can recognize entities in 3 different ways:
+Recognizing entities in `nlu` is different from the entities defined in `domain`. The reason being that the entities recognized here are only for the purpose of prediction. To store them as entities and return them to the user, you need to define an entity and slot of the same name. Rasa can recognize entities in 3 different ways:
 1. Synonyms
 2. regex
 3. Lookup table
@@ -62,16 +62,16 @@ Enabling rasa to recognize entities is a three step process:
 
 ```
 entities:
-  - syn_bad
-  - regex_email
+  - bad
+  - email
   - lookup_countries
 ```
 
-2. Add the entity to nlu:
+2. Add the entity to `nlu`:
 
 ```
 nlu:
-- synonym: bad_syn
+- synonym: bad
   examples: |
     - bad
     - useless
@@ -79,8 +79,8 @@ nlu:
     - terrible
 - intent: smalltalk/agent_bad
   examples: |
-    - you're [bad](bad)
-    - you are so [useless](bad)
+    - you're [bad](syn_bad)
+    - you are so [useless](syn_bad)
 
 - regex: regex_email
   examples: |
@@ -96,9 +96,11 @@ nlu:
     - Singapore
 ```
 
+In `- synonym: syn_name`, all variations of the word will be recognized as the word `syn_name`.
+
 `RegexFeaturizer` needs to be added to pipeline in `config.yml` for regex to be recognized as a feature during intent classification.
 
-`CRFEntityExtractor` or `DIETClassifier` need to be added to pipeline in `config.yml` to use regex entities.
+`CRFEntityExtractor` or `DIETClassifier` need to be added to pipeline in `config.yml` to use regex entities. However, if you want an exact regex match, replace them with `RegexEntityExtractor` instead. When providing examples for intents using regex entities, provide at least two training examples.
 
 3. Recognize the entity inside `stories`:
 
@@ -107,7 +109,7 @@ nlu:
   steps:
   - intent: smalltalk/agent_bad
     entities:
-    - bad: useless
+    - entity_name: entity_synonym
 ```
 
 ## rules

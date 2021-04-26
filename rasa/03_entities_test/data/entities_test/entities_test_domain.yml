@@ -2,9 +2,16 @@ version: "2.0"
 
 intents:
   - start_adventure
+  - inform_seed
   - inform_weapon
-  # - regex_test
   # - lookup_test
 
 entities:
   - weapon
+  - regex_seed
+
+slots:
+  weapon:
+    type: text
+  regex_seed:
+    type: text

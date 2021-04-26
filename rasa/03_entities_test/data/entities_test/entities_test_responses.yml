@@ -1,8 +1,14 @@
 version: "2.0"
 
 responses:
-  utter_choose_weapon:
+  utter_ask_seed:
+  - text: "Enter the 5 digit world seed you wish to use."
+
+  utter_seed:
+  - text: "World seed: {regex_seed}."
+
+  utter_ask_weapon:
   - text: "Choose your weapon."
 
-  utter_weapon_choice:
-  - text: "You have chosen a {weapon}."
+  utter_weapon:
+  - text: "You are armed with a {weapon}."
