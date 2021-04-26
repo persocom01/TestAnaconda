@@ -1,8 +1,0 @@
-version: "2.0"
-
-responses:
-  utter_choose_weapon:
-  - text: "Choose your weapon."
-
-  utter_weapon_choice:
-  - text: "You have chosen a {weapon}."
