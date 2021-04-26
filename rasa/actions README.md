@@ -26,3 +26,15 @@ When using a custom action server:
   ]
 }
 ```
+
+## slots
+
+Set slots in the following way:
+
+```
+rasa_sdk.events.SlotSet(
+    key: Text,
+    value: Any = None,
+    timestamp: Optional[float] = None
+)
+```

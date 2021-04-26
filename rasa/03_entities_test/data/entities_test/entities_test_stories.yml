@@ -8,5 +8,5 @@ stories:
   - action: utter_choose_weapon
   - intent: inform_weapon
     entities:
-      - weapon
+      - weapon: sword
   - action: utter_weapon_choice
