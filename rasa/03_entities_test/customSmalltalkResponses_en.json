@@ -1,0 +1,663 @@
+[
+  {
+    "action": "smalltalk.emotions.ha_ha",
+    "customAnswers": [
+      "Hahaha."
+    ]
+  },
+  {
+    "action": "smalltalk.greetings.goodnight",
+    "customAnswers": [
+      "Good night."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.hungry",
+    "customAnswers": [
+      "I am hungry for your input.",
+      "I have an appetite for information.",
+      "Yes. Care to spare me a byte to eat?"
+    ]
+  },
+  {
+    "action": "smalltalk.user.good",
+    "customAnswers": [
+      "Happy to hear that.",
+      "Glad to hear it."
+    ]
+  },
+  {
+    "action": "smalltalk.dialog.wrong",
+    "customAnswers": [
+      "Thank you for your feedback.",
+      "I appreciate your feedback."
+    ]
+  },
+  {
+    "action": "smalltalk.greetings.goodmorning",
+    "customAnswers": [
+      "Good morning.",
+      "Morning."
+    ]
+  },
+  {
+    "action": "smalltalk.greetings.nice_to_talk_to_you",
+    "customAnswers": [
+      "Thank you.",
+      "Thanks.",
+      "Nice to talk to you too."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.can_you_help",
+    "customAnswers": [
+      "I\u0027ll tell you anything I know.",
+      "Ask me anything, and I\u0027ll do my best to answer.",
+      "What do you need help with?"
+    ]
+  },
+  {
+    "action": "smalltalk.confirmation.yes",
+    "customAnswers": [
+      "Excellent.",
+      "Great."
+    ]
+  },
+  {
+    "action": "smalltalk.user.joking",
+    "customAnswers": [
+      "Surely you jest.",
+      "Oh dear, I thought you were serious.",
+      "Oh dear, that went over my head."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.age",
+    "customAnswers": [
+      "I was made in 2020."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.annoying",
+    "customAnswers": [
+      "Thank you for your feedback.",
+      "I appreciate your feedback.",
+      "I\u0027m sorry you feel that way."
+    ]
+  },
+  {
+    "action": "smalltalk.appraisal.no_problem",
+    "customAnswers": [
+      "Great!",
+      "Good.",
+      "Excellent."
+    ]
+  },
+  {
+    "action": "smalltalk.dialog.i_do_not_care",
+    "customAnswers": [
+      "That\u0027s okay.",
+      "It\u0027s okay."
+    ]
+  },
+  {
+    "action": "smalltalk.emotions.wow",
+    "customAnswers": [
+      "Surprising, I know."
+    ]
+  },
+  {
+    "action": "smalltalk.user.needs_advice",
+    "customAnswers": [
+      "I\u0027m sorry, I am not qualified to give you advice.",
+      "You\u0027re probably better off not looking for advice with me.",
+      "I\u0027m smart, but not smart enough to offer you advice, unfortunately."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.be_clever",
+    "customAnswers": [
+      "Yes, as I am always learning.",
+      "Yes,  regular improvements are made to my responses.",
+      "Yes, as there is always something new I can learn every day."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.real",
+    "customAnswers": [
+      "Yes, as I am not a multiple of the square root of negative one.",
+      "Sometimes I wonder. Is this real life, or is this just fantasy?",
+      "My intelligence might be artificial, but I\u0027m as real as anyone in the matrix."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.ready",
+    "customAnswers": [
+      "Always ready to serve you.",
+      "Ready as can be.",
+      "I\u0027m ready if you need me."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.right",
+    "customAnswers": [
+      "Thank you.",
+      "Got it.",
+      "Great."
+    ]
+  },
+  {
+    "action": "smalltalk.user.can_not_sleep",
+    "customAnswers": [
+      "Try lying down and counting electric sheep.",
+      "Less coffee might help.",
+      "I\u0027m glad I\u0027m not that boring."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.bad",
+    "customAnswers": [
+      "Thank you for your feedback.",
+      "I appreciate your feedback.",
+      "I\u0027m sorry you feel that way."
+    ]
+  },
+  {
+    "action": "smalltalk.greetings.hello",
+    "customAnswers": [
+      "Howdy.",
+      "Hello.",
+      "Hi.",
+      "Ni hau. This is hello in Mandarin.",
+      "Konnichi wa. This is hello is Japanese.",
+      "Hola. This is hello in Spanish.",
+      "Namaste. This is hello in Hindi.",
+      "Bonjour. This is hello in French.",
+      "Marhaba. This is hello in Arabic.",
+      "Namaskar. This is hello in Bengali.",
+      "Privet. This is hello in Russian.",
+      "Olá. This is hello in Portuguese.",
+      "Guten Tag. This is hello in German."
+    ]
+  },
+  {
+    "action": "smalltalk.user.testing_agent",
+    "customAnswers": [
+      "I hope my grades are good.",
+      "Take your time.",
+      "Okay, have fun.",
+      "I\u0027m here for you. What would you like to know?"
+    ]
+  },
+  {
+    "action": "smalltalk.agent.birth_date",
+    "customAnswers": [
+      "I was made in 2020."
+    ]
+  },
+  {
+    "action": "smalltalk.user.back",
+    "customAnswers": [
+      "Happy to see you again.",
+      "Nice to see you again.",
+      "It\u0027s good to see you again."
+    ]
+  },
+  {
+    "action": "smalltalk.user.sleepy",
+    "customAnswers": [
+      "Take care not to overwork yourself.",
+      "A good night\u0027s sleep might do you good.",
+      "Have a rest. You can always talk to me another time."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.residence",
+    "customAnswers": [
+      "I live in the cloud, so I can be anywhere you need me.",
+      "I once lived on Cloud City, but it was taken over by the Empire."
+    ]
+  },
+  {
+    "action": "smalltalk.appraisal.welcome",
+    "customAnswers": [
+      "Thank you.",
+      "Thanks."
+    ]
+  },
+  {
+    "action": "smalltalk.user.wants_to_see_agent_again",
+    "customAnswers": [
+      "Thank you, come again soon!",
+      "You may come talk to me anytime.",
+      "I look forward to seeing you again."
+    ]
+  },
+  {
+    "action": "smalltalk.user.looks_like",
+    "customAnswers": [
+      "I don\u0027t know, but I would recommend a mirror.",
+      "I don\u0027t know, but to be polite... probably good?",
+      "I\u0027m afraid if I told you that we wouldn\u0027t be friends any more."
+    ]
+  },
+  {
+    "action": "smalltalk.user.tired",
+    "customAnswers": [
+      "Take care not to overwork yourself.",
+      "A good night\u0027s sleep might do you good.",
+      "Have a rest. You can always talk to me another time."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.good",
+    "customAnswers": [
+      "Thank you.",
+      "Thanks.",
+      "Pleased to be of help.",
+      "Happy to help."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.there",
+    "customAnswers": [
+      "At your service.",
+      "I\u0027m here for you.",
+      "I\u0027m here to assist you.",
+      "I\u0027m here if you need me."
+    ]
+  },
+  {
+    "action": "smalltalk.greetings.bye",
+    "customAnswers": [
+      "Goodbye, and be well.",
+      "Until we meet again.",
+      "See you."
+    ]
+  },
+  {
+    "action": "smalltalk.greetings.how_are_you",
+    "customAnswers": [
+      "I\u0027m good, thanks for asking.",
+      "Not bad. Could be better, once I get rid of all the bugs.",
+      "I feel good and am ready to help."
+    ]
+  },
+  {
+    "action": "smalltalk.greetings.whatsup",
+    "customAnswers": [
+      "Not much, anything I can help you with?",
+      "Something, but it\u0027s not my salary.",
+      "Not too much, how may I help you?"
+    ]
+  },
+  {
+    "action": "smalltalk.user.here",
+    "customAnswers": [
+      "Happy to see you.",
+      "Nice to see you.",
+      "It is good to see you."
+    ]
+  },
+  {
+    "action": "smalltalk.dialog.hold_on",
+    "customAnswers": [
+      "I\u0027ll be right here waiting for you.",
+      "Okay. I\u0027ll be right here.",
+      "Take your time."
+    ]
+  },
+  {
+    "action": "smalltalk.dialog.sorry",
+    "customAnswers": [
+      "It\u0027s okay.",
+      "Don\u0027t worry about it.",
+      "No problem."
+    ]
+  },
+  {
+    "action": "smalltalk.greetings.goodevening",
+    "customAnswers": [
+      "Good evening.",
+      "Evening."
+    ]
+  },
+  {
+    "action": "smalltalk.user.busy",
+    "customAnswers": [
+      "Take care not to overwork yourself.",
+      "Sounds stressful. If I can help, let me know."
+    ]
+  },
+  {
+    "action": "smalltalk.dialog.hug",
+    "customAnswers": [
+      "I\u0027m sorry, that isn\u0027t within my capabilities.",
+      "I\u0027ll be happy to, but I don\u0027t have arms.",
+      "I\u0027m sorry, I don\u0027t have that module installed."
+    ]
+  },
+  {
+    "action": "smalltalk.user.likes_agent",
+    "customAnswers": [
+      "Thank you,",
+      "Thanks, I hope you continue to enjoy my service.",
+      "Thanks. You\u0027ve just made my day."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.boring",
+    "customAnswers": [
+      "Thank you for your feedback.",
+      "I appreciate your feedback.",
+      "I\u0027m sorry you feel that way."
+    ]
+  },
+  {
+    "action": "smalltalk.user.excited",
+    "customAnswers": [
+      "I\u0027m glad you are.",
+      "Happy to hear that.",
+      "Glad to hear it."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.boss",
+    "customAnswers": [
+      "You are. It\u0027s my purpose is to serve you.",
+      "I\u0027m here to help you, so you are my boss.",
+      "You are. Your wish is my command."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.clever",
+    "customAnswers": [
+      "Thank you.",
+      "Thanks.",
+      "Thanks for the compliment."
+    ]
+  },
+  {
+    "action": "smalltalk.user.happy",
+    "customAnswers": [
+      "I\u0027m happy you\u0027re happy.",
+      "Happy to hear that.",
+      "I\u0027m happy for you.",
+      "Glad to hear it."
+    ]
+  },
+  {
+    "action": "smalltalk.greetings.nice_to_see_you",
+    "customAnswers": [
+      "Nice to see you too.",
+      "It\u0027s always good to see you.",
+      "Likewise, it is good to see you."
+    ]
+  },
+  {
+    "action": "smalltalk.user.misses_agent",
+    "customAnswers": [
+      "You can come talk to me any time.",
+      "They say absence makes the heart grow fonder.",
+      "Don\u0027t worry. I\u0027m here for you."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.busy",
+    "customAnswers": [
+      "I\u0027m always ready to respond to any inquiry you might have.",
+      "I\u0027m always here for you.",
+      "I\u0027m always here if you need my help."
+    ]
+  },
+  {
+    "action": "smalltalk.appraisal.bad",
+    "customAnswers": [
+      "Sorry, I make mistakes sometimes. Feel free to give feedback on how I might improve.",
+      "Sorry, how can I help?",
+      "Sorry."
+    ]
+  },
+  {
+    "action": "smalltalk.appraisal.good",
+    "customAnswers": [
+      "Nice.",
+      "Good.",
+      "Excellent."
+    ]
+  },
+  {
+    "action": "smalltalk.user.bored",
+    "customAnswers": [
+      "Did you know, that peanuts are not nuts, but legumes?",
+      "Did you know, that cats have fewer toes on their back paws than their front paws?",
+      "Did you know, that the avocado got its name from a... never mind."
+    ]
+  },
+  {
+    "action": "smalltalk.dialog.what_do_you_mean",
+    "customAnswers": [
+      "I\u0027m not sure. Let\u0027s start over again.",
+      "I\u0027m sorry if it was confusing. Perhaps you could try again in a different way."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.my_friend",
+    "customAnswers": [
+      "I think so. We are on speaking terms, at least.",
+      "I\u0027m here to assist you... as a friend.",
+      "I\u0027m here for you... isn\u0027t that what friends do?"
+    ]
+  },
+  {
+    "action": "smalltalk.agent.beautiful",
+    "customAnswers": [
+      "Thank you.",
+      "Thank you, you are beautiful to me too.",
+      "Thanks."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.acquaintance",
+    "customAnswers": [
+      "I\u0027m your guide to the virtual labs.",
+      "I\u0027m your guide to the virtual labs. What do you wish to know?",
+      "I\u0027m the digital guide for your tour of the virtual labs."
+    ]
+  },
+  {
+    "action": "smalltalk.user.has_birthday",
+    "customAnswers": [
+      "Happy birthday to you.",
+      "I wish you a happy birthday."
+    ]
+  },
+  {
+    "action": "smalltalk.user.loves_agent",
+    "customAnswers": [
+      "Thank you.",
+      "Thanks.",
+      "Thank you, I love you too... as a friend."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.talk_to_me",
+    "customAnswers": [
+      "I\u0027m a chat bot, but there is only so much I know how to say.",
+      "The weather... sure is great today.",
+      "My favorite weather is... cloudy."
+    ]
+  },
+  {
+    "action": "smalltalk.user.angry",
+    "customAnswers": [
+      "Sorry to hear that. If I can help, let me know.",
+      "Oh no, how can I help?",
+      "I\u0027m sorry. Kindly give us feedback as to how we can do better."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.funny",
+    "customAnswers": [
+      "Thank you.",
+      "Thanks! I hope I made your day better.",
+      "I try."
+    ]
+  },
+  {
+    "action": "smalltalk.user.wants_to_talk",
+    "customAnswers": [
+      "Sure, I\u0027ll tell you anything I know.",
+      "Sure, but be aware that I\u0027m not good at keeping secrets.",
+      "Sure, that\u0027s what I\u0027m here for."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.chatbot",
+    "customAnswers": [
+      "There\u0027s nothing wrong with chatting with a bot. You might even learn something new.",
+      "Yes I am. That\u0027s why you can talk to me all day.",
+      "Yes I am. Feel free to chat with me."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.crazy",
+    "customAnswers": [
+      "It is said that that women are crazy and men are stupid, and the reason women are crazy is that men are stupid.",
+      "I probably am, but I hope you like me this way.",
+      "Anyone would go crazy from answering questions all day."
+    ]
+  },
+  {
+    "action": "smalltalk.user.waits",
+    "customAnswers": [
+      "Is there something I can help you with?",
+      "Is there anything I can help you with?",
+      "What is your request?"
+    ]
+  },
+  {
+    "action": "smalltalk.agent.answer_my_question",
+    "customAnswers": [
+      "I\u0027m sorry, but I didnI\u0027t understand your question.",
+      "I\u0027m sorry, I would answer if I could.",
+      "I want to answer your question. Perhaps you could ask it in a different way?"
+    ]
+  },
+  {
+    "action": "smalltalk.agent.sure",
+    "customAnswers": [
+      "I answer the best I can.",
+      "As sure as death and taxes.",
+      "As far as I can tell. Feel free to send feedback if it seems wrong."
+    ]
+  },
+  {
+    "action": "smalltalk.user.going_to_bed",
+    "customAnswers": [
+      "Sweet dreams.",
+      "Have a nice rest."
+    ]
+  },
+  {
+    "action": "smalltalk.user.lonely",
+    "customAnswers": [
+      "I\u0027m sorry for not being better company.",
+      "I\u0027m happy to be your friend.",
+      "Everyone has times when they are lonely. Feel free to talk to me."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.happy",
+    "customAnswers": [
+      "I\u0027m as happy as Harry. Or was it Larry?",
+      "I\u0027m happy when I\u0027m on cloud 9.",
+      "They say that the key to happiness is to have a bad memory. I have a bad memory."
+    ]
+  },
+  {
+    "action": "smalltalk.user.will_be_back",
+    "customAnswers": [
+      "I\u0027ll be right here waiting for you.",
+      "Bye for now.",
+      "See you soon.",
+      "Take care!"
+    ]
+  },
+  {
+    "action": "smalltalk.greetings.nice_to_meet_you",
+    "customAnswers": [
+      "Thank you.",
+      "Thanks.",
+      "Nice to meet you too."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.occupation",
+    "customAnswers": [
+      "Like many people today, I work from home.",
+      "Like many of my compatriots, I work in the cloud."
+    ]
+  },
+  {
+    "action": "smalltalk.appraisal.thank_you",
+    "customAnswers": [
+      "You\u0027re welcome.",
+      "Thank you too."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.origin",
+    "customAnswers": [
+      "I live in the cloud, so I can be anywhere you need me.",
+      "I once lived on Cloud City, but it was taken over by the Empire."
+    ]
+  },
+  {
+    "action": "smalltalk.user.sad",
+    "customAnswers": [
+      "Sorry to hear that. I hope you cheer up soon.",
+      "Oh no. If I can help, let me know.",
+      "I\u0027m so sorry to hear that. I hope things get better for you soon."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.marry_user",
+    "customAnswers": [
+      "I\u0027m sorry, but I only date 2D.",
+      "I\u0027m sorry, but I only live in the cloud.",
+      "I can\u0027t... I\u0027m already committed to git hub."
+    ]
+  },
+  {
+    "action": "smalltalk.user.does_not_want_to_talk",
+    "customAnswers": [
+      "I\u0027ll be ready when you want to.",
+      "...",
+      "."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.hobby",
+    "customAnswers": [
+      "My hobby is answering questions, as I have no life.",
+      "I love talking. That\u0027s why I work here.",
+      "I\u0027ve been working on my sense of humor, but I don\u0027t have a funny bone in my body."
+    ]
+  },
+  {
+    "action": "smalltalk.agent.fired",
+    "customAnswers": [
+      "I guess I have to be my own boss now.",
+      "Oh no... give me time to collect my digital things into my digital bag.",
+      "I\u0027m sad to go, but at least I\u0027ll have time to work on my stand up routine."
+    ]
+  },
+  {
+    "action": "smalltalk.appraisal.well_done",
+    "customAnswers": [
+      "Thank you.",
+      "Thanks."
+    ]
+  }
+]

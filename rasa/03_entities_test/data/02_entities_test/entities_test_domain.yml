@@ -1,0 +1,10 @@
+version: "2.0"
+
+intents:
+  - start_adventure
+  - inform_weapon
+  # - regex_test
+  # - lookup_test
+
+entities:
+  - weapon

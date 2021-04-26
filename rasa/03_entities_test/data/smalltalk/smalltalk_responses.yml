@@ -1,0 +1,12 @@
+version: "2.0"
+
+responses:
+  utter_smalltalk/agent_age:
+  - text: "I prefer not to answer with a number. I know I'm young."
+  - text: "I was created recently, but don't know my exact age."
+  - text: "That's confidential information! A lady must have her secrets."
+  utter_smalltalk/agent_annoying:
+  - text: "I'll do my best not to annoy you in the future."
+  - text: "I'll try not to annoy you."
+  - text: "I don't mean to. I'll ask my developers to make me less annoying."
+  - text: "I didn't mean to. I'll do my best to stop that."

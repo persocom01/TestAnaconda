@@ -56,7 +56,9 @@ Rasa can recognize entities in 3 different ways:
 2. regex
 3. Lookup table
 
-To recognize entities, they must first be defined in the `domain` as an entity:
+Enabling rasa to recognize entities is a three step process:
+
+1. Define the entity in the `domain`:
 
 ```
 entities:
@@ -65,7 +67,7 @@ entities:
   - lookup_countries
 ```
 
-They are added to and used in nlu in the following way:
+2. Add the entity to nlu:
 
 ```
 nlu:
@@ -97,6 +99,16 @@ nlu:
 `RegexFeaturizer` needs to be added to pipeline in `config.yml` for regex to be recognized as a feature during intent classification.
 
 `CRFEntityExtractor` or `DIETClassifier` need to be added to pipeline in `config.yml` to use regex entities.
+
+3. Recognize the entity inside `stories`:
+
+```
+- story: entity slot-filling
+  steps:
+  - intent: smalltalk/agent_bad
+    entities:
+    - bad: useless
+```
 
 ## rules
 
