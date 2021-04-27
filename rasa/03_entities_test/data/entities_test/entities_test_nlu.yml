@@ -31,3 +31,14 @@ nlu:
     - [staff](weapon)
 #    - [longbow]{"entity": "weapon", "value": "bow"}
 #    - [shortbow]{"entity": "weapon", "value": "bow"}
+
+- lookup: lookup_goods
+  examples: |
+    - pheonix down
+    - hi-potion
+    - elixir
+- intent: inform_purchase
+  examples: |
+    - may I buy a [pheonix down](goods)
+    - I want to buy a [hi-potion](goods)
+    - do you have an [elixir](goods)

@@ -51,10 +51,12 @@ Retrieval intents are a way to group multiple intents of the same type into one 
 
 ### entity recognition
 
-Recognizing entities in `nlu` is different from the entities defined in `domain`. The reason being that the entities recognized here are only for the purpose of prediction. To store return them to the user, you need to define them as `entities` and `slots` of the same name inside `domain`. Rasa can recognize entities in 3 different ways:
-1. Synonyms
+Recognizing entities in `nlu` is different from the entities defined in `domain`. The reason being that the entities defined here are only for the purpose of recognized as a prediction feature.
+
+If you wish to store and return them to the user, you will need to define them as `entities` and `slots` of the same name inside `domain`. Rasa can recognize entities in 3 different ways:
+1. synonym
 2. regex
-3. Lookup table
+3. lookup
 
 They are written the following way:
 
@@ -64,14 +66,14 @@ In `domain`:
 entities:
   - weapon
   - email
-  - lookup_countries
+  - goods
 
 slots:
   - weapon
   type: text
   - email
   type: text
-  - lookup_countries
+  - goods
   type: text
 ```
 
@@ -79,17 +81,18 @@ In `nlu`:
 
 ```
 nlu:
+<!-- In the case of a synonym, all variations of bows are recognizes as the "bow" entity (the name of the synonym). When this entity is saved as a slot, its value will always be "bow". -->
+<!-- Instead of specifying synonyms, you can use dictionary notation to identify words as synonyms instead. They are written in the form: [bow_variant]{"entity": "domain_entity", "value": "bow"} -->
 - synonym: bow
   examples: |
     - bow
     - longbow
     - shortbow
-    - hunting bow
 - intent: inform_weapon
   examples: |
+    - [sword](weapon)
     - [longbow](weapon)
-    - [shortbow](weapon)
-    - [hunting bow]{"entity": "weapon", "value": "bow"}
+    - [short bow]{"entity": "weapon", "value": "bow"}
 
 - regex: regex_email
   examples: |
@@ -99,10 +102,17 @@ nlu:
     - my email is [user@user.com](email)
     - This is my email [user@user.com](email)
 
-- lookup: lookup_countries
+<!-- You use lookup when you have a list of entities specific to your application. This list should be < 10 million long. lookup is case insensitive. -->
+- lookup: lookup_goods
   examples: |
-    - Australia
-    - Singapore
+    - pheonix down
+    - hi-potion
+    - elixir
+- intent: inform_purchase
+  examples: |
+    - may I buy a [pheonix down](goods)
+    - I want to buy a [hi-potion](goods)
+    - do you have an [elixir](goods)
 ```
 
 Finally in stories:
@@ -115,12 +125,11 @@ Finally in stories:
     - weapon: longbow
 ```
 
-
-In `- synonym: syn_name`, all variations of the word will be recognized as the word `syn_name`. In the above case, when extracting the slot `weapon`
-
 `RegexFeaturizer` needs to be added to pipeline in `config.yml` for regex to be recognized as a feature during intent classification.
 
 `CRFEntityExtractor` or `DIETClassifier` need to be added to pipeline in `config.yml` to use regex entities. However, their matches are not limited to exact matches. More on the issue can be found here: https://github.com/RasaHQ/rasa/issues/3880
+
+research on lookup is to be continued...
 
 ## rules
 
@@ -163,7 +172,7 @@ Setting `conversation_start: true` makes the rule only apply at the beginning of
 2. condition
 You may set a condition to be fulfilled for the rule to apply. These can be `slot_was_set` or `active_loop` events.
 3. wait_for_user_input
-By default, rules implicitly end with `- action: action_listen`. In practice, this results in the end of the current conversational flow. By setting `wait_for_user_input: false`, the conversation flow does not stop when the rule is executed but pick off where it last left off. This however, includes fallback actions.
+By default, rules implicitly end with `- action: action_listen`. In practice, this ends the current conversational flow. By setting `wait_for_user_input: false`, the conversation flow does not end when the rule is executed but picks off where it last left off. This means any action that would have been executed will continue to be executed, including fallback actions.
 
 ## stories
 
@@ -204,4 +213,18 @@ stories:
 
 Note that checkpoints were used to place the story in the second file in the middle of the first one.
 
-Trying to place the middle modular portion of the story (we will call the checkpoint module) into multiple stories does not work. Multiple stories can end with a single checkpoint module, but a single checkpoint module cannot branch out into multiple endings. If there is a need to reuse the checkpoint module, make a copy of the story with different checkpoint names and place it into the new story.
+Trying to place the middle modular portion of the story (we will call this the checkpoint module) into multiple stories with different endings will not work, as rasa appears not to consider anything prior to the checkpoint during prediction. Thus multiple stories can converge into a single checkpoint module, but a single checkpoint module cannot branch out into multiple endings. If there is a need to reuse a checkpoint module, make a copy of it different checkpoint names before placing it into the new story.
+
+### or statements
+
+Using `or:`, one can cause multiple intents to converge into a single action. For instance:
+
+```
+- action: utter_ask_dinner
+- or:
+  - intent: steak
+  - intent: fish
+- action: utter_vegetarian_restaurant
+```
+
+Overusing or statements is not recommended, as it will slow down training.

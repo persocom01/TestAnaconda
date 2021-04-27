@@ -16,3 +16,11 @@ stories:
     entities:
       - weapon: sword
   - action: utter_weapon
+
+  - action: utter_shop
+  - intent: inform_purchase
+    entities:
+      - goods: pheonix down
+  - action: utter_confirm_goods
+  - intent: affirm
+  - action: utter_thank_purchase

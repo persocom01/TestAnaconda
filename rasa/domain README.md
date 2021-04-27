@@ -1,14 +1,15 @@
 # rasa domain
 
-This file contains detailed instructions on how to use domain files. Domain files support 7 keys. These are:
+This file contains detailed instructions on how to use domain files. Domain files support 8 keys. These are:
 
 1. version
 2. intents
 3. entities
 4. slots
 5. responses
-6. actions
-7. session config
+6. forms
+7. actions
+8. session config
 
 Describing how they are used is the purpose of this document.
 
@@ -227,6 +228,46 @@ responses:
   utter_greeting:
   - dtype: "other_text {name}."
 ```
+
+## forms
+
+forms are a conversation pattern used to collect pieces of information from a user. To use forms:
+
+1. Add `RulePolicy` to `config.yml`:
+
+```
+policies:
+  - name: ...OtherPolicies
+  - name: RulePolicy
+```
+
+2. Define a form in the forms section of `domain`:
+
+```
+forms:
+  restaurant_form:
+    cuisine:
+      - type: from_entity
+        entity: cuisine
+        not_intent:
+        - goodbye
+        - not_listed
+    num_people:
+      - type: from_entity
+        entity: number
+```
+
+3. Activate the form in `rules`:
+
+```
+rules:
+- rule: Activate form
+  steps:
+  - intent: request_restaurant
+  - action: restaurant_form
+  - active_loop: restaurant_form
+```
+
 
 ## actions
 

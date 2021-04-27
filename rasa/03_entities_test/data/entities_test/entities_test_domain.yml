@@ -4,14 +4,17 @@ intents:
   - start_adventure
   - inform_seed
   - inform_weapon
-  # - lookup_test
+  - inform_purchase
 
 entities:
   - weapon
   - regex_seed
+  - goods
 
 slots:
   weapon:
     type: text
   regex_seed:
+    type: text
+  goods:
     type: text
