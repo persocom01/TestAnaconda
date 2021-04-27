@@ -1,34 +1,73 @@
-version: "2.0"
-
-intents:
-  - greet
-  - goodbye
-  - affirm
-  - deny
-  - mood_great
-  - mood_unhappy
-  - bot_challenge
-
-responses:
-  utter_greet:
-  - text: "Hey! How are you?"
-
-  utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
-
-  utter_did_that_help:
-  - text: "Did that help you?"
-
-  utter_happy:
-  - text: "Great, carry on!"
-
-  utter_goodbye:
-  - text: "Bye"
-
-  utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
-
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
+intents:
+- greet
+- goodbye
+- affirm
+- deny
+- mood_great
+- mood_unhappy
+- bot_challenge
+- inform_purchase
+- inform_weapon
+- adventurer_guild
+- start_adventure
+- inform_seed
+- fill_adventurer_form
+entities:
+- regex_seed
+- weapon
+- goods
+slots:
+  goods:
+    type: text
+    influence_conversation: true
+  regex_seed:
+    type: text
+    influence_conversation: true
+  weapon:
+    type: text
+    influence_conversation: true
+responses:
+  utter_greet:
+  - text: Hey! How are you?
+  utter_cheer_up:
+  - image: https://i.imgur.com/nGF1K8f.jpg
+    text: 'Here is something to cheer you up:'
+  utter_did_that_help:
+  - text: Did that help you?
+  utter_happy:
+  - text: Great, carry on!
+  utter_goodbye:
+  - text: Bye
+  utter_iamabot:
+  - text: I am a bot, powered by Rasa.
+  utter_ask_seed:
+  - text: Enter the 5 digit world seed you wish to use.
+  utter_seed:
+  - text: 'World seed: {regex_seed}.'
+  utter_ask_weapon:
+  - text: Choose your weapon.
+  utter_weapon:
+  - text: You are armed with a {weapon}.
+  utter_shop:
+  - text: You encounter a travelling merchant. What do you say?
+  utter_confirm_goods:
+  - text: Are you sure you sure you wish to buy {goods}?
+  utter_thank_purchase:
+  - text: Thank you for your purchase!
+  utter_fork:
+  - buttons:
+    - payload: /adventurer_guild
+      title: right
+    - payload: /adventurer_guild
+      title: left
+    text: You come to a fork in the road. Do you go right or left?
+  utter_adventurer_guild:
+  - buttons:
+    - payload: '/inform_weapon{{"weapon": "gun"}}'
+      title: Grab a gun.
+    - payload: /fill_adventurer_form
+      title: Apply to be an adventurer.
+    text: You arrive at an adventurer's guild. What do you wish to do?

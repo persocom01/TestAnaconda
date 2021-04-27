@@ -20,7 +20,6 @@ nlu:
     - bow
     - longbow
     - shortbow
-    - hunting bow
 - intent: inform_weapon
   examples: |
     - [gun](weapon)
