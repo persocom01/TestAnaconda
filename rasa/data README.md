@@ -171,13 +171,37 @@ stories is where you define how the bot works by putting together intents and re
 
 ### checkpoint
 
-Using checkpoint is how you modularize your story. For instance, in story_file1 we can have:
+Using checkpoints is how you modularize your story. For instance, in story_file1 we can have:
 
 ```
+stories:
 
+- story: start adventure
+  steps:
+  - intent: start_adventure
+  - checkpoint: forest_stage_start
+
+- story: end adventure
+  steps:
+  - checkpoint: forest_stage_end
+  - action: utter_loot
 ```
 
 and story_file2 we have:
 
 ```
+stories:
+
+- story: forest_stage_start
+  steps:
+  - checkpoint: forest_stage_start
+  - action: utter_slime_encounter
+  - intent: attack
+  - action: utter_slime_death
+  - intent: loot
+  - checkpoint: forest_stage_end
 ```
+
+Note that checkpoints were used to place the story in the second file in the middle of the first one.
+
+Trying to place the middle modular portion of the story (we will call the checkpoint module) into multiple stories does not work. Multiple stories can end with a single checkpoint module, but a single checkpoint module cannot branch out into multiple endings. If there is a need to reuse the checkpoint module, make a copy of the story with different checkpoint names and place it into the new story.

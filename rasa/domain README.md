@@ -86,7 +86,7 @@ If the same slot is defined in another file, the latest (by alphabetical order) 
 slots can be of the following dtypes:
 1. text
 2. bool
-bool can be set to either `true` or `false`.
+bool can be set to either `true` or `false`. You need to define a custom action to use a bool slot. However, you can get around this by using a text slot and passing it "true" or "false" values as strings using `[user_text]{"entity": "entity_name", "value": "true"}` inside `nlu` intent examples instead.
 3. categorical
 Unlike other types of slots, when defining categorical slots, you need to also define all their possible values.
 4. float
