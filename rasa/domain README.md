@@ -268,6 +268,7 @@ rules:
   - active_loop: restaurant_form
 ```
 
+To be continued: https://rasa.com/docs/rasa/forms
 
 ## actions
 
