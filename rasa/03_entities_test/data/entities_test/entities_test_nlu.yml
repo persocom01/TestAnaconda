@@ -13,6 +13,7 @@ nlu:
   examples: |
     - [12345](regex_seed)
     - [54321](regex_seed)
+    - [09124](regex_seed)
 
 - synonym: bow
   examples: |
@@ -35,12 +36,14 @@ nlu:
 - lookup: lookup_goods
   examples: |
     - pheonix down
+    - potion
     - hi-potion
     - elixir
 - intent: inform_purchase
   examples: |
-    - may I buy a [pheonix down](goods)
-    - I want to buy a [hi-potion](goods)
+    - buy [pheonix down](goods)
+    - may I buy a [hi-potion](goods)
+    - I want to buy a [potion](goods)
     - do you have an [elixir](goods)
 
 - intent: adventurer_guild

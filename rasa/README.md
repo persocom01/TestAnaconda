@@ -70,6 +70,9 @@ Run it by navigating to the rasa bot folder and entering:
 rasa x
 ```
 
+It current does not appear to specify a domain for rasa x even though it is listed in the commands here:
+https://rasa.com/docs/rasa/command-line-interface/#rasa-x
+
 Use the web browser and navigate to http://localhost:5002/ to access the dashboard.
 
 ### Linux
