@@ -24,3 +24,10 @@ stories:
   - action: utter_confirm_goods
   - intent: affirm
   - action: utter_thank_purchase
+  - action: utter_fork
+  - intent: adventurer_guild
+  - action: utter_adventurer_guild
+  - intent: inform_weapon
+    entities:
+      - weapon: gun
+  - action: utter_weapon

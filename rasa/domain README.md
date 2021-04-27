@@ -191,43 +191,57 @@ responses are defined in the following way:
 ```
 responses:
   utter_response1:
-  - dtype: "string_or_link"
-    dtype: "string_or_link"
-  - dtype: "string_or_link"
+  - text: "string {slot_name}"
+    image: "image_url"
+  - text: "string"
+    buttons:
+    - title: "option1"
+      payload: '/intent1{{"entity": "value"}}'
+    - title: "option2"
+      payload: "/intent2"
 
   utter_response2:
-  - dtype: "string_or_link"
-    dtype: "string_or_link"
-  - dtype: "string_or_link"
+  - string: "string"
+    custom:
+      json_key1: value
+      json_key2:
+        - list_value1
+        - list_value2
 
-<!-- Responses for retrieval intents -->
+<!-- Responses for retrieval intents are identical but come in the name format utter_retrieval_intent/sub_intent -->
   utter_retrieval_intent/sub_intent1:
-  - dtype: "string_or_link"
-    dtype: "string_or_link"
-  - dtype: "string_or_link"
+  - text: "string {slot_name}"
+    image: "image_url"
+  - text: "string"
   utter_retrieval_intent/sub_intent2:
-  - dtype: "string_or_link"
-    dtype: "string_or_link"
-  - dtype: "string_or_link"
+  - text: "string"
 ```
 
-Where each `-` indicates a response variation. Each response variation can have multiple datatypes, but each datatype may only appear once.
+Each `-` under a response indicates a response variation. Each response variation can have multiple datatypes, but each datatype may only appear once.
 
 All responses must start with utter_, otherwise they will be considered custom actions.
 
 If the same response is defined in another file, the latest (by alphabetical order) file will take precedence. As such, it is possible to keep the base responses and build on them by overriding them.
 
-Responses for retrieval intents are written in the same way, but named in the format utter_retrieval_intent/sub_intent.
+### buttons
 
-### Response variables
-
-You are able to insert slot data into variables in the following way:
+Using the button option in responses causes rasa shell to display a series of options for the user to pick using arrow keys.
 
 ```
 responses:
-  utter_greeting:
-  - dtype: "other_text {name}."
+  utter_response1:
+  - buttons:
+    - title: "option1"
+      payload: '/intent1{{"entity": "value"}}'
+    - title: "option2"
+      payload: "/intent2"
 ```
+
+`title` is the name of each option.
+`payload` is the intent an option will trigger when selected. Note the `/` before the intent name. Selecting it will bypass nlu and trigger the intent. However, you will still need to define the intent in nlu with training examples. Also note the specific formatting when using the button to fill a slot. To prevent parsing errors:
+* `entity` and `value` bust be surrounded by `""` and not `''`.
+* Because of this, the payload string itself must use `''` and not `""`
+* Double `{}` must be used.
 
 ## forms
 

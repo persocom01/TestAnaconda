@@ -21,3 +21,19 @@ responses:
 
   utter_thank_purchase:
   - text: "Thank you for your purchase!"
+
+  utter_fork:
+  - text: "You come to a fork in the road. Do you go right or left?"
+    buttons:
+    - title: "right"
+      payload: "/adventurer_guild"
+    - title: "left"
+      payload: "/adventurer_guild"
+
+  utter_adventurer_guild:
+    - text: "You arrive at an adventurer's guild. What do you wish to do?"
+      buttons:
+      - title: "Grab a gun."
+        payload: '/inform_weapon{{"weapon": "gun"}}'
+      - title: "Apply to be an adventurer."
+        payload: "/fill_adventurer_form"

@@ -42,3 +42,13 @@ nlu:
     - may I buy a [pheonix down](goods)
     - I want to buy a [hi-potion](goods)
     - do you have an [elixir](goods)
+
+- intent: adventurer_guild
+  examples: |
+    - adventurer guild
+    - adventurer's guild
+
+- intent: fill_adventurer_form
+  examples: |
+    - sign up to be an adventurer
+    - apply to be an adventurer

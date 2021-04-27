@@ -5,6 +5,8 @@ intents:
   - inform_seed
   - inform_weapon
   - inform_purchase
+  - adventurer_guild
+  - fill_adventurer_form
 
 entities:
   - weapon
