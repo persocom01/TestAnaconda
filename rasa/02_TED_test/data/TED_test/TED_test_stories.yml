@@ -26,3 +26,115 @@ stories:
   - action: utter_1_countdown
   - intent: affirm
   - action: utter_0_countdown
+
+- story: TEDTest interrupt
+  steps:
+  - intent: smalltalk
+  - action: utter_smalltalk
+  - intent: start_count
+  - action: utter_10_countdown
+  - intent: affirm
+  - action: utter_9_countdown
+  - intent: affirm
+  - action: utter_8_countdown
+  - intent: affirm
+  - action: utter_7_countdown
+  - intent: affirm
+  - action: utter_6_countdown
+  - intent: smalltalk
+  - action: utter_smalltalk
+  - action: utter_5_countdown
+  - intent: affirm
+  - action: utter_4_countdown
+  - intent: affirm
+  - action: utter_3_countdown
+  - intent: affirm
+  - action: utter_2_countdown
+  - intent: affirm
+  - action: utter_1_countdown
+  - intent: smalltalk
+  - action: utter_smalltalk
+  - action: utter_0_countdown
+
+- story: TEDTest interrupt2
+  steps:
+  - intent: start_count
+  - action: utter_10_countdown
+  - intent: smalltalk
+  - action: utter_smalltalk
+  - action: utter_9_countdown
+  - intent: affirm
+  - action: utter_8_countdown
+  - intent: smalltalk
+  - action: utter_smalltalk
+  - action: utter_7_countdown
+  - intent: affirm
+  - action: utter_6_countdown
+  - action: affirm
+  - action: utter_5_countdown
+  - intent: affirm
+  - action: utter_4_countdown
+  - intent: affirm
+  - action: utter_3_countdown
+  - intent: affirm
+  - action: utter_2_countdown
+  - intent: affirm
+  - action: utter_1_countdown
+  - intent: affirm
+  - action: utter_0_countdown
+
+- story: TEDTest interrupt3
+  steps:
+  - intent: start_count
+  - action: utter_10_countdown
+  - intent: affirm
+  - action: utter_9_countdown
+  - intent: affirm
+  - action: utter_8_countdown
+  - intent: affirm
+  - action: utter_7_countdown
+  - intent: affirm
+  - action: utter_6_countdown
+  - intent: affirm
+  - action: utter_5_countdown
+  - intent: affirm
+  - action: utter_4_countdown
+  - intent: affirm
+  - action: utter_3_countdown
+  - intent: affirm
+  - action: utter_2_countdown
+  - intent: smalltalk
+  - action: utter_smalltalk
+  - action: utter_1_countdown
+  - intent: affirm
+  - action: utter_0_countdown
+
+- story: TEDTest interrupt4
+  steps:
+  - intent: start_count
+  - action: utter_10_countdown
+  - intent: smalltalk
+  - action: utter_smalltalk
+  - action: utter_9_countdown
+  - intent: smalltalk
+  - action: utter_smalltalk
+  - action: utter_8_countdown
+  - intent: smalltalk
+  - action: utter_smalltalk
+  - action: utter_7_countdown
+  - intent: smalltalk
+  - action: utter_smalltalk
+  - action: utter_6_countdown
+  - intent: affirm
+  - action: utter_5_countdown
+  - intent: affirm
+  - action: utter_4_countdown
+  - intent: affirm
+  - action: utter_3_countdown
+  - intent: smalltalk
+  - action: utter_smalltalk
+  - action: utter_2_countdown
+  - intent: affirm
+  - action: utter_1_countdown
+  - intent: affirm
+  - action: utter_0_countdown

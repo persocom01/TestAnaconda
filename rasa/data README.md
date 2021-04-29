@@ -172,11 +172,13 @@ Setting `conversation_start: true` makes the rule only apply at the beginning of
 2. condition
 You may set a condition to be fulfilled for the rule to apply. These can be `slot_was_set` or `active_loop` events.
 3. wait_for_user_input
-By default, rules implicitly end with `- action: action_listen`. In practice, this ends the current conversational flow. By setting `wait_for_user_input: false`, the conversation flow does not end when the rule is executed but picks off where it last left off. This means any action that would have been executed will continue to be executed, including fallback actions.
+By default, rules implicitly end with `- action: action_listen`. In practice, this ends the current conversational flow. By setting `wait_for_user_input: false`, the conversation flow does not end when the rule is executed but picks off where it last left off. This means any action that would have been executed will continue to be executed, including fallback actions. To prevent a fallback action from being executed, either do not define a fallback action or make stories where the conversation flow is interrupted by execution of the rule but still continue the next action.
 
 ## stories
 
 stories is where you define how the bot works by putting together intents and responses.
+
+When putting retrieval intents into stories, use the main intent name and not sub-intents.
 
 ### checkpoint
 

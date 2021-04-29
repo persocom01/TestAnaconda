@@ -1,32 +1,23 @@
 {
-  "deny": {
+  "fill_adventurer_form": {
     "precision": 1.0,
     "recall": 1.0,
     "f1-score": 1.0,
-    "support": 7,
+    "support": 2,
     "confused_with": {}
   },
-  "goodbye": {
-    "precision": 1.0,
-    "recall": 0.9090909090909091,
-    "f1-score": 0.9523809523809523,
-    "support": 11,
-    "confused_with": {
-      "nlu_fallback": 1
-    }
-  },
-  "affirm": {
+  "inform_purchase": {
     "precision": 1.0,
     "recall": 1.0,
     "f1-score": 1.0,
-    "support": 6,
+    "support": 4,
     "confused_with": {}
   },
-  "mood_unhappy": {
+  "adventurer_guild": {
     "precision": 1.0,
     "recall": 1.0,
     "f1-score": 1.0,
-    "support": 14,
+    "support": 2,
     "confused_with": {}
   },
   "mood_great": {
@@ -34,6 +25,20 @@
     "recall": 1.0,
     "f1-score": 1.0,
     "support": 14,
+    "confused_with": {}
+  },
+  "start_adventure": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 2,
+    "confused_with": {}
+  },
+  "inform_weapon": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 7,
     "confused_with": {}
   },
   "bot_challenge": {
@@ -52,29 +57,59 @@
       "nlu_fallback": 1
     }
   },
-  "start_count": {
+  "affirm": {
     "precision": 1.0,
     "recall": 1.0,
     "f1-score": 1.0,
-    "support": 5,
+    "support": 6,
     "confused_with": {}
+  },
+  "mood_unhappy": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 14,
+    "confused_with": {}
+  },
+  "deny": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 7,
+    "confused_with": {}
+  },
+  "inform_seed": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 3,
+    "confused_with": {}
+  },
+  "goodbye": {
+    "precision": 1.0,
+    "recall": 0.9090909090909091,
+    "f1-score": 0.9523809523809523,
+    "support": 11,
+    "confused_with": {
+      "nlu_fallback": 1
+    }
   },
   "micro avg": {
     "precision": 1.0,
-    "recall": 0.972972972972973,
-    "f1-score": 0.9863013698630138,
-    "support": 74
+    "recall": 0.9775280898876404,
+    "f1-score": 0.9886363636363636,
+    "support": 89
   },
   "macro avg": {
     "precision": 1.0,
-    "recall": 0.9790209790209791,
-    "f1-score": 0.9890476190476191,
-    "support": 74
+    "recall": 0.9870898332436794,
+    "f1-score": 0.9932600732600734,
+    "support": 89
   },
   "weighted avg": {
     "precision": 1.0,
-    "recall": 0.972972972972973,
-    "f1-score": 0.9858944658944658,
-    "support": 74
+    "recall": 0.9775280898876404,
+    "f1-score": 0.9882718031032639,
+    "support": 89
   }
 }

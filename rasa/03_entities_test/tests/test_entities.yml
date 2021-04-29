@@ -1,0 +1,43 @@
+version: "2.0"
+stories:
+- story: modified Story from Conversation ID 8aff32772f2c4afc910a1657707b8ac8
+  steps:
+  - intent: start_adventure
+    user: |-
+      start adventure
+  - action: utter_ask_seed
+  - intent: inform_seed
+    user: |-
+      [12345]{"entity": "regex_seed"}
+  - action: utter_seed
+  - action: utter_ask_weapon
+  - intent: inform_weapon
+    user: |-
+      [longbow]{"entity": "weapon", "value": "bow"}
+    entities:
+    - weapon: bow
+  - action: utter_weapon
+  - action: utter_shop
+  - intent: inform_purchase
+    user: |-
+      buy [potion]{"entity": "goods"}
+    entities:
+    - goods: potion
+  - action: utter_confirm_goods
+  - intent: affirm
+    user: |-
+      y
+  - action: utter_thank_purchase
+  - action: utter_fork
+  - intent: adventurer_guild
+    user: |-
+      /adventurer_guild
+  - action: utter_adventurer_guild
+  - slot_was_set:
+    - weapon: gun
+  - intent: inform_weapon
+    user: |-
+      /inform_weapon{"weapon": "gun"}
+    entities:
+    - weapon: gun
+  - action: utter_weapon

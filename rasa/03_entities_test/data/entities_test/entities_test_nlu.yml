@@ -17,7 +17,6 @@ nlu:
 
 - synonym: bow
   examples: |
-    - bow
     - longbow
     - shortbow
 - intent: inform_weapon

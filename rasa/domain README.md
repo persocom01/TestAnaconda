@@ -35,7 +35,7 @@ intents:
 
 ## entities
 
-entities is a list of entities that can extracted by an entity extractor in your NLU pipline defined in `config.yml`. They are defined in the following way:
+entities is a list of entities that can extracted by an entity extractor in your NLU pipeline defined in `config.yml`. They are defined in the following way:
 
 ```
 entities:
@@ -225,7 +225,7 @@ If the same response is defined in another file, the latest (by alphabetical ord
 
 ### buttons
 
-Using the button option in responses causes rasa shell to display a series of options for the user to pick using arrow keys.
+Using the button option in responses causes rasa shell to display a series of options for the user to pick using arrow keys. In rasa x, the options are listed from left to right.
 
 ```
 responses:

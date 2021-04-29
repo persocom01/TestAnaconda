@@ -25,9 +25,9 @@ responses:
   utter_fork:
   - text: "You come to a fork in the road. Do you go right or left?"
     buttons:
-    - title: "right"
-      payload: "/adventurer_guild"
     - title: "left"
+      payload: "/adventurer_guild"
+    - title: "right"
       payload: "/adventurer_guild"
 
   utter_adventurer_guild:

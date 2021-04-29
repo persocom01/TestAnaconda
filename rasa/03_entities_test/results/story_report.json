@@ -1,21 +1,51 @@
 {
-  "utter_greet": {
+  "inform_purchase": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 2
+  },
+  "None": {
     "precision": 0.0,
     "recall": 0.0,
     "f1-score": 0.0,
-    "support": 5
+    "support": 3
   },
-  "action_listen": {
+  "utter_happy": {
     "precision": 1.0,
-    "recall": 0.1875,
-    "f1-score": 0.3157894736842105,
-    "support": 16
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 3
   },
-  "greet": {
+  "utter_iamabot": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 1
+  },
+  "utter_ask_weapon": {
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1-score": 0.6666666666666666,
+    "support": 2
+  },
+  "adventurer_guild": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 2
+  },
+  "utter_greet": {
     "precision": 1.0,
     "recall": 1.0,
     "f1-score": 1.0,
     "support": 5
+  },
+  "utter_confirm_goods": {
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1-score": 0.6666666666666666,
+    "support": 2
   },
   "mood_unhappy": {
     "precision": 1.0,
@@ -23,34 +53,100 @@
     "f1-score": 1.0,
     "support": 3
   },
-  "utter_did_that_help": {
-    "precision": 0.0,
-    "recall": 0.0,
-    "f1-score": 0.0,
+  "utter_goodbye": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 4
+  },
+  "utter_seed": {
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1-score": 0.6666666666666666,
+    "support": 2
+  },
+  "utter_cheer_up": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
     "support": 3
   },
-  "goodbye": {
+  "inform_seed": {
     "precision": 1.0,
     "recall": 1.0,
     "f1-score": 1.0,
     "support": 2
   },
-  "affirm": {
-    "precision": 1.0,
+  "[longbow]{\"entity\": \"weapon\", \"value\": \"bow\"}": {
+    "precision": 0.5,
     "recall": 1.0,
-    "f1-score": 1.0,
-    "support": 1
-  },
-  "utter_goodbye": {
-    "precision": 1.0,
-    "recall": 0.5,
     "f1-score": 0.6666666666666666,
-    "support": 4
+    "support": 1
   },
   "mood_great": {
     "precision": 1.0,
     "recall": 1.0,
     "f1-score": 1.0,
+    "support": 2
+  },
+  "utter_weapon": {
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1-score": 0.8571428571428571,
+    "support": 4
+  },
+  "start_adventure": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 2
+  },
+  "action_listen": {
+    "precision": 1.0,
+    "recall": 0.8333333333333334,
+    "f1-score": 0.9090909090909091,
+    "support": 30
+  },
+  "utter_ask_seed": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 2
+  },
+  "inform_weapon": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 4
+  },
+  "[12345](regex_seed)": {
+    "precision": 0.5,
+    "recall": 1.0,
+    "f1-score": 0.6666666666666666,
+    "support": 1
+  },
+  "utter_shop": {
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1-score": 0.6666666666666666,
+    "support": 2
+  },
+  "greet": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 5
+  },
+  "[{\"weapon\": \"gun\"}]{\"entity\": \"weapon\", \"value\": \"gun\"}": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 2
+  },
+  "utter_thank_purchase": {
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1-score": 0.6666666666666666,
     "support": 2
   },
   "deny": {
@@ -59,46 +155,64 @@
     "f1-score": 1.0,
     "support": 2
   },
+  "goodbye": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 2
+  },
+  "[potion](goods)": {
+    "precision": 0.5,
+    "recall": 1.0,
+    "f1-score": 0.6666666666666666,
+    "support": 1
+  },
+  "utter_did_that_help": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 3
+  },
+  "utter_adventurer_guild": {
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1-score": 0.6666666666666666,
+    "support": 2
+  },
   "bot_challenge": {
     "precision": 1.0,
     "recall": 1.0,
     "f1-score": 1.0,
     "support": 1
   },
-  "utter_iamabot": {
+  "affirm": {
     "precision": 1.0,
     "recall": 1.0,
     "f1-score": 1.0,
-    "support": 1
-  },
-  "utter_cheer_up": {
-    "precision": 0.0,
-    "recall": 0.0,
-    "f1-score": 0.0,
     "support": 3
   },
-  "utter_happy": {
-    "precision": 0.0,
-    "recall": 0.0,
-    "f1-score": 0.0,
-    "support": 3
+  "utter_fork": {
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1-score": 0.6666666666666666,
+    "support": 2
   },
   "micro avg": {
-    "precision": 1.0,
-    "recall": 0.43137254901960786,
-    "f1-score": 0.6027397260273972,
-    "support": 51
+    "precision": 0.9680851063829787,
+    "recall": 0.8504672897196262,
+    "f1-score": 0.9054726368159204,
+    "support": 107
   },
   "macro avg": {
-    "precision": 0.7142857142857143,
-    "recall": 0.6205357142857143,
-    "f1-score": 0.6416040100250626,
-    "support": 51
+    "precision": 0.9242424242424242,
+    "recall": 0.8510101010101011,
+    "f1-score": 0.8616030434212253,
+    "support": 107
   },
   "weighted avg": {
-    "precision": 0.7254901960784313,
-    "recall": 0.43137254901960786,
-    "f1-score": 0.4846921224630203,
-    "support": 51
+    "precision": 0.9579439252336449,
+    "recall": 0.8504672897196262,
+    "f1-score": 0.8881741311647853,
+    "support": 107
   }
 }
