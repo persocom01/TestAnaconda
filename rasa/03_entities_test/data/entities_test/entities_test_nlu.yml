@@ -28,21 +28,36 @@ nlu:
     - [mace](weapon)
     - [dagger](weapon)
     - [staff](weapon)
-#    - [longbow]{"entity": "weapon", "value": "bow"}
-#    - [shortbow]{"entity": "weapon", "value": "bow"}
+    - [spear](weapon)
+    - [longbow]{"entity": "weapon", "value": "bow"}
+    - [shortbow]{"entity": "weapon", "value": "bow"}
+
+- intent: item_shop
+  examples: |
+    - item shop
+    - axel item shop
 
 - lookup: lookup_goods
   examples: |
-    - pheonix down
     - potion
     - hi-potion
+    - ether
     - elixir
+    - pheonix down
+    - antidote
+    - eyedrops
+    - remedy
+
 - intent: inform_purchase
   examples: |
-    - buy [pheonix down](goods)
-    - may I buy a [hi-potion](goods)
     - I want to buy a [potion](goods)
+    - may I buy a [hi-potion](goods)
+    - can I have an [ether](goods)?
     - do you have an [elixir](goods)
+    - buy [pheonix down](goods)
+    - I need an [antidote](goods)
+    - [eyedrops](goods) please
+    - I need [remedy](goods)
 
 - intent: adventurer_guild
   examples: |
@@ -53,3 +68,8 @@ nlu:
   examples: |
     - sign up to be an adventurer
     - apply to be an adventurer
+
+- intent: whispering_woods
+  examples: |
+    - whispering woods
+    - whispering_woods

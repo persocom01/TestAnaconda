@@ -53,7 +53,7 @@ Retrieval intents are a way to group multiple intents of the same type into one 
 
 Recognizing entities in `nlu` is different from the entities defined in `domain`. The reason being that the entities defined here are only for the purpose of recognized as a prediction feature.
 
-If you wish to store and return them to the user, you will need to define them as `entities` and `slots` of the same name inside `domain`. Rasa can recognize entities in 3 different ways:
+If you wish to store and return them to the user, you will need to define them as `entities` and `slots` inside `domain`. Rasa can recognize entities in 3 different ways:
 1. synonym
 2. regex
 3. lookup
@@ -81,11 +81,10 @@ In `nlu`:
 
 ```
 nlu:
-<!-- In the case of a synonym, all variations of bows are recognizes as the "bow" entity (the name of the synonym). When this entity is saved as a slot, its value will always be "bow". -->
+<!-- In the case of a synonym, all variations of bows are saved as "bow" (the name of the synonym) when this entity is saved as a slot. You will still need to add synonyms to nlu training examples as synonyms do not affect the prediction model. -->
 <!-- Instead of specifying synonyms, you can use dictionary notation to identify words as synonyms instead. They are written in the form: [bow_variant]{"entity": "domain_entity", "value": "bow"} -->
 - synonym: bow
   examples: |
-    - bow
     - longbow
     - shortbow
 - intent: inform_weapon
@@ -102,7 +101,7 @@ nlu:
     - my email is [user@user.com](email)
     - This is my email [user@user.com](email)
 
-<!-- You use lookup when you have a list of entities specific to your application. This list should be < 10 million long. lookup is case insensitive. -->
+<!-- You use lookup when you have a list of entities specific to your application that you wish to help rasa identify. This list should be < 10 million long. Like synonyms, you still need to add lookup to nlu training examples. lookup is case insensitive. -->
 - lookup: lookup_goods
   examples: |
     - pheonix down
@@ -153,6 +152,8 @@ rules:
     - user_provided_name: true
   steps:
   - intent: greet
+    entities:
+      - name: "Timmy"
   - action: utter_greet
   wait_for_user_input: false
 
@@ -162,6 +163,11 @@ rules:
   - intent: retrieval_intent
   - action: utter_retrieval_intent
 ```
+
+However, rules are different from stories in that:
+1. You cannot have more than 1 intent.
+The error you get for violating this is `Found rules 'rule_name' that contain more than 1 user message`. It appears that rules cannot be used require the user to type more than 1 message. This forces rules to either be short or comprising mostly of actions.
+2. checkpoint cannot be used.
 
 Using retrieval intents require a rule to be written for them.
 
@@ -177,6 +183,8 @@ By default, rules implicitly end with `- action: action_listen`. In practice, th
 ## stories
 
 stories is where you define how the bot works by putting together intents and responses.
+
+stories must always begin with an intent.
 
 When putting retrieval intents into stories, use the main intent name and not sub-intents.
 
@@ -215,7 +223,9 @@ stories:
 
 Note that checkpoints were used to place the story in the second file in the middle of the first one.
 
-Trying to place the middle modular portion of the story (we will call this the checkpoint module) into multiple stories with different endings will not work, as rasa appears not to consider anything prior to the checkpoint during prediction. Thus multiple stories can converge into a single checkpoint module, but a single checkpoint module cannot branch out into multiple endings. If there is a need to reuse a checkpoint module, make a copy of it different checkpoint names before placing it into the new story.
+Known limitations of checkpoints are:
+* A story beginning and ending with the checkpoints (we will call this the checkpoint module) cannot be shared among multiple stories with different endings. This appears to be because rasa does not to consider anything prior to the checkpoint during prediction. Thus multiple stories can converge into a single checkpoint module, but a single checkpoint module cannot branch out into multiple endings. If there is a need to reuse a checkpoint module, make a copy of it different checkpoint names before placing it into the new story.
+* checkpoints cannot be used to make looping stories.
 
 ### or statements
 

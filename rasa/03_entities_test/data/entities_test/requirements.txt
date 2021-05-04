@@ -1,0 +1,1 @@
+Copy the images in the img folder to the img folder to use local images.

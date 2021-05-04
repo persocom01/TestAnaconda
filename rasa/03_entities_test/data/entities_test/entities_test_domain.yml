@@ -4,9 +4,11 @@ intents:
   - start_adventure
   - inform_seed
   - inform_weapon
+  - item_shop
   - inform_purchase
   - adventurer_guild
   - fill_adventurer_form
+  - whispering_woods
 
 entities:
   - weapon

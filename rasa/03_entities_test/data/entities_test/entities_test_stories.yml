@@ -16,7 +16,13 @@ stories:
     entities:
       - weapon: sword
   - action: utter_weapon
+  - checkpoint: axel_town_start
 
+- story: axel item shop
+  steps:
+  - checkpoint: axel_town_start
+  - action: utter_town
+  - intent: item_shop
   - action: utter_shop
   - intent: inform_purchase
     entities:
@@ -24,10 +30,46 @@ stories:
   - action: utter_confirm_goods
   - intent: affirm
   - action: utter_thank_purchase
-  - action: utter_fork
+  - action: utter_return_to_town
+  - checkpoint: axel_town_end
+
+- story: axel adventurer guild
+  steps:
+  - checkpoint: axel_town_start
+  - action: utter_town
   - intent: adventurer_guild
   - action: utter_adventurer_guild
   - intent: inform_weapon
     entities:
       - weapon: gun
   - action: utter_weapon
+  - action: utter_return_to_town
+  - checkpoint: axel_town_end
+
+- story: axel item shop return
+  steps:
+  - checkpoint: axel_town_end
+  - intent: affirm
+  - action: utter_town
+  - intent: item_shop
+  - action: utter_shop
+  - intent: inform_purchase
+    entities:
+      - goods: pheonix down
+  - action: utter_confirm_goods
+  - intent: affirm
+  - action: utter_thank_purchase
+  - action: utter_return_to_town
+
+- story: axel adventurer guild return
+  steps:
+  - checkpoint: axel_town_end
+  - intent: affirm
+  - action: utter_town
+  - intent: adventurer_guild
+  - action: utter_adventurer_guild
+  - intent: inform_weapon
+    entities:
+      - weapon: gun
+  - action: utter_weapon
+  - action: utter_return_to_town

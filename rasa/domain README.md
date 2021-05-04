@@ -217,11 +217,52 @@ responses:
   - text: "string"
 ```
 
-Each `-` under a response indicates a response variation. Each response variation can have multiple datatypes, but each datatype may only appear once.
+Each `-` under a response indicates a response variation. Each response variation can have multiple datatypes, but each datatype may only appear once. The order does not matter. However, if `image` and `button` appear in the same response variation, rasa shell will not give you the option of using the buttons. It works on rasa x, however.
 
 All responses must start with utter_, otherwise they will be considered custom actions.
 
 If the same response is defined in another file, the latest (by alphabetical order) file will take precedence. As such, it is possible to keep the base responses and build on them by overriding them.
+
+### local images
+
+rasa does not support usage of local images. To display local images for development:
+
+1. Create an `img` folder in the rasa project and put all the images you need in it.
+
+2. Create a python file in the rasa project folder and copy the following code in it:
+
+```
+from flask import Flask, send_file
+
+app = Flask(__name__)
+
+
+@app.route('/img/<path:path>')
+def get_image(path):
+    image_path = 'img/{}'.format(path)
+
+    return send_file(image_path, mimetype='image/gif')
+
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=7000)
+
+```
+
+3. Run the flask server.
+
+```
+<!-- If you don't already have Flask. -->
+pip install Flask
+
+python img_server.py
+```
+
+4. Prefix all image file links with the following code:
+
+```
+http://localhost:7000/img/
+```
 
 ### buttons
 
