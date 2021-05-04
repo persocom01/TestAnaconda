@@ -14,8 +14,7 @@ responses:
   - text: "You are armed with a {weapon}."
 
   utter_town:
-  - image: "http://localhost:7000/img/town.jpg"
-    text: |
+  - text: |
       "You are in the town of Axel.
       On the left side of town is the adventurer's guild.
       On the right of the main road is an item shop.
@@ -25,6 +24,7 @@ responses:
       payload: "/adventurer_guild"
     - title: "Item shop"
       payload: "/item_shop"
+    image: "http://localhost:7000/img/town.jpg"
 
   utter_shop:
   - image: "http://localhost:7000/img/item_shop.jpg"
@@ -51,13 +51,13 @@ responses:
       payload: "/deny"
 
   utter_adventurer_guild:
-    - image: "http://localhost:7000/img/adventurer_guild.png"
-      text: "You arrive at an adventurer's guild. What do you wish to do?"
-      buttons:
-      - title: "Grab a gun"
-        payload: '/inform_weapon{{"weapon": "gun"}}'
-      - title: "Apply to be an adventurer"
-        payload: "/fill_adventurer_form"
+  - text: "You arrive at an adventurer's guild. What do you wish to do?"
+    buttons:
+    - title: "Grab a gun"
+      payload: '/inform_weapon{{"weapon": "gun"}}'
+    - title: "Apply to be an adventurer"
+      payload: "/fill_adventurer_form"
+    image: "http://localhost:7000/img/adventurer_guild.png"
 
   utter_fork:
   - text: |
