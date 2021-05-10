@@ -35,12 +35,15 @@ With the new environment activated, install needed dependencies by entering the 
 ```
 conda install -y ujson
 conda install -y tensorflow
-pip install -U pip
+pip install --upgrade pip==20.2 --user
 pip install rasa
 ```
 
 -y = auto yes
 -U = update
+--user = installs pip for the user instead of globally. To install globally, run anaconda as admin instead.
+
+Note that pip is version 20.2. This is because dependency resolution backtracking logic introduced in pip 20.3 makes rasa x install take forever otherwise.
 
 4. Initialize new rasa project
 
@@ -132,6 +135,52 @@ Initialize the rasa project.
 ```
 rasa init
 ```
+
+6. (optional) Install rasa x
+
+Unlike the local version of rasa x, the server version does not need the full bot in the same folder, but only access to the bot's `model` folder.
+
+* Install curl and sudo not already present.
+
+```
+apt-get -y install curl
+apt-get install sudo
+```
+
+* Copy the installation script into the bot directory by entering:
+
+```
+curl -sSL -o install.sh https://storage.googleapis.com/rasa-x-releases/0.39.3/install.sh
+```
+
+* Run the installation script
+
+By default, the install script copies the files needed for rasa x to `/etc/rasa`. This can be undesirable due to permissions, thus it can be desirable to change the path to something like `/home/ubuntu/rasa` (~ = /home/ubuntu). To change the file copy path and execute the installation script, enter:
+
+```
+export RASA_HOME=~/rasa_project_path
+sudo -E bash ./install.sh
+```
+
+* Run rasa x
+
+```
+sudo docker-compose up -d
+```
+
+At this point rasa x should be accessible at the ip address of the host. If you try to access it too early or it fails to start up, you might see the following json when accessing the ip address:
+
+```
+{"database_migration":{"status":"pending","current_revision":[],"target_revision":["97280f5b6803"],"progress_in_percent":0.0}}
+```
+
+If it runs fine, you still need to set the admin password by entering:
+
+```
+sudo python3 rasa_x_commands.py create --update admin me <PASSWORD>
+```
+
+To be continued... https://rasa.com/docs/rasa-x/installation-and-setup/install/docker-compose
 
 ## Usage
 

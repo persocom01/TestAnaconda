@@ -10,7 +10,6 @@ stories:
     entities:
       - regex_seed: "43215"
   - action: utter_seed
-
   - action: utter_ask_weapon
   - intent: inform_weapon
     entities:
@@ -18,10 +17,66 @@ stories:
   - action: utter_weapon
   - checkpoint: axel_town_start
 
-- story: axel item shop
+- story: axel item shop leave
   steps:
   - checkpoint: axel_town_start
   - action: utter_town
+  - intent: item_shop
+  - action: utter_shop
+  - intent: inform_purchase
+    entities:
+      - goods: potion
+  - action: utter_confirm_goods
+  - intent: affirm
+  - action: utter_thank_purchase
+  - action: utter_visit_guild_or_leave
+  - intent: deny
+  - checkpoint: axel_town_end
+
+- story: axel item shop guild
+  steps:
+  - checkpoint: axel_town_start
+  - action: utter_town
+  - intent: item_shop
+  - action: utter_shop
+  - intent: inform_purchase
+    entities:
+      - goods: ether
+  - action: utter_confirm_goods
+  - intent: affirm
+  - action: utter_thank_purchase
+  - action: utter_visit_guild_or_leave
+  - intent: adventurer_guild
+  - intent: inform_weapon
+    entities:
+      - weapon: spear
+  - checkpoint: axel_town_end
+
+- story: axel adventurer guild leave
+  steps:
+  - checkpoint: axel_town_start
+  - action: utter_town
+  - intent: adventurer_guild
+  - action: utter_adventurer_guild
+  - intent: inform_weapon
+    entities:
+      - weapon: spear
+  - action: utter_weapon
+  - action: utter_visit_shop_or_leave
+  - intent: deny
+  - checkpoint: axel_town_end
+
+- story: axel adventurer guild shop
+  steps:
+  - checkpoint: axel_town_start
+  - action: utter_town
+  - intent: adventurer_guild
+  - action: utter_adventurer_guild
+  - intent: inform_weapon
+    entities:
+      - weapon: spear
+  - action: utter_weapon
+  - action: utter_visit_shop_or_leave
   - intent: item_shop
   - action: utter_shop
   - intent: inform_purchase
@@ -30,46 +85,12 @@ stories:
   - action: utter_confirm_goods
   - intent: affirm
   - action: utter_thank_purchase
-  - action: utter_return_to_town
+  - action: utter_fork
   - checkpoint: axel_town_end
 
-- story: axel adventurer guild
-  steps:
-  - checkpoint: axel_town_start
-  - action: utter_town
-  - intent: adventurer_guild
-  - action: utter_adventurer_guild
-  - intent: inform_weapon
-    entities:
-      - weapon: gun
-  - action: utter_weapon
-  - action: utter_return_to_town
-  - checkpoint: axel_town_end
-
-- story: axel item shop return
+- story: whispering forest
   steps:
   - checkpoint: axel_town_end
-  - intent: affirm
-  - action: utter_town
-  - intent: item_shop
-  - action: utter_shop
-  - intent: inform_purchase
-    entities:
-      - goods: pheonix down
-  - action: utter_confirm_goods
-  - intent: affirm
-  - action: utter_thank_purchase
-  - action: utter_return_to_town
-
-- story: axel adventurer guild return
-  steps:
-  - checkpoint: axel_town_end
-  - intent: affirm
-  - action: utter_town
-  - intent: adventurer_guild
-  - action: utter_adventurer_guild
-  - intent: inform_weapon
-    entities:
-      - weapon: gun
-  - action: utter_weapon
-  - action: utter_return_to_town
+  - action: utter_fork
+  - intent: whispering_woods
+  - action: utter_whispering_woods

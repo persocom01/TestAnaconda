@@ -1,0 +1,17 @@
+version: "2.0"
+
+stories:
+
+- story: adventure form
+  steps:
+  - intent: start_form
+  - action: adventurer_form
+  - active_loop: restaurant
+  - slot_was_set:
+    - ambition: fighter
+  - slot_was_set:
+    - experience: 5
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_confirmation

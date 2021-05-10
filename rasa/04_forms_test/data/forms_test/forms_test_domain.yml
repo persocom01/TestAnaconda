@@ -1,0 +1,39 @@
+version: "2.0"
+
+intents:
+  - start_form
+  - fighter_job
+  - priest_job
+
+entities:
+  - job
+
+slots:
+  ambition:
+    type: text
+  experience:
+    type: float
+  # killed_dragon:
+  #   type: text
+
+
+forms:
+  adventurer_form:
+    ignored_intents:
+    - smalltalk
+    required_slots:
+      ambition:
+        - type: from_entity
+          entity: job
+          intent:
+          - fighter_job
+          - priest_job
+          # not_intent:
+          # - goodbye
+          # - not_listed
+      experience:
+        - type: from_text
+      # killed_dragon:
+      #   - type: from_text
+      #     entity: killed_dragon
+      #     intent:

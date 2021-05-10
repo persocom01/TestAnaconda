@@ -1,0 +1,13 @@
+version: "2.0"
+
+responses:
+  utter_ask_adventurer_form_ambition:
+  - text: "What do you wish to be in future?"
+
+  utter_ask_adventurer_form_experience:
+  - text: "How many years of experience do you have as an adventurer."
+
+  utter_confirmation:
+  - text: |
+      "You wsh to be a {ambition} and
+      you have {experience} years experience as an adventurer."

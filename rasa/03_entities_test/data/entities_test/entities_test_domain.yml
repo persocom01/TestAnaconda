@@ -19,6 +19,26 @@ slots:
   weapon:
     type: text
   regex_seed:
-    type: text
+    type: float
   goods:
     type: text
+  experience:
+    type: float
+  killed_dragon:
+    type: categorical
+    values:
+      - yes
+      - no
+
+forms:
+  adventurer_form:
+    experience:
+      - type: from_text
+        entity: experience
+        # not_intent:
+        # - goodbye
+        # - not_listed
+    killed_dragon:
+      - type: from_text
+        entity: killed_dragon
+        # intent:

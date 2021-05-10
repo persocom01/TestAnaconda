@@ -1,0 +1,25 @@
+version: "2.0"
+stories:
+- story: Story from Conversation ID 757d528c13ff4430bc75878af1a1d33f
+  steps:
+  - intent: start_form
+    user: |-
+      start form
+  - action: adventurer_form
+  - active_loop: adventurer_form
+  - slot_was_set:
+    - requested_slot: ambition
+  - intent: fighter_job
+    user: |-
+      a [crusader](job)
+  - action: adventurer_form
+  - slot_was_set:
+    - ambition: crusader
+  - intent: deny
+    user: |-
+      7
+  - action: adventurer_form
+  - active_loop: null
+  - slot_was_set:
+    - experience: '7'
+  - action: utter_confirmation

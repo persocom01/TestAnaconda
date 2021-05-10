@@ -91,7 +91,7 @@ bool can be set to either `true` or `false`. You need to define a custom action 
 3. categorical
 Unlike other types of slots, when defining categorical slots, you need to also define all their possible values.
 4. float
-The float category is used to store numbers. Unlike other types of slots, it comes with two innate properties: `min_value` and `max_value` which are by default 0.0 and 1.0 respectively. If float is set to any value below or above those limits, those values are treated as equal to those limits for the purposes of influencing conversation.
+The float category is used to store numbers. Unlike other types of slots, it comes with two innate properties: `min_value` and `max_value` which are by default 0.0 and 1.0 respectively. If float is set to any value below or above those limits, those values are treated as equal to those limits for the purposes of influencing conversation. It appears that float does not affect the number of decimal places displayed when the slot is called. The number of decimal places is always equal to that of the number that filled the slot, even if the number is 1.000.
 5. list
 You might need to define a custom action to use this slot type.
 6. any
@@ -270,7 +270,7 @@ http://localhost:7000/img/
 
 ### buttons
 
-Using the button option in responses causes rasa shell to display a series of options for the user to pick using arrow keys. In rasa x, the options are listed from left to right.
+Using the button option in responses causes rasa shell to display a series of options for the user to pick using arrow keys. Button payload must be an intent (needs testing on action). In rasa x, the options are listed from left to right.
 
 ```
 responses:
@@ -290,9 +290,9 @@ responses:
 
 ## forms
 
-forms are a conversation pattern used to collect pieces of information from a user. To use forms:
+forms are a conversation pattern used to collect pieces of information from users. To use forms:
 
-1. Add `RulePolicy` to `config.yml`:
+1. Ensure `RulePolicy` is enabled in `config.yml`
 
 ```
 policies:
@@ -300,34 +300,285 @@ policies:
   - name: RulePolicy
 ```
 
-2. Define a form in the forms section of `domain`:
+2. Define slots for every piece of information the form collects
+
+```
+slots:
+  slot1:
+    type: float
+  slot2:
+    type: categorical
+    values:
+      - yes
+      - no
+```
+
+3. Define the form
 
 ```
 forms:
-  restaurant_form:
-    cuisine:
-      - type: from_entity
-        entity: cuisine
-        not_intent:
-        - goodbye
-        - not_listed
-    num_people:
-      - type: from_entity
-        entity: number
+  form_name:
+    ignored_intents:
+    - smalltalk
+    required_slots:
+      slot1:
+        - type: from_entity
+          entity: entity1
+          not_intent:
+          - goodbye
+          - not_listed
+      slot2:
+        - type: from_text
 ```
 
-3. Activate the form in `rules`:
+`intent` is a list of entities which will cause the slot to be filled. By default, this is `None`, which means that the slot is filled regardless of intent.
+
+`not_intent` is a list of entities that will not fill the slot. `ignored_intents` are automatically added to each slot category in the form.
+
+4. Define responses
+
+When a form is activated, it automatically activates responses of the format `utter_ask_<form_name>_<slot_name>`:
+
+```
+responses:
+  utter_ask_form_name_slot1:
+  - text: "string"
+  utter_ask_form_name_slot2:
+  - text: "string"
+```
+
+5. Activate the form in `rules`
 
 ```
 rules:
 - rule: Activate form
   steps:
-  - intent: request_restaurant
-  - action: restaurant_form
-  - active_loop: restaurant_form
+  - intent: optional_trigger_intent
+  - action: form_name
+  - active_loop: form_name
 ```
 
-To be continued: https://rasa.com/docs/rasa/forms
+You may leave out the triggering intent if the form is activated as part of a story's flow.
+
+6. Deactivate the form in `rules`.
+
+Forms automatically deactivate and listen to the next user input once all slots are filled. However, one might prefer that other actions be taken before that, such as confirming user input.
+
+```
+rules:
+- rule: Submit form
+  <!-- Condition that form is active. -->
+  condition:
+  - active_loop: form_name
+  steps:
+  <!-- Form is deactivated. -->
+  - action: form_name
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  <!-- The actions we want to run when the form is submitted. -->
+  - action: utter_submit
+  - action: utter_slots_values
+```
+
+### form slot mappings
+
+Form slot mappings refer to how the from identifies how to fill slots based on user input. It refers to the `type` property of a slot listed in a form.
+
+ There are 4 inbuilt options:
+
+1. from_entity
+
+The slot is filled based on identification of an entity.
+
+```
+forms:
+  form_name:
+    required_slots:
+      slot_name:
+      - type: from_entity
+        entity: entity
+        role: entity_role
+        group: entity_group
+        intent: intents
+        not_intent: excluded_intents
+```
+
+`role` and `group` are optional parameters in the case that entity roles and groups are being utilized.
+
+2. from_text
+
+The slot is filled based on the entirety of the next user input.
+
+```
+forms:
+  form_name:
+    required_slots:
+      slot_name:
+      - type: from_text
+        intent: intents
+        not_intent: excluded_intents
+```
+
+3. from_intent
+
+The slot is filled with value `my_value` if the user message is identified as an intent listed under the `intent` property or none.
+
+```
+forms:
+  your_form:
+    required_slots:
+      slot_name:
+      - type: from_intent
+        value: my_value
+        intent: intents
+        not_intent: excluded_intents
+```
+
+4. from_trigger_intent
+
+from_trigger_intent is much like `from_intent` except that the slot is filled when the from is activated by an intent listed under the `intent` property or none.
+
+```
+forms:
+  your_form:
+    required_slots:
+      slot_name:
+      - type: from_trigger_intent
+        value: my_value
+        intent: intents
+        not_intent: excluded_intents
+```
+
+### handling unhappy form paths
+
+There are in general two kind of unhappy form paths, and they are handled in two different ways.
+
+1. When the user says something unrelated to the form.
+
+```
+rules:
+- rule: unhappy smalltalk form path
+  condition:
+  - active_loop: form_name
+  steps:
+  <!-- Handles smalltalk -->
+  - intent: smalltalk
+  - action: utter_smalltalk
+  <!-- Continue form -->
+  - action: form_name
+  - active_loop: form_name
+```
+
+2. When the user wants out of the form.
+
+```
+stories:
+- story: User interrupts the form and doesn't want to continue
+  steps:
+  - action: restaurant_form
+  - active_loop: restaurant_form
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: deny
+  - action: action_deactivate_loop
+  - active_loop: null
+```
+
+### from data validation
+
+From data validation is done using custom actions of the name `validate_<form_name>`.
+
+```
+actions:
+- validate_form_name
+```
+
+There is an inbuilt class `FormValidationAction` which simplifies the process of writing this custom action. To validate a slot, define a function `validate_<slot_name>`.
+
+```
+from typing import Text, List, Any, Dict
+
+from rasa_sdk import Tracker, FormValidationAction
+from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk.types import DomainDict
+
+class ValidateFormName(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_form_name"
+
+    @staticmethod
+    def cuisine_db() -> List[Text]:
+        """Database of supported cuisines"""
+
+        return ["caribbean", "chinese", "french"]
+
+    def validate_cuisine(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        """Validate cuisine value."""
+
+        if slot_value.lower() in self.cuisine_db():
+            # validation succeeded, set the value of the "cuisine" slot to value
+            return {"cuisine": slot_value}
+        else:
+            # validation failed, set this slot to None so that the
+            # user will be asked for the slot again
+            return {"cuisine": None}
+```
+
+### Contextual from questions
+
+By default, the current slot bein filled in a form does not influence conversations. To do so:
+
+1. Modify `requested_slot`
+
+`requested_slot` is a slot automatically added to the domain of type `text` and refers to the current slot being set. To set it to influence conversations you need to add it to domain as a `categorical` slot, with possible values being all form slots, and set `influence_conversation: true`.
+
+```
+slots:
+  requested_slot:
+    type: categorical
+    values:
+      - form_slot1
+      - form_slot2
+    influence_conversation: true
+```
+
+2. Add stories with different actions depending on the current requested slot
+
+```
+stories:
+- story: explain cuisine slot
+  steps:
+  - intent: request_restaurant
+  - action: restaurant_form
+  - active_loop: restaurant
+  - slot_was_set:
+    - requested_slot: cuisine
+  - intent: explain
+  - action: utter_explain_cuisine
+  - action: restaurant_form
+  - active_loop: null
+
+- story: explain num_people slot
+  steps:
+  - intent: request_restaurant
+  - action: restaurant_form
+  - active_loop: restaurant
+  - slot_was_set:
+    - requested_slot: cuisine
+  - slot_was_set:
+    - requested_slot: num_people
+  - intent: explain
+  - action: utter_explain_num_people
+  - action: restaurant_form
+  - active_loop: null
+```
 
 ## actions
 

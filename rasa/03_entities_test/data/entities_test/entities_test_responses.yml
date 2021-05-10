@@ -15,8 +15,9 @@ responses:
 
   utter_town:
   - text: |
-      "You are in the town of Axel.
-      On the left side of town is the adventurer's guild.
+      "You pass through the town of Axel.
+      On the left side of town is the
+      adventurer's guild.
       On the right of the main road is an item shop.
       Where do you wish to go?"
     buttons:
@@ -24,11 +25,11 @@ responses:
       payload: "/adventurer_guild"
     - title: "Item shop"
       payload: "/item_shop"
-    image: "http://localhost:7000/img/town.jpg"
+    # image: "http://localhost:7000/img/town.jpg"
 
   utter_shop:
-  - image: "http://localhost:7000/img/item_shop.jpg"
-    text: "You enter the store. What do you say?"
+  - text: "You enter the store. What do you say?"
+    # image: "http://localhost:7000/img/item_shop.jpg"
 
   utter_confirm_goods:
   - text: "Are you sure you sure you wish to buy {goods}?"
@@ -42,22 +43,34 @@ responses:
   utter_thank_purchase:
   - text: "Thank you for your purchase!"
 
-  utter_return_to_town:
-  - text: "Do you wish to return to town?"
+  utter_visit_guild_or_leave:
+  - text: "Do you wish to visit the item shop before leaving town?"
     buttons:
     - title: "Yes"
-      payload: "/affirm"
+      payload: "/adventurer_guild"
     - title: "No"
       payload: "/deny"
 
   utter_adventurer_guild:
-  - text: "You arrive at an adventurer's guild. What do you wish to do?"
+  - text: |
+      "You arrive at an adventurer's guild.
+      You may change your weapon to a spear
+      or sign up to be an adventurer.
+      What do you do?"
     buttons:
-    - title: "Grab a gun"
-      payload: '/inform_weapon{{"weapon": "gun"}}'
+    - title: "Grab a spear"
+      payload: '/inform_weapon{{"weapon": "spear"}}'
     - title: "Apply to be an adventurer"
       payload: "/fill_adventurer_form"
-    image: "http://localhost:7000/img/adventurer_guild.png"
+    # image: "http://localhost:7000/img/adventurer_guild.png"
+
+  utter_visit_shop_or_leave:
+  - text: "Do you wish to visit the item shop before leaving town?"
+    buttons:
+    - title: "Yes"
+      payload: "/item_shop"
+    - title: "No"
+      payload: "/deny"
 
   utter_fork:
   - text: |
@@ -72,10 +85,10 @@ responses:
       payload: "/misty_mountains"
 
   utter_whispering_woods:
-  - image: "http://localhost:7000/img/whispering_woods.jpg"
-    text: |
+  - text: |
       "Night falls as you go deeper into the
       Whispering Woods, where the woods are
       deadly silent, except when the wind
       causes the trees to shake and fills
       the air with an errie rustle."
+    # image: "http://localhost:7000/img/whispering_woods.jpg"

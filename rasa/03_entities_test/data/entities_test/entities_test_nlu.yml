@@ -47,7 +47,6 @@ nlu:
     - antidote
     - eyedrops
     - remedy
-
 - intent: inform_purchase
   examples: |
     - I want to buy a [potion](goods)

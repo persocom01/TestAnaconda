@@ -1,0 +1,18 @@
+version: "2.0"
+
+nlu:
+- intent: start_form
+  examples: |
+    - start form
+    - form start
+
+- intent: fighter_job
+  examples: |
+    - I want to be a [fighter](job)
+    - to be an honorable [knight](job)
+    - a [crusader](job)
+
+- intent: priest_job
+  examples: |
+    - I want to heal others as [priest](job)
+    - I want to be the best [archpriest](job)

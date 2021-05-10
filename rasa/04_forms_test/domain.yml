@@ -1,0 +1,86 @@
+version: '2.0'
+config:
+  store_entities_as_slots: true
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- mood_unhappy:
+    use_entities: true
+- goodbye:
+    use_entities: true
+- bot_challenge:
+    use_entities: true
+- affirm:
+    use_entities: true
+- deny:
+    use_entities: true
+- start_form:
+    use_entities: true
+- mood_great:
+    use_entities: true
+- greet:
+    use_entities: true
+- smalltalk:
+    use_entities: true
+- fighter_job:
+    use_entities: true
+- priest_job:
+    use_entities: true
+entities:
+- job
+slots:
+  ambition:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  experience:
+    type: rasa.shared.core.slots.FloatSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+    max_value: 1.0
+    min_value: 0.0
+  requested_slot:
+    type: rasa.shared.core.slots.UnfeaturizedSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+responses:
+  utter_greet:
+  - text: Hey! How are you?
+  utter_cheer_up:
+  - image: https://i.imgur.com/nGF1K8f.jpg
+    text: 'Here is something to cheer you up:'
+  utter_did_that_help:
+  - text: Did that help you?
+  utter_happy:
+  - text: Great, carry on!
+  utter_goodbye:
+  - text: Bye
+  utter_iamabot:
+  - text: I am a bot, powered by Rasa.
+  utter_ask_adventurer_form_ambition:
+  - text: What do you wish to be in future?
+  utter_ask_adventurer_form_experience:
+  - text: How many years of experience do you have as an adventurer.
+  utter_confirmation:
+  - text: |
+      "You wsh to be a {ambition} and
+      you have {experience} years experience as an adventurer."
+actions: []
+forms:
+  adventurer_form:
+    ignored_intents:
+    - smalltalk
+    required_slots:
+      ambition:
+      - entity: job
+        intent:
+        - fighter_job
+        - priest_job
+        type: from_entity
+      experience:
+      - type: from_text
+e2e_actions: []

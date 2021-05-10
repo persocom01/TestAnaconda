@@ -224,8 +224,8 @@ stories:
 Note that checkpoints were used to place the story in the second file in the middle of the first one.
 
 Known limitations of checkpoints are:
-* A story beginning and ending with the checkpoints (we will call this the checkpoint module) cannot be shared among multiple stories with different endings. This appears to be because rasa does not to consider anything prior to the checkpoint during prediction. Thus multiple stories can converge into a single checkpoint module, but a single checkpoint module cannot branch out into multiple endings. If there is a need to reuse a checkpoint module, make a copy of it different checkpoint names before placing it into the new story.
-* checkpoints cannot be used to make looping stories.
+* The stories beginning with a checkpoint cannot start with different actions. This is because it appears that rasa does not to consider anything prior to the checkpoint during prediction and will become confused without an intent as to why the story splits into two different actions. If there is a need for a checkpoint module to split into different actions based on prior parts of the story, make copies of it for each prior part of the story that will result in a different ending instead.
+* checkpoints cannot be used to make looping stories by starting and ending with the same checkpoint, even if the starting checkpoint is put into a different story.
 
 ### or statements
 
