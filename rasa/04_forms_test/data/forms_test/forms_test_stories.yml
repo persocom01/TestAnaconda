@@ -6,7 +6,7 @@ stories:
   steps:
   - intent: start_form
   - action: adventurer_form
-  - active_loop: restaurant
+  - active_loop: adventurer_form
   - slot_was_set:
     - ambition: fighter
   - slot_was_set:

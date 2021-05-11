@@ -7,8 +7,8 @@ stories:
       start form
   - action: adventurer_form
   - active_loop: adventurer_form
-  - slot_was_set:
-    - requested_slot: ambition
+  # - slot_was_set:
+  #   - requested_slot: ambition
   - intent: fighter_job
     user: |-
       a [crusader](job)

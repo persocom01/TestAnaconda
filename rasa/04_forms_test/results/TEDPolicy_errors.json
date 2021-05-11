@@ -1,0 +1,14 @@
+[
+  {
+    "text": "a crusader",
+    "entities": [
+      {
+        "start": 2,
+        "end": 10,
+        "value": "crusader",
+        "entity": "job"
+      }
+    ],
+    "predicted_entities": []
+  }
+]
