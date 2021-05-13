@@ -161,7 +161,7 @@ The default location for rasa x is `/etc/rasa`. However, this can be undesirable
 export RASA_HOME=~/rasa_project_path
 ```
 
-After which run the installation script by entering:
+After which, run the installation script by entering:
 
 ```
 sudo -E bash ./install.sh
