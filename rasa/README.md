@@ -169,7 +169,7 @@ After which, run the installation script by entering:
 sudo -E bash ./install.sh
 ```
 
--E = user current environment variables
+-E = use current environment variables
 
 There is a possibility that setting the environmental variable did not work. In such a case, the target folder will have a number of files but be missing others, notably `docker-compose.yml`.
 
