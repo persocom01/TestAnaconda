@@ -13,8 +13,8 @@ stories:
     user: |-
       a [crusader](job)
   - action: adventurer_form
-  - slot_was_set:
-    - ambition: crusader
+  # - slot_was_set:
+  #   - ambition: crusader
   - intent: deny
     user: |-
       7

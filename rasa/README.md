@@ -155,14 +155,41 @@ curl -sSL -o install.sh https://storage.googleapis.com/rasa-x-releases/0.39.3/in
 
 * Run the installation script
 
-By default, the install script copies the files needed for rasa x to `/etc/rasa`. This can be undesirable due to permissions, thus it can be desirable to change the path to something like `/home/ubuntu/rasa` (~ = /home/ubuntu). To change the file copy path and execute the installation script, enter:
+The default location for rasa x is `/etc/rasa`. However, this can be undesirable due to permissions. To change the installation path, first set the `RASA_HOME` environmental variable by entering:
 
 ```
 export RASA_HOME=~/rasa_project_path
+```
+
+After which run the installation script by entering:
+
+```
 sudo -E bash ./install.sh
 ```
 
+-E = user current environment variables
+
+There is a possibility that setting the environmental variable did not work. In such a case, the target folder will have a number of files but be missing others, notably `docker-compose.yml`.
+
+One fix is to open `rasa_x_playbook.yml` and modify the `default` path in the following line:
+
+```
+RASA_HOME: "{{ lookup('env','RASA_HOME')|default('rasa_project_path', true) }}"
+```
+
+Where rasa_project_path should be the full path of the project folder, without using ~/, for example, `/home/ubuntu/rasa`.
+
+You may need to modify the permissions of the `rasa_x_playbook.yml` file in order to save it. Use `sudo chmod 777 rasa_x_playbook.yml` if necessary.
+
+After which, run the following command, which is the last line in `install.sh`:
+
+```
+sudo /usr/local/bin/ansible-playbook -i "localhost," -c local rasa_x_playbook.yml
+```
+
 * Run rasa x
+
+Enter:
 
 ```
 sudo docker-compose up -d
@@ -174,11 +201,13 @@ At this point rasa x should be accessible at the ip address of the host. If you 
 {"database_migration":{"status":"pending","current_revision":[],"target_revision":["97280f5b6803"],"progress_in_percent":0.0}}
 ```
 
-If it runs fine, you still need to set the admin password by entering:
+Where `progress_in_percent` should eventually reach 100% if the images are functioning properly. Once the images have finished starting up, you still need to set the admin password by entering:
 
 ```
 sudo python3 rasa_x_commands.py create --update admin me <PASSWORD>
 ```
+
+The rasa x dashboard should now be accessible.
 
 To be continued... https://rasa.com/docs/rasa-x/installation-and-setup/install/docker-compose
 
