@@ -247,11 +247,3 @@ rasa shell
 
 `nlu` can be added to see what the model extracts as intents and entities from text.
 `--debug` can be added to help diagnose background processes during training.
-
-### Running an action server
-
-To run an action server, enter:
-
-```
-rasa run actions
-```

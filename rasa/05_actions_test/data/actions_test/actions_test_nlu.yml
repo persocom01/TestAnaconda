@@ -1,0 +1,13 @@
+version: "2.0"
+
+nlu:
+- intent: give_time
+  examples: |
+    - give time
+    - tell me the time
+    - what time is it?
+
+- intent: set_time
+  examples: |
+    - set time
+    - set the time

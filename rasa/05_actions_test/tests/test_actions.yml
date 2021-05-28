@@ -1,0 +1,21 @@
+stories:
+- story: give time
+  steps:
+  - user: |
+      give time
+    intent: give_time
+  - action: action_show_time
+  - user: |
+      bye
+    intent: goodbye
+  - action: utter_goodbye
+
+- story: set time
+  steps:
+  - user: |
+      set time
+    intent: set_time
+  - action: action_set_time
+  - slot_was_set:
+    - saved_time: '2021-05-20 09:21:38.654769'
+  - action: utter_saved_time
