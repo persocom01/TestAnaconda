@@ -9,6 +9,16 @@ stories:
   - intent: goodbye
   - action: utter_goodbye
 
+- story: give time
+  steps:
+  - intent: give_time
+  - action: action_show_time
+  - intent: set_time
+  - action: action_set_time
+  - slot_was_set:
+    - saved_time: "2021-05-18 17:10:34.836774"
+  - action: utter_saved_time
+
 - story: set time
   steps:
   - intent: set_time

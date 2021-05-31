@@ -4,7 +4,7 @@ A readme on how to create and use custom action files such as `actions.py` in th
 
 ## Writing custom actions
 
-Custom actions are written as python files in the `actions` folder. A basic actions looks like this:
+Custom actions are written as python files in the `actions` folder. A basic action looks like this:
 
 ```
 from typing import Any, Text, Dict, List
@@ -34,9 +34,36 @@ This determines what the action actually does. All custom actions have this func
 * The return value
 The return value for custom actions is an optional list of rasa events triggered by the action. Multiple events are separated by commas. One common event is the `SlotSet()` event, but others exist as detailed here: https://rasa.com/docs/action-server/sdk-events
 
-### Custom action types
+### Custom action type
 
-There are
+Custom actions are capable of more than the below list. However, the most common functions they serve include one or more of the following:
+
+1. responses
+
+Custom actions can be used to pass responses to rasa in a similar manner as an utter action. To do so put the following code inside the run method of a custom action class:
+
+```
+<!-- Text responses -->
+dispatcher.utter_message(text=f'string {var}')
+
+<!-- Responses based on utter actions -->
+dispatcher.utter_message(response='utter_response', reponses_entity=value))
+
+<!-- Image responses -->
+dispatcher.utter_message(image='link')
+
+<!-- Json responses -->
+dispatcher.utter_message(json_message={
+    'key1': value1,
+    'key2': value2
+  })
+
+<!-- Button responses -->
+dispatcher.utter_message(buttons=[
+    {'payload': '/intent1', 'title: label1'},
+    {'payload': '/intent2', 'title: label2'},
+  ])
+```
 
 ### responses
 

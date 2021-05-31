@@ -19,27 +19,35 @@ class ActionShowTime(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        # Must be converted to a timestamp before being passed into the f
-        # string or it will be text.
-        current_numerical_time = dt.datetime.now().timestamp()
+        current_time = dt.datetime.now()
+
+        # Must be converted to a timestamp or it will be in the date format:
+        # 2021-05-28 17:31:20.243162
         # Standard text utterance.
-        dispatcher.utter_message(text=f'numeral timestamp: {current_numerical_time}')
+        dispatcher.utter_message(text=f'numeral timestamp: {current_time.timestamp()}')
 
         # Must be converted to a string before being passed as an argument or
-        # it will become a timestamp.
-        current_time = str(dt.datetime.now())
+        # it will become a timestamp: 1622194280.243162
         # Response + variable utterance.
-        dispatcher.utter_message(response='utter_time_response', saved_time=current_time)
+        dispatcher.utter_message(response='utter_time_response', saved_time=str(current_time))
 
         # Image utterance
         dispatcher.utter_message(image='http://localhost:7000/img/time.jpg')
 
         # json type utterance, often used to pass custom payloads to other
         # applications.
-        t = {  }
-        # print('testing')
-        # print(tracker.get_intent_of_latest_message())
-        # print(tracker.latest_message)
+        t = {
+                'year':  current_time.year,
+                'month': current_time.month,
+                'day': current_time.day
+            }
+        dispatcher.utter_message(json_message=t)
+
+        # Button type utterance
+        dispatcher.utter_message(buttons=[
+                {'payload': '/goodbye', 'title': 'end'},
+                {'payload': '/set_time', 'title': 'set time'},
+            ])
 
         return []
 
