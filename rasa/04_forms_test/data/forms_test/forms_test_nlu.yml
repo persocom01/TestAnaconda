@@ -8,11 +8,11 @@ nlu:
 
 - intent: fighter_job
   examples: |
-    - I want to be a [fighter](job)
-    - to be an honorable [knight](job)
-    - a [crusader](job)
+    - I am a [fighter](job)
+    - I'm a [knight](job)
+    - [crusader](job)
 
 - intent: priest_job
   examples: |
-    - I want to heal others as [priest](job)
-    - I want to be the best [archpriest](job)
+    - I am a [priest](job)
+    - I'm an [archpriest](job)

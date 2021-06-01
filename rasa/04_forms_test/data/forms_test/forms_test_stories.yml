@@ -8,9 +8,15 @@ stories:
   - action: adventurer_form
   - active_loop: adventurer_form
   - slot_was_set:
-    - ambition: fighter
+    - name: Aqua
   - slot_was_set:
-    - experience: 5
+    - age: 999
+  - slot_was_set:
+    - minor: false
+  - slot_was_set:
+    - class: archpriest
+  - slot_was_set:
+    - experience: 0
   - active_loop: null
   - slot_was_set:
     - requested_slot: null

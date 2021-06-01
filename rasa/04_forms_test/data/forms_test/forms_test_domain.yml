@@ -9,20 +9,27 @@ entities:
   - job
 
 slots:
-  ambition:
+  name:
+    type: text
+  age:
+    type: text
+  minor:
+    type: bool
+  class:
     type: text
   experience:
     type: float
-  # killed_dragon:
-  #   type: text
-
 
 forms:
   adventurer_form:
     ignored_intents:
     - smalltalk
     required_slots:
-      ambition:
+      name:
+        - type: from_text
+      age:
+        - type: from_text
+      class:
         - type: from_entity
           entity: job
           intent:
@@ -33,7 +40,6 @@ forms:
           # - not_listed
       experience:
         - type: from_text
-      # killed_dragon:
-      #   - type: from_text
-      #     entity: killed_dragon
-      #     intent:
+
+actions:
+  - validate_adventurer_form

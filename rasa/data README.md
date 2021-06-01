@@ -47,7 +47,7 @@ nlu:
 
 If the same intent is defined in another file, the training phrases are added together.
 
-Retrieval intents are a way to group multiple intents of the same type into one main type into one big one with many sub-intents. They are written similar to normal intents but with format retrieval_intent/sub_intent.
+Retrieval intents are a way to group multiple intents of the same type into one main type into one big one with many sub-intents. They are written similar to normal intents but with format `retrieval_intent/sub_intent`.
 
 ### entity recognition
 
@@ -128,7 +128,7 @@ Finally in stories:
 
 `CRFEntityExtractor` or `DIETClassifier` need to be added to pipeline in `config.yml` to use regex entities. However, their matches are not limited to exact matches. More on the issue can be found here: https://github.com/RasaHQ/rasa/issues/3880
 
-research on lookup is to be continued...
+There might be a way to make regex matches more exact but that will not be covered here.
 
 ## rules
 

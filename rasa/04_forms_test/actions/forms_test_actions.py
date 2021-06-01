@@ -3,31 +3,94 @@ from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
 
+import re
+
 
 class ValidateAdventurerForm(FormValidationAction):
     def name(self) -> Text:
         return "validate_adventurer_form"
 
-    def validate_email(
+    @staticmethod
+    def class_list() -> List[Text]:
+        return ['fighter', 'knight', 'crusader', 'priest', 'archpriest']
+
+    def validate_name(
         self,
         slot_value: Text,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
-        email_regex_template = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
-        # except value from slot
-        try:
-            email_address = tracker.get_slot("email")
 
-            # validate email saved in slot to check if it fits the format of a valid email address
-            if (re.search(email_regex_template,email_address)):
-                return {'email': slot_value}
-            else:
-                dispatcher.utter_message(text="Email Address is invalid, please enter again")
-                return {'email': None}
+        print('validating name')
+        pattern = '^[a-zA-Z ]+$'
+        is_valid = re.search(pattern, slot_value)
 
-        except:
-            dispatcher.utter_message(text="Email validation intent triggered but action not carried out")
+        if is_valid:
+            dispatcher.utter_message(text='noted')
+            return {'name': slot_value}
+        else:
+            dispatcher.utter_message(text='names may only contain letters and spaces')
+            return {'name': None}
 
-        return []
+    def validate_age(
+        self,
+        slot_value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+
+        print('validating age')
+        pattern = '^[0-9]+$'
+        is_valid = re.search(pattern, slot_value)
+        is_minor = float(is_valid.group()) < 16
+
+        if is_valid and is_minor:
+            dispatcher.utter_message(text='noted')
+            return {'age': slot_value, 'minor': True}
+        elif is_valid and not is_minor:
+            dispatcher.utter_message(text='noted')
+            return {'age': slot_value, 'minor': False}
+        else:
+            dispatcher.utter_message(text='age can only be a number')
+            return {'age': None}
+
+    def validate_class(
+        self,
+        slot_value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+
+        print('validating class')
+        if slot_value.lower() in self.class_list():
+            dispatcher.utter_message(text='noted')
+            return {'class': slot_value}
+        else:
+            dispatcher.utter_message(text="choose a valid class")
+            return {'class': None}
+
+    def validate_experience(
+        self,
+        slot_value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+
+        print('validating experience')
+        age = float(tracker.get_slot('age'))
+        pattern = '^[0-9]+$'
+        is_valid_experience = re.search(pattern, slot_value)
+        if is_valid_experience:
+            experience = float(is_valid_experience.group())
+            is_smaller_than_age = experience < age
+
+        if is_valid_experience and is_smaller_than_age:
+            dispatcher.utter_message(text='noted')
+            return {'experience': slot_value}
+        else:
+            dispatcher.utter_message(text='experience must be lower than age')
+            return {'experience': None}

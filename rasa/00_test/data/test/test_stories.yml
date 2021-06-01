@@ -1,12 +1,17 @@
 version: "2.0"
 
-stories:
+nlu:
+- intent: start_form
+  examples: |
+    - start form
+    - form start
 
-- story: adventure base
+stories:
+- story: User doesn't want to use MyInfo
   steps:
-  - intent: start_adventure
-  - action: utter_ask_weapon
-  - intent: inform_weapon
-    entities:
-      - weapon: melee
-  - action: utter_weapon
+  - intent: greet
+  - action: personal_detail_form
+  - active_loop: personal_detail_form
+  - active_loop: null
+  - action: utter_personalInfo_summary
+  - action: send_personal_details_to_db
