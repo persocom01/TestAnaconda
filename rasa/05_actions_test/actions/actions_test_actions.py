@@ -13,7 +13,7 @@ from rasa_sdk.events import SlotSet
 class ActionShowTime(Action):
 
     def name(self) -> Text:
-        return "action_show_time"
+        return 'action_show_time'
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
@@ -24,7 +24,7 @@ class ActionShowTime(Action):
         # Must be converted to a timestamp or it will be in the date format:
         # 2021-05-28 17:31:20.243162
         # Standard text utterance.
-        dispatcher.utter_message(text=f'numeral timestamp: {current_time.timestamp()}')
+        dispatcher.utter_message(text=f'numerical timestamp: {current_time.timestamp()}')
 
         # Must be converted to a string before being passed as an argument or
         # it will become a timestamp: 1622194280.243162
@@ -55,7 +55,7 @@ class ActionShowTime(Action):
 class ActionSetTime(Action):
 
     def name(self) -> Text:
-        return "action_set_time"
+        return 'action_set_time'
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,

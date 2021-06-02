@@ -23,13 +23,16 @@ class ValidateAdventurerForm(FormValidationAction):
     ) -> Dict[Text, Any]:
 
         print('validating name')
-        pattern = '^[a-zA-Z ]+$'
+        pattern = r'^[a-zA-Z][a-zA-z\s]*'
         is_valid = re.search(pattern, slot_value)
+        print(is_valid)
 
         if is_valid:
+            print('pass')
             dispatcher.utter_message(text='noted')
             return {'name': slot_value}
         else:
+            print('fail')
             dispatcher.utter_message(text='names may only contain letters and spaces')
             return {'name': None}
 
@@ -42,16 +45,17 @@ class ValidateAdventurerForm(FormValidationAction):
     ) -> Dict[Text, Any]:
 
         print('validating age')
-        pattern = '^[0-9]+$'
+        pattern = r'^[0-9]+$'
         is_valid = re.search(pattern, slot_value)
-        is_minor = float(is_valid.group()) < 16
 
-        if is_valid and is_minor:
-            dispatcher.utter_message(text='noted')
-            return {'age': slot_value, 'minor': True}
-        elif is_valid and not is_minor:
-            dispatcher.utter_message(text='noted')
-            return {'age': slot_value, 'minor': False}
+        if is_valid:
+            is_minor = float(is_valid.group()) < 16
+            if is_minor:
+                dispatcher.utter_message(text='noted')
+                return {'age': slot_value, 'minor': True}
+            else:
+                dispatcher.utter_message(text='noted')
+                return {'age': slot_value, 'minor': False}
         else:
             dispatcher.utter_message(text='age can only be a number')
             return {'age': None}
@@ -69,7 +73,7 @@ class ValidateAdventurerForm(FormValidationAction):
             dispatcher.utter_message(text='noted')
             return {'class': slot_value}
         else:
-            dispatcher.utter_message(text="choose a valid class")
+            dispatcher.utter_message(text='choose a valid class')
             return {'class': None}
 
     def validate_experience(
@@ -82,7 +86,7 @@ class ValidateAdventurerForm(FormValidationAction):
 
         print('validating experience')
         age = float(tracker.get_slot('age'))
-        pattern = '^[0-9]+$'
+        pattern = r'^[0-9]+$'
         is_valid_experience = re.search(pattern, slot_value)
         if is_valid_experience:
             experience = float(is_valid_experience.group())

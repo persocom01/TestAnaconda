@@ -40,15 +40,16 @@ def test_action_show_time_run():
     dispatcher = CollectingDispatcher()
     output = ata.ActionShowTime().run(
         dispatcher=dispatcher,
-        tracker=get_tracker_for_slots('saved_time', ''),
+        tracker=get_tracker_for_slots({'saved_time': ''}),
         domain=None)
 
     message = dispatcher.messages[0]['text']
-    pattern = r'the time is ([0-9- :\.]*)'
+    pattern = r'^numerical timestamp: ([0-9- :\.]*)$'
     search = re.search(pattern, message)
-    is_message_correct = len(search.group()) == 38
+    message_var = search.groups()[0]
+    is_message_correct = len(message_var) == 17
 
-    assert (output == []) and (is_message_correct)
+    assert (output == []) and is_message_correct
 
 
 @pytest.mark.ata
@@ -61,7 +62,8 @@ def test_action_set_time_run():
     dispatcher = CollectingDispatcher()
     output = ata.ActionSetTime().run(
         dispatcher=dispatcher,
-        tracker=get_tracker_for_slots('saved_time', ''),
+        tracker=get_tracker_for_slots({'saved_time': ''}),
         domain=None)
-    current_time = output[0]['value']
-    assert output == [SlotSet('saved_time', current_time)]
+    slot_value = output[0]['value']
+    is_slot_value_correct = len(str(slot_value)) == 26
+    assert (output == [SlotSet('saved_time', slot_value)]) and is_slot_value_correct
