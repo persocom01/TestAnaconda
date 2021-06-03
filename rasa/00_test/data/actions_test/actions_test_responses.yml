@@ -1,0 +1,7 @@
+version: "2.0"
+
+responses:
+  utter_time_response:
+  - text: "response time: {saved_time}"
+  utter_saved_time:
+  - text: "time slot: {saved_time}"

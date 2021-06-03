@@ -40,14 +40,14 @@ pytest
 ## Writing the test file
 
 The most important part of using `pytest` is the writing of the test file itself. This section details how to write tests for various types of rasa actions. It will cover:
-* Response actions
+* Response actions.
 These are actions that send messages to rasa via `dispatcher.utter_message()`.
-* Slot setting actions
+* Slot setting actions.
 These are actions that set slots via `SlotSet()` events.
-* Form validation actions
+* Form validation actions.
 These are actions designed to validated slot data in forms. The methods are named `validate_<slot_name>`.
-* Setting the test Tracker
-The Tracker is used to pass information on prior events to the function. Depending on whether the test target uses this information, it may or may not be necessary to write a suitable tracker for test purposes.
+* Setting the test Tracker.
+The Tracker object is used to pass information on prior events to the custom action. Depending on whether the test target uses this information, it may be necessary to write a suitable tracker for test purposes.
 
 To test the actions, we must first import them into the script itself in the following way:
 
@@ -84,7 +84,7 @@ class ActionName(Action):
 ```
 
 Notable feature(s) are:
-* The use of `dispatcher.utter_message()`
+* The use of `dispatcher.utter_message()`.
 * The function may or may not return anything.
 
 A test script for `pytest` for the above action can be written as follows:
@@ -278,7 +278,7 @@ class ActionName(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        previous_slot = float(tracker.get_slot('slot_name'))
+        previous_slot = tracker.get_slot('slot_name')
         last_intent = tracker.get_intent_of_latest_message()
         dispatcher.utter_message(text=f'{slot_name} has a value of {previous_slot} and the last intent was {last_intent}')
 
@@ -328,4 +328,4 @@ The message has many attributes, but for the purpose of this example, only one i
 {'intent_ranking': [{'name': 'intent', 'confidence': 1}]}
 ```
 
-This ensures that the `tracker.get_intent_of_latest_message()` will return the intent that you want.
+To write the tracker for the `tracker.get_intent_of_latest_message()` method, modify the `intent` part of the above code and pass it as the `latest_msg` argument of the tracker.

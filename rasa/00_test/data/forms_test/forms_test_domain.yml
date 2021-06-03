@@ -1,0 +1,45 @@
+version: "2.0"
+
+intents:
+  - start_form
+  - fighter_job
+  - priest_job
+
+entities:
+  - job
+
+slots:
+  name:
+    type: text
+  age:
+    type: text
+  minor:
+    type: bool
+  class:
+    type: text
+  experience:
+    type: float
+
+forms:
+  adventurer_form:
+    ignored_intents:
+    - smalltalk
+    required_slots:
+      name:
+        - type: from_text
+      age:
+        - type: from_text
+      class:
+        - type: from_entity
+          entity: job
+          intent:
+          - fighter_job
+          - priest_job
+          # not_intent:
+          # - goodbye
+          # - not_listed
+      experience:
+        - type: from_text
+
+actions:
+  - validate_adventurer_form

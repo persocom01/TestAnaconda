@@ -1,0 +1,18 @@
+version: "2.0"
+
+nlu:
+- intent: start_form
+  examples: |
+    - start form
+    - form start
+
+- intent: fighter_job
+  examples: |
+    - I am a [fighter](job)
+    - I'm a [knight](job)
+    - [crusader](job)
+
+- intent: priest_job
+  examples: |
+    - I am a [priest](job)
+    - I'm an [archpriest](job)

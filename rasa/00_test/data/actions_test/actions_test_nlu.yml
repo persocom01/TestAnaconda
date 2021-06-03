@@ -11,13 +11,3 @@ nlu:
   examples: |
     - set time
     - set the time
-
-- intent: saved_time
-  examples: |
-    - saved time
-    - last saved time
-
-- intent: last_intent
-  examples: |
-    - last intent
-    - last message intent

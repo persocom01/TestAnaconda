@@ -62,33 +62,3 @@ class ActionSetTime(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         return [SlotSet('saved_time', f'{dt.datetime.now()}')]
-
-
-class ActionSavedTime(Action):
-
-    def name(self) -> Text:
-        return 'action_saved_time'
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        saved_time = tracker.get_slot('saved_time')
-        dispatcher.utter_message(response='utter_saved_time', saved_time=str(saved_time))
-
-        return []
-
-
-class ActionLastIntent(Action):
-
-    def name(self) -> Text:
-        return 'action_last_intent'
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        last_intent = tracker.get_intent_of_latest_message()
-        dispatcher.utter_message(text=f'last intent: {last_intent}')
-
-        return []

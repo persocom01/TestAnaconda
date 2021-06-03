@@ -3,8 +3,6 @@ version: "2.0"
 intents:
   - give_time
   - set_time
-  - saved_time
-  - last_intent
 
 slots:
   saved_time:
@@ -13,5 +11,3 @@ slots:
 actions:
   - action_show_time
   - action_set_time
-  - action_saved_time
-  - action_last_intent

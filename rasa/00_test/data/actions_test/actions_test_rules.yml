@@ -1,13 +1,13 @@
 version: "2.0"
 
-rules:
-
-- rule: start form
-  steps:
-  - intent: start_form
-  - action: personal_detail_form
-  - active_loop: personal_detail_form
-
+# rules:
+#
+# - rule: start form
+#   steps:
+#   - intent: start_form
+#   - action: adventurer_form
+#   - active_loop: adventurer_form
+#
 # - rule: submit form
 #   condition:
 #   - active_loop: adventurer_form

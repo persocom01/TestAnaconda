@@ -1,19 +1,8 @@
 version: "2.0"
 
-# rules:
-#
-# - rule: start form
-#   steps:
-#   - intent: start_form
-#   - action: adventurer_form
-#   - active_loop: adventurer_form
-#
-# - rule: submit form
-#   condition:
-#   - active_loop: adventurer_form
-#   steps:
-#   - action: adventurer_form
-#   - active_loop: null
-#   - slot_was_set:
-#     - requested_slot: null
-#   - action: utter_confirmation
+rules:
+
+- rule: last intent
+  steps:
+  - intent: last_intent
+  - action: action_last_intent
