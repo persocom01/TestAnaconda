@@ -12,6 +12,11 @@ nlu:
     - set time
     - set the time
 
+- intent: exit
+  examples: |
+    - exit
+    - exit now
+
 - intent: saved_time
   examples: |
     - saved time

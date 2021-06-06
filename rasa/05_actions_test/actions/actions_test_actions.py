@@ -5,7 +5,7 @@ from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 
-from rasa_sdk.events import SlotSet
+from rasa_sdk.events import SlotSet, FollowupAction
 
 
 # Demonstrates how to create utter type custom actions. Utter can be combined
@@ -36,6 +36,7 @@ class ActionShowTime(Action):
 
         # json type utterance, often used to pass custom payloads to other
         # applications.
+        dispatcher.utter_message(text=f'exit or save time to slot?')
         t = {
                 'year':  current_time.year,
                 'month': current_time.month,
@@ -45,8 +46,8 @@ class ActionShowTime(Action):
 
         # Button type utterance
         dispatcher.utter_message(buttons=[
-                {'payload': '/goodbye', 'title': 'end'},
-                {'payload': '/set_time', 'title': 'set time'},
+                {'payload': '/exit', 'title': 'exit'},
+                {'payload': '/set_time', 'title': 'save time to slot'},
             ])
 
         return []
@@ -84,11 +85,19 @@ class ActionLastIntent(Action):
     def name(self) -> Text:
         return 'action_last_intent'
 
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    # As far as I can tell there is no need for this function to be async.
+    # It was made so for the purpose of using pytest on async functions.
+    async def run(self, dispatcher: CollectingDispatcher,
+                  tracker: Tracker,
+                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         last_intent = tracker.get_intent_of_latest_message()
+
+        if last_intent == 'exit':
+            return [FollowupAction('utter_goodbye')]
+        elif last_intent == 'set_time':
+            return [FollowupAction('action_set_time')]
+
         dispatcher.utter_message(text=f'last intent: {last_intent}')
 
         return []

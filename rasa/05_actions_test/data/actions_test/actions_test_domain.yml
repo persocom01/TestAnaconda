@@ -3,6 +3,7 @@ version: "2.0"
 intents:
   - give_time
   - set_time
+  - exit
   - saved_time
   - last_intent
 

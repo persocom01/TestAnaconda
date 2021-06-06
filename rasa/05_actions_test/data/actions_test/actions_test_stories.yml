@@ -2,18 +2,43 @@ version: "2.0"
 
 stories:
 
-- story: give time
-  steps:
-  - intent: give_time
-  - action: action_show_time
-  - intent: goodbye
-  - action: utter_goodbye
+# - story: give time
+#   steps:
+#   - intent: give_time
+#   - action: action_show_time
+#   - intent: exit
+#   - action: utter_goodbye
+
+# - story: give time2
+#   steps:
+#   - intent: give_time
+#   - action: action_show_time
+#   - intent: set_time
+#   - action: action_set_time
+#   - slot_was_set:
+#     - saved_time: "2021-05-18 17:10:34.836774"
+#   - action: utter_saved_time
+#   - intent: saved_time
+#   - action: action_saved_time
 
 - story: give time
   steps:
   - intent: give_time
   - action: action_show_time
-  - intent: set_time
+  - or:
+    - intent: exit
+    - intent: set_time
+  - action: action_last_intent
+  - action: utter_goodbye
+
+- story: give time2
+  steps:
+  - intent: give_time
+  - action: action_show_time
+  - or:
+    - intent: exit
+    - intent: set_time
+  - action: action_last_intent
   - action: action_set_time
   - slot_was_set:
     - saved_time: "2021-05-18 17:10:34.836774"

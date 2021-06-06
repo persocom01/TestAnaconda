@@ -1,8 +1,8 @@
-version: "2.0"
-
-rules:
-
-- rule: last intent
-  steps:
-  - intent: last_intent
-  - action: action_last_intent
+# version: "2.0"
+#
+# rules:
+# 
+# - rule: last intent
+#   steps:
+#   - intent: last_intent
+#   - action: action_last_intent

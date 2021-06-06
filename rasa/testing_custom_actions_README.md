@@ -12,6 +12,12 @@ Use pip to install pytest.
 pip install pytest
 ```
 
+If testing has to cover `async` functions, install `pytest-asyncio`:
+
+```
+pip install pytest-asyncio
+```
+
 ## Usage
 
 1. Create the test file.
@@ -46,6 +52,8 @@ These are actions that send messages to rasa via `dispatcher.utter_message()`.
 These are actions that set slots via `SlotSet()` events.
 * Form validation actions.
 These are actions designed to validated slot data in forms. The methods are named `validate_<slot_name>`.
+* Asynchronous actions.
+`async` functions are not natively supported by `pytest` and will not return their expected return value when run as non async functions.
 * Setting the test Tracker.
 The Tracker object is used to pass information on prior events to the custom action. Depending on whether the test target uses this information, it may be necessary to write a suitable tracker for test purposes.
 
@@ -101,9 +109,10 @@ import re
 
 def test_action_name_run():
     dispatcher = CollectingDispatcher()
+    tracker = Tracker
     output = att.ActionName().run(
         dispatcher=dispatcher,
-        tracker=Tracker,
+        tracker=tracker,
         domain=None)
 
     subject = 'world'
@@ -120,6 +129,7 @@ Thing(s) to note:
 * The `dispatcher` object is called to retrieve the message sent to rasa.
 For every use of `dispatcher.utter_message()` in the test target, a new item is added to the `dispatcher.messages` list, and must be called using their indexes [0], [1] and so on.
 * The message is checked for validity using regex, the variable being extracted and checked through the use of regex groups.
+* The message does not necessarily have to be inside the `text` key of the `dispatcher.message[0]` dictionary. It depends on the arguments passed to `dispatcher.utter_message()` in the test target.
 
 ### Slot setting actions
 
@@ -167,9 +177,10 @@ import actions.test_target as att
 
 def test_action_name_run():
     dispatcher = CollectingDispatcher()
+    tracker = Tracker
     output = att.ActionName().run(
         dispatcher=dispatcher,
-        tracker=Tracker,
+        tracker=tracker,
         domain=None)
     slot_value = output[0]['value']
     is_slot_value_correct = slot_value == 'value'
@@ -241,20 +252,52 @@ import pytest
 def test_validate_slot_name(input, expected_output):
     slot_value = input
     dispatcher = CollectingDispatcher()
+    tracker = Tracker
     output = att.ValidateFormName().validate_name(
         slot_value=slot_value,
         dispatcher=dispatcher,
-        tracker=Tracker,
+        tracker=tracker,
         domain=None)
 
     assert output == expected_output
 ```
 
 Thing(s) to note:
-* pytest.mark.parametrize() has been used to run multiple tests on the same function
+* The decorator `pytest.mark.parametrize()` was used to run multiple tests on the same function.
 This is to test that slot validation works both for correct and incorrect values.
 * form validation methods accept `slot_value` as one of the arguments
 This is not present in other actions.
+
+### Asynchronous actions
+
+`async` functions are not native supported by pytest. As such, the library `pytest-asyncio` must first be installed. Writing a unit test for an `async` custom action is as follows:
+
+```
+from typing import Any, Text, Dict, List
+
+from rasa_sdk import Action, Tracker
+from rasa_sdk.executor import CollectingDispatcher
+
+import actions.test_target as att
+import pytest
+
+
+@pytest.mark.asyncio
+async def test_action_name_run():
+    dispatcher = CollectingDispatcher()
+    tracker = Tracker
+    output = await att.ActionName().run(
+        dispatcher=dispatcher,
+        tracker=tracker,
+        domain=None)
+
+    assert output == expected_output
+```
+
+Thing(s) to note:
+* The decorator `@pytest.mark.asyncio` was used to mark this test as asynchronous.
+* The test function is an `async` function.
+* `await` is used to call the test target.
 
 ### Setting the test Tracker
 
