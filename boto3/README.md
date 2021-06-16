@@ -2,6 +2,14 @@
 
 Boto3 is used to connect to Amazon Web Services.
 
+## Installation
+
+To install boto3, enter the following into cmd:
+
+```
+pip install boto3
+```
+
 ## Setup
 
 Before Boto3 can be used, one must first setup Amazon authentication credentials.
@@ -10,7 +18,7 @@ This can be done by logging in> My security credentials> AWS IAM credentials> Cr
 
 The default region can be found here: https://docs.aws.amazon.com/general/latest/gr/rande.html
 
-After, which, setup the client inside code like this:
+After which, setup the client inside code like this:
 
 ```
 s3 = boto3.client(

@@ -1,4 +1,4 @@
-# Flask tutorial
+# Flask
 
 A flask app testing playground.
 
