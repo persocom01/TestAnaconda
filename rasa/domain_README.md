@@ -85,16 +85,16 @@ If the same slot is defined in another file, the latest (by alphabetical order) 
 ### slot datatypes
 
 slots can be of the following dtypes:
-1. text
-2. bool
+1. `text`
+2. `bool`
 bool can be set to either `true` or `false`. You need to define a custom action to use a bool slot. However, you can get around this by using a text slot and passing it "true" or "false" values as strings using `[user_text]{"entity": "entity_name", "value": "true"}` inside `nlu` intent examples instead.
-3. categorical
+3. `categorical`
 Unlike other types of slots, when defining categorical slots, you need to also define all their possible values.
-4. float
+4. `float`
 The float category is used to store numbers. Unlike other types of slots, it comes with two innate properties: `min_value` and `max_value` which are by default 0.0 and 1.0 respectively. If float is set to any value below or above those limits, those values are treated as equal to those limits for the purposes of influencing conversation. It appears that float does not affect the number of decimal places displayed when the slot is called. The number of decimal places is always equal to that of the number that filled the slot, even if the number is 1.000.
-5. list
+5. `list`
 You might need to define a custom action to use this slot type.
-6. any
+6. `any`
 
 ### Optional slot properties
 
@@ -270,7 +270,7 @@ http://localhost:7000/img/
 
 ### buttons
 
-Using the button option in responses causes rasa shell to display a series of options for the user to pick using arrow keys. Button payload must be an intent (needs testing on action). In rasa x, the options are listed from left to right.
+Using the button option in responses causes rasa shell to display a series of options for the user to pick using arrow keys. Button payload must be an intent. In rasa x, the options are listed from left to right.
 
 ```
 responses:
@@ -284,7 +284,7 @@ responses:
 
 `title` is the name of each option.
 `payload` is the intent an option will trigger when selected. Note the `/` before the intent name. Selecting it will bypass nlu and trigger the intent. However, you will still need to define the intent in nlu with training examples. Also note the specific formatting when using the button to fill a slot. To prevent parsing errors:
-* `entity` and `value` bust be surrounded by `""` and not `''`.
+* `entity` and `value` must be surrounded by `""` and not `''`.
 * Because of this, the payload string itself must use `''` and not `""`
 * Double `{}` must be used.
 
@@ -437,7 +437,7 @@ forms:
 
 4. from_trigger_intent
 
-from_trigger_intent is much like `from_intent` except that the slot is filled when the from is activated by an intent listed under the `intent` property or none.
+from_trigger_intent is much like `from_intent` except that the slot is filled when the from is activated by an intent listed under the `intent` property. The slot will be set to none otherwise.
 
 ```
 forms:
