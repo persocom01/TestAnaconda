@@ -253,7 +253,7 @@ if __name__ == '__main__':
 
 ```
 
-3. Run the flask server.
+3. Run the flask server
 
 ```
 <!-- If you don't already have Flask. -->
@@ -484,6 +484,8 @@ stories:
   - action: action_deactivate_loop
   - active_loop: null
 ```
+
+It may also be possible to deactivate the from using custom actions: https://forum.rasa.com/t/how-can-i-quit-from-a-active-form/4144
 
 ### form data validation
 

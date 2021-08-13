@@ -247,3 +247,15 @@ rasa shell
 
 `nlu` can be added to see what the model extracts as intents and entities from text.
 `--debug` can be added to help diagnose background processes during training.
+
+### Useful commands
+
+```
+rasa shell nlu
+rasa run actions
+rasa run --enable-api --cors "*"
+```
+
+* `rasa shell nlu` - allows you to see the intents detected from a given input and their probability.
+* `rasa run actions` - starts the custom action server. More details on how to configure and write it are in `actions_README.md`.
+* `rasa run --enable-api --cors "*"` - enables rasa to be reached via api. `--cors "*"` defines the type of cross origin request that are allowed.

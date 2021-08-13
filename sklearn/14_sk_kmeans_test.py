@@ -20,5 +20,24 @@ df.columns = [x.lower().replace(' ', '_') for x in df.columns]
 target = 'species'
 features = [col for col in df.columns if col != target]
 df[target] = data.target
-print(df.head())
-print()
+
+X = df[features]
+y = df[target]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
+
+ss = StandardScaler()
+X_train = pd.DataFrame(ss.fit_transform(X_train), columns=features)
+X_test = pd.DataFrame(ss.transform(X_test), columns=features)
+
+knn = KNeighborsClassifier()
+
+# KNeighborsClassifier(n_neighbors=5, *, weights='uniform', algorithm='auto', leaf_size=30, p=2, metric='minkowski', metric_params=None, n_jobs=None, **kwargs)
+
+cross_val_score(knn, X_train, y_train, cv=5)
+
+knn.fit(X_train, y_train)
+
+knn.score(X_train, y_train)
+
+knn.score(X_test, y_test)
