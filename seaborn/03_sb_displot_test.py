@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import sklearn.datasets as skds
 import seaborn as sb
+import math
 
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
@@ -21,8 +22,8 @@ sb.displot(df['sepal length (cm)'], kind='hist')
 plt.show()
 plt.close()
 
-# histplot largely does the same thing but but you can more easily combine it
-# with a kde by setting kde=True.
+# histplot does the same thing but it is easier to tweak how the bars appear as
+# well as add a kde by setting kde=True.
 # sb.histplot(data=None, *, x=None, y=None, hue=None, weights=None,
 # stat='count', bins='auto', binwidth=None, binrange=None, discrete=None,
 # cumulative=False, common_bins=True, common_norm=True, multiple='layer',
@@ -30,7 +31,18 @@ plt.close()
 # thresh=0, pthresh=None, pmax=None, cbar=False, cbar_ax=None, cbar_kws=None,
 # palette=None, hue_order=None, hue_norm=None, color=None, log_scale=None,
 # legend=True, ax=None, **kwargs)
-sb.histplot(df['sepal length (cm)'], kde=True)
+min_val = df['sepal length (cm)'].min()
+max_val = df['sepal length (cm)'].max()
+val_width = max_val - min_val
+n_bins = 10
+print('round width:', val_width/n_bins)
+# Round down lowest to 0.25 and round up highest to 0.25
+round = 0.25
+factor = round / 1
+min_val = math.floor(min_val*factor)/factor
+max_val = math.ceil(max_val*factor)/factor
+binwidth = round * 2
+sb.histplot(df['sepal length (cm)'], kde=True, binwidth=0.5, binrange=(min_val, max_val))
 plt.show()
 plt.close()
 
