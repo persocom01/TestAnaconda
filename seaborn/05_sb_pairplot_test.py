@@ -1,7 +1,8 @@
 import pandas as pd
 import seaborn as sb
+import matplotlib.pyplot as plt
 
-import_path = r'.\datasets\drinks.csv'
+import_path = r'./datasets/drinks.csv'
 data = pd.read_csv(import_path)
 df = pd.DataFrame(data)
 print(df.head())
@@ -18,3 +19,5 @@ print(df.head())
 # diag_kind can be 'hist' or 'kde' but it's mainly determined by whether the
 # hue argument is set or not. It is hist by default, kdw when hue is given.
 sb.pairplot(df, hue='continent', palette='husl')
+plt.show()
+plt.close()
