@@ -25,23 +25,22 @@ Anaconda has to be downloaded and installed. Atom was used as text editor.
 pip/conda install was used to add modules to anaconda. Open the anaconda prompt in admin mode and type:
 
 ```
-pip install boto3
-pip install folium
-conda install -c anaconda gensim
-conda update smart_open
-pip install graphviz
-conda install -c conda-forge imbalanced-learn
-pip install kaggle
-conda install -c conda-forge lightgbm
-pip install modin
-conda install -c conda-forge opencv
+conda install -y -c anaconda boto3
+conda install -y -c conda-forge folium
+conda install -y -c anaconda gensim
+conda install -y -c anaconda graphviz
+conda install -y -c conda-forge imbalanced-learn
+conda install -y -c conda-forge lightgbm
+conda install -y -c conda-forge modin
+conda install -y -c conda-forge opencv
 pip install pmdarima
-pip install ppscore
-pip install pydotplus
-conda install pysal
-conda install -c conda-forge selenium
-conda install -c conda-forge wordcloud
-conda install -c anaconda py-xgboost
+conda install -y -c conda-forge ppscore
+conda install -y -c conda-forge pydotplus
+conda install -y pysal
+conda install -y -c conda-forge selenium
+conda install -y -c anaconda smart_open
+conda install -y -c conda-forge wordcloud
+conda install -y -c anaconda py-xgboost
 ```
 
 This installs following modules:
@@ -51,15 +50,15 @@ This installs following modules:
 * gensim - NLP topic modelling library.
 * graphviz - for drawing graphs in DOT language scripts.
 * imbalanced-learn - for dealing with unbalanced classes.
-* kaggle - for use of the kaggle API for kaggle competition submissions.
 * lightgbm - LightGBM gradient boosting framework.
 * modin - for multi-core pandas.
 * opencv - Open Source Computer Vision library.
 * pmdarima - adds AutoARIMA to python's time series analysis capability.
-* ppscore - an alternative to pandas' df.corr() that works across continuous and categorical variables and is asymmetric. It does, however, take potentially much longer to compute.
+* ppscore - predictive power score (ppscore) is an alternative to pandas' df.corr() that works across continuous and categorical variables and is asymmetric. It does, however, take potentially much longer to compute.
 * pydotplus - python's interface to graphviz's DOT language.
 * pysal - for analysis of geospatial data.
 * selenium - for scraping web pages.
+* smart_open - for efficient streaming of very large files from amazon S3 and other file storages.
 * wordcloud - for generation of wordclouds for NLP visualization.
 * xgboost - eXtreme Gradient Boosting.
 
