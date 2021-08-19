@@ -14,7 +14,7 @@ from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 
-import_path = r'.\datasets\reddit.csv'
+import_path = r'./datasets/reddit.csv'
 data = pd.read_csv(import_path, index_col=None)
 # print(data.columns)
 df = data[['title', 'subreddit']]
@@ -35,7 +35,7 @@ lup = ple.Lupu()
 
 print('before:', X[1])
 X = lup.text_list_cleaner(X, lup.contractions, reddit_lingo,
-                          r'[^a-zA-Z ]', lup.to_lower, lup.lemmatize_sentence, ['wa', 'ha'])
+                          r'[^a-zA-Z ]', str.lower, lup.lemmatize_sentence, ['wa', 'ha'])
 print('after:', X[1])
 print()
 

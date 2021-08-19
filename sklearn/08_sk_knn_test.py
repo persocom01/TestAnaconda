@@ -16,6 +16,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
+import sys
+sys.path.append('..')
 import pleiades as ple
 
 # Use this command if using Jupyter notebook to plot graphs inline.

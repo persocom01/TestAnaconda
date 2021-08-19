@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import pleiades as ple
 import matplotlib.pyplot as plt
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
@@ -12,6 +11,9 @@ from sklearn.feature_selection import mutual_info_classif
 from sklearn.feature_selection import RFE
 from sklearn.decomposition import PCA
 from sklearn.decomposition import TruncatedSVD
+import sys
+sys.path.append('..')
+import pleiades as ple
 
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
@@ -132,7 +134,7 @@ print()
 # is between 0.0 and 1.0, it is taken as the proportion of total features.
 lr = LogisticRegression(solver='lbfgs', max_iter=200)
 # lm = LinearRegression()
-rfe = RFE(lr, n_features)
+rfe = RFE(lr, n_features_to_select=n_features)
 rfe.fit(X_train, y_train)
 selected_cols = [v for i, v in enumerate(
     X_train.columns) if i in rfe.get_support(indices=True)]

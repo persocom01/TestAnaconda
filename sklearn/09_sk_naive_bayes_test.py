@@ -4,7 +4,6 @@
 # too reliable, and it runs on the assumption that its features are completely
 # independent.
 import pandas as pd
-import pleiades as ple
 from nltk.corpus import stopwords
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
@@ -25,8 +24,11 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 import pickle
+import sys
+sys.path.append('..')
+import pleiades as ple
 
-import_path = r'.\datasets\reddit.csv'
+import_path = r'./datasets/reddit.csv'
 data = pd.read_csv(import_path, index_col=None)
 # print(data.columns)
 df = data[['title', 'subreddit']]

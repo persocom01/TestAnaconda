@@ -12,6 +12,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_predict
 from sklearn.metrics import accuracy_score
+import sys
+sys.path.append('..')
 import pleiades as ple
 
 # Use this command if using Jupyter notebook to plot graphs inline.

@@ -1,15 +1,17 @@
 # Demonstrates ways to feature select for categorical variables.
 import pandas as pd
-import pleiades as ple
 import matplotlib.pyplot as plt
 import seaborn as sb
+import sys
+sys.path.append('..')
+import pleiades as ple
 
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
 
 # Data dictionary found here:
 # https://www.kaggle.com/uciml/mushroom-classification
-import_path = r'.\datasets\mushrooms.csv'
+import_path = r'./datasets/mushrooms.csv'
 data = pd.read_csv(import_path, index_col=None)
 
 df = pd.DataFrame(data)

@@ -1,6 +1,7 @@
 # Demonstrates various data preprocessing methods.
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
@@ -10,7 +11,7 @@ from sklearn.preprocessing import OrdinalEncoder
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
 
-import_path = r'.\datasets\drinks.csv'
+import_path = r'./datasets/drinks.csv'
 data = pd.read_csv(import_path, index_col=None, na_filter=False)
 data.pop('country')
 df = pd.DataFrame(data)
@@ -26,6 +27,14 @@ X = df[features]
 y = df[target].values
 
 X_train, X_test, y_train, y_test = train_test_split(X, y)
+
+le = LabelEncoder()
+X_le = X
+le_labels = le.fit_transform(X_le.columns)
+le_dict = { k:v for (k,v) in zip(X_le.columns, le_labels) }
+X_le.columns = le_labels
+print('LabelEncoder:', le_dict)
+print(X_le.head())
 
 # ColumnTransformer(transformers, remainder='drop', sparse_threshold=0.3,
 # n_jobs=None, transformer_weights=None, verbose=False)
