@@ -1,8 +1,6 @@
-from . import cz
-from . import lupu
-from . import nabe
-from . import sebastian
-from . import solution
-from . import yuri
-
-__all__ = ['cz', 'lupu', 'nabe', 'sebastian', 'solution', 'yuri']
+from .cz import CZ
+from .lupu import Lupu
+from .nabe import Nabe
+from .sebastian import Sebastian
+from .solution import Solution
+from .yuri import Yuri

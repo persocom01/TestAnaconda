@@ -6,7 +6,11 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import Normalizer
-from sklearn.preprocessing import OrdinalEncoder
+import os, sys
+currentdir = os.path.dirname(os.path.realpath(__file__))
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir)
+import pleiades as ple
 
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
@@ -31,7 +35,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y)
 le = LabelEncoder()
 X_le = X
 le_labels = le.fit_transform(X_le.columns)
-le_dict = { k:v for (k,v) in zip(X_le.columns, le_labels) }
+le_dict = {k: v for (k, v) in zip(X_le.columns, le_labels)}
 X_le.columns = le_labels
 print('LabelEncoder:', le_dict)
 print(X_le.head())
@@ -72,27 +76,7 @@ print('normalizer:')
 print(X_train.values[:3])
 print()
 
-
-def ordinal_scale(df, mapping=None, start_num=0):
-    '''
-    A convenience mapping function that accepts a DataFrame and returns it with
-    each column defined as keys in the mapping dictionary mapped to its values.
-    '''
-    if mapping:
-        cols = mapping.keys()
-        for col in cols:
-            df[col] = df[col].map({k: i+start_num for i, k in enumerate(mapping[col])})
-            if df[col].isnull().sum() > 0:
-                print(f'WARNING: not all values in column "{col}" were mapped.')
-    else:
-        ord = OrdinalEncoder()
-        try:
-            cols = df.columns
-            df[cols] = ord.fit_transform(df[cols])
-        except AttributeError:
-            df = ord.fit_transform([df]).ravel()
-    return df
-
+nabe = ple.Nabe()
 
 data = {
     'name': ['apple', 'banana', 'orange', 'apple', 'orange'],
@@ -101,8 +85,9 @@ data = {
     'demand': [264, 833, 516, 371, 194]
 }
 df2 = pd.DataFrame(data)
+print(df2)
 m = {'name': ['apple', 'orange'], 'origin': ['australia', 'usa', 'brazil', 'china']}
-ordinal_scale(df2, m)
+nabe.ordinal_scale(df2, mapping=m)
 print('ordinal encode:')
 print(df2)
 print()

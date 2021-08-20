@@ -24,8 +24,10 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 import pickle
-import sys
-sys.path.append('..')
+import os, sys
+currentdir = os.path.dirname(os.path.realpath(__file__))
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir)
 import pleiades as ple
 
 import_path = r'./datasets/reddit.csv'
@@ -49,7 +51,7 @@ lup = ple.Lupu()
 
 print('before:', X[1])
 X = lup.text_list_cleaner(X, lup.contractions, reddit_lingo,
-                          r'[^a-zA-Z ]', lup.to_lower, lup.lemmatize_sentence, ['wa', 'ha'])
+                          r'[^a-zA-Z ]', str.lower, lup.lemmatize_sentence, ['wa', 'ha'])
 print('after:', X[1])
 print()
 

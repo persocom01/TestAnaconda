@@ -7,15 +7,20 @@
 # itself. Offical documentation can be found here:
 # https://xgboost.readthedocs.io/en/latest/index.html
 import pandas as pd
-import pleiades as ple
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import TfidfVectorizer
 import xgboost as xgb
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
+import os, sys
+currentdir = os.path.dirname(os.path.realpath(__file__))
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir)
+import pleiades as ple
 
 import_path = r'./datasets/reddit.csv'
 data = pd.read_csv(import_path, index_col=None)
@@ -67,6 +72,7 @@ sebas = ple.Sebastian()
 # eta=0-1 is the learning_rate or step size.
 pipe = Pipeline([
     ('tvec', TfidfVectorizer()),
+    ('le', LabelEncoder()),
     ('xgb_class', xgb.XGBClassifier(use_label_encoder=False))
 ])
 params = {

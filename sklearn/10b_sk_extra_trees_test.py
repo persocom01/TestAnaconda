@@ -5,7 +5,6 @@
 # in many more leaves than RandomForest, and works better on noisy datasets,
 # but it is uncertain which would perform better without trying them out first.
 import pandas as pd
-import pleiades as ple
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
@@ -13,6 +12,11 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
+import os, sys
+currentdir = os.path.dirname(os.path.realpath(__file__))
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir)
+import pleiades as ple
 
 import_path = r'./datasets/reddit.csv'
 data = pd.read_csv(import_path, index_col=None)
