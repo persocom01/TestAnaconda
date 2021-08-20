@@ -2,6 +2,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
@@ -32,13 +33,17 @@ y = df[target].values
 
 X_train, X_test, y_train, y_test = train_test_split(X, y)
 
+# LabelEncoder(list) takes a list and encodes unique values as integers. The
+# classes can be found using LabelEncoder().classes_. More likely to be used
+# for y values, but in this case y is continuous so it is demonstrated on
+# dataFrame columns instead.
 le = LabelEncoder()
 X_le = X
 le_labels = le.fit_transform(X_le.columns)
-le_dict = {k: v for (k, v) in zip(X_le.columns, le_labels)}
 X_le.columns = le_labels
-print('LabelEncoder:', le_dict)
+print('LabelEncoder:', le.classes_)
 print(X_le.head())
+print()
 
 # ColumnTransformer(transformers, remainder='drop', sparse_threshold=0.3,
 # n_jobs=None, transformer_weights=None, verbose=False)
