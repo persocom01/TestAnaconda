@@ -22,7 +22,7 @@ pip install pytest-asyncio
 
 1. Create the test file.
 
-Assuming custom actions are located in the `actions` folder of the rasa project, the test file has to be located in the project root folder as follows:
+Assuming custom actions are located in the `actions` folder of the rasa project, the test file can either be located in the project folder or the `test` folder inside the project folder. The minimum directory structure is as follows:
 
 ```
 └── rasa_bot
@@ -33,7 +33,16 @@ Assuming custom actions are located in the `actions` folder of the rasa project,
     ├── test_actions.py
 ```
 
-This is because we will be importing actions as a python module into the test script, and python user modules assume that they are located in the same folder as the script itself.
+If the test file is put into the `test` folder, the following code should be included in the test script so that the that the actions file can be imported properly:
+
+```
+import os
+import sys
+currentdir = os.path.dirname(os.path.realpath(__file__))
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir)
+```
+
 
 As a reminder, `pytest` read python files starting with `test_`. `pytest.ini` is an optional but helpful configuration file for `pytest`.
 

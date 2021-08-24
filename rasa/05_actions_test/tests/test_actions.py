@@ -6,10 +6,15 @@ from rasa_sdk.executor import CollectingDispatcher
 
 from rasa_sdk.events import SlotSet, FollowupAction
 
-import actions.actions_test_actions as ata
-
 import pytest
 import re
+
+import os
+import sys
+currentdir = os.path.dirname(os.path.realpath(__file__))
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir)
+import actions.actions_test_actions as ata
 
 
 def get_tracker_for_slots(

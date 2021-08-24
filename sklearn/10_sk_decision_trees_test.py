@@ -18,7 +18,8 @@ from sklearn.metrics import confusion_matrix
 from io import StringIO
 from sklearn.tree import export_graphviz
 import pydotplus
-import os, sys
+import os
+import sys
 currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
