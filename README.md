@@ -39,12 +39,11 @@ conda install -y -c conda-forge pydotplus
 conda install -y pysal
 conda install -y -c conda-forge selenium
 conda install -y -c anaconda smart_open
-conda install -y -c conda-forge vadersentiment
 conda install -y -c conda-forge wordcloud
 conda install -y -c anaconda py-xgboost
 ```
 
-This installs following modules:
+These install following modules:
 
 * boto3 - python connector for Amazon Web Services.
 * folium - for interactive map visualizations.
@@ -60,7 +59,6 @@ This installs following modules:
 * pysal - for analysis of geospatial data.
 * selenium - for scraping web pages.
 * smart_open - for efficient streaming of very large files from amazon S3 and other file storages.
-* vadersentiment - sentiment analysis using vader.
 * wordcloud - for generation of wordclouds for NLP visualization.
 * xgboost - eXtreme Gradient Boosting.
 
