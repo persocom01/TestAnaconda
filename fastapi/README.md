@@ -29,7 +29,7 @@ pip install python-multipart
 pip install uvicorn[standard]
 
 <!-- Ananconda -->
-conda install -c conda-forge fastapi
+conda install -y -c conda-forge fastapi
 conda install -c conda-forge python-multipart
 conda install -c conda-forge uvicorn
 ```
