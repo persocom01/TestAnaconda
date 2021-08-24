@@ -30,8 +30,8 @@ pip install uvicorn[standard]
 
 <!-- Ananconda -->
 conda install -y -c conda-forge fastapi
-conda install -c conda-forge python-multipart
-conda install -c conda-forge uvicorn
+conda install -y -c conda-forge python-multipart
+conda install -y -c conda-forge uvicorn
 ```
 
 `python-multipart` is needed by FastAPI to handle form data.
@@ -105,6 +105,18 @@ https://example.com<path>
 
 4. Define the path operation function
 
-The function can be `async` or not, depending on whether you will need `await` to use a library in the code.
+The function may or may not be `async`. `async` is often used when using the `Request` object, for instance:
+
+```
+from fastapi import FastAPI, Request
+
+app = FastAPI()
+
+
+@app.post('/')
+async def read_json_request(res: Request):
+    data = await res.json()
+    return data.json_property
+```
 
 ###
