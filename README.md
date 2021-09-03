@@ -128,4 +128,14 @@ sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
 ```
 
-2. pandas appears to use utf-8 encoding by default. This may cause problems when the encoding is actually cp1252. To rectify this problem set encoding='cp1252' when reading the file.
+Downloaded files might also be in this format. To rectify this problem set `encoding='cp1252'` when reading the file.
+
+2. To access custom modules in the parent directory of the script run, use the following code inn the script:
+
+```
+import os
+import sys
+current_dir = os.path.dirname(os.path.realpath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.append(parent_dir)
+```

@@ -13,9 +13,9 @@ from sklearn.decomposition import PCA
 from sklearn.decomposition import TruncatedSVD
 import os
 import sys
-currentdir = os.path.dirname(os.path.realpath(__file__))
-parentdir = os.path.dirname(currentdir)
-sys.path.append(parentdir)
+current_dir = os.path.dirname(os.path.realpath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.append(parent_dir)
 import pleiades as ple
 
 # Use this command if using Jupyter notebook to plot graphs inline.
