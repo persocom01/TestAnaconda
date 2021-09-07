@@ -107,6 +107,7 @@ class Lupu:
                     for a in arg:
                         pattern = r'\b{}\b'.format(a)
                         text_list[i] = re.sub(pattern, sep, text_list[i])
+                        text_list[i] = re.sub(' +', ' ', text_list[i])
                 # For any other special cases.
                 else:
                     text_list[i] = re.sub(arg, sep, text_list[i])

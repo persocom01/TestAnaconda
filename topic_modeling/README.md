@@ -1,6 +1,11 @@
-# gensim
+# Topic modeling
 
-A gensim testing playground based on the tutorial here: https://www.tutorialspoint.com/gensim/index.htm
+This is not a module, but a testing playground for various topic modeling techniques in python. Where relevant, the following tutorials have been used:
+
+| Package | Tutorial |
+| ------ | ------ |
+| gensim | https://www.tutorialspoint.com/gensim/index.htm |
+| spaCy | https://www.tutorialspoint.com/spacy/index.htm |
 
 quickstart: https://scienceofdata.org/2020/05/24/word2vec-vs-fasttext-a-first-look/
 
