@@ -22,6 +22,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.post('/audiorecog')
 def audiorecog(file: UploadFile = File(...)):
     start_time = time.time()
