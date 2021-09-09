@@ -51,8 +51,8 @@ reddit_lingo = {
 lup = ple.Lupu()
 
 print('before:', X[1])
-X = lup.text_list_cleaner(X, lup.contractions, reddit_lingo,
-                          r'[^a-zA-Z ]', str.lower, lup.lemmatize_sentence, ['wa', 'ha'])
+X = lup.text_list_cleaner(X, str.lower, lup.contractions, reddit_lingo,
+                          r'[^a-zA-Z ]', lup.lemmatize_sentence, ['wa', 'ha'])
 print('after:', X[1])
 print()
 
@@ -121,8 +121,10 @@ print()
 # ngram_range=(1, 1), max_df=1.0, min_df=1, max_features=None, vocabulary=None,
 # binary=False, dtype=<class 'numpy.float64'>, norm='l2', use_idf=True,
 # smooth_idf=True, sublinear_tf=False) is a kind of CountVectorizer that
-# penalizes words that occur too often and boosts words that occur less often.
-# In practice it often produces much better results than CountVectorizer.
+# penalizes words the more documents they occur in. This is useful given the
+# assumption that words that occur in fewer documents are more useful in
+# differentiation. In practice it often produces better results than the
+# bag of words model that is the CountVectorizer.
 # The equivalent of using CountVectorizer() followed by TfidfTransformer().
 tvec = TfidfVectorizer(max_df=0.5, max_features=3000, min_df=2,
                        ngram_range=(1, 2), stop_words='english')

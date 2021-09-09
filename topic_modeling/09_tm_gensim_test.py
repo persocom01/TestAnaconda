@@ -1,6 +1,5 @@
 from nltk.corpus import stopwords
-import gensim
-from gensim import corpora
+import gensim as gs
 import os
 import sys
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -18,12 +17,12 @@ corpus = [
 
 lup = ple.Lupu()
 
-corpus_clean = lup.text_list_cleaner(corpus, lup.contractions, r'[^a-zA-Z ]', str.lower, lup.lemmatize_sentence, ['wa', 'ha'], stopwords.words('english'))
-corpus_split = [doc.split() for doc in corpus_clean]
-dictionary = corpora.Dictionary(corpus_split)
+corpus_clean = lup.text_list_cleaner(corpus, lup.contractions, lup.remove_numbers, lup.lemmatize_sentence, ['wa', 'ha'], stopwords.words('english'), lup.remove_extra_spaces)
+corpus_split = [gs.utils.simple_preprocess(doc, deacc=True, min_len=2, max_len=15) for doc in corpus_clean]
+dictionary = gs.corpora.Dictionary(corpus_split)
 doc_term_matrix = [dictionary.doc2bow(doc) for doc in corpus_split]
 
-lda = gensim.models.ldamodel.LdaModel
+lda = gs.models.ldamodel.LdaModel
 ldamodel = lda(doc_term_matrix, num_topics=3, id2word=dictionary, passes=50)
 
 print(ldamodel.print_topics(num_topics=3, num_words=3))

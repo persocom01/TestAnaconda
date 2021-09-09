@@ -7,6 +7,20 @@ This is not a module, but a testing playground for various topic modeling techni
 | gensim | https://www.tutorialspoint.com/gensim/index.htm |
 | spaCy | https://www.tutorialspoint.com/spacy/index.htm |
 
+## Installation
+
+The necessary modules are included in anaconda. However, to suppress warning due to a lack of `gensim.similarities.levenshtein` submodule, enter:
+
+```
+conda install -y -c conda-forge python-levenshtein
+```
+
+
+
+
+
+
+
 quickstart: https://scienceofdata.org/2020/05/24/word2vec-vs-fasttext-a-first-look/
 
 ## Usage

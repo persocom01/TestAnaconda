@@ -54,12 +54,23 @@ class Lupu:
         # Returns sentence instead of individual words.
         return ' '.join(words)
 
+    def remove_extra_spaces(self, sentence):
+        import re
+        sentence = re.sub(' +', ' ', sentence)
+        return sentence
+
     def remove_punctuation(self, sentence, sep=None):
         import re
         if sep is None:
             sep = self.sep
         sentence = re.sub(
             r'[!"#$%&\'()*+, -./:; <= >?@[\]^_`{|}~’“”]', sep, sentence)
+        return sentence
+
+    def remove_numbers(self, sentence, sep=None):
+        if sep is None:
+            sep = self.sep
+        sentence = ''.join(i if not i.isdigit() else ' ' for i in sentence)
         return sentence
 
     def split_camel_case(self, sentence):
@@ -107,7 +118,6 @@ class Lupu:
                     for a in arg:
                         pattern = r'\b{}\b'.format(a)
                         text_list[i] = re.sub(pattern, sep, text_list[i])
-                        text_list[i] = re.sub(' +', ' ', text_list[i])
                 # For any other special cases.
                 else:
                     text_list[i] = re.sub(arg, sep, text_list[i])
