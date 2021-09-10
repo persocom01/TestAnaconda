@@ -121,10 +121,8 @@ print()
 # ngram_range=(1, 1), max_df=1.0, min_df=1, max_features=None, vocabulary=None,
 # binary=False, dtype=<class 'numpy.float64'>, norm='l2', use_idf=True,
 # smooth_idf=True, sublinear_tf=False) is a kind of CountVectorizer that
-# penalizes words the more documents they occur in. This is useful given the
-# assumption that words that occur in fewer documents are more useful in
-# differentiation. In practice it often produces better results than the
-# bag of words model that is the CountVectorizer.
+# penalizes words the more documents they occur in. This is useful as words
+# that occur in fewer documents tend to be more useful in differentiation.
 # The equivalent of using CountVectorizer() followed by TfidfTransformer().
 tvec = TfidfVectorizer(max_df=0.5, max_features=3000, min_df=2,
                        ngram_range=(1, 2), stop_words='english')
