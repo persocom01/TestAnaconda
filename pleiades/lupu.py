@@ -55,16 +55,16 @@ class Lupu:
         return ' '.join(words)
 
     def remove_extra_spaces(self, sentence):
-        import re
-        sentence = re.sub(' +', ' ', sentence)
+        sentence = sentence.rstrip()
+        sentence = ' '.join(sentence.split())
         return sentence
 
-    def remove_punctuation(self, sentence, sep=None):
+    def remove_non_alphanumeric(self, sentence, sep=None):
         import re
         if sep is None:
             sep = self.sep
-        sentence = re.sub(
-            r'[!"#$%&\'()*+, -./:; <= >?@[\]^_`{|}~’“”]', sep, sentence)
+        pattern = re.compile(r'[\W_]+')
+        sentence = pattern.sub(sep, sentence)
         return sentence
 
     def remove_numbers(self, sentence, sep=None):
@@ -73,13 +73,35 @@ class Lupu:
         sentence = ''.join(i if not i.isdigit() else ' ' for i in sentence)
         return sentence
 
+    def remove_punctuation(self, sentence, sep=None):
+        import re
+        if sep is None:
+            sep = self.sep
+        pattern = re.compile(r'[!"#$%&\'()*+, -./:; <= >?@[\]^_`{|}~’“”]+')
+        sentence = pattern.sub(sep, sentence)
+        return sentence
+
+    def remove_short(self, sentence, minsize=3, sep=None):
+        if sep is None:
+            sep = self.sep
+        sentence = ' '.join([word for word in sentence.split() if len(word) >= minsize])
+        return sentence
+
+    def remove_tags(self, sentence, sep=None):
+        import re
+        if sep is None:
+            sep = self.sep
+        pattern = re.compile(r'<.*?>')
+        sentence = pattern.sub(sep, sentence)
+        return sentence
+
     def split_camel_case(self, sentence):
         import re
         splitted = re.sub('([A-Z][a-z]+)', r' \1',
                           re.sub('([0-9A-Z]+)', r' \1', sentence)).split()
         return ' '.join(splitted)
 
-    def text_list_cleaner(self, text_list, *args, sep=None, inplace=False):
+    def corpus_cleaner(self, corpus, *args, sep=None, inplace=False):
         '''
         Function made to make chain transformations on text lists easy.
 
@@ -91,37 +113,52 @@ class Lupu:
         '''
         import re
         if inplace is False:
-            text_list = text_list.copy()
+            corpus = corpus.copy()
         if sep is None:
             sep = self.sep
 
         # Prevents KeyError from passing a pandas series with index not
         # beginning in 0.
         try:
-            iter(text_list.index)
-            r = text_list.index
+            iter(corpus.index)
+            r = corpus.index
         except TypeError:
-            r = range(len(text_list))
+            r = range(len(corpus))
 
         for i in r:
             for arg in args:
                 # Maps text with a function.
                 if callable(arg):
-                    text_list[i] = arg(text_list[i])
+                    corpus[i] = arg(corpus[i])
                 # Maps text defined in dict keys with their corresponding
                 # values.
                 elif isinstance(arg, dict):
                     for k, v in arg.items():
-                        text_list[i] = re.sub(k, v, text_list[i])
+                        corpus[i] = re.sub(k, v, corpus[i])
                 # Removes all words passed as a list.
                 elif not isinstance(arg, str):
                     for a in arg:
-                        pattern = r'\b{}\b'.format(a)
-                        text_list[i] = re.sub(pattern, sep, text_list[i])
+                        pattern = re.compile(r'\b{}\b'.format(a))
+                        corpus[i] = pattern.sub(sep, corpus[i])
                 # For any other special cases.
                 else:
-                    text_list[i] = re.sub(arg, sep, text_list[i])
-        return text_list
+                    corpus[i] = re.sub(arg, sep, corpus[i])
+        return corpus
+
+    # A set of steps for basic text preprocessing.
+    def basic_preprocess(self, corpus):
+        from nltk.corpus import stopwords
+        return self.corpus_cleaner(
+            str.lower,
+            self.remove_tags,
+            self.contractions,
+            self.remove_punctuation,
+            r'[^a-zA-Z ]',
+            stopwords.words('english'),
+            self.remove_short,
+            self.lemmatize_sentence,
+            self.remove_extra_spaces
+            )
 
     def word_cloud(self, text, figsize=(12.5, 7.5), max_font_size=None, max_words=200, background_color='black', mask=None, recolor=False, export_path=None, **kwargs):
         '''

@@ -43,7 +43,7 @@ reddit_lingo = {
 lup = ple.Lupu()
 
 print('before:', X[1])
-X = lup.text_list_cleaner(X, str.lower, lup.contractions, reddit_lingo,
+X = lup.corpus_cleaner(X, str.lower, lup.contractions, reddit_lingo,
                           r'[^a-zA-Z ]', lup.lemmatize_sentence, ['wa', 'ha'])
 print('after:', X[1])
 print()
