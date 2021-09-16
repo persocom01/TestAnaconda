@@ -146,9 +146,10 @@ class Lupu:
         return corpus
 
     # A set of steps for basic text preprocessing.
-    def basic_preprocess(self, corpus):
+    def simple_preprocess(self, corpus):
         from nltk.corpus import stopwords
         return self.corpus_cleaner(
+            corpus,
             str.lower,
             self.remove_tags,
             self.contractions,
