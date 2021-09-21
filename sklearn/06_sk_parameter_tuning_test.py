@@ -74,7 +74,8 @@ elastic = ElasticNetCV(cv=5)
 # RandomizedSearchCV(estimator, param_distributions, n_iter=10, scoring=None,
 # n_jobs=None, refit=True, cv='warn', verbose=0, pre_dispatch='2*n_jobs',
 # random_state=None, return_train_score=False) searches for the best parameters
-# for a model randomly.
+# for a model randomly. The best model, score and parameters can then be
+# accessed using the object's properties.
 # estimator=model
 # param_distributions=dict where the keys=model_kwargs and values the values
 # for those kwargs.
@@ -82,18 +83,23 @@ elastic = ElasticNetCV(cv=5)
 n_values = 50
 param_grid = {'alpha': (np.random.rand(n_values))*50}
 rs = RandomizedSearchCV(
-    ridge, param_distributions=param_grid, n_iter=n_values, n_jobs=-1, cv=5, random_state=1, iid=False)
+    ridge, param_distributions=param_grid, n_iter=n_values, n_jobs=-1, cv=5, random_state=1)
 rs.fit(X_train, y_train)
-print('random alpha:', rs.best_params_)
+print('random best_estimator_:', rs.best_estimator_)
+print('random best_score_:', rs.best_score_)
+print('random best_params_:', rs.best_params_)
 
 # GridSearchCV(estimator, param_grid, scoring=None, n_jobs=None,
 # refit=True, cv=None, verbose=0, pre_dispatch='2*n_jobs',error_score=nan,
 # return_train_score=False) searches for the best parameters for a model
-# systematically.
+# systematically. The best model, score and parameters can then be accessed
+# using the object's properties.
 param_grid = {'alpha': (np.linspace(.1, 50, 50))}
 gs = GridSearchCV(ridge, param_grid=param_grid, n_jobs=-1, cv=5)
 gs.fit(X_train, y_train)
-print('grid alpha:', gs.best_params_)
+print('grid best_estimator_:', gs.best_estimator_)
+print('grid best_score_:', gs.best_score_)
+print('grid best_params_:', gs.best_params_)
 print()
 
 # Cross validation phase. For regression this is the r2 score. The maximum

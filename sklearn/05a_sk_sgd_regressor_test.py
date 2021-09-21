@@ -42,6 +42,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 
 sebas = ple.Sebastian()
 
+# SGDRegressor(loss='squared_loss', *, penalty='l2', alpha=0.0001, l1_ratio=0.15, fit_intercept=True, max_iter=1000, tol=0.001, shuffle=True, verbose=0, epsilon=0.1, random_state=None, learning_rate='invscaling', eta0=0.01, power_t=0.25, early_stopping=False, validation_fraction=0.1, n_iter_no_change=5, warm_start=False, average=False)
 pipe = Pipeline([
     ('ss', StandardScaler()),
     ('sgd', SGDRegressor())
@@ -52,7 +53,9 @@ params = {
 gs = GridSearchCV(pipe, param_grid=params, cv=5, n_jobs=-1)
 gs.fit(X_train, y_train)
 
-y_pred = gs.predict(X_test)
+sgd = gs.best_estimator_
+
+y_pred = sgd.predict(X_test)
 
 print('mean absolute error(MAE):', round(
     mean_absolute_error(y_test, y_pred), 2))
