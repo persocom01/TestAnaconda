@@ -10,6 +10,7 @@ class Nabe:
         2. df.info()
         3. df.isnull().sum() or 1 - df.count() / df.shape[0]
         4. clean
+        4a. df.dropna()
         5. visualize correlations
         '''
 

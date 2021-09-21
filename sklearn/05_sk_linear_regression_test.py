@@ -138,7 +138,7 @@ def adj_r2(X, y, y_pred):
 # for i, y_h in enumerate(y_pred):
 #     ax.plot([X_test[i], X_test[i]], [y_h, y_test[i]], color='r', alpha=0.7)
 # plt.show()
-# plt.clf()
+# plt.close()
 
 # Plot the predicted vs actual y graph for multiple x value linear regression.
 fig, ax = plt.subplots(figsize=(12, 7.5))
@@ -150,7 +150,7 @@ ax.legend()
 for i, y_h in enumerate(y_pred):
     ax.plot([y_pred[i], y_pred[i]], [y_h, y_test[i]], color='r', alpha=0.7)
 plt.show()
-plt.clf()
+plt.close()
 
 # Demonstrates a residual vs fitted values plot. It is used to diagnose 3
 # possible flaws in a linear regression:

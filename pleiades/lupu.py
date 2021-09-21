@@ -153,7 +153,6 @@ class Lupu:
             str.lower,
             self.remove_tags,
             self.contractions,
-            self.remove_punctuation,
             r'[^a-zA-Z ]',
             stopwords.words('english'),
             self.remove_short,
