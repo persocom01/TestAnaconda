@@ -30,12 +30,16 @@ corpus_tfidf = tfidf[corpus_bow]
 for doc in corpus_tfidf:
     print(doc)
 
+# LSI model algorithm can transform document from either integer valued vector model (such as Bag-of-Words model) or Tf-Idf weighted space into latent space. The output vector will be of lower dimensionality. Following is the syntax of LSI transformation −
 lsi = gs.models.LsiModel(corpus_tfidf, id2word=dictionary, num_topics=300)
 
+# LDA model algorithm is another algorithm that transforms document from Bag-of-Words model space into a topic space. The output vector will be of lower dimensionality. Following is the syntax of LSI transformation −
 # Model=models.LdaModel(corpus, id2word=dictionary, num_topics=100)
 #
+# RP, a very efficient approach, aims to reduce the dimensionality of vector space. This approach is basically approximate the Tf-Idf distances between the documents. It does this by throwing in a little randomness.
 # Model=models.RpModel(tfidf_corpus, num_topics=500)
 #
+# HDP is a non-parametric Bayesian method which is a new addition to Gensim. We should have to take care while using it.
 # Model=models.HdpModel(corpus, id2word=dictionary
 
 # gensim.utils.simple_preprocess(doc, deacc=False, min_len=2, max_len=15)

@@ -29,4 +29,4 @@ vec_bow_tfidf = tfidf[new_vec]
 vec_lsi = lsi[vec_bow_tfidf]
 sims = index[vec_lsi]
 for s in sorted(enumerate(sims), key=lambda item: -item[1])[:10]:
-    print(f”{df[‘Title’].iloc[s[0]]} : {str(s[1])}”)
+    print(f”{df[‘Title’].iloc[s[0]]}: {str(s[1])}”)
