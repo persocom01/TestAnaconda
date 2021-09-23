@@ -20,12 +20,17 @@ print('pillow RGB: ', pil_data[0][0])
 
 width = im.shape[0]
 height = im.shape[1]
+print('picture dimensions: ' + str(width) + ', ' + str(height))
 
+# Resize based on square.
 m = min(width, height)
+# Resize to 3/4 original.
 m = m*3/4
 new_width = m
+# Change cropped area to rectangle with width 2x height.
 new_height = m/2
 
+# Calculate 4 corners of crop area.
 left = (width - new_width)/2
 top = (height - new_height)/2
 right = (width + new_width)/2
@@ -33,6 +38,7 @@ bottom = (height + new_height)/2
 
 # Crop.
 im = im[int(top): int(bottom), int(left): int(right)]
+print('cropped picture dimensions: ' + str(im.shape[0]) + ', ' + str(im.shape[1]))
 inp = cv.resize(im, (800, 600))
 # Opencv python stores images in BGR order.
 gray = cv.cvtColor(inp, cv.COLOR_BGR2GRAY)
