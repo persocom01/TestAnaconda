@@ -201,7 +201,7 @@ responses:
       payload: "/intent2"
 
   utter_response2:
-  - string: "string"
+  - text: "string"
     custom:
       json_key1: value
       json_key2:
@@ -223,6 +223,7 @@ They will be considered custom actions otherwise.
 * `-` under a response indicates a response variation.
 * Each response variation can have multiple datatypes, but each datatype may only appear once.
 * The order of datatypes does not matter. However, if `image` and `button` appear in the same response variation, rasa shell will not give you the option of using the buttons. It works on rasa x, however.
+* Custom json responses can be sent via rasa using the `custom` key.
 * All response variations must contain the `text` datatype. Even if an empty string is given, it will register as `""` on rasa x.
 
 If the same response is defined in another file, the latest (by alphabetical order) file will take precedence. As such, it is possible to keep the base responses and build on them by overriding them.

@@ -15,11 +15,11 @@ responses:
 
   utter_town:
   - text: |
-      "You pass through the town of Axel.
+      You pass through the town of Axel.
       On the left side of town is the
       adventurer's guild.
       On the right of the main road is an item shop.
-      Where do you wish to go?"
+      Where do you wish to go?
     buttons:
     - title: "Adventurer's guild"
       payload: "/adventurer_guild"
@@ -53,10 +53,10 @@ responses:
 
   utter_adventurer_guild:
   - text: |
-      "You arrive at an adventurer's guild.
+      You arrive at an adventurer's guild.
       You may change your weapon to a spear
       or sign up to be an adventurer.
-      What do you do?"
+      What do you do?
     buttons:
     - title: "Grab a spear"
       payload: '/inform_weapon{{"weapon": "spear"}}'
@@ -74,10 +74,10 @@ responses:
 
   utter_fork:
   - text: |
-      "You come to a fork in the road.
+      You come to a fork in the road.
       To the left are the Whispering Woods,
       while on the right are the Misty Mountains.
-      Where do you go?"
+      Where do you go?
     buttons:
     - title: "left"
       payload: "/whispering_woods"
@@ -86,9 +86,9 @@ responses:
 
   utter_whispering_woods:
   - text: |
-      "Night falls as you go deeper into the
+      Night falls as you go deeper into the
       Whispering Woods, where the woods are
       deadly silent, except when the wind
       causes the trees to shake and fills
-      the air with an errie rustle."
+      the air with an errie rustle.
     # image: "http://localhost:7000/img/whispering_woods.jpg"

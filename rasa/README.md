@@ -259,3 +259,13 @@ rasa run --enable-api --cors "*"
 * `rasa shell nlu` - allows you to see the intents detected from a given input and their probability.
 * `rasa run actions` - starts the custom action server. More details on how to configure and write it are in `actions_README.md`.
 * `rasa run --enable-api --cors "*"` - enables rasa to be reached via api. `--cors "*"` defines the type of cross origin request that are allowed.
+
+### Updating
+
+Upgrade rasa through pip:
+
+```
+<!-- Upgrade pip first -->
+pip install -U pip
+pip install rasa -U
+```
