@@ -88,18 +88,6 @@ nltk.download()
 
 A window will pop up, where desired nlp packages can be selected.
 
-### Updating
-
-Open the anaconda prompt in admin mode and type:
-```
-conda update -n root conda
-```
-
-After which, update individual environments using:
-```
-conda update --all
-```
-
 ### Atom packages used:
 
 * Hydrogen
@@ -116,6 +104,45 @@ conda update --all
 * open_in_cmd
 * project-manager
 * script
+
+## Usage
+
+Anaconda can be started using the anaconda prompt.
+
+### Batch files
+
+Batch files will use windows cmd by default. To use the anaconda prompt, enter:
+
+```
+set base=C:/Users/ctoh8/Anaconda3/Scripts/activate.bat
+call %base%
+PAUSE
+```
+
+Every anaconda command must have `call` in front. To use anaconda prompt in another window, enter:
+
+```
+set base=C:/Users/ctoh8/Anaconda3/Scripts/activate.bat
+start cmd /k "call %base% && call conda_command"
+PAUSE
+```
+
+`start cmd` - used to open another window.
+`/k` - used to keep the window open after command execution. Use `/c` instead to close it.
+`&&` - used to combine multiple commands in a single line. Subsequent commands are entered only when prior commands succeed. Use `&` if you want subsequent commands to be entered anyway.
+`""` - a single `"` must be escaped by doubling it.
+
+### Updating
+
+Open the anaconda prompt in admin mode and type:
+```
+conda update -n root conda
+```
+
+After which, update individual environments using:
+```
+conda update --all
+```
 
 ## Known issues
 
