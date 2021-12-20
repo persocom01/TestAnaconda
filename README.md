@@ -33,6 +33,7 @@ conda install -y -c conda-forge imbalanced-learn
 conda install -y -c conda-forge lightgbm
 conda install -y -c conda-forge modin
 conda install -y -c conda-forge opencv
+conda install -y -c conda-forge optuna
 pip install pmdarima
 conda install -y -c conda-forge ppscore
 conda install -y -c conda-forge pydotplus
@@ -53,6 +54,7 @@ These install following modules:
 * lightgbm - LightGBM gradient boosting framework.
 * modin - for multi-core pandas.
 * opencv - Open Source Computer Vision library.
+* optuna - for bayesian optimization for hyperparameter tuning.
 * pmdarima - adds AutoARIMA to python's time series analysis capability.
 * ppscore - predictive power score (ppscore) is an alternative to pandas' df.corr() that works across continuous and categorical variables and is asymmetric. It does, however, take potentially much longer to compute.
 * pydotplus - python's interface to graphviz's DOT language.
