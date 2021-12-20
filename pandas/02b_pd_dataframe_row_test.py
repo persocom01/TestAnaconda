@@ -42,8 +42,10 @@ print()
 # ~ = not
 # Remember to use brackets when using conditions.
 print('row subsets:')
-# All rows that are not == 3 in column 'B'.
+# All rows that are not == 3 in column B.
 print(df[~(df['B'] == 3)])
+# All rows where column A == 1 and column B < 4.
+print(df[(df['A'] == 1) & (df['B'] < 4)])
 # For strings, use df[col_name].isin('str1', 'str2') instead.
 print(df[df['B'].between(1, 3)])
 print()

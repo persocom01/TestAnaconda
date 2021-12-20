@@ -42,6 +42,8 @@ factor = round / 1
 min_val = math.floor(min_val*factor)/factor
 max_val = math.ceil(max_val*factor)/factor
 binwidth = round * 2
+# Demonstrates setting custom binwidth and range. A much simplier method is to
+# set the number of bins by setting bins=int.
 sb.histplot(df['sepal length (cm)'], kde=True, binwidth=0.5, binrange=(min_val, max_val))
 plt.show()
 plt.close()

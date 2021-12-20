@@ -1,4 +1,5 @@
 # Nabe deals with data cleaning and exploration.
+import numpy as np
 
 
 class Nabe:
@@ -11,7 +12,8 @@ class Nabe:
         3. df.isnull().sum() or 1 - df.count() / df.shape[0]
         4. clean
         4a. df.dropna()
-        5. visualize correlations
+        5. df.drop_duplicates()
+        6. visualize correlations
         '''
 
     # Drops columns with 75% or more null values.
@@ -22,6 +24,25 @@ class Nabe:
         non_null_cols = [i for i, v in enumerate(null_table) if v < null_size]
         df = df.iloc[:, non_null_cols]
         return df
+
+    def drop_outliers(self, df, cols=None, std=3, inplace=False):
+        if inplace is False:
+            df = df.copy()
+        if cols is None:
+            cols = df.columns
+        for col in cols:
+            if df[col].dtype == 'int64' or df[col].dtype == 'float64':
+                max_deviation = df[col].std() * std
+                mean = df[col].mean()
+                df = df[(abs(df[col] - mean) < max_deviation)]
+        return df
+
+    # Returns the row index of a column value.
+    def get_index(self, df, col_name, value):
+        if len(df.loc[df[col_name] == value]) == 1:
+            return df.loc[df[col_name] == value].index[0]
+        else:
+            return df.loc[df[col_name] == value].index
 
     def get_null_indexes(self, df, cols=None):
         '''
@@ -39,13 +60,6 @@ class Nabe:
             null_indexes = df[df[col].isnull()].index.tolist()
             null_dict[col] = null_indexes
         return null_dict
-
-    # Returns the row index of a column value.
-    def get_index(self, df, col_name, value):
-        if len(df.loc[df[col_name] == value]) == 1:
-            return df.loc[df[col_name] == value].index[0]
-        else:
-            return df.loc[df[col_name] == value].index
 
     def ordinal_scale(self, df, cols=None, mapping=None, start_num=0):
         '''
@@ -75,4 +89,16 @@ class Nabe:
             if not cols:
                 cols = df.columns
             df[cols] = ord.fit_transform(df[cols])
+        return df
+
+    def replace_outliers(self, df, cols=None, std=3, other=np.nan, inplace=False):
+        if inplace is False:
+            df = df.copy()
+        if cols is None:
+            cols = df.columns
+        for col in cols:
+            if df[col].dtype == 'int64' or df[col].dtype == 'float64':
+                max_deviation = df[col].std() * std
+                mean = df[col].mean()
+                df[col].mask(abs(df[col] - mean) > max_deviation, other=other, inplace=True)
         return df
