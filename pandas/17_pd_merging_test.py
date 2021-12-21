@@ -11,7 +11,8 @@ data = {
 data2 = {
     'id': [1, 2, 4, 5],
     'taste': ['sweet', 'sweet', 'sour', 'sweet'],
-    'state': ['fresh', 'fresh', 'fresh', 'fresh']
+    'state': ['fresh', 'fresh', 'fresh', 'fresh'],
+    'alt_id': [3, 2, 1, 5]
 }
 left = pd.DataFrame(data)
 right = pd.DataFrame(data2)
@@ -38,6 +39,10 @@ print()
 print('outer merge:')
 print(pd.merge(left, right, how='outer', on='id'))
 print()
+
+# Demonstrates how to merge columns with different names.
+print('merge on cols with different names:')
+print(pd.merge(left, right.set_index('alt_id'), left_on='id', right_index=True))
 
 # df.join(right, on=None, how='left', lsuffix='', rsuffix='', sort=False) is a
 # faster version of merge that doesn't get rid of the shared key unless you use
