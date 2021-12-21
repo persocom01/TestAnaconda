@@ -57,7 +57,7 @@ print('rows with col D = arctic fox or black bear')
 print(df[df['D'].isin(['arctic fox', 'black bear'])])
 # All rows where column D contains the word fox.
 print('rows with col D contains the word fox')
-print(df[df['D'].str.contains('fox')])
+print(df[df['D'].str.contains('FOX', case=False)])
 print()
 
 # df.append(self, other, ignore_index=False, verify_integrity=False, sort=None)
