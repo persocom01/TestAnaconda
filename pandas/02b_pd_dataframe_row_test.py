@@ -2,7 +2,7 @@
 # DataFrame rows.
 import pandas as pd
 
-data = {'col1': [2, 1, 1, 1], 'col2': [1, 3, 2, 4], 'col3': [1, 2, 3, 1]}
+data = {'col1': [2, 1, 1, 1], 'col2': [1, 3, 2, 4], 'col3': [1, 2, 3, 1], 'col4': ['red fox', 'red fox', 'black bear', 'arctic fox']}
 df = pd.DataFrame(data)
 print(df)
 print()
@@ -22,7 +22,7 @@ print()
 # You can pass : as the row_index argument if you want to split the DataFrame
 # by column.
 df = df.rename(
-    index={0: 'one', 1: 'two', 2: 'three', 3: 'four'}, columns={'col1': 'A', 'col2': 'B', 'col3': 'C'})
+    index={0: 'one', 1: 'two', 2: 'three', 3: 'four'}, columns={'col1': 'A', 'col2': 'B', 'col3': 'C', 'col4': 'D'})
 print('select by row index:')
 print(df.iloc[1:3])
 print()
@@ -43,11 +43,21 @@ print()
 # Remember to use brackets when using conditions.
 print('row subsets:')
 # All rows that are not == 3 in column B.
+print('rows with col B != 3')
 print(df[~(df['B'] == 3)])
 # All rows where column A == 1 and column B < 4.
+print('rows with col A == 3 and col B < 4')
 print(df[(df['A'] == 1) & (df['B'] < 4)])
-# For strings, use df[col_name].isin('str1', 'str2') instead.
+# All rows where 3 => column B >= 1.
+print('rows with col B between 1 and 3 inclusive')
 print(df[df['B'].between(1, 3)])
+# All rows where column D contains any of a list of strings. isin() also works
+# with numbers.
+print('rows with col D = arctic fox or black bear')
+print(df[df['D'].isin(['arctic fox', 'black bear'])])
+# All rows where column D contains the word fox.
+print('rows with col D contains the word fox')
+print(df[df['D'].str.contains('fox')])
 print()
 
 # df.append(self, other, ignore_index=False, verify_integrity=False, sort=None)

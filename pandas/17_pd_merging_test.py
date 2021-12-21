@@ -18,7 +18,7 @@ right = pd.DataFrame(data2)
 
 # pd.merge(left, right, how='inner', on=none, left_on=none, right_on=none,
 # left_index=False, right_index=False, sort=True)
-# on can be given a list to merge based on more than one key.
+# on=col_or_cols makes the merge based on one key or keys respectively.
 # Left_on + right_on allows you to not use a common key for both DataFrames
 # in the merge.
 # left_index=True will use the left DataFrame's row labels as its key instead
@@ -33,7 +33,8 @@ print()
 
 # how='inner' returns a DataFrame only of the keys common to both parent dfs.
 # how='left', 'right' or 'outer' will take keys from one or both dfs and return
-# a table where nan fills the missing spaces.
+# a table where nan fills the missing spaces. Whether you use left or right
+# depends on which DataFrame you want intact.
 print('outer merge:')
 print(pd.merge(left, right, how='outer', on='id'))
 print()
