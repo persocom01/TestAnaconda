@@ -57,6 +57,9 @@ print('rows with col D = arctic fox or black bear')
 print(df[df['D'].isin(['arctic fox', 'black bear'])])
 # All rows where column D contains the word fox.
 print('rows with col D contains the word fox')
+# Demonstrates ignoring case. If you give 'fox' as an argument instead, we can
+# write this as df[col].str.lower().str.contains('fox'), which is said to be
+# slightly faster.
 print(df[df['D'].str.contains('FOX', case=False)])
 print()
 
