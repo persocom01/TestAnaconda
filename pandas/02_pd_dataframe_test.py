@@ -24,7 +24,11 @@ print()
 
 # If you pass pandas a dictionary, pandas is smart enough to use dict keys as
 # column labels.
-data = {'col1': [2, 1, 1, 1], 'col2': [1, 3, 2, 4], 'col3': [1, 2, 3, 1]}
+data = {
+    'col1': [2, 1, 1, 1],
+    'col2': [1, 3, 2, 4],
+    'col3': [1, 2, 3, 1]
+    }
 df = pd.DataFrame(data)
 print(df)
 print()

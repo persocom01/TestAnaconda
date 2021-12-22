@@ -2,7 +2,10 @@
 # DataFrame columns.
 import pandas as pd
 
-data = {'Col 1': [2, 1, 1, 1], 'Col 2': [1, 3, 2, 4]}
+data = {
+    'Col 1': [2, 1, 1, 1],
+    'Col 2': [1, 3, 2, 4]
+    }
 df = pd.DataFrame(data)
 
 # Common code to reduce all column names to lowercase and remove or replace
