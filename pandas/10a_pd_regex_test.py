@@ -1,6 +1,5 @@
 # Demonstrates more in depth use of regex in pandas.
 import pandas as pd
-import re
 
 # Generally, pandas text methods work with a series or other form of 1d array.
 # It can be a natural series or just a df[col_name].
