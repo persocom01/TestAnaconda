@@ -1,5 +1,6 @@
 # Demonstrates more in depth use of regex in pandas.
 import pandas as pd
+import re
 
 # Generally, pandas text methods work with a series or other form of 1d array.
 # It can be a natural series or just a df[col_name].
@@ -29,9 +30,18 @@ print(df[df['name'].str.lower().str.count(r'a') > 1])
 print('count:', df['sex'].str.count(r'^F.*').sum())
 print()
 
-# .match() returns a boolean, so you don't need to set a condition.
+# .match() returns a boolean, so you don't need to set a condition. However, it
+# only matches the beginning of the string. To match anywhere in a string, use
+# .contains() instead.
 print('only female characters:')
 print(df[df['sex'].str.match(r'F')])
+print()
+
+# .match() returns a boolean, so you don't need to set a condition. However, it
+# only matches the beginning of the string. To match anywhere in a string, use
+# .contains() instead.
+print('only priests:')
+print(df[df['class'].str.contains(r'priest', flags=re.IGNORECASE, regex=True, na=False)])
 print()
 
 # Demonstrates pandas inbuilt regex .replace() with groups.
