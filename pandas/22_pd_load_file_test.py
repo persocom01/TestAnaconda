@@ -19,7 +19,8 @@ def to_string(x):
 
 
 # pd.read_csv(path, sep=',', header='infer', names=None, index_col=None,
-# usecols=None, converters=None, skiprows=None, skipfooter=0, na_filter=True)
+# usecols=None, converters=None, skiprows=None, skipfooter=0, na_filter=True,
+# error_bad_lines=None, engine=None)
 # header=int_list determines the row to use as column label. The first row
 # corresponds to header=0.
 # names=list allows you to customize the column label. If the number of names
@@ -42,6 +43,9 @@ def to_string(x):
 # cause problems, such as when 'NA' actually means North America. To detect
 # real nan values while keeping the string NA intact, set:
 # keep_default_na=False, na_values=['']
+# error_bad_lines=False causes pandas to skip bad lines when populating the
+# DataFrame.
+# engine='python' is slower, but may fix some errors when reading files.
 # There are many various other kwargs not discussed here for verbosity.
 # pandas accepts other datatypes, including:
 # pd.read_excel('xls or xlsx')

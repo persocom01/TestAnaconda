@@ -37,11 +37,10 @@ print('only female characters:')
 print(df[df['sex'].str.match(r'F')])
 print()
 
-# .match() returns a boolean, so you don't need to set a condition. However, it
-# only matches the beginning of the string. To match anywhere in a string, use
-# .contains() instead.
+# .contains() returns a boolean, so you don't need to set a condition. For more
+# detailed application of regex, .apply(function) can be used instead.
 print('only priests:')
-print(df[df['class'].str.contains(r'priest', flags=re.IGNORECASE, regex=True, na=False)])
+print(df[df['class'].str.contains(r'priest', flags=re.I)])
 print()
 
 # Demonstrates pandas inbuilt regex .replace() with groups.

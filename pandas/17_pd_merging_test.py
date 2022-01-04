@@ -19,7 +19,8 @@ right = pd.DataFrame(data2)
 
 # pd.merge(left, right, how='inner', on=none, left_on=none, right_on=none,
 # left_index=False, right_index=False, sort=True)
-# on=col_or_cols makes the merge based on one key or keys respectively.
+# on=col_or_cols makes the merge based on one or more keys. Multiple keys are
+# passed as a list.
 # Left_on + right_on allows you to not use a common key for both DataFrames
 # in the merge.
 # left_index=True will use the left DataFrame's row labels as its key instead
