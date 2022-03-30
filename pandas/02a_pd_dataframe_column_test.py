@@ -1,6 +1,7 @@
 # Demonstrates the various attributes and methods available for use with
 # DataFrame columns.
 import pandas as pd
+import numpy as np
 
 data = {
     'Col 1': [2, 1, 1, 1],
@@ -30,17 +31,21 @@ print(df['col1'].isin([2]).any())
 print()
 
 # Add a column by 'selecting' and defining a new column label.
-df['col3'] = [1, 2, 3, 1]
+df['condition'] = [True, False, True, False]
 print('new col:')
 print(df)
 print()
 
 # Demonstrates adding columns together.
 # Addition is not the only mathematical operation available.
-# For conditional mapping, use np.where:
-# data['new_col'] = np.where(data['col1'] == data['col2'], value_if_true, value_if_false)
-df['sum'] = df['col1'] + df['col2'] + df['col3']
-print('adding cols together:')
+df['sum'] = df['col1'] + df['col2']
+# Demonstrates conditional mapping, using np.where:
+# data['new_col'] = np.where(condition, value_if_true, value_if_false)
+# condition must come in a list or True or False the same length as the
+# DataFrame column. For example, condition can be df['col1'] == df['col2']
+# To chain multiple conditions, use & for and and | for or.
+df['sum_where'] = np.where(df['condition'], df['col1'] + df['col2'], None)
+print('adding cols together and conditional mapping:')
 print(df)
 print()
 
@@ -53,7 +58,7 @@ print('del column:')
 # del df['sum']
 # df = df.drop('sum', axis=1)
 # pop will also return the column.
-print(df.pop('sum'))
+print(df.pop('condition'))
 print()
 
 # Selecting a subset of columns is kind of complicated.

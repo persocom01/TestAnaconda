@@ -26,12 +26,25 @@ print()
 # If you pass pandas a dictionary, pandas is smart enough to use dict keys as
 # column labels.
 data = {
-    'col1': [2, 1, 1, 1, 1, np.nan],
-    'col2': [1, 3, 2, 4, 2, 4],
-    'col3': [1, 2, 3, np.nan, 3, 4]
+    'col1': [2, 1, 1, 1, 0, np.nan],
+    'col2': [1, 3, 2, 4, 0, 4],
+    'col3': [1, 2, 3, np.nan, 0, 4]
     }
 df = pd.DataFrame(data)
 print(df)
+print()
+
+# DataFrame.any(axis=0, bool_only=None, skipna=True, level=None, **kwargs)
+# A method used to check if there are any values in a row, column, or the whole
+# DataFrame.
+# axis=0 checks the column downwards by default. Set to 1 or columns to check
+# horizontally. None checks the whole DataFrame.
+# bool_only=None by default, certain values are considered as False, such as 0,
+# null or False. Set this to True to only check columns with boolean dtype.
+# skipna=True considers null values to be False.
+# level=int_or_level_name determines the level to check for MultiIndex axes.
+print('any:')
+print(df.any(axis='columns'))
 print()
 
 # DataFrame.dropna(axis=0, how='any', thresh=None, subset=None, inplace=False)
@@ -39,6 +52,15 @@ print()
 # subset is given, only drops rows with na in that column(s).
 print('drop null:')
 print(df.dropna(subset=['col3']))
+print()
+
+# DataFrame.duplicated(subset=None, keep='first')
+# Used to find duplicated rows.
+# subset=list_of_columns
+# keep=first/last/False determines which duplicate is considered false so it
+# can be kept. False causes all duplicates to return True.
+print('duplicated:')
+print(df.duplicated(['col1', 'col2'], keep=False))
 print()
 
 # DataFrame.drop_duplicates(subset=None, keep='first', inplace=False,
