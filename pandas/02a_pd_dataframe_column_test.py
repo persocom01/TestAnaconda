@@ -37,11 +37,12 @@ print(df)
 print()
 
 # Demonstrates adding columns together.
+# Note that the sum of a null and non null column is null.
 # Addition is not the only mathematical operation available.
 df['sum'] = df['col1'] + df['col2']
 # Demonstrates conditional mapping, using np.where:
 # data['new_col'] = np.where(condition, value_if_true, value_if_false)
-# condition must come in a list or True or False the same length as the
+# condition must come in a list of True or False the same length as the
 # DataFrame column. For example, condition can be df['col1'] == df['col2']
 # To chain multiple conditions, use & for and and | for or.
 df['sum_where'] = np.where(df['condition'], df['col1'] + df['col2'], None)

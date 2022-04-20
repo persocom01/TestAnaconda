@@ -26,7 +26,7 @@ print()
 # If you pass pandas a dictionary, pandas is smart enough to use dict keys as
 # column labels.
 data = {
-    'col1': [2, 1, 1, 1, 0, np.nan],
+    'col1': [2, 1, 1, 4, 0, np.nan],
     'col2': [1, 3, 2, 4, 0, 4],
     'col3': [1, 2, 3, np.nan, 0, 4]
     }
@@ -52,6 +52,19 @@ print()
 # subset is given, only drops rows with na in that column(s).
 print('drop null:')
 print(df.dropna(subset=['col3']))
+print()
+
+# DataFrame.fillna(value=None, method=None, axis=None, inplace=False,
+# limit=None, downcast=None)
+# value=None determines the value used to replace null values in the DataFrame.
+# A column can be passed instead to fill nulls with rows from the column.
+# method=None fills nulls with values in the same column. 'pad' or 'ffill'
+# fills from top to bottom. 'backfill' or 'bfill' fills from bottom to top.
+# axis=0 an argument used with method to determine if the value used to fill
+# the null is from the same column or from the same row. 1 switches to row.
+print('fill na:')
+df['col1'] = df['col1'].fillna(df['col2'])
+print(df)
 print()
 
 # DataFrame.duplicated(subset=None, keep='first')
