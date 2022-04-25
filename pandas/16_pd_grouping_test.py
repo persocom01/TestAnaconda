@@ -1,6 +1,5 @@
 # The main purpose of grouping is to apply some sort of function to
 # rows by their group.
-import numpy as np
 import scipy.stats as stats
 import pandas as pd
 
@@ -34,13 +33,26 @@ print()
 # to work with the result immediately.
 # *args and **kwargs are passed to the function.
 print('transform:')
-# Technically you don't have to use your own function.
-print(grouped['age'].transform(np.mean))
+# A number of inbuilt functions exist, that you can pass as strings:
+# count / nunique – non-null values / count number of unique values
+# min / max – minimum/maximum
+# first / last - return first or last value per group
+# unique - all unique values from the group
+# std – standard deviation
+# sum – sum of values
+# mean / median / mode – mean/median/mode
+# var - unbiased variance
+# mad - mean absolute deviation
+# skew - unbiased skew
+# sem - standard error of the mean
+# quantile
+print(grouped['age'].transform('mean'))
 print()
 
 
-def age_down(x, age=10):
-    return x - age
+def get_mode(x):
+    output = stats.mode(x)
+    return output.count[0]
 
 
 # group.agg(self, func, *args, **kwargs) allows you to apply multiple functions
@@ -49,7 +61,7 @@ def age_down(x, age=10):
 # It returns the same result as appling one of pandas' innate functions
 # directly, for example group.mean(), if only one function is applied.
 print('agg:')
-print(grouped.agg({'gender': stats.mode, 'age': age_down}))
+print(grouped.agg({'gender': get_mode, 'age': 'mean'}))
 print()
 
 # group.filter(func, dropna=True) is used to apply a function to a group of
@@ -65,4 +77,4 @@ print()
 # function to apply, fill_value for empty cells, margins for totals at the
 # bottom.
 print(df.pivot_table(index='gender', columns=[
-      'race'], aggfunc={'age': np.mean}))
+      'race'], aggfunc={'age': 'mean'}))

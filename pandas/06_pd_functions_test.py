@@ -43,15 +43,32 @@ print()
 # df.apply(self, func, axis=0, raw=False, result_type=None, args=(), **kwds)
 # applies a function to a series, or in the case of a DataFrame, divides the
 # DataFrame into series based on the axis argument and applies the function
-# to it. The default axis treats each column in the dataframe as a series.
-# It does not apply the function to each cell individually, and as such, the
-# function must be workable on the series object and not individual values.
-# For simpler operations, it is easier to use:
-# df['result'] = df['supply'] - df['demand']
+# to it.
+# axis=0 treats each column in the dataframe as a series by default. It does
+# not apply the function to each row individually, and as such, the function
+# must be workable on the series object. By changing axis to 1, the function is
+# applied to each individual row.
 # df[col_name].apply(pd.Series) can be used to unpack nested dictionaries.
 print('apply:')
-# log transforms are often used to make exponential graphs linear.
+# apply as applied to a column. log transforms are often used to make
+# exponential graphs linear.
 df['log transform'] = df['supply'].apply(lambda x: np.log(x))
+# apply as applied to a row can be used to execute complex functions on rows
+# from multiple columns at once.
+# For simpler operations, it is easier to use:
+# df['result'] = df['supply'] - df['demand']
+
+
+def f(supply, demand):
+    result = supply - demand
+    if result < 0:
+        return 0
+    else:
+        return result
+
+
+df['result'] = df.apply(lambda x: f(x['supply'], x['demand']), axis=1)
+# apply can be used to aggregate columns.
 print(df[['supply', 'demand']].apply(lambda x: x.max() - x.min()))
 print()
 

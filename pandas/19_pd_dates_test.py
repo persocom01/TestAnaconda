@@ -9,6 +9,8 @@ print()
 
 # pd.date_range(start=None, end=None, periods=None, freq=None, tz=None,
 # normalize=False, name=None)
+# Returns a list of dates between start and end. Number of dates depends on the
+# period or freq arguments.
 # frequency accepts various strings as arguments, the list can be found here:
 # https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#timeseries-offset-aliases
 # end includes the end. periods is the size of the list returned.
