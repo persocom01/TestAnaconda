@@ -46,7 +46,10 @@ print('transform:')
 # skew - unbiased skew
 # sem - standard error of the mean
 # quantile
-print(grouped['age'].transform('mean'))
+print(grouped['age'].transform('max'))
+# Demonstrates keeping rows in the DataFrame corresponding to the max age value
+# in the groups.
+print(df[grouped['age'].transform('max') == df['age']])
 print()
 
 
