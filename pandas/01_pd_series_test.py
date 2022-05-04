@@ -27,3 +27,13 @@ print()
 print('duplicated:')
 print(s.duplicated())
 print()
+
+# s.to_frame(name=NoDefault.no_default)
+# Used to convert a series into a dataframe.
+# name is used to define the name of the DataFrame column. If the series came
+# from a DataFrame, most likely the column does not have to be named.
+# The index of the series will not be converted to a column. To convert it to
+# a column, use .reset_index() after .to_frame().
+print('to_frame:')
+print(s.to_frame('fruits'))
+print()
