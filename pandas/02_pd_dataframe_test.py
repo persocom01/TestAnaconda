@@ -34,6 +34,14 @@ df = pd.DataFrame(data)
 print(df)
 print()
 
+# Demonstrates assigning a value to a column
+df['col4'] = 'value'
+# However, this does not work on lists, so a list comprehension has to be
+# performed
+df['empty_dict'] = [{'key': 'value'} for e in range(len(df))]
+print(df)
+print()
+
 # DataFrame.any(axis=0, bool_only=None, skipna=True, level=None, **kwargs)
 # A method used to check if there are any values in a row, column, or the whole
 # DataFrame.
