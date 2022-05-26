@@ -1,6 +1,7 @@
 import pandas as pd
+import datetime as dt
 
-print('current time:', pd.datetime.now())
+print('current time:', dt.datetime.now())
 # Timestamp is pandas' replacement for python's datetime object.
 # You may give it a datetime like string in YY-MM-DD HH:MM:SS.NS or give it
 # or a number + unit, unit being 'D' for days, 'h' hours and so on.
