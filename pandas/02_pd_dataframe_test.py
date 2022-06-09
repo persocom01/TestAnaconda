@@ -71,6 +71,7 @@ print()
 # axis=0 an argument used with method to determine if the value used to fill
 # the null is from the same column or from the same row. 1 switches to row.
 print('fill na:')
+# Multiple columns can be filled at once using df[['col1', 'col2']]
 df['col1'] = df['col1'].fillna(df['col2'])
 print(df)
 print()
