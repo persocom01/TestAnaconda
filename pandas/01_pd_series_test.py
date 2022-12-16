@@ -2,12 +2,19 @@
 # Demonstrates the various attributes and methods available for use with
 # Series.
 import pandas as pd
+import numpy as np
 
 # Also works with a single key dictionary, but the column label causes problems
 # with some methods such as s.unique()
-data = ['apple', 'banana', 'orange', 'apple', 'orange']
+data = ['apple', 'banana', 'orange', 'apple', 'orange', np.nan]
 s = pd.Series(data)
 print(s)
+print()
+
+# s.isnull() returns a series of booleans. To check if tehre are any null
+# values, use s.isnull().any()
+print('isnull:')
+print(s.isnull())
 print()
 
 # s.value_counts(self, normalize=False, sort=True, ascending=False, bins=None,
