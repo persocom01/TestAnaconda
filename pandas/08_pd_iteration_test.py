@@ -1,4 +1,6 @@
-# Demonstrates ways of iterating through pandas DataFrames.
+# Demonstrates ways of iterating through pandas DataFrames. However, it is
+# generally frowned upon to iterate through DataFrames this way due to
+# performance issues.
 import pandas as pd
 
 characters = {
@@ -16,7 +18,9 @@ for k, v in df.iteritems():
 print()
 
 # df.iterrows returns the index and a dictionary of values for each row, the
-# dictionary keys being column names.
+# dictionary keys being column names. Can generally be replaced with
+# df.apply(function, axis=1). The function must take as argument a row from the
+# DataFrame.
 print('iterrows:')
 for i, v in df.iterrows():
     if i in range(3):
