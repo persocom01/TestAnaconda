@@ -13,14 +13,18 @@ characters = {
 df = pd.DataFrame(characters)
 # df.groupby(by, axis=0).
 # by accepts arguments used to determine the grouping. It can be a mapping,
-# function, label, or list of labels.
+# function, label, or list of labels
 grouped = df.groupby(['race', 'gender'])
 
-# Demonstrates iterating though the group.
+# Demonstrates iterating though the group.Group data can also be retrived using
+# groupby.groups.items() much like a dictionary.
 for group_name, info in grouped:
     print(group_name)
-    # Demonstrates choosing a column inside group info.
-    print(info['name'])
+    # Demonstrates choosing a column inside group info. There are a number of
+    # usefu; functions that can be applied to a group. .mean() is demonstrated
+    # here. .sum() .count(). Think of it as a shortcut to .agg() for single
+    # columns.
+    print('mean age of group:', info['age'].mean())
 print()
 
 # Demonstrates selecting a group using the group.get_group() method.

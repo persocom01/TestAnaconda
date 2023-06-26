@@ -17,9 +17,13 @@ df = pd.DataFrame(iris.data, columns=iris.feature_names)
 # the nrow and ncols arguments.
 # Good for constructing functions which plot multiple graphs in a single figure.
 fig, ax = plt.subplots(2, 2, figsize=(16, 10))
+# Adjust space between subplots for subtitle
+fig.subplots_adjust(hspace=0.3)
 # Flattens the (2, 2) matrix ax is currently in.
 ax = ax.ravel()
 for i, col in enumerate(df.columns):
+    # Set title of individual chart
+    ax[i].set_title(f'chart {i}', color='black', fontweight='bold', fontname='arial', fontsize=8)
     ax[i].hist(df[col])
 plt.show()
 plt.clf()
@@ -35,6 +39,7 @@ ax.hist(df['sepal length (cm)'])
 
 # The third way is to use fig.add_subplot(self, *args, **kwargs), which does
 # not override the current figure.
+fig, ax = plt.subplots(figsize=(16, 10))
 ax2 = fig.add_subplot(221)
 ax2.hist(df['sepal width (cm)'], color='r')
 

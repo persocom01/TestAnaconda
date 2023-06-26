@@ -19,8 +19,8 @@ print()
 
 # df.iterrows returns the index and a dictionary of values for each row, the
 # dictionary keys being column names. Can generally be replaced with
-# df.apply(function, axis=1). The function must take as argument a row from the
-# DataFrame.
+# df.apply(function, axis=1). The function typically takes as argument a row
+# from the DataFrame and returns the row.
 print('iterrows:')
 for i, v in df.iterrows():
     if i in range(3):

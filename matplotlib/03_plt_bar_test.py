@@ -8,6 +8,9 @@ import matplotlib.pyplot as plt
 # Use this command if using Jupyter notebook to plot graphs inline.
 # %matplotlib inline
 
+# Note that the data requires one list for x-axis and the others lists of the
+# same length for y. Data processing may need to be done to have data conform
+# to this format, often in the form of groupby transforms
 data = {
     'movie': ['comedy', 'action', 'romance', 'drama', 'scifi'],
     'profit': [4, 5, 6, 1, 4],
