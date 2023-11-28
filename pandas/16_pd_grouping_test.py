@@ -20,10 +20,6 @@ grouped = df.groupby(['race', 'gender'])
 # groupby.groups.items() much like a dictionary.
 for group_name, info in grouped:
     print(group_name)
-    # Demonstrates choosing a column inside group info. There are a number of
-    # usefu; functions that can be applied to a group. .mean() is demonstrated
-    # here. .sum() .count(). Think of it as a shortcut to .agg() for single
-    # columns.
     print('mean age of group:', info['age'].mean())
 print()
 
@@ -32,9 +28,20 @@ print('get_group:')
 print(grouped.get_group(('human', 'f')))
 print()
 
+# group.mean() one of many inbuilt functions that returns a series equal in
+# length to the number of groups. Other functions can be found here:
+# https://pandas.pydata.org/pandas-docs/stable/reference/groupby.html
+print('mean:')
+print(grouped['age'].mean())
+# Instead of a groupby with 2 columns as conditions, 1 column can be used
+# instead and the other condition can be put in lambda as follows:
+grouped_1 = df.groupby('race')
+print(grouped_1.apply(lambda x: x[x['gender'] == 'f']['age'].mean()))
+print()
+
 # group.transform(self, func, *args, **kwargs) applies a function to the group.
-# It returns a series equal to the size of the group, pretty much allowing you
-# to work with the result immediately.
+# It returns a series equal to the size of the original DataFrame, allowing one
+# to create a new column based on the group property.
 # *args and **kwargs are passed to the function.
 print('transform:')
 # A number of inbuilt functions exist, that you can pass as strings:

@@ -51,6 +51,7 @@ print('row subsets:')
 print('rows with col B != 3')
 print(df[~(df['B'] == 3)])
 # All rows where column A == 1 and column B < 4.
+# To chain multiple conditions, use & for and and | for or.
 print('rows with col A == 3 and col B < 4')
 print(df[(df['A'] == 1) & (df['B'] < 4)])
 # All rows where 3 => column B >= 1.

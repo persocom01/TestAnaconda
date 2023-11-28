@@ -44,7 +44,6 @@ df['sum'] = df['col1'] + df['col2']
 # data['new_col'] = np.where(condition, value_if_true, value_if_false)
 # condition must come in a list of True or False the same length as the
 # DataFrame column. For example, condition can be df['col1'] == df['col2']
-# To chain multiple conditions, use & for and and | for or.
 df['sum_where'] = np.where(df['condition'], df['col1'] + df['col2'], None)
 # Alternative using apply lambda instead of np.where(). However, it will return
 # an error if the DataFrame is empty:
