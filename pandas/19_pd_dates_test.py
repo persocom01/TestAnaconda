@@ -1,6 +1,22 @@
 import pandas as pd
 import datetime as dt
 
+# demonstrates the merging of a daily an an hourly column
+df_hourly = pd.DataFrame({
+    'date_hourly': pd.date_range(start='2023-01-01', end='2023-01-10', freq='H'),
+    'values1': range(217)
+    })
+df_daily = pd.DataFrame({
+    'date_daily': pd.date_range(start='2023-01-01', end='2023-01-10', freq='D'),
+    'values2': range(10)
+    })
+
+df_merged = pd.merge(df_hourly, df_daily, left_on=df_hourly['date_hourly'].dt.date, right_on=df_daily['date_daily'].dt.date, how='left')
+df_merged = df_merged.drop(columns=['key_0', 'date_daily'])
+print('merging daily and hourly')
+print(df_merged.head())
+print()
+
 print('current time:', dt.datetime.now())
 # Timestamp is pandas' replacement for python's datetime object.
 # You may give it a datetime like string in YY-MM-DD HH:MM:SS.NS or give it
