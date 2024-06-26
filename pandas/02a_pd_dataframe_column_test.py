@@ -48,6 +48,16 @@ df['sum_where'] = np.where(df['condition'], df['col1'] + df['col2'], None)
 # Alternative using apply lambda instead of np.where(). However, it will return
 # an error if the DataFrame is empty:
 df['sum_lambda'] = df.apply(lambda x: x['col1'] + x['col2'] if x['condition'] else None, axis=1)
+
+
+# apply can also return multiple series
+def add_subtract(s):
+    s['add'] = s['col1'] + s['col2']
+    s['subtract'] = s['col1'] - s['col2']
+    return s
+
+
+df = df.apply(add_subtract, axis=1)
 print('adding cols together and conditional mapping:')
 print(df)
 # Both methods will result in different dtypes
