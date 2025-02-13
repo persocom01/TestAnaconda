@@ -12,6 +12,7 @@ from nltk.tokenize import word_tokenize
 
 # Download stopwords list if not already done
 # nltk.download('stopwords')
+# nltk.download('punkt')
 
 # Sample documents
 documents = [
@@ -27,11 +28,14 @@ stop_words = set(stopwords.words('english'))
 
 tokenized_docs = []
 for doc in documents:
-    # remove punctuation
-    doc = doc.translate(str.maketrans(string.punctuation, ' '*len(string.punctuation)))
-    word_tokens = word_tokenize(doc)
-    filtered_words = [word for word in word_tokens if word.lower() not in stop_words]
-    tokenized_docs.append(filtered_words)
+    if doc is None:
+        tokenized_docs.append([])
+    else:
+        # remove punctuation
+        doc = doc.translate(str.maketrans(string.punctuation, ' '*len(string.punctuation)))
+        word_tokens = word_tokenize(doc)
+        filtered_words = [word for word in word_tokens if word.lower() not in stop_words]
+        tokenized_docs.append(filtered_words)
 
 # Create bigrams
 bigram = gensim.models.phrases.Phrases(tokenized_docs, min_count=1, threshold=1)

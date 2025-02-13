@@ -24,14 +24,3 @@ bottom = pd.DataFrame(data2)
 print('concat:')
 print(pd.concat([top, bottom], axis=0, join='inner'))
 print()
-
-# df.append(self, bottom, ignore_index=False, verify_integrity=False) is a
-# shortcut version of concat that only works on rows (axis=0) and join='outer'
-# only.
-# ignore_index=True resets the index after joining, ensuring that there will be
-# no repeated indexes.
-# verify_integrity=True determines if there are repeated indices and returns
-# a ValueError if found.
-print('append:')
-print(top.append(bottom, ignore_index=True, verify_integrity=False, sort=False))
-print()
