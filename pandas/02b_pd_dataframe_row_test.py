@@ -69,20 +69,6 @@ print('rows with col D contains the word fox')
 print(df[df['D'].str.contains('FOX', case=False)])
 print()
 
-# df.append(self, other, ignore_index=False, verify_integrity=False, sort=None)
-# adds rows.
-# sort=True might be changed to sort=False in future versions, so it's best to
-# specify.
-# The new rows will automatically be allocated to their respective columns if
-# column labels are provided. Otherwise, they are put into new columns.
-# Any columns or rows not filled in will have value nan.
-data2 = {'B': [3, 2], 'A': [2, 3]}
-df2 = pd.DataFrame(data2, index=['five', 'five'])
-df = df.append(df2, sort=False)
-print('append:')
-print(df)
-print()
-
 # df.drop(self, labels=None, axis=0, index=None, columns=None, level=None,
 # inplace=False, errors='raise') deletes rows. If multiple rows have the same
 # label,they will all be dropped.
